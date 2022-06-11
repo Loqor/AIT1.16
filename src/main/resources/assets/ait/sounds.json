@@ -1,0 +1,52 @@
+{
+  "sonic_sound": {
+    "category": "ambient",
+    "subtitle": "sonic.sonic_sound.sub",
+    "sounds": [
+      {
+        "name": "ait:sonic/sonic_sound",
+        "stream": false
+      }
+    ]
+  },
+  "sonic_active": {
+    "category": "ambient",
+    "subtitle": "sonic.sonic_active.sub",
+    "sounds": [
+      {
+        "name": "ait:sonic/sonic_active",
+        "stream": false
+      }
+    ]
+  },
+  "police_box_open": {
+    "category": "ambient",
+    "subtitle": "boxes.police_box_open.sub",
+    "sounds": [
+      {
+        "name": "ait:boxes/police_box_open",
+        "stream": false
+      }
+    ]
+  },
+  "police_box_close": {
+    "category": "ambient",
+    "subtitle": "boxes.police_box_close.sub",
+    "sounds": [
+      {
+        "name": "ait:boxes/police_box_close",
+        "stream": false
+      }
+    ]
+  },
+  "tardis_first_enter": {
+    "category": "ambient",
+    "subtitle": "music.tardis_first_enter.sub",
+    "sounds": [
+      {
+        "name": "ait:music/tardis_first_enter",
+        "stream": false
+      }
+    ]
+  }
+}
