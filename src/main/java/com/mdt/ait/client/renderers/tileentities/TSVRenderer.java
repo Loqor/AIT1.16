@@ -32,8 +32,8 @@ public class TSVRenderer extends TileEntityRenderer<TSVTile> {
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(0.6f, 0.6f, 0.6f);
         MatrixStackIn.translate(0, 1.5f, 0);
-        MatrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(tile.getBlockState().getValue(TSVBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TSVBlock.FACING).toYRot()));
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

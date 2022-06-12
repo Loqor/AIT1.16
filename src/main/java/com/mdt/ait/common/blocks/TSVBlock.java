@@ -22,9 +22,6 @@ public class TSVBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    public static VoxelShape NO_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    public static VoxelShape MAYBE_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
-    public static VoxelShape SO_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
     public TSVBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().lightLevel((p_235464_0_) -> 5).instabreak());
@@ -37,16 +34,6 @@ public class TSVBlock extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch(state.getValue(FACING).ordinal()) {
-            case 2:
-                return YES_SHAPE;
-            case 3:
-                return NO_SHAPE;
-            case 4:
-                return MAYBE_SHAPE;
-            case 5:
-                return SO_SHAPE;
-        }
         return YES_SHAPE;
     }
 

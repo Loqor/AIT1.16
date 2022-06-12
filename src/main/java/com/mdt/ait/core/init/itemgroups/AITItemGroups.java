@@ -2,6 +2,7 @@ package com.mdt.ait.core.init.itemgroups;
 
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITItems;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
@@ -18,6 +19,13 @@ public class AITItemGroups {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(AITItems.TEST_BLOCK_ITEM.get());
+        }
+    };
+
+    public static final ItemGroup AITROUNDELS = new ItemGroup("Roundels") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.HARTNELL_MINT_A.get());
         }
     };
 }

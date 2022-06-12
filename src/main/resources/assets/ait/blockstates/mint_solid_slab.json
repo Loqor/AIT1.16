@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "ait:block/mint_solid_slab" },
+    "type=top": { "model": "ait:block/mint_solid_slab_top" },
+    "type=double": { "model": "ait:block/mint_solid" }
+  }
+}

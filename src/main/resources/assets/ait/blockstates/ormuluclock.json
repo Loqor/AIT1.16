@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ait:block/ormuluclock",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ait:block/ormuluclock"
+    },
+    "facing=south": {
+      "model": "ait:block/ormuluclock",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ait:block/ormuluclock",
+      "y": 270
+    }
+  }
+}

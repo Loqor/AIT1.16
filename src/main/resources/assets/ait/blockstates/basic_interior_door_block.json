@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "" : [
+      {"model" : "ait:block/basic_interior_door_block"}
+    ]
+  }
+}

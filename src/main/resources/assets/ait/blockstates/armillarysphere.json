@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ait:block/armillarysphere",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ait:block/armillarysphere"
+    },
+    "facing=south": {
+      "model": "ait:block/armillarysphere",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ait:block/armillarysphere",
+      "y": 270
+    }
+  }
+}

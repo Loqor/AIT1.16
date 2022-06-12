@@ -2,7 +2,6 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
@@ -10,46 +9,32 @@ import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.helpers.tardis.Tardis;
 import com.mdt.ait.helpers.tardis.TardisManager;
-import com.mdt.ait.world.dimensions.TardisDimensionFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.IServerPlayNetHandler;
-import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.world.ForgeChunkManager;
-import net.minecraftforge.event.world.NoteBlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.server.ServerLifecycleEvent;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-
 import java.util.UUID;
 
 import static com.mdt.ait.common.blocks.TardisBlock.FACING;
@@ -87,6 +72,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
     public TardisTileEntity(TileEntityType entity) {
         super(entity);
+    }
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
     }
 
     @Override public void tick() {
@@ -177,12 +166,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         return ActionResultType.SUCCESS;
     }
 
-    private void entityInside(Entity entity) {
+    public void entityInside(Entity entity) {
         World world = entity.level;
         if(!world.isClientSide()) {
             if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
                 MinecraftServer pepe = entity.getServer();
-                ServerWorld world1 = pepe.getLevel(this.linked_tardis.interior_key);
+                ServerWorld world1 = pepe.getLevel(linked_tardis.interior_key);
                 ForgeChunkManager.forceChunk(world1, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
                 System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH");
                     ((ServerPlayerEntity) entity).teleportTo(world1, 2.777, 129, 8.008, entity.yRot, entity.xRot);
@@ -209,7 +198,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             linked_tardis_id = nbt.getUUID("tardisUUID");
         if (level!=null) {
             TardisManager tardis_manager = TardisManager.getTardisManagerForWorld(level);
-            System.out.println("TardisManager is being called." + tardis_manager.ALL_TARDISES);
             linked_tardis = tardis_manager.getTardis(linked_tardis_id);
             tardis_manager.load(nbt.getCompound("tardis_manager"));
         }
@@ -220,11 +208,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     @Override public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("currentstate", currentstate.ordinal());
         nbt.putInt("currentexterior", currentexterior.ordinal());
-        if(this.linked_tardis_id != null)
-            nbt.putUUID("tardisUUID", this.linked_tardis_id);
+        if(nbt.contains("tardisUUID"))
+            linked_tardis_id = nbt.getUUID("tardisUUID");
         nbt.putFloat("leftDoorRotation", leftDoorRotation);
         nbt.putFloat("rightDoorRotation", rightDoorRotation);
-
         if (level!=null) nbt.put("tardis_manager", TardisManager.getTardisManagerForWorld(level).save(new CompoundNBT()));
         return super.save(nbt);
     }

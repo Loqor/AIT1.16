@@ -49,7 +49,7 @@ public class CommonEventHandler {
             TileEntity potiential_tile_entity = placed_in_world.getBlockEntity(event.getPos());
             if (potiential_tile_entity instanceof TardisTileEntity) {
                 ((TardisTileEntity)potiential_tile_entity).linked_tardis_id = tardis_id;
-                tardis_manager.newTardis(tardis_id,event.getPos(), placed_in_world.isClientSide());
+                ((TardisTileEntity)potiential_tile_entity).linked_tardis = tardis_manager.newTardis(tardis_id,event.getPos(), placed_in_world.isClientSide());
             }
         }
     }

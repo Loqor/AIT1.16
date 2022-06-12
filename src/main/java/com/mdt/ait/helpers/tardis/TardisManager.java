@@ -30,7 +30,7 @@ public class TardisManager {//extends WorldSavedData {
     public boolean CHECK_IS_SAVED = false;
     public int LOADED_WORLD = 0;
 
-    //=========================================== SERIALISATION ======================================================
+    /*=========================================== SERIALISATION ======================================================*/
 
     public TardisManager() {}
     public void load(CompoundNBT nbt) {

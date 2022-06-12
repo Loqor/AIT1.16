@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "ait:block/steel_grate_slab" },
+    "type=top": { "model": "ait:block/steel_grate_slab_top" },
+    "type=double": { "model": "ait:block/steel_grate" }
+  }
+}

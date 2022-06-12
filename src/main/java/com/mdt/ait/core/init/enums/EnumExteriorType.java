@@ -1,7 +1,5 @@
 package com.mdt.ait.core.init.enums;
 
-import com.mdt.ait.common.tileentities.CoralTardisTile;
-import com.mdt.ait.common.tileentities.MintTardisTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import net.minecraft.util.IStringSerializable;
 

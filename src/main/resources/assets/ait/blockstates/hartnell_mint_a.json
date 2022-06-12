@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "" : [
+      {"model" : "ait:block/hartnell_mint_a"}
+    ]
+  }
+}

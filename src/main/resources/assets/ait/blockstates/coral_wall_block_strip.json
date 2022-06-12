@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ait:block/coral_wall_block_strip",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ait:block/coral_wall_block_strip"
+    },
+    "facing=south": {
+      "model": "ait:block/coral_wall_block_strip",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ait:block/coral_wall_block_strip",
+      "y": 270
+    }
+  }
+}
