@@ -3,8 +3,8 @@
   "parent" : "block/cube_all",
   "textures": {
     "0": "ait:block/toyota_flashing_light1",
-    "1": "ait:block/toyota_bottom",
-    "2": "ait:block/toyota_top",
+    "1": "ait:block/toyota_wall",
+    "2": "ait:block/toyota_roof",
     "3": "ait:block/toyota_flashing_light1a",
     "particle" : "ait:block/toyota_flashing_light1"
   },

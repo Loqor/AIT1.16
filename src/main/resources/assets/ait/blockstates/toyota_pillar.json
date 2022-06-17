@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ait:block/toyota_pillar",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ait:block/toyota_pillar"
+    },
+    "facing=south": {
+      "model": "ait:block/toyota_pillar",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ait:block/toyota_pillar",
+      "y": 270
+    }
+  }
+}

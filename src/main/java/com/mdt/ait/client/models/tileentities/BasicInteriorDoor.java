@@ -4,6 +4,7 @@ package com.mdt.ait.client.models.tileentities;// Made with Blockbench 4.2.5
 
 
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -36,6 +37,7 @@ public class BasicInteriorDoor extends EntityModel<Entity> {
 		left_door.texOffs(0, 23).addBox(0.0F, -27.0F, -1.0F, 14.0F, 56.0F, 1.0F, 0.0F, false);
 		left_door.texOffs(76, 0).addBox(10.0F, -8.0F, -2.0F, 1.0F, 4.0F, 1.0F, 0.0F, false);
 		left_door.texOffs(0, 81).addBox(13.5F, -27.0F, -1.5F, 1.0F, 56.0F, 1.0F, 0.0F, false);
+		left_door.texOffs(4, 81).addBox(2.0F, -11.0F, 0.0F, 10.0F, 11.0F, 3.0F, 0.0F, false);
 
 		base = new ModelRenderer(this);
 		base.setPos(19.0F, 38.0F, 19.0F);

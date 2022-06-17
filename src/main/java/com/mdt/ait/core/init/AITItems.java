@@ -1,6 +1,7 @@
 package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.items.DematterStick;
 import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.item.BlockItem;
@@ -18,6 +19,9 @@ public class AITItems {
 
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(
             "tennant_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
+            "dematter_stick", () -> new DematterStick(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
@@ -103,4 +107,27 @@ public class AITItems {
             "3_doctors_roundel_b", () -> new BlockItem(AITBlocks.THREE_DOCTORS_ROUNDEL_B.get(),new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final RegistryObject<BlockItem> SMALL_CORAL_ROUNDEL = ITEMS.register(
             "small_coral_roundel", () -> new BlockItem(AITBlocks.SMALL_CORAL_ROUNDEL.get(),new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
+    public static final RegistryObject<BlockItem> LIGHT_BLOCK_ORANGE = ITEMS.register(
+            "light_block_orange", () -> new BlockItem(AITBlocks.LIGHT_BLOCK_ORANGE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> LIGHT_BLOCK_BLUE = ITEMS.register(
+            "light_block_blue", () -> new BlockItem(AITBlocks.LIGHT_BLOCK_BLUE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> LIGHT_BLOCK_PURPLE = ITEMS.register(
+            "light_block_purple", () -> new BlockItem(AITBlocks.LIGHT_BLOCK_PURPLE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> LIGHT_BLOCK_GREEN = ITEMS.register(
+            "light_block_green", () -> new BlockItem(AITBlocks.LIGHT_BLOCK_GREEN.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
+            "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROOF_LIGHT = ITEMS.register(
+            "toyota_roof_light", () -> new BlockItem(AITBlocks.TOYOTA_ROOF_LIGHT.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_PILLAR = ITEMS.register(
+            "toyota_pillar", () -> new BlockItem(AITBlocks.TOYOTA_PILLAR.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+   /* public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
+            "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
+            "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
+            "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
+            "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));*/
+
 }

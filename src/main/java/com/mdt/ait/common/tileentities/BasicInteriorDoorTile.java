@@ -6,10 +6,11 @@ import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.events.CommonEventHandler;
+import com.mdt.ait.helpers.Location;
 import com.mdt.ait.helpers.tardis.Tardis;
 import com.mdt.ait.helpers.tardis.TardisManager;
+import com.mdt.ait.world.dimensions.TardisDimensionFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -24,16 +25,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.Dimension;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.UUID;
 
@@ -47,10 +49,10 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public float rightDoorRotation = 0;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
-    public UUID linked_tardis_id;
-    public Tardis linked_tardis;
+    //public TardisTileEntity tte;
+    public Tardis linked_interior; //=/tte.linked_tardis;
 
-    public BasicInteriorDoorTile(TileEntityType entity) {
+    public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);
     }
 
@@ -112,17 +114,17 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     private void entityInside(Entity entity) {
-        //BlockPos bpos = linked_tardis.exterior_position;
         World world = entity.level;
+        BlockState blockstate = world.getBlockState(getBlockPos());
         if(!world.isClientSide()) {
             if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
-                //TardisManager tardis_manager = TardisManager.getTardisManagerForWorld(level);
-                //linked_tardis = tardis_manager.getTardis(linked_tardis_id);
-                //ForgeChunkManager.forceChunk(world1, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
-                System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH INSIDE");
-                //((ServerPlayerEntity) entity).teleportTo(world1, bpos, bpos, bpos, entity.yRot, entity.xRot);
-                //entity.moveTo(entity.getX(), entity.getY() * 2, entity.getZ());
-                //System.out.println("ServerPlayerEntity stuff");
+                //MinecraftServer server = entity.getServer();
+                //ServerWorld exteriorWorld = server.getLevel(linked_interior.exterior_dim.get(1));
+                //if(exteriorWorld != null) {System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH INSIDE");}
+                //ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, new BlockPos(linked_interior.exterior_position.getX() + 1,linked_interior.exterior_position.getY(), linked_interior.exterior_position.getZ()), 0, 0, true, true);
+                //((ServerPlayerEntity) entity).teleportTo(exteriorWorld, linked_interior.getCurrentLocation().getBlockPosition().getX() + 1, linked_interior.getCurrentLocation().getBlockPosition().getY(), linked_interior.getCurrentLocation().getBlockPosition().getZ(), entity.yRot, entity.xRot);
+                //entity.moveTo(tardis.exterior_position.getX(), tardis.exterior_position.getY(), tardis.exterior_position.getZ());
+                System.out.println("ServerPlayerEntity stuff");
                 syncToClient();
             }
         }
@@ -152,7 +154,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-            this.setDoorState(this.getNextDoorState());
+            //this.setDoorState(this.getNextDoorState());
             if (this.getNextDoorState() == FIRST)
                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             else
@@ -161,6 +163,8 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         }
         return ActionResultType.SUCCESS;
     }
+
+
 
     @Override public void load(BlockState pState, CompoundNBT nbt) {
         currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
@@ -190,5 +194,17 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
+    }
+
+    public void onListAdd(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+   //     if(common_event.active == true) {
+   //         linked_interior.door_list.add(bpos);
+   //     }
+    }
+
+    public void onListRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+   //     if(common_event.active == true) {
+   //         linked_interior.door_list.remove(bpos);
+   //     }
     }
 }

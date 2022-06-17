@@ -3,7 +3,6 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.2.4
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.client.renderers.EmissiveModelRenderer;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

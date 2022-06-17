@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "ait:block/light_block_orange_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "ait:block/light_block_orange"
+    },
+    "axis=z": {
+      "model": "ait:block/light_block_orange_horizontal",
+      "x": 90
+    }
+  }
+}

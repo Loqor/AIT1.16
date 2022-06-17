@@ -2,7 +2,8 @@
 	"credit": "Made by Loqor",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "ait:block/ormuluclock"
+		"0": "ait:block/ormuluclock",
+		"particle": "ait:block/ormuluclock"
 	},
 	"elements": [
 		{

@@ -69,6 +69,13 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.CORAL_WALL_BLOCK_STRIP.get(), RenderType.solid());
             RenderTypeLookup.setRenderLayer(AITBlocks.CORAL_WALL_BLOCK_STRIP_ONE.get(), RenderType.solid());
             RenderTypeLookup.setRenderLayer(AITBlocks.TEST_BLOCK.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.LIGHT_BLOCK_ORANGE.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.LIGHT_BLOCK_BLUE.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.LIGHT_BLOCK_PURPLE.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.LIGHT_BLOCK_GREEN.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_ROOF.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_ROOF_LIGHT.get(), RenderType.solid());
+            RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_PILLAR.get(), RenderType.solid());
         });
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_TILE_ENTITY_TYPE.get(), BasicBoxRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TSV_TILE_ENTITY_TYPE.get(), TSVRenderer::new);

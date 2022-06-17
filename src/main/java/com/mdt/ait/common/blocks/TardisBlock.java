@@ -50,11 +50,11 @@ public class TardisBlock extends Block implements ICantBreak {
 
     @Override
     public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
-       TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-       if(tileEntity instanceof TardisTileEntity) {
-           ((TardisTileEntity) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn);
-       }
-       return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
+        TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
+        if (tileEntity instanceof TardisTileEntity) {
+            ((TardisTileEntity) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn);
+        }
+        return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TardisBlock extends Block implements ICantBreak {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch(state.getValue(FACING)) {
+        switch (state.getValue(FACING)) {
             case NORTH:
                 return NORTH_AABB;
             case EAST:
@@ -84,10 +84,32 @@ public class TardisBlock extends Block implements ICantBreak {
         return true;
     }
 
-    @Override
-    public void setPlacedBy(World p_180633_1_, BlockPos p_180633_2_, BlockState p_180633_3_, @Nullable LivingEntity p_180633_4_, ItemStack p_180633_5_) {
+    //@Override
+    //public void onPlace(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+    //    TileEntity tileEntity = world.getBlockEntity(bpos);
+    //    if(tileEntity instanceof TardisTileEntity) {
+    //        ((TardisTileEntity) tileEntity).onPlace(blockstate, world, bpos, blockState, bool);
+    //    }
+    //    super.onPlace(blockstate, world, bpos, blockState, bool);
+    //}
 
-        super.setPlacedBy(p_180633_1_, p_180633_2_, p_180633_3_, p_180633_4_, p_180633_5_);
+    //@Override
+    //public void onRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+    //    TileEntity tileEntity = world.getBlockEntity(bpos);
+    //    if(tileEntity instanceof TardisTileEntity) {
+    //        ((TardisTileEntity) tileEntity).onRemove(blockstate, world, bpos, blockState, bool);
+    //    }
+    //    super.onRemove(blockstate, world, bpos, blockState, bool);
+    //}
+
+
+    @Override
+    public void entityInside(BlockState blockstate, World world, BlockPos bpos, Entity entity) {
+        TileEntity tileEntity = world.getBlockEntity(bpos);
+        if (tileEntity instanceof TardisTileEntity) {
+            ((TardisTileEntity) tileEntity).entityInside(entity);
+            super.entityInside(blockstate, world, bpos, entity);
+        }
     }
 
     @Override
@@ -100,7 +122,8 @@ public class TardisBlock extends Block implements ICantBreak {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return state.getValue(EXTERIOR_TYPE).tileEntity.get();
     }

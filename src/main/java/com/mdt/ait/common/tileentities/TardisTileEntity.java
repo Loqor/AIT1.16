@@ -7,6 +7,7 @@ import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.helpers.tardis.Tardis;
 import com.mdt.ait.helpers.tardis.TardisManager;
 import net.minecraft.block.Block;
@@ -19,13 +20,11 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -33,6 +32,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -48,7 +48,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumDoorState previousstate = CLOSED;
     public UUID linked_tardis_id;
     public Tardis linked_tardis;
-
+    public EnumMatState matState = EnumMatState.SOLID;
     protected EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
 
     public EnumExteriorType getNextExterior() {
@@ -63,6 +63,18 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         return EnumExteriorType.BASIC_BOX;
     }
 
+    public EnumMatState getNextMatState() {
+        switch (matState) {
+            case DEMAT:
+                return EnumMatState.REMAT;
+            case REMAT:
+                return EnumMatState.SOLID;
+            case SOLID:
+                return EnumMatState.DEMAT;
+        }
+        return EnumMatState.SOLID;
+    }
+
     public void setExterior(EnumExteriorType exterior) {
         this.currentexterior = exterior;
     }
@@ -70,39 +82,38 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public TardisTileEntity() {
         super(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
     }
+
     public TardisTileEntity(TileEntityType entity) {
         super(entity);
     }
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
+        return new AxisAlignedBB(worldPosition).inflate(50, 50, 50);
     }
 
-    @Override public void tick() {
-        AxisAlignedBB aabb = getTardisCollider(getBlockState()).bounds();
-        aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
-        this.level.getEntities(null, aabb).forEach(this::entityInside);
-
+    @Override
+    public void tick() {
         //System.out.println(previousstate + " " + currentState() + " " + getNextDoorState());
-        if(currentState() != previousstate) {
+        if (currentState() != previousstate) {
             rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
             leftDoorRotation = currentState() == FIRST ? 0.0f : (currentState() == BOTH ? 0.0f : 87.5f);
         }
-        if(currentState() != CLOSED) {
-            if(rightDoorRotation < 87.5f){
+        if (currentState() != CLOSED) {
+            if (rightDoorRotation < 87.5f) {
                 rightDoorRotation += 5.0f;
             } else {
                 rightDoorRotation = 87.5f;
             }
-            if(currentState() == BOTH) {
-                if(leftDoorRotation < 87.5f){
+            if (currentState() == BOTH) {
+                if (leftDoorRotation < 87.5f) {
                     leftDoorRotation += 5.0f;
                 } else {
                     leftDoorRotation = 87.5f;
                 }
             }
         } else {
-            if(leftDoorRotation > 0.0f && rightDoorRotation > 0.0f) {
+            if (leftDoorRotation > 0.0f && rightDoorRotation > 0.0f) {
                 leftDoorRotation -= 15.0f;
                 rightDoorRotation -= 15.0f;
             }
@@ -110,13 +121,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         previousstate = currentState();
     }
 
-
     public void setDoorState(EnumDoorState state) {
         this.currentstate = state;
     }
 
     private VoxelShape getTardisCollider(BlockState blockstate) {
-        switch(blockstate.getValue(FACING)) {
+        switch (blockstate.getValue(FACING)) {
             case NORTH:
                 return TardisBlock.NORTH_AABB;
             case EAST:
@@ -152,32 +162,54 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     private BlockState block;
+
     public ActionResultType useOn(World world, PlayerEntity playerentity, BlockPos blockpos, Hand hand) {
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
+        //MinecraftServer pepe = playerentity.getServer();
+        //ServerWorld world1 = pepe.getLevel(this.linked_tardis.interior_key);
+        //TileEntity interior_door = world1.getBlockEntity(linked_tardis.door_list.get(linked_tardis.door_list.size()-1));
+        //System.out.println(interior_door);
         if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
             this.setDoorState(this.getNextDoorState());
+            //((BasicInteriorDoorTile) interior_door).setDoorState(((BasicInteriorDoorTile) interior_door).getNextDoorState());
             if (this.getNextDoorState() == FIRST)
                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             else
-                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(),SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             syncToClient();
         }
         return ActionResultType.SUCCESS;
     }
 
+    public EnumMatState getMatState() {
+        return this.matState;
+    }
+
     public void entityInside(Entity entity) {
         World world = entity.level;
-        if(!world.isClientSide()) {
+        if (!world.isClientSide()) {
             if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
-                MinecraftServer pepe = entity.getServer();
-                ServerWorld world1 = pepe.getLevel(linked_tardis.interior_key);
-                ForgeChunkManager.forceChunk(world1, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
-                System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH");
-                    ((ServerPlayerEntity) entity).teleportTo(world1, 2.777, 129, 8.008, entity.yRot, entity.xRot);
+                if (linked_tardis == null) {
+                    System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL");
+                    return;
+                }
+
+                ServerWorld world1 = ServerLifecycleHooks.getCurrentServer().getLevel(this.linked_tardis.interior_key);
+                if (world1 != null) {
+                    //RegistryKey<World> worldy = world.dimension();
+                    //linked_tardis.exterior_dim.remove(worldy);
+                    //if(linked_tardis.exterior_dim.isEmpty()) {
+                    //    linked_tardis.exterior_dim.add(worldy);
+                    //    }
+                    //}
+                    ForgeChunkManager.forceChunk(world1, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
+                    //System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH");
+                    ((ServerPlayerEntity) entity).teleportTo(world1, 2, 129, 7, entity.yRot, entity.xRot);
                     //entity.moveTo(entity.getX(), entity.getY() * 2, entity.getZ());
-                    System.out.println("ServerPlayerEntity stuff");
+                    //System.out.println("ServerPlayerEntity stuff");
                     syncToClient();
+                }
             }
         }
     }
@@ -185,44 +217,64 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
         Item item = playerentity.getMainHandItem().getItem();
-        if(block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
+
+        if (block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
             currentexterior = getNextExterior();
             syncToClient();
         }
     }
 
-    @Override public void load(BlockState pState, CompoundNBT nbt) {
-        currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
-        currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
-        if(nbt.contains("tardisUUID"))
-            linked_tardis_id = nbt.getUUID("tardisUUID");
-        if (level!=null) {
-            TardisManager tardis_manager = TardisManager.getTardisManagerForWorld(level);
-            linked_tardis = tardis_manager.getTardis(linked_tardis_id);
-            tardis_manager.load(nbt.getCompound("tardis_manager"));
+    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        Item item = playerentity.getMainHandItem().getItem();
+        if (block instanceof TardisBlock && item == AITItems.DEMATTER_STICK.get()) {
+            matState = getNextMatState();
+            syncToClient();
         }
-        leftDoorRotation = nbt.getFloat("leftDoorRotation");
-        rightDoorRotation = nbt.getFloat("rightDoorRotation");
+    }
+
+    @Override
+    public void load(BlockState pState, CompoundNBT nbt) {
+        this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
+        this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
+        if (nbt.contains("tardisUUID")) {
+            this.linked_tardis_id = nbt.getUUID("tardisUUID");
+        }
+        if (level != null) {
+            TardisManager tardis_manager = TardisManager.getInstance();
+            System.out.println("IM GETTING THE SIZING BABYYYYY || " + tardis_manager.ALL_TARDISES.size());
+            this.linked_tardis = tardis_manager.getTardis(this.linked_tardis_id);
+            System.out.println("linked_tardis_id is existing ish maybe || " + (linked_tardis == null));
+        }
+        this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
+        this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         super.load(pState, nbt);
     }
-    @Override public CompoundNBT save(CompoundNBT nbt) {
-        nbt.putInt("currentstate", currentstate.ordinal());
-        nbt.putInt("currentexterior", currentexterior.ordinal());
-        if(nbt.contains("tardisUUID"))
-            linked_tardis_id = nbt.getUUID("tardisUUID");
-        nbt.putFloat("leftDoorRotation", leftDoorRotation);
-        nbt.putFloat("rightDoorRotation", rightDoorRotation);
-        if (level!=null) nbt.put("tardis_manager", TardisManager.getTardisManagerForWorld(level).save(new CompoundNBT()));
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        nbt.putInt("currentexterior", this.currentexterior.ordinal());
+        nbt.putInt("currentstate", this.currentstate.ordinal());
+        if (this.linked_tardis_id != null)
+            nbt.putUUID("tardisUUID", this.linked_tardis_id);
+        nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
+        nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
         return super.save(nbt);
     }
 
-    @Override @Nonnull public CompoundNBT getUpdateTag() {
+    @Override
+    @Nonnull
+    public CompoundNBT getUpdateTag() {
         return save(new CompoundNBT());
     }
-    @Override public SUpdateTileEntityPacket getUpdatePacket() {
+
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
         return new SUpdateTileEntityPacket(worldPosition, 0, save(new CompoundNBT()));
     }
-    @Override public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         load(getBlockState(), packet.getTag());
     }
 
@@ -231,4 +283,20 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
+
+    //public void onPlace(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+    //    if(currentstate != CLOSED) {
+    //        RegistryKey<World> world1 = world.dimension();
+    //        linked_tardis.exterior_dim.add(world1);
+    //        syncToClient();
+    //    }
+    //}
+
+    //public void onRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
+    //    if(currentstate != CLOSED) {
+    //        RegistryKey<World> world1 = world.dimension();
+    //        linked_tardis.exterior_dim.remove(world1);
+    //        syncToClient();
+    //    }
+    //}
 }
