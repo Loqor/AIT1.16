@@ -30,6 +30,14 @@ public class AITItems {
             "tsv", () -> new BlockItem(
                     AITBlocks.TSV_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
 
+    public static final RegistryObject<BlockItem> RAMP = ITEMS.register(
+            "ramp", () -> new BlockItem(
+                    AITBlocks.RAMP_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+
+    public static final RegistryObject<BlockItem> INVIS_BLOCK = ITEMS.register(
+            "invis_block", () -> new BlockItem(
+                    AITBlocks.INVIS_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+
     public static final RegistryObject<BlockItem> BASIC_INTERIOR_DOOR = ITEMS.register(
             "interior_doors", () -> new BlockItem(
                     AITBlocks.INTERIOR_DOOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
