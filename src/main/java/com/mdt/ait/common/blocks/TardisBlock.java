@@ -5,6 +5,7 @@ import com.mdt.ait.core.init.AITBlockStates;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
 import com.mdt.ait.helpers.tardis.Tardis;
+import com.mdt.ait.helpers.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -28,10 +29,15 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class TardisBlock extends Block implements ICantBreak {
 
@@ -101,7 +107,6 @@ public class TardisBlock extends Block implements ICantBreak {
     //    }
     //    super.onRemove(blockstate, world, bpos, blockState, bool);
     //}
-
 
     @Override
     public void entityInside(BlockState blockstate, World world, BlockPos bpos, Entity entity) {

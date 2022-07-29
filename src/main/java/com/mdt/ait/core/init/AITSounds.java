@@ -21,4 +21,6 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID,"police_box_close")));
     public static final RegistryObject<SoundEvent> TARDIS_FIRST_ENTER = SOUNDS.register("tardis_first_enter", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_first_enter")));
+    public static final RegistryObject<SoundEvent> TYPEWRITER_DING = SOUNDS.register("typewriter_ding", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "typewriter_ding")));
 }

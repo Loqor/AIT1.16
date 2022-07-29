@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.items.DematterStick;
 import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
+import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -33,6 +34,10 @@ public class AITItems {
     public static final RegistryObject<BlockItem> RAMP = ITEMS.register(
             "ramp", () -> new BlockItem(
                     AITBlocks.RAMP_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+
+    public static final RegistryObject<BlockItem> TYPEWRITER = ITEMS.register(
+            "typewriter", () -> new BlockItem(
+                    AITBlocks.TYPEWRITER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
 
     public static final RegistryObject<BlockItem> INVIS_BLOCK = ITEMS.register(
             "invis_block", () -> new BlockItem(

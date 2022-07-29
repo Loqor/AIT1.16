@@ -48,5 +48,15 @@
         "stream": false
       }
     ]
+  },
+  "typewriter_ding": {
+    "category": "ambient",
+    "subtitle": "Typewriter Ding",
+    "sounds": [
+      {
+        "name": "ait:block_sounds/typewriter_ding",
+        "stream": false
+      }
+    ]
   }
 }

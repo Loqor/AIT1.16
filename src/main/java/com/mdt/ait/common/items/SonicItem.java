@@ -1,6 +1,8 @@
 package com.mdt.ait.common.items;
 
+import com.mdt.ait.client.models.tileentities.Typewriter;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TypewriterBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
@@ -86,6 +88,10 @@ public class SonicItem extends Item {
         Item item = playerentity.getMainHandItem().getItem();
         if (CampfireBlock.canLight(blockstate)) {
             world.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+        }
+        if (block instanceof TypewriterBlock && playerentity.isCrouching()) {
+            world.playSound(null, playerentity.getX(), playerentity.getY(), playerentity.getZ(), AITSounds.TYPEWRITER_DING.get(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+            return ActionResultType.sidedSuccess(world.isClientSide());
         }
         if (block instanceof TNTBlock) {
             playerentity.level.removeBlock(blockpos, true);

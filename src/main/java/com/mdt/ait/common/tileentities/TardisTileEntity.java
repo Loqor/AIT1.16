@@ -8,6 +8,7 @@ import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
+import com.mdt.ait.core.init.events.CommonEventHandler;
 import com.mdt.ait.helpers.tardis.Tardis;
 import com.mdt.ait.helpers.tardis.TardisManager;
 import net.minecraft.block.Block;
@@ -237,7 +238,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void load(BlockState pState, CompoundNBT nbt) {
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
-        if (nbt.contains("tardisUUID")) {
+        /*if (nbt.contains("tardisUUID")) {
             this.linked_tardis_id = nbt.getUUID("tardisUUID");
         }
         if (level != null) {
@@ -245,7 +246,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             System.out.println("IM GETTING THE SIZING BABYYYYY || " + tardis_manager.ALL_TARDISES.size());
             this.linked_tardis = tardis_manager.getTardis(this.linked_tardis_id);
             System.out.println("linked_tardis_id is existing ish maybe || " + (linked_tardis == null));
-        }
+        }*/
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         super.load(pState, nbt);

@@ -44,4 +44,8 @@ public class AIT {
         Network.init();
     }
 
+    private void worldLoad(final WorldLoadProgressScreen event) {
+        TardisManager.getInstance();
+    }
+
 }
