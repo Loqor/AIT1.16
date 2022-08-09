@@ -1,0 +1,10 @@
+{
+  "type": "ait:tardis_dimension_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [{"height": 0, "block": "minecraft:air"}],
+      "biome": "ait:tardis"
+    }
+  }
+}

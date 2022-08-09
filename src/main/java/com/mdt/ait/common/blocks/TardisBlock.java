@@ -4,17 +4,14 @@ import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
-import com.mdt.ait.helpers.tardis.Tardis;
-import com.mdt.ait.helpers.tardis.TardisManager;
+import com.mdt.ait.core.init.interfaces.ITardisBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -22,24 +19,18 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
-public class TardisBlock extends Block implements ICantBreak {
+public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock has some of the same functionality as interface ICantBreak
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static EnumProperty<EnumExteriorType> EXTERIOR_TYPE = AITBlockStates.TARDIS_EXTERIOR;
@@ -90,24 +81,6 @@ public class TardisBlock extends Block implements ICantBreak {
         return true;
     }
 
-    //@Override
-    //public void onPlace(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-    //    TileEntity tileEntity = world.getBlockEntity(bpos);
-    //    if(tileEntity instanceof TardisTileEntity) {
-    //        ((TardisTileEntity) tileEntity).onPlace(blockstate, world, bpos, blockState, bool);
-    //    }
-    //    super.onPlace(blockstate, world, bpos, blockState, bool);
-    //}
-
-    //@Override
-    //public void onRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-    //    TileEntity tileEntity = world.getBlockEntity(bpos);
-    //    if(tileEntity instanceof TardisTileEntity) {
-    //        ((TardisTileEntity) tileEntity).onRemove(blockstate, world, bpos, blockState, bool);
-    //    }
-    //    super.onRemove(blockstate, world, bpos, blockState, bool);
-    //}
-
     @Override
     public void entityInside(BlockState blockstate, World world, BlockPos bpos, Entity entity) {
         TileEntity tileEntity = world.getBlockEntity(bpos);
@@ -132,4 +105,6 @@ public class TardisBlock extends Block implements ICantBreak {
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return state.getValue(EXTERIOR_TYPE).tileEntity.get();
     }
+
+
 }

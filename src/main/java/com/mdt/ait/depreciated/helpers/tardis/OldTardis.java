@@ -1,22 +1,19 @@
-package com.mdt.ait.helpers.tardis;
+package com.mdt.ait.depreciated.helpers.tardis;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.helpers.Location;
+import com.mdt.ait.depreciated.helpers.Location;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-import com.mdt.ait.world.dimensions.TardisDimensionFactory;
+import com.mdt.ait.core.init.world.dimensions.TardisDimensionFactory;
 
 // Need to make sure it's telling the tardis manager when it get's dirty
 
-public class Tardis {
+public class OldTardis {
     public RegistryKey<World> interior_key;
     public final UUID owner;
     public @Nullable
@@ -30,7 +27,7 @@ public class Tardis {
     public List<BlockPos> door_list = new ArrayList<>();
     public List<RegistryKey<World>> exterior_dim = new ArrayList<>();
 
-    public Tardis(UUID player) {
+    public OldTardis(UUID player) {
         interior_key = TardisDimensionFactory.getTardisDimensionForPlayer(player);
         owner = player;
     }
@@ -56,7 +53,7 @@ public class Tardis {
     }
 
     //=========================================== SERIALISATION ======================================================
-    public Tardis(UUID owner, CompoundNBT nbt) {
+    public OldTardis(UUID owner, CompoundNBT nbt) {
         this(owner);
         if (nbt.contains("ext_pos")) exterior_position = BlockPos.of(nbt.getLong("ext_pos"));
         interior_key = TardisDimensionFactory.getTardisDimensionForPlayer(owner);

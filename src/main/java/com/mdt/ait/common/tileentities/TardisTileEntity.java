@@ -2,15 +2,14 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
-import com.mdt.ait.core.init.events.CommonEventHandler;
-import com.mdt.ait.helpers.tardis.Tardis;
-import com.mdt.ait.helpers.tardis.TardisManager;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -42,6 +41,10 @@ import static com.mdt.ait.common.blocks.TardisBlock.FACING;
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
 
 public class TardisTileEntity extends TileEntity implements ITickableTileEntity {
+
+    /*
+    Updated for OldTardis Rewrite
+     */
 
     public float leftDoorRotation = 0;
     public float rightDoorRotation = 0;
@@ -196,7 +199,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     return;
                 }
 
-                ServerWorld world1 = ServerLifecycleHooks.getCurrentServer().getLevel(this.linked_tardis.interior_key);
+                ServerWorld world1 = ServerLifecycleHooks.getCurrentServer().getLevel(AITDimensions.TARDIS_DIMENSION);
                 if (world1 != null) {
                     //RegistryKey<World> worldy = world.dimension();
                     //linked_tardis.exterior_dim.remove(worldy);
@@ -238,15 +241,14 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void load(BlockState pState, CompoundNBT nbt) {
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
-        /*if (nbt.contains("tardisUUID")) {
-            this.linked_tardis_id = nbt.getUUID("tardisUUID");
-        }
+
+        this.linked_tardis_id = nbt.getUUID("tardisUUID");
         if (level != null) {
-            TardisManager tardis_manager = TardisManager.getInstance();
-            System.out.println("IM GETTING THE SIZING BABYYYYY || " + tardis_manager.ALL_TARDISES.size());
-            this.linked_tardis = tardis_manager.getTardis(this.linked_tardis_id);
-            System.out.println("linked_tardis_id is existing ish maybe || " + (linked_tardis == null));
-        }*/
+            if (!level.isClientSide()) { // Server Side Only
+                this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+            }
+        }
+
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         super.load(pState, nbt);
@@ -256,8 +258,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("currentexterior", this.currentexterior.ordinal());
         nbt.putInt("currentstate", this.currentstate.ordinal());
-        if (this.linked_tardis_id != null)
+        if (this.linked_tardis_id != null) {
             nbt.putUUID("tardisUUID", this.linked_tardis_id);
+        }
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
         return super.save(nbt);
@@ -280,6 +283,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public void syncToClient() {
+        assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();

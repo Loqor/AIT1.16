@@ -1,6 +1,6 @@
-package com.mdt.ait.helpers;
+package com.mdt.ait.depreciated.helpers;
 
-import com.mdt.ait.helpers.tardis.Position;
+import com.mdt.ait.depreciated.helpers.tardis.Position;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;

@@ -1,4 +1,4 @@
-package com.mdt.ait.world.dimensions;
+package com.mdt.ait.core.init.world.dimensions;
 
 import com.mdt.ait.AIT;
 import com.mojang.serialization.Codec;

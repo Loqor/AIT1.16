@@ -1,16 +1,11 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.events.CommonEventHandler;
-import com.mdt.ait.helpers.Location;
-import com.mdt.ait.helpers.tardis.Tardis;
-import com.mdt.ait.helpers.tardis.TardisManager;
-import com.mdt.ait.world.dimensions.TardisDimensionFactory;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,25 +14,18 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.util.UUID;
 
 import static com.mdt.ait.common.blocks.BasicInteriorDoorBlock.FACING;
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
@@ -49,8 +37,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public float rightDoorRotation = 0;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
-    //public TardisTileEntity tte;
-    public Tardis linked_interior; //=/tte.linked_tardis;
+
+
+    public Tardis linked_tardis;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);

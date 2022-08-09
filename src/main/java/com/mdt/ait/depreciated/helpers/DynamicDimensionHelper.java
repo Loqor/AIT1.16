@@ -1,4 +1,4 @@
-package com.mdt.ait.helpers;
+package com.mdt.ait.depreciated.helpers;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.mdt.ait.AIT;
-import com.mdt.ait.world.dimensions.TardisChunkGen;
+import com.mdt.ait.core.init.world.dimensions.TardisChunkGen;
 import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.server.MinecraftServer;

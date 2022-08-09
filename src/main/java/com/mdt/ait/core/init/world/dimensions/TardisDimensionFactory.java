@@ -1,7 +1,6 @@
-package com.mdt.ait.world.dimensions;
+package com.mdt.ait.core.init.world.dimensions;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;

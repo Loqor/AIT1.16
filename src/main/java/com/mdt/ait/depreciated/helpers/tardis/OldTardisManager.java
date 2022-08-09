@@ -1,8 +1,8 @@
-package com.mdt.ait.helpers.tardis;
+package com.mdt.ait.depreciated.helpers.tardis;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.helpers.DynamicDimensionHelper;
-import com.mdt.ait.world.dimensions.TardisDimensionFactory;
+import com.mdt.ait.depreciated.helpers.DynamicDimensionHelper;
+import com.mdt.ait.core.init.world.dimensions.TardisDimensionFactory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
@@ -14,6 +14,7 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
@@ -21,11 +22,11 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class TardisManager extends WorldSavedData {
-    private static TardisManager TARDIS_MANAGER_INSTANCE = null;
+public class OldTardisManager extends WorldSavedData {
+    private static OldTardisManager TARDIS_MANAGER_INSTANCE = null;
     public static final String TARDIS_FILE_NAME =  AIT.MOD_ID + "tardis_manager";
 
-    public HashMap<UUID, Tardis> ALL_TARDISES = new HashMap<>();
+    public HashMap<UUID, OldTardis> ALL_TARDISES = new HashMap<>();
     public boolean CHECK_IS_SYNCED = false;
     public boolean CHECK_IS_SAVED = false;
     public int LOADED_WORLD = 0;
@@ -33,22 +34,22 @@ public class TardisManager extends WorldSavedData {
 
     /*=========================================== SERIALISATION ======================================================*/
 
-    public TardisManager(String string) {
+    public OldTardisManager(String string) {
         super(string);
     }
 
-    public TardisManager() {
+    public OldTardisManager() {
         this(TARDIS_FILE_NAME);
     }
 
     @Override
     public void load(CompoundNBT nbt) {
-        ListNBT listnbt = nbt.getList("instances", 10);
+        ListNBT listnbt = nbt.getList("instances", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < listnbt.size(); ++i) {
             CompoundNBT tardis_nbt = listnbt.getCompound(i);
             UUID tardis_id = tardis_nbt.getUUID("id");
             System.out.println("LOAD" + tardis_id);
-            ALL_TARDISES.put(tardis_id, new Tardis(tardis_id, tardis_nbt));
+            ALL_TARDISES.put(tardis_id, new OldTardis(tardis_id, tardis_nbt));
         }
     }
 
@@ -72,16 +73,16 @@ public class TardisManager extends WorldSavedData {
     /**
      * call .hashcode() on a server world or client world
      */
-    public static TardisManager getTardisManagerForWorld(World world) {
+    public static OldTardisManager getTardisManagerForWorld(World world) {
         //TARDIS_MANAGER_INSTANCE.checkIsDataDirty(world.hashCode());
         return TARDIS_MANAGER_INSTANCE;
     }
 
     /*=========================================== DATA MANAGEMENT ======================================================*/
 
-    public Tardis newTardis(UUID owner, BlockPos pos, boolean clientSide) {
+    public OldTardis newTardis(UUID owner, BlockPos pos, boolean clientSide) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        Tardis tardis = new Tardis(owner);
+        OldTardis tardis = new OldTardis(owner);
         ALL_TARDISES.put(owner, tardis);
         if (!clientSide) {
             //why are we forcing a chunk?
@@ -101,7 +102,7 @@ public class TardisManager extends WorldSavedData {
                 tardis.hasGenerated = true;
                 ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
             } catch (NullPointerException e) {
-                throw new RuntimeException("Tardis missing appropriate interior: " + interior_type_name + e);
+                throw new RuntimeException("OldTardis missing appropriate interior: " + interior_type_name + e);
             }
         }
         CHECK_IS_SYNCED = false;
@@ -110,18 +111,18 @@ public class TardisManager extends WorldSavedData {
         return tardis;
     }
 
-    public Tardis getTardis(UUID owner) {
+    public OldTardis getTardis(UUID owner) {
         return ALL_TARDISES.get(owner);
     }
 
-    public static TardisManager getInstance() {
+    public static OldTardisManager getInstance() {
         if (TARDIS_MANAGER_INSTANCE == null) {
-            TARDIS_MANAGER_INSTANCE = new TardisManager();
+            TARDIS_MANAGER_INSTANCE = new OldTardisManager();
         }
         return TARDIS_MANAGER_INSTANCE;
     }
 
-    public Tardis getTardisFromLevel(@Nonnull World world) {
+    public OldTardis getTardisFromLevel(@Nonnull World world) {
         return ALL_TARDISES.get(UUID.fromString(world.dimension().getRegistryName().getPath()));
     }
 

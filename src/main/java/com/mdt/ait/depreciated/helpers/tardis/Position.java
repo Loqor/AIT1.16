@@ -1,4 +1,4 @@
-package com.mdt.ait.helpers.tardis;
+package com.mdt.ait.depreciated.helpers.tardis;
 
 import net.minecraft.dispenser.IPosition;
 
