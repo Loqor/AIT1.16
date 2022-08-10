@@ -1,49 +1,22 @@
 {
+  "surface_builder": "ait:tardis_surface_builder",
+  "depth": 0,
+  "scale": 0,
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "precipitation": "none",
+  "category": "none",
+  "player_spawn_friendly": false,
+  "creature_spawn_probability": 0,
   "effects": {
-    "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2
-    },
     "sky_color": 0,
     "fog_color": 0,
     "water_color": 4159204,
     "water_fog_color": 329011
   },
-  "carvers": {
-    "air": []
-  },
   "starts": [],
-  "features": [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    []
-  ],
-  "spawners": {
-    "ambient": [],
-    "creature": [],
-    "misc": [],
-    "monster": [],
-    "water_ambient": [],
-    "water_creature": []
-  },
-  "category": "none",
-  "precipitation": "none",
-  "surface_builder": "minecraft:grass",
-  "scale": 0,
-  "downfall": 0.4,
-  "depth": 0,
-  "temperature": 0.8,
-  "player_spawn_friendly": false,
+  "spawners": {},
   "spawn_costs": {},
-  "creature_spawn_probability": 0,
-  "fixed_time": 18000
+  "carvers": {},
+  "features": []
 }

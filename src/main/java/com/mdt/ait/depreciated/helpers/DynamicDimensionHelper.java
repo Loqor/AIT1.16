@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
 import com.mdt.ait.AIT;
-import com.mdt.ait.core.init.world.dimensions.TardisChunkGen;
+import com.mdt.ait.depreciated.dimensions.TardisChunkGen;
 import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.server.MinecraftServer;

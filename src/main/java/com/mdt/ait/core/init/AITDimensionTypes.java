@@ -7,6 +7,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.DimensionType;
 
 public class AITDimensionTypes {
+    // https://misode.github.io/dimension-type/
+
     public static final RegistryKey<DimensionType> TARDIS_DIMENSION_TYPE = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(AIT.MOD_ID, "tardis_dimension_type"));
 
 }

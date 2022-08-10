@@ -33,6 +33,7 @@ public class AIT {
     public static DimensionSavedDataManager dimensionSavedDataManager;
 
     public AIT() {
+        // https://misode.github.io helps with data generation
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -46,12 +47,16 @@ public class AIT {
         AITTiles.TILE_ENTITIES.register(bus);
         AITSounds.SOUNDS.register(bus);
 
-
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         DynamicDimensionHelper.registerChunkGenerators();
         Network.init();
+        AITDimensions.init();
+    }
+
+    public static void print(String string) {
+        System.out.println(string);
     }
 
     /*

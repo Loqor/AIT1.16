@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import com.mdt.ait.core.init.world.dimensions.TardisDimensionFactory;
+import com.mdt.ait.depreciated.dimensions.TardisDimensionFactory;
 
 // Need to make sure it's telling the tardis manager when it get's dirty
 

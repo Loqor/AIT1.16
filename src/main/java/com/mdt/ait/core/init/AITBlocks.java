@@ -17,10 +17,7 @@ public class AITBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, AIT.MOD_ID);
 
-    public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block",
-            () -> new Block(
-                    Block.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY)
-                            .harvestTool(ToolType.PICKAXE).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
 
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
     public static final RegistryObject<Block> TSV_BLOCK = BLOCKS.register("tsv", TSVBlock::new);

@@ -2,8 +2,10 @@ package com.mdt.ait.core.init.events;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
 import com.mdt.ait.tardis.Tardis;
+import com.mdt.ait.tardis.TardisInteriors;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,6 +20,8 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class TardisEventHandler {
+
+    public static boolean overWorldLoaded = false;
 
     @SubscribeEvent
     public void onPlayerMine(BlockEvent.BreakEvent event) {
@@ -62,7 +66,17 @@ public class TardisEventHandler {
 
                 System.out.println("TardisEventHandler: Overworld Load");
                 AIT.tardisManager = new TardisManager();
-                AIT.dimensionSavedDataManager.computeIfAbsent(AIT.tardisManager.getTardisWorldSavedData().getSupplier(), "tardis_world_saved_data");
+                AIT.dimensionSavedDataManager.computeIfAbsent(AIT.tardisManager.getTardisWorldSavedData().getSupplier(), "ait_DATA"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
+                overWorldLoaded = true;
+
+
+            }
+
+            if (world.dimension().equals(AITDimensions.TARDIS_DIMENSION)) {
+                if (overWorldLoaded) {
+                    System.out.println("TARDIS DIMENSION LOAD");
+                    TardisInteriors.init();
+                }
 
             }
         }

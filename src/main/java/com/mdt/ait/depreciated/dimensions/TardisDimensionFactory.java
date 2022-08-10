@@ -1,4 +1,4 @@
-package com.mdt.ait.core.init.world.dimensions;
+package com.mdt.ait.depreciated.dimensions;
 
 import com.mdt.ait.AIT;
 import net.minecraft.server.MinecraftServer;

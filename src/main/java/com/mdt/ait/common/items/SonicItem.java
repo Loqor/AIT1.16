@@ -2,6 +2,7 @@ package com.mdt.ait.common.items;
 
 import com.mdt.ait.client.models.tileentities.Typewriter;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TestBlock;
 import com.mdt.ait.common.blocks.TypewriterBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITItems;
@@ -9,6 +10,8 @@ import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
+import com.mdt.ait.tardis.TardisInteriors;
+import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,16 +24,16 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -81,6 +84,7 @@ public class SonicItem extends Item {
 
     public ActionResultType useOn(ItemUseContext context) {
         PlayerEntity playerentity = context.getPlayer();
+        assert playerentity != null;
         World world = playerentity.level;
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
@@ -100,14 +104,14 @@ public class SonicItem extends Item {
             world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
-        if (block instanceof TardisBlock && playerentity.isCrouching()) {
-            TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if(tileEntity instanceof TardisTileEntity) {
-                ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
-            }
-            System.out.println("Idk if this is working or not");
-            return ActionResultType.sidedSuccess(world.isClientSide());
-        }
+//        if (block instanceof TardisBlock && playerentity.isCrouching()) {
+//            TileEntity tileEntity = world.getBlockEntity(blockpos);
+//            if(tileEntity instanceof TardisTileEntity) {
+//                ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
+//            }
+//            System.out.println("Idk if this is working or not");
+//            return ActionResultType.sidedSuccess(world.isClientSide());
+//        }
 
         if (block instanceof DoorBlock) {
             world.setBlock(blockpos, blockstate.setValue(OPEN, !blockstate.getValue(OPEN)), 10);
@@ -116,6 +120,18 @@ public class SonicItem extends Item {
         if (block instanceof TrapDoorBlock) {
             world.setBlock(blockpos, blockstate.setValue(OPEN, !blockstate.getValue(OPEN)), 10);
             world.levelEvent(playerentity, blockstate.getValue(OPEN) ? blockstate.getMaterial() == Material.METAL ? 1005 : 1006 : blockstate.getMaterial() == Material.METAL ? 1011 : 1012, blockpos, 0);
+        }
+
+        if (block instanceof TestBlock && playerentity.isCrouching()) { // Creates interior
+            if (!world.isClientSide) {
+                System.out.println("Creating exterior");
+                ServerWorld serverWorld = (ServerWorld) world;
+                BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
+                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
+                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
+
+            }
+
         }
 
         if (block instanceof RedstoneLampBlock) {

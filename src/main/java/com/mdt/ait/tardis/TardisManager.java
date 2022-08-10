@@ -41,6 +41,7 @@ public class TardisManager {
             latestTardisNumber += 1;
             Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber));
             tardis_list.put(tardisID, tardis);
+            loaded = true;
             return tardis;
         } else {
             UUID tardisID = UUID.randomUUID();
@@ -58,6 +59,7 @@ public class TardisManager {
     }
 
     public void load(CompoundNBT tag) {
+        System.out.println("Tardis Manager: Loading!");
         ListNBT tardis_nbt_list = tag.getList("tardis_list", Constants.NBT.TAG_COMPOUND); // Always add Constants.NBT.TAG_COMPOUND idk why you need it but you do
         tardis_nbt_list.forEach((inbt) -> {
             Tardis tardis = new Tardis((CompoundNBT) inbt);
@@ -71,6 +73,7 @@ public class TardisManager {
 
     public CompoundNBT save(CompoundNBT tag) {
         System.out.println("Tardis Manager Saving");
+        System.out.println(tardis_list);
         ListNBT tardis_nbt_list = new ListNBT(); // Create ListNBT
         tardis_list.forEach((id, tardis) -> tardis_nbt_list.add(tardis.save()));
         tag.put("tardis_list", tardis_nbt_list);

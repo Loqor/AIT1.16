@@ -43,7 +43,7 @@ import static com.mdt.ait.core.init.enums.EnumDoorState.*;
 public class TardisTileEntity extends TileEntity implements ITickableTileEntity {
 
     /*
-    Updated for OldTardis Rewrite
+    Updated for Tardis Rewrite
      */
 
     public float leftDoorRotation = 0;
@@ -192,51 +192,48 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public void entityInside(Entity entity) {
         World world = entity.level;
+        if (linked_tardis == null) {
+            if (!world.isClientSide) { // Server side only
+                this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+                System.out.println(this.linked_tardis);
+            }
+        }
         if (!world.isClientSide()) {
             if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
                 if (linked_tardis == null) {
-                    System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL");
+                    System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL"); // HOLY SHIT I FIXED IT
                     return;
                 }
 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 if (tardis_world != null) {
-                    System.out.println("Tardis world is not null");
-                    //RegistryKey<World> worldy = world.dimension();
-                    //linked_tardis.exterior_dim.remove(worldy);
-                    //if(linked_tardis.exterior_dim.isEmpty()) {
-                    //    linked_tardis.exterior_dim.add(worldy);
-                    //    }
-                    //}
-                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
-                    //System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH");
-                    ((ServerPlayerEntity) entity).teleportTo(tardis_world, 2, 129, 7, entity.yRot, entity.xRot);
-                    //entity.moveTo(entity.getX(), entity.getY() * 2, entity.getZ());
-                    //System.out.println("ServerPlayerEntity stuff");
+                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
+
+                    ((ServerPlayerEntity) entity).teleportTo(tardis_world, linked_tardis.interiorTeleportPos.getX(), linked_tardis.interiorTeleportPos.getY(), linked_tardis.interiorTeleportPos.getZ(), linked_tardis.interior_door_facing.getOpposite().toYRot(), entity.xRot);
                     syncToClient();
                 }
             }
         }
     }
 
-    public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        PlayerEntity playerentity = context.getPlayer();
-        Item item = playerentity.getMainHandItem().getItem();
-
-        if (block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
-            currentexterior = getNextExterior();
-            syncToClient();
-        }
-    }
-
-    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        PlayerEntity playerentity = context.getPlayer();
-        Item item = playerentity.getMainHandItem().getItem();
-        if (block instanceof TardisBlock && item == AITItems.DEMATTER_STICK.get()) {
-            matState = getNextMatState();
-            syncToClient();
-        }
-    }
+//    public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+//        PlayerEntity playerentity = context.getPlayer();
+//        Item item = playerentity.getMainHandItem().getItem();
+//
+//        if (block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
+//            currentexterior = getNextExterior();
+//            syncToClient();
+//        }
+//    }
+//
+//    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+//        PlayerEntity playerentity = context.getPlayer();
+//        Item item = playerentity.getMainHandItem().getItem();
+//        if (block instanceof TardisBlock && item == AITItems.DEMATTER_STICK.get()) {
+//            matState = getNextMatState();
+//            syncToClient();
+//        }
+//    }
 
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
@@ -248,6 +245,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if (!level.isClientSide()) { // Server Side Only
                 this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
             }
+        }
+        if (this.linked_tardis_id == null) {
+            System.out.println("Linked Tardis ID is null");
         }
 
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");

@@ -29,6 +29,7 @@ public class TardisWorldSavedData extends WorldSavedData{
 
     @Override
     public void load(CompoundNBT tag) {
+        System.out.println("TardisWorldSavedData: Loading");
         tardisManager.load(tag);
     }
 

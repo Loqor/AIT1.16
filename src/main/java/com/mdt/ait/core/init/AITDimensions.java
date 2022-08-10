@@ -9,5 +9,10 @@ import net.minecraft.world.World;
 import java.awt.*;
 
 public class AITDimensions {
-    public static final RegistryKey<World> TARDIS_DIMENSION = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(AIT.MOD_ID, "tardis_dimension"));
+    // https://misode.github.io/dimension/
+    public static RegistryKey<World> TARDIS_DIMENSION;
+
+    public static void init() {
+        TARDIS_DIMENSION = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(AIT.MOD_ID, "tardis_dimension"));
+    }
 }

@@ -2,7 +2,7 @@ package com.mdt.ait.depreciated.helpers.tardis;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.depreciated.helpers.DynamicDimensionHelper;
-import com.mdt.ait.core.init.world.dimensions.TardisDimensionFactory;
+import com.mdt.ait.depreciated.dimensions.TardisDimensionFactory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
