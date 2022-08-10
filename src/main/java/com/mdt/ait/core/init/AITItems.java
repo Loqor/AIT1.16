@@ -43,6 +43,10 @@ public class AITItems {
             "invis_block", () -> new BlockItem(
                     AITBlocks.INVIS_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
 
+    public static final RegistryObject<BlockItem> INVIS_LIGHT_BLOCK = ITEMS.register("invis_light_block", () -> new BlockItem(
+            AITBlocks.INVIS_LIGHT_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)
+    ));
+
     public static final RegistryObject<BlockItem> BASIC_INTERIOR_DOOR = ITEMS.register(
             "interior_doors", () -> new BlockItem(
                     AITBlocks.INTERIOR_DOOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));

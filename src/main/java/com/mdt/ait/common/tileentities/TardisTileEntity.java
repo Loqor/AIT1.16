@@ -199,17 +199,18 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     return;
                 }
 
-                ServerWorld world1 = ServerLifecycleHooks.getCurrentServer().getLevel(AITDimensions.TARDIS_DIMENSION);
-                if (world1 != null) {
+                ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                if (tardis_world != null) {
+                    System.out.println("Tardis world is not null");
                     //RegistryKey<World> worldy = world.dimension();
                     //linked_tardis.exterior_dim.remove(worldy);
                     //if(linked_tardis.exterior_dim.isEmpty()) {
                     //    linked_tardis.exterior_dim.add(worldy);
                     //    }
                     //}
-                    ForgeChunkManager.forceChunk(world1, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
+                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, new BlockPos(0, 128, 0), 0, 0, true, true);
                     //System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH");
-                    ((ServerPlayerEntity) entity).teleportTo(world1, 2, 129, 7, entity.yRot, entity.xRot);
+                    ((ServerPlayerEntity) entity).teleportTo(tardis_world, 2, 129, 7, entity.yRot, entity.xRot);
                     //entity.moveTo(entity.getX(), entity.getY() * 2, entity.getZ());
                     //System.out.println("ServerPlayerEntity stuff");
                     syncToClient();

@@ -2,6 +2,7 @@
   "block.ait.test_block": "Test Block",
   "block.ait.tardis": "TARDIS",
   "block.ait.invis_block": "Invisible Block",
+  "block.ait.invis_light_block": "Invisible Light Block",
   "block.ait.basic_interior_door_block" : "Interior Doors",
   "block.ait.typewriter": "Typewriter",
   "itemGroup.Blocks": "AIT Blocks",

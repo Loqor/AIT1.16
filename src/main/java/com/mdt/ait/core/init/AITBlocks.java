@@ -29,6 +29,8 @@ public class AITBlocks {
     public static final RegistryObject<Block> INTERIOR_DOOR_BLOCK = BLOCKS.register("basic_interior_door_block", BasicInteriorDoorBlock::new);
     public static final RegistryObject<InvisBlock> INVIS_BLOCK = BLOCKS.register("invis_block", InvisBlock::new);
 
+    public static final RegistryObject<InvisLightBlock> INVIS_LIGHT_BLOCK = BLOCKS.register("invis_light_block", InvisLightBlock::new);
+
     //Steel Grating
     public static final RegistryObject<Block> STEEL_GRATE = BLOCKS.register(
             "steel_grate", () -> new Block(TransparentGrateBlock.Properties.of(

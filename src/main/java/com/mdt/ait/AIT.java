@@ -40,12 +40,11 @@ public class AIT {
         //bus.addListener(this::commonSetup);
         //bus.addListener(this::registerEntityAttributes);
         MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
-        MinecraftForge.EVENT_BUS.register(new TardisEventHandler()); // OldTardis specific event handler
+        MinecraftForge.EVENT_BUS.register(new TardisEventHandler()); // Tardis specific event handler
         AITBlocks.BLOCKS.register(bus);
         AITItems.ITEMS.register(bus);
         AITTiles.TILE_ENTITIES.register(bus);
         AITSounds.SOUNDS.register(bus);
-
 
 
     }
