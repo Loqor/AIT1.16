@@ -22,10 +22,10 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     protected EnumConsoleType currentconsole = EnumConsoleType.DEV_CONSOLE;
 
     public EnumConsoleType getNextConsole() {
-        /*switch (currentconsole) {
+        switch (currentconsole) {
             case DEV_CONSOLE:
                 return EnumConsoleType.DEV_CONSOLE;
-        }*/
+        }
         return EnumConsoleType.DEV_CONSOLE;
     }
 

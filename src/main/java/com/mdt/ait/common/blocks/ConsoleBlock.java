@@ -4,6 +4,7 @@ import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.interfaces.IConsoleBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,7 +22,7 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-public class ConsoleBlock extends Block {
+public class ConsoleBlock extends Block implements IConsoleBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static EnumProperty<EnumConsoleType> CONSOLE_TYPE = AITBlockStates.TARDIS_CONSOLE;
