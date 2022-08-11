@@ -47,7 +47,7 @@ public class DevTool extends Item {
         Block block = blockstate.getBlock();
         Item item = playerentity.getMainHandItem().getItem();
 
-        if (block instanceof TestBlock && playerentity.isCrouching()) { // Creates interior
+        if (block instanceof TestBlock && playerentity.isCrouching() && this.current_mode.equals(EnumDevToolModes.PLACE_EXTERIOR)) { // Creates interior
             if (!world.isClientSide) {
                 System.out.println("Creating exterior");
                 ServerWorld serverWorld = (ServerWorld) world;

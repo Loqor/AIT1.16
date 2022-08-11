@@ -64,7 +64,6 @@ public class TardisEventHandler {
             assert world != null;
             if (world.dimension().equals(ServerWorld.OVERWORLD)) {
 
-                System.out.println("TardisEventHandler: Overworld Load");
                 AIT.tardisManager = new TardisManager();
                 AIT.dimensionSavedDataManager.computeIfAbsent(AIT.tardisManager.getTardisWorldSavedData().getSupplier(), "ait_DATA"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
                 overWorldLoaded = true;
@@ -74,7 +73,6 @@ public class TardisEventHandler {
 
             if (world.dimension().equals(AITDimensions.TARDIS_DIMENSION)) {
                 if (overWorldLoaded) {
-                    System.out.println("TARDIS DIMENSION LOAD");
                     TardisInteriors.init();
                 }
 

@@ -23,7 +23,7 @@ public class CommonEventHandler {
             ServerWorld world = (ServerWorld) event.getWorld();
             assert world != null;
             if (world.dimension().equals(ServerWorld.OVERWORLD)) {
-                System.out.println("CommonEventHandler: Overworld Load");
+
                 AIT.server = ServerLifecycleHooks.getCurrentServer();
                 AIT.dimensionSavedDataManager = AIT.server.overworld().getDataStorage();
             }
