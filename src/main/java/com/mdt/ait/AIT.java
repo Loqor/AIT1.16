@@ -1,11 +1,10 @@
 package com.mdt.ait;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.events.CommonEventHandler;
 import com.mdt.ait.core.init.events.TardisEventHandler;
-import com.mdt.ait.depreciated.helpers.DynamicDimensionHelper;
 import com.mdt.ait.network.Network;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
@@ -25,7 +24,7 @@ public class AIT {
     //ADD VEHICLES
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "ait";
-    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static MinecraftServer server;
 
@@ -50,7 +49,6 @@ public class AIT {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        DynamicDimensionHelper.registerChunkGenerators();
         Network.init();
         AITDimensions.init();
     }
