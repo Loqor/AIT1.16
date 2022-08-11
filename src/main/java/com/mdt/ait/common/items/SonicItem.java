@@ -48,19 +48,19 @@ public class SonicItem extends Item {
     private static final Integer REDSTONE_COOLDOWN_TIME = 10;
     public EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
 
-    public EnumExteriorType getNextExterior() {
-        switch (currentexterior) {
-            case BASIC_BOX:
-                return EnumExteriorType.MINT_BOX;
-            case MINT_BOX:
-                return EnumExteriorType.BASIC_BOX;
-        }
-        return EnumExteriorType.BASIC_BOX;
-    }
-
-    public void setExterior(EnumExteriorType exterior) {
-        this.currentexterior = exterior;
-    }
+//    public EnumExteriorType getNextExterior() {
+//        switch (currentexterior) {
+//            case BASIC_BOX:
+//                return EnumExteriorType.MINT_BOX;
+//            case MINT_BOX:
+//                return EnumExteriorType.BASIC_BOX;
+//        }
+//        return EnumExteriorType.BASIC_BOX;
+//    }
+//
+//    public void setExterior(EnumExteriorType exterior) {
+//        this.currentexterior = exterior;
+//    }
 
     public SonicItem(Properties tab) {
         super(new Item.Properties().stacksTo(1).tab(AITItemGroups.AITITEMS));
@@ -122,17 +122,7 @@ public class SonicItem extends Item {
             world.levelEvent(playerentity, blockstate.getValue(OPEN) ? blockstate.getMaterial() == Material.METAL ? 1005 : 1006 : blockstate.getMaterial() == Material.METAL ? 1011 : 1012, blockpos, 0);
         }
 
-        if (block instanceof TestBlock && playerentity.isCrouching()) { // Creates interior
-            if (!world.isClientSide) {
-                System.out.println("Creating exterior");
-                ServerWorld serverWorld = (ServerWorld) world;
-                BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
-                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
-                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
 
-            }
-
-        }
 
         if (block instanceof RedstoneLampBlock) {
             world.setBlock(blockpos, blockstate.setValue(LIT, !blockstate.getValue(LIT)), 10);

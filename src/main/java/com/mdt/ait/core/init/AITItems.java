@@ -2,6 +2,7 @@ package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.items.DematterStick;
+import com.mdt.ait.common.items.DevTool;
 import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.block.Block;
@@ -23,6 +24,10 @@ public class AITItems {
 
     public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
             "dematter_stick", () -> new DematterStick(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    public static final RegistryObject<DevTool> DEV_TOOL = ITEMS.register(
+            "dev_tool", () -> new DevTool(new Item.Properties().tab(AITItemGroups.AITITEMS))
+    );
 
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
