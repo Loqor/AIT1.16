@@ -33,6 +33,8 @@ public class Tardis {
     public TardisInterior currentInterior;
     public final Tuple<Integer, Integer> grid_position;
     public RegistryKey<World> exterior_dimension;
+
+    public BlockPos console_position;
     public final UUID owner;
 
     public final UUID tardisID;
