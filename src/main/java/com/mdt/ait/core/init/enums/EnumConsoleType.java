@@ -9,8 +9,6 @@ public enum EnumConsoleType implements IStringSerializable {
 
     DEV_CONSOLE("dev_console", ConsoleTileEntity::new),
     TEST_CONSOLE("test_console", ConsoleTileEntity::new);
-    //MINT_BOX("mint_box", TardisTileEntity::new),
-    //CORAL_BOX("coral_box",TardisTileEntity::new);
 
     public final Supplier<ConsoleTileEntity> tileEntity;
     public final String name;

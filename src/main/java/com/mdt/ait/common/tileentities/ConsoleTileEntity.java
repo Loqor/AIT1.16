@@ -11,6 +11,14 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import com.mdt.ait.common.blocks.ConsoleBlock;
+import com.mdt.ait.core.init.AITItems;
+
 
 import javax.annotation.Nonnull;
 
@@ -24,6 +32,8 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     public EnumConsoleType getNextConsole() {
         switch (currentconsole) {
             case DEV_CONSOLE:
+                return EnumConsoleType.TEST_CONSOLE;
+            case TEST_CONSOLE:
                 return EnumConsoleType.DEV_CONSOLE;
         }
         return EnumConsoleType.DEV_CONSOLE;
@@ -51,6 +61,16 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     public void load(BlockState pState, CompoundNBT nbt) {
         this.currentconsole = EnumConsoleType.values()[nbt.getInt("currentconsole")];
         super.load(pState, nbt);
+    }
+
+    public void useOnConsole(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        Item item = playerentity.getMainHandItem().getItem();
+
+        if (block instanceof ConsoleBlock && item == AITItems.TENNANT_SONIC.get()) {
+            currentconsole = getNextConsole();
+            syncToClient();
+        }
     }
 
     @Override

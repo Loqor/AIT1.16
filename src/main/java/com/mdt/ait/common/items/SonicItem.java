@@ -4,6 +4,7 @@ import com.mdt.ait.client.models.tileentities.Typewriter;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.blocks.TestBlock;
 import com.mdt.ait.common.blocks.TypewriterBlock;
+import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
@@ -34,6 +35,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import org.apache.logging.log4j.core.jmx.Server;
+import com.mdt.ait.common.blocks.ConsoleBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -112,6 +114,15 @@ public class SonicItem extends Item {
 //            System.out.println("Idk if this is working or not");
 //            return ActionResultType.sidedSuccess(world.isClientSide());
 //        }
+
+        if (block instanceof ConsoleBlock && playerentity.isCrouching()) {
+            TileEntity tileEntity = world.getBlockEntity(blockpos);
+            if(tileEntity instanceof ConsoleTileEntity) {
+                ((ConsoleTileEntity) tileEntity).useOnConsole(context, blockpos, blockstate, block);
+            }
+            System.out.println("Idk if this is working or not");
+            return ActionResultType.sidedSuccess(world.isClientSide());
+        }
 
         if (block instanceof DoorBlock) {
             world.setBlock(blockpos, blockstate.setValue(OPEN, !blockstate.getValue(OPEN)), 10);

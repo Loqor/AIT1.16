@@ -96,6 +96,7 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CORAL_BOX, CoralExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
+        TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);
     }
 
 }
