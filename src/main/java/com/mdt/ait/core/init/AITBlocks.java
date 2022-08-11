@@ -20,6 +20,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
 
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
+    public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console", ConsoleBlock::new);
     public static final RegistryObject<Block> TSV_BLOCK = BLOCKS.register("tsv", TSVBlock::new);
     public static final RegistryObject<Block> TYPEWRITER_BLOCK = BLOCKS.register("typewriter", TypewriterBlock::new);
     public static final RegistryObject<Block> RAMP_BLOCK = BLOCKS.register("ramp", RampBlock::new);

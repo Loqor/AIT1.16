@@ -2,15 +2,18 @@ package com.mdt.ait.client;
 
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.client.models.consoles.DevConsole;
 import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mdt.ait.client.models.exteriors.CoralExterior;
 import com.mdt.ait.client.models.exteriors.MintExterior;
 import com.mdt.ait.client.renderers.AITRenderTypes;
+import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.BasicInteriorDoorRenderer;
 import com.mdt.ait.client.renderers.tileentities.RampRenderer;
 import com.mdt.ait.client.renderers.tileentities.TSVRenderer;
 import com.mdt.ait.client.renderers.tileentities.TypewriterRenderer;
+import com.mdt.ait.core.init.enums.EnumConsoleType;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
@@ -30,6 +33,7 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = AIT.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AITClientRegistry {
     public static final EnumMap<EnumExteriorType, Supplier<EntityModel<Entity>>> TARDIS_EXTERIOR_MAP = new EnumMap<>(EnumExteriorType.class);
+    public static final EnumMap<EnumConsoleType, Supplier<EntityModel<Entity>>> TARDIS_CONSOLE_MAP = new EnumMap<>(EnumConsoleType.class);
 
     @SubscribeEvent
     public static void register(FMLClientSetupEvent event) {
@@ -85,10 +89,13 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE.get(), BasicInteriorDoorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.RAMP_TILE_ENTITY_TYPE.get(), RampRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TYPEWRITER_TILE_ENTITY_TYPE.get(), TypewriterRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.CONSOLE_TILE_ENTITY_TYPE.get(), BasicConsoleRenderer::new);
 
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CORAL_BOX, CoralExterior::new);
+
+        TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
     }
 
 }

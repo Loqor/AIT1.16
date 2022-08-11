@@ -28,10 +28,12 @@ public class AITItems {
     public static final RegistryObject<DevTool> DEV_TOOL = ITEMS.register(
             "dev_tool", () -> new DevTool(new Item.Properties().tab(AITItemGroups.AITITEMS))
     );
-
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
                     AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> CONSOLE = ITEMS.register(
+            "console", () -> new BlockItem(
+                    AITBlocks.CONSOLE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> TSV = ITEMS.register(
             "tsv", () -> new BlockItem(
                     AITBlocks.TSV_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
