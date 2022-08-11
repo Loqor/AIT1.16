@@ -31,8 +31,8 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
                     AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
-    public static final RegistryObject<BlockItem> CONSOLE = ITEMS.register(
-            "console", () -> new BlockItem(
+    public static final RegistryObject<BlockItem> CONSOLE_BLOCK = ITEMS.register(
+            "console_block", () -> new BlockItem(
                     AITBlocks.CONSOLE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> TSV = ITEMS.register(
             "tsv", () -> new BlockItem(
