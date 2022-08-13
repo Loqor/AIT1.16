@@ -39,7 +39,7 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
         EnumConsoleType console = EnumConsoleType.values()[tile.serializeNBT().getInt("currentconsole")];
         int consoletype = tile.serializeNBT().getInt("currentconsole");
         MatrixStackIn.pushPose();
-        if (console.getSerializedName().equals("dev_console") && consoletype == 0) {
+        /*if (console.getSerializedName().equals("dev_console") && consoletype == 0) {
             this.model = new DevConsole();
             this.texture = LOCATION;
             MatrixStackIn.pushPose();
@@ -62,16 +62,14 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));
             model.render(tile, MatrixStackIn, Buffer.getBuffer(RenderType.cutoutMipped()), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
-        }
+        }*/
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(90.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));
-        /*float alpha = 1.0F;
-        if(tile.getMatState() != EnumMatState.SOLID){
-        }*/
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(RenderType.cutoutMipped()), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(RenderType.entityCutout(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }
