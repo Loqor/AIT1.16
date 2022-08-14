@@ -1,17 +1,16 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITItems;
-import com.mdt.ait.core.init.AITSounds;
-import com.mdt.ait.core.init.AITTiles;
+import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,8 +52,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumDoorState previousstate = CLOSED;
     public UUID linked_tardis_id;
     public Tardis linked_tardis;
-    public EnumMatState matState = EnumMatState.SOLID;
+    protected EnumMatState matState = EnumMatState.SOLID;
     protected EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
+    public BasicInteriorDoorTile interior_door;
 
     public EnumExteriorType getNextExterior() {
         switch (currentexterior) {
@@ -63,6 +63,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             case MINT_BOX:
                 return EnumExteriorType.CORAL_BOX;
             case CORAL_BOX:
+                return EnumExteriorType.POSTER_BOX;
+            case POSTER_BOX:
                 return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;
@@ -70,12 +72,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public EnumMatState getNextMatState() {
         switch (matState) {
+            case SOLID:
+                return EnumMatState.DEMAT;
             case DEMAT:
                 return EnumMatState.REMAT;
             case REMAT:
                 return EnumMatState.SOLID;
-            case SOLID:
-                return EnumMatState.DEMAT;
         }
         return EnumMatState.SOLID;
     }
@@ -171,13 +173,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public ActionResultType useOn(World world, PlayerEntity playerentity, BlockPos blockpos, Hand hand) {
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
-        //MinecraftServer pepe = playerentity.getServer();
-        //ServerWorld world1 = pepe.getLevel(this.linked_tardis.interior_key);
-        //TileEntity interior_door = world1.getBlockEntity(linked_tardis.door_list.get(linked_tardis.door_list.size()-1));
-        //System.out.println(interior_door);
         if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
             this.setDoorState(this.getNextDoorState());
-            //((BasicInteriorDoorTile) interior_door).setDoorState(((BasicInteriorDoorTile) interior_door).getNextDoorState());
+            if(world.getBlockEntity(linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
+                this.interior_door.setDoorState(this.currentstate);
+                syncToClient();
+            }
             if (this.getNextDoorState() == FIRST)
                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             else
@@ -217,29 +218,31 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         }
     }
 
-//    public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-//        PlayerEntity playerentity = context.getPlayer();
-//        Item item = playerentity.getMainHandItem().getItem();
-//
-//        if (block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
-//            currentexterior = getNextExterior();
-//            syncToClient();
-//        }
-//    }
-//
-//    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-//        PlayerEntity playerentity = context.getPlayer();
-//        Item item = playerentity.getMainHandItem().getItem();
-//        if (block instanceof TardisBlock && item == AITItems.DEMATTER_STICK.get()) {
-//            matState = getNextMatState();
-//            syncToClient();
-//        }
-//    }
+    public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        Item item = playerentity.getMainHandItem().getItem();
+
+        if (block instanceof TardisBlock && item == AITItems.TENNANT_SONIC.get()) {
+            currentexterior = getNextExterior();
+            syncToClient();
+        }
+    }
+
+    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        Item item = playerentity.getMainHandItem().getItem();
+
+        if (block instanceof TardisBlock && item == AITItems.DEMATTER_STICK.get()) {
+            matState = getNextMatState();
+            syncToClient();
+        }
+    }
 
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
+        this.matState = EnumMatState.values()[nbt.getInt("matState")];
 
         this.linked_tardis_id = nbt.getUUID("tardisUUID");
         if (level != null) {
@@ -260,6 +263,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("currentexterior", this.currentexterior.ordinal());
         nbt.putInt("currentstate", this.currentstate.ordinal());
+        nbt.putInt("matState", this.matState.ordinal());
         if (this.linked_tardis_id != null) {
             nbt.putUUID("tardisUUID", this.linked_tardis_id);
         }

@@ -2,7 +2,7 @@ package com.mdt.ait.core.init.enums;
 
 public enum EnumMatState {
 
-    REMAT,
+    SOLID,
     DEMAT,
-    SOLID
+    REMAT
 }

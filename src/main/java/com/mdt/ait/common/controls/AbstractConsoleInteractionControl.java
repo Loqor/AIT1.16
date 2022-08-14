@@ -1,4 +1,4 @@
-package com.mdt.ait.common.controls;
+/*package com.mdt.ait.common.controls;
 
 
 import com.mdt.ait.common.entities.ControlInteractionEntity;
@@ -20,13 +20,13 @@ import net.minecraftforge.entity.PartEntity;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public abstract class AbstractConsoleInteractionControl extends Entity implements INBTSerializable<CompoundNBT> {
+public abstract class AbstractConsoleInteractionControl implements INBTSerializable<CompoundNBT> {
 
     EnumConsoleInteractionEntityType control_type;
     public UUID control_id;
 
-    public AbstractConsoleInteractionControl(EntityType<?> p_i48580_1_, World p_i48580_2_) {
-        super(p_i48580_1_, p_i48580_2_);
+    public AbstractConsoleInteractionControl() {
+        super();
     }
 
     public EntitySize getSize() {
@@ -51,34 +51,8 @@ public abstract class AbstractConsoleInteractionControl extends Entity implement
 
     public abstract ControlInteractionEntity getEntity();
 
-    @Override
-    protected void defineSynchedData() {
-
-    }
-
-    @Override
-    protected void readAdditionalSaveData(CompoundNBT pCompound) {
-
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundNBT pCompound) {
-
-    }
-
-    @Override
-    public IPacket<?> getAddEntityPacket() {
-        return null;
-    }
-
-    @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
-        return null;
-    }
-
     @Nullable
-    @Override
     public PartEntity<?>[] getParts() {
         return new PartEntity[0];
     }
-}
+}*/

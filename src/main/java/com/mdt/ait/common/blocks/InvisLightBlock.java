@@ -9,7 +9,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 
 import java.util.function.ToIntFunction;
 
-public class InvisLightBlock extends BarrierBlock{
+public class InvisLightBlock extends BarrierBlock {
 
     public InvisLightBlock() {
 

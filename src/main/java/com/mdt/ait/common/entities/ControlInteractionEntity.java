@@ -1,4 +1,4 @@
-package com.mdt.ait.common.entities;
+/*package com.mdt.ait.common.entities;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -31,4 +31,4 @@ public class ControlInteractionEntity extends Entity {
     public IPacket<?> getAddEntityPacket() {
         return null;
     }
-}
+}*/

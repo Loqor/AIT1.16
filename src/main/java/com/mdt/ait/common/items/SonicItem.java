@@ -50,19 +50,19 @@ public class SonicItem extends Item {
     private static final Integer REDSTONE_COOLDOWN_TIME = 10;
     public EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
 
-//    public EnumExteriorType getNextExterior() {
-//        switch (currentexterior) {
-//            case BASIC_BOX:
-//                return EnumExteriorType.MINT_BOX;
-//            case MINT_BOX:
-//                return EnumExteriorType.BASIC_BOX;
-//        }
-//        return EnumExteriorType.BASIC_BOX;
-//    }
-//
-//    public void setExterior(EnumExteriorType exterior) {
-//        this.currentexterior = exterior;
-//    }
+    public EnumExteriorType getNextExterior() {
+        switch (currentexterior) {
+            case BASIC_BOX:
+                return EnumExteriorType.MINT_BOX;
+            case MINT_BOX:
+                return EnumExteriorType.BASIC_BOX;
+        }
+        return EnumExteriorType.BASIC_BOX;
+    }
+
+    public void setExterior(EnumExteriorType exterior) {
+        this.currentexterior = exterior;
+    }
 
     public SonicItem(Properties tab) {
         super(new Item.Properties().stacksTo(1).tab(AITItemGroups.AITITEMS));
@@ -106,23 +106,22 @@ public class SonicItem extends Item {
             world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
-//        if (block instanceof TardisBlock && playerentity.isCrouching()) {
-//            TileEntity tileEntity = world.getBlockEntity(blockpos);
-//            if(tileEntity instanceof TardisTileEntity) {
-//                ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
-//            }
-//            System.out.println("Idk if this is working or not");
-//            return ActionResultType.sidedSuccess(world.isClientSide());
-//        }
-
-        if (block instanceof ConsoleBlock && playerentity.isCrouching()) {
+        if (block instanceof TardisBlock && playerentity.isCrouching()) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if(tileEntity instanceof ConsoleTileEntity) {
-                ((ConsoleTileEntity) tileEntity).useOnConsole(context, blockpos, blockstate, block);
+            if(tileEntity instanceof TardisTileEntity) {
+                ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
             }
-            System.out.println("Idk if this is working or not");
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
+
+        //if (block instanceof ConsoleBlock && playerentity.isCrouching()) {
+        //    TileEntity tileEntity = world.getBlockEntity(blockpos);
+        //    if(tileEntity instanceof ConsoleTileEntity) {
+        //        ((ConsoleTileEntity) tileEntity).useOnConsole(context, blockpos, blockstate, block);
+        //    }
+        //    System.out.println("Idk if this is working or not");
+        //    return ActionResultType.sidedSuccess(world.isClientSide());
+        //}
 
         if (block instanceof DoorBlock) {
             world.setBlock(blockpos, blockstate.setValue(OPEN, !blockstate.getValue(OPEN)), 10);

@@ -2,8 +2,8 @@
   "credit": "Made by Loqor",
   "parent" : "block/cube_all",
   "textures": {
-    "0": "ait:block/console",
-    "particle": "ait:block/console"
+    "0": "ait:block/console_block",
+    "particle": "ait:consoles/dev_console"
   },
   "elements": [
     {

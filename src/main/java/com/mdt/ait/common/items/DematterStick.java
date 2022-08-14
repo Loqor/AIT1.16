@@ -17,20 +17,20 @@ public class DematterStick extends Item {
         super(p_i48487_1_);
     }
 
-//    @Override
-//    public ActionResultType useOn(ItemUseContext context) {
-//        PlayerEntity playerentity = context.getPlayer();
-//        World world = playerentity.level;
-//        BlockPos blockpos = context.getClickedPos();
-//        BlockState blockstate = world.getBlockState(blockpos);
-//        Block block = blockstate.getBlock();
-//
-//        if (block instanceof TardisBlock && playerentity.isCrouching()) {
-//            TileEntity tileEntity = world.getBlockEntity(blockpos);
-//            if (tileEntity instanceof TardisTileEntity) {
-//                ((TardisTileEntity) tileEntity).DematTardis(context, blockpos, blockstate, block);
-//            }
-//        }
-//        return ActionResultType.SUCCESS;
-//    }
+    @Override
+    public ActionResultType useOn(ItemUseContext context) {
+        PlayerEntity playerentity = context.getPlayer();
+        World world = playerentity.level;
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockstate = world.getBlockState(blockpos);
+        Block block = blockstate.getBlock();
+
+        if (block instanceof TardisBlock && playerentity.isCrouching()) {
+            TileEntity tileEntity = world.getBlockEntity(blockpos);
+            if (tileEntity instanceof TardisTileEntity) {
+                ((TardisTileEntity) tileEntity).DematTardis(context, blockpos, blockstate, block);
+            }
+        }
+        return ActionResultType.SUCCESS;
+    }
 }

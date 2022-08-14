@@ -20,11 +20,13 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
     private ResourceLocation texture;
     public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_tardis_exterior.png");
+    public static final ResourceLocation POSTER_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/secret_smith_poster_box.png");
     public static final ResourceLocation MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_exterior.png");
     public static final ResourceLocation CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_exterior.png");
     public static final ResourceLocation BASIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_tardis_emission.png");
     public static final ResourceLocation MINT_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_emission.png");
     public static final ResourceLocation CORAL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_tardis_emission.png");
+    public static final ResourceLocation POSTER_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/secret_smith_poster_box_emission.png");
     public BasicBox model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -34,11 +36,11 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         this.rendererDispatcher = rendererDispatcherIn;
         this.texture = LOCATION;
     }
-    @Override
-    public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+
+    public void theRealRenderer(TardisTileEntity tile, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay, float alpha) {
+        MatrixStackIn.pushPose();
         EnumExteriorType exterior = EnumExteriorType.values()[tile.serializeNBT().getInt("currentexterior")];
         int exteriortype = tile.serializeNBT().getInt("currentexterior");
-        MatrixStackIn.pushPose();
         if (exterior.getSerializedName().equals("basic_box") && exteriortype == 0) {
             this.model = new BasicBox();
             this.texture = LOCATION;
@@ -81,15 +83,39 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CORAL_LM_LOCATION, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
+        if (exterior.getSerializedName().equals("poster_box") && exteriortype == 3) {
+            this.model = new BasicBox();
+            this.texture = POSTER_LOCATION;
+            this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            MatrixStackIn.pushPose();
+            MatrixStackIn.translate(0.5, 0, 0.5);
+            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
+            MatrixStackIn.translate(0, 1.4949f, 0);
+            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(POSTER_LM_LOCATION, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            MatrixStackIn.popPose();
+        }
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-        /*float alpha = 1.0F;
-        if(tile.getMatState() != EnumMatState.SOLID){
-        }*/
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
+    }
+
+    @Override
+    public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+        EnumMatState materialState = EnumMatState.values()[tile.serializeNBT().getInt("matState")];
+        int mattype = tile.serializeNBT().getInt("matState");
+        if(materialState == EnumMatState.SOLID) {
+            this.theRealRenderer(tile, MatrixStackIn, Buffer, CombinedLight, CombinedOverlay, 1.0F);
+        } else if (materialState == EnumMatState.DEMAT) {
+            this.theRealRenderer(tile, MatrixStackIn, Buffer, CombinedLight, CombinedOverlay, 0.5F);
+        } else if (materialState == EnumMatState.REMAT) {
+            this.theRealRenderer(tile, MatrixStackIn, Buffer, CombinedLight, CombinedOverlay, 0.25F);
+        }
     }
 }

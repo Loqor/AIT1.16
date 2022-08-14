@@ -8,8 +8,6 @@ import net.minecraft.state.properties.BlockStateProperties;
 
 public class InvisBlock extends BarrierBlock {
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
     public InvisBlock() {
         super(Properties.of(Material.HEAVY_METAL).strength(15.0f).noOcclusion().instabreak());
     }

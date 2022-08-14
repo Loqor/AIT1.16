@@ -1,7 +1,9 @@
 package com.mdt.ait.common.tileentities;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -24,8 +26,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nonnull;
+
+import java.util.UUID;
 
 import static com.mdt.ait.common.blocks.BasicInteriorDoorBlock.FACING;
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
@@ -35,11 +41,10 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 
     public float leftDoorRotation = 0;
     public float rightDoorRotation = 0;
+    public TardisTileEntity tardistile;
+    public Tardis linked_exterior;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
-
-
-    public Tardis linked_tardis;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);
@@ -103,20 +108,18 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     private void entityInside(Entity entity) {
-        World world = entity.level;
-        BlockState blockstate = world.getBlockState(getBlockPos());
-        if(!world.isClientSide()) {
+        /*World world = entity.level;
+        if (!world.isClientSide()) {
             if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
-                //MinecraftServer server = entity.getServer();
-                //ServerWorld exteriorWorld = server.getLevel(linked_interior.exterior_dim.get(1));
-                //if(exteriorWorld != null) {System.out.println("YOU\'RE TOUCHING ME AHHHHHHHH INSIDE");}
-                //ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, new BlockPos(linked_interior.exterior_position.getX() + 1,linked_interior.exterior_position.getY(), linked_interior.exterior_position.getZ()), 0, 0, true, true);
-                //((ServerPlayerEntity) entity).teleportTo(exteriorWorld, linked_interior.getCurrentLocation().getBlockPosition().getX() + 1, linked_interior.getCurrentLocation().getBlockPosition().getY(), linked_interior.getCurrentLocation().getBlockPosition().getZ(), entity.yRot, entity.xRot);
-                //entity.moveTo(tardis.exterior_position.getX(), tardis.exterior_position.getY(), tardis.exterior_position.getZ());
-                System.out.println("ServerPlayerEntity stuff");
-                syncToClient();
+                ServerWorld tardis_exterior_world = AIT.server.getLevel(linked_exterior.exterior_dimension);
+                if (tardis_exterior_world != null) {
+                    ForgeChunkManager.forceChunk(tardis_exterior_world, AIT.MOD_ID, linked_exterior.exterior_position, 0, 0, true, true);
+
+                    ((ServerPlayerEntity) entity).teleportTo(tardis_exterior_world, linked_exterior.exterior_position.getX(), linked_exterior.exterior_position.getY(), linked_exterior.exterior_position.getZ(), linked_exterior.exterior_facing.getOpposite().toYRot(), entity.xRot);
+                    syncToClient();
+                }
             }
-        }
+        }*/
     }
 
     private VoxelShape getTardisInteriorDoorCollider(BlockState blockstate) {
@@ -143,7 +146,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-            //this.setDoorState(this.getNextDoorState());
+            this.setDoorState(this.getNextDoorState());
             if (this.getNextDoorState() == FIRST)
                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             else
@@ -156,35 +159,34 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 
 
     @Override public void load(BlockState pState, CompoundNBT nbt) {
-        currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
+        this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
         leftDoorRotation = nbt.getFloat("leftDoorRotation");
         rightDoorRotation = nbt.getFloat("rightDoorRotation");
         super.load(pState, nbt);
     }
     @Override public CompoundNBT save(CompoundNBT nbt) {
-        nbt.putInt("currentstate", currentstate.ordinal());
-        nbt.putFloat("leftDoorRotation", leftDoorRotation);
-        nbt.putFloat("rightDoorRotation", rightDoorRotation);
+        nbt.putInt("currentstate", this.currentstate.ordinal());
+        nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
+        nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
         return super.save(nbt);
     }
 
-    @Override @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
-    }
-    @Override public SUpdateTileEntityPacket getUpdatePacket() {
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
         return new SUpdateTileEntityPacket(worldPosition, 0, save(new CompoundNBT()));
     }
-    @Override public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         load(getBlockState(), packet.getTag());
     }
 
     public void syncToClient() {
+        assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
-
     public void onListAdd(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
    //     if(common_event.active == true) {
    //         linked_interior.door_list.add(bpos);
