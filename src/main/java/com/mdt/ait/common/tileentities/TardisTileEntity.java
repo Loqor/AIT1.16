@@ -210,8 +210,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 if (tardis_world != null) {
                     ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
-
-                    ((ServerPlayerEntity) entity).teleportTo(tardis_world, linked_tardis.interiorTeleportPos.getX(), linked_tardis.interiorTeleportPos.getY(), linked_tardis.interiorTeleportPos.getZ(), linked_tardis.interior_door_facing.getOpposite().toYRot(), entity.xRot);
+                    linked_tardis.teleportToInterior((PlayerEntity) entity);
                     syncToClient();
                 }
             }

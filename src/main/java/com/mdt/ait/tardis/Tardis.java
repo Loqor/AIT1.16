@@ -3,12 +3,16 @@ package com.mdt.ait.tardis;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -28,8 +32,6 @@ public class Tardis {
     public Direction exterior_facing;
     public Direction interior_door_facing;
     public final BlockPos center_position;
-
-    public BlockPos interiorTeleportPos;
     public TardisInterior currentInterior;
     public final Tuple<Integer, Integer> grid_position;
     public RegistryKey<World> exterior_dimension;
@@ -53,21 +55,8 @@ public class Tardis {
             this.exterior_facing = exteriorBlockState.getValue(TardisBlock.FACING);
         }
         this.generateInterior();
-        this.interiorTeleportPos = this.interior_door_position;
-        switch (interior_door_facing.toString()) {
-            case "north": {
-                this.interiorTeleportPos.south(1);
-            }
-            case "south": {
-                this.interiorTeleportPos.north(1);
-            }
-            case "east": {
-                this.interiorTeleportPos.west(1);
-            }
-            case "west": {
-                this.interiorTeleportPos.east(1);
-            }
-        }
+//        this.interiorTeleportPos = this.interior_door_position.relative(interior_door_facing.getOpposite(), 1);
+
     }
 
     private void generateInterior() {
@@ -80,6 +69,66 @@ public class Tardis {
         BlockState interiorDoorBlockState = Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockState(interior_door_position);
         if (interiorDoorBlockState.getBlock() instanceof BasicInteriorDoorBlock) {
             this.interior_door_facing = interiorDoorBlockState.getValue(BasicInteriorDoorBlock.FACING);
+            TileEntity interiorDoorTileEntity = tardisWorld.getBlockEntity(this.interior_door_position);
+            if (interiorDoorTileEntity instanceof BasicInteriorDoorTile) {
+                ((BasicInteriorDoorTile) interiorDoorTileEntity).linked_exterior = this;
+            }
+        }
+    }
+
+    public void teleportToInterior(PlayerEntity playerEntity) {
+        if (playerEntity instanceof ServerPlayerEntity) {
+            ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+            switch (this.interior_door_facing.getOpposite().toString()) {
+                case "north": {
+                    System.out.println("north");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "south": {
+                    System.out.println("south");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "east": {
+                    System.out.println("east");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "west": {
+                    System.out.println("west");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void teleportToExterior(PlayerEntity playerEntity) {
+        if (playerEntity instanceof ServerPlayerEntity) {
+            ServerWorld target_world = AIT.server.getLevel(this.exterior_dimension);
+            switch (this.exterior_facing.toString()) {
+                case "north": {
+                    System.out.println("north");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() - 1, exterior_facing.toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "south": {
+                    System.out.println("south");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 1, exterior_facing.toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "east": {
+                    System.out.println("east");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 1, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    break;
+                }
+                case "west": {
+                    System.out.println("west");
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 1, this.exterior_position.getY(), this.exterior_position.getZ() - 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    break;
+                }
+            }
         }
     }
 
@@ -94,21 +143,6 @@ public class Tardis {
         this.exterior_facing = Direction.byName(tag.getString("exterior_facing"));
         this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.interior_door_facing = Direction.byName(tag.getString("interior_door_facing"));
-        this.interiorTeleportPos = this.interior_door_position;
-        switch (interior_door_facing.toString()) {
-            case "north": {
-                this.interiorTeleportPos.south(1);
-            }
-            case "south": {
-                this.interiorTeleportPos.north(1);
-            }
-            case "east": {
-                this.interiorTeleportPos.west(1);
-            }
-            case "west": {
-                this.interiorTeleportPos.east(1);
-            }
-        }
 
     }
 
