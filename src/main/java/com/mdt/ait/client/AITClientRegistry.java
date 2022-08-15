@@ -3,6 +3,7 @@ package com.mdt.ait.client;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.consoles.DevConsole;
+import com.mdt.ait.client.models.exteriors.BakerExterior;
 import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mdt.ait.client.models.exteriors.CoralExterior;
 import com.mdt.ait.client.models.exteriors.MintExterior;
@@ -94,6 +95,8 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CORAL_BOX, CoralExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.POSTER_BOX, BasicBox::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BAKER_BOX, BakerExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);

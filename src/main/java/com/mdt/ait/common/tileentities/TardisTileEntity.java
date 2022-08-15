@@ -1,7 +1,6 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -10,7 +9,6 @@ import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,14 +25,13 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.mdt.ait.common.blocks.TardisBlock.FACING;
@@ -55,6 +52,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     protected EnumMatState matState = EnumMatState.SOLID;
     protected EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
     public BasicInteriorDoorTile interior_door;
+    private float alpha = 1;
+    private int ticks, pulses;
+    private int run_once = 0;
 
     public EnumExteriorType getNextExterior() {
         switch (currentexterior) {
@@ -65,6 +65,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             case CORAL_BOX:
                 return EnumExteriorType.POSTER_BOX;
             case POSTER_BOX:
+                return EnumExteriorType.BAKER_BOX;
+            case BAKER_BOX:
                 return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;
@@ -99,8 +101,63 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         return new AxisAlignedBB(worldPosition).inflate(50, 50, 50);
     }
 
+    public float getAlpha() {
+        return alpha;
+    }
+
     @Override
     public void tick() {
+        EnumMatState materialState = EnumMatState.values()[this.serializeNBT().getInt("matState")];
+        int mattype = this.serializeNBT().getInt("matState");
+        if(materialState == EnumMatState.DEMAT) {
+            //System.out.println("uh, is this working at all? " + materialState);
+            if (ticks % 60 < 30) {
+                if (pulses <= 2)
+                    this.alpha -= 0.01;
+                else this.alpha -= 0.02;
+            } else {
+                this.alpha += 0.01;
+            }
+
+            if (ticks % 60 == 0)
+                ++this.pulses;
+
+            ++ticks;
+            if (ticks >= 255) {
+                if (!level.isClientSide) {
+                    level.removeBlock(worldPosition, false);
+                }
+            }
+            if(run_once == 0) {
+                iDontKnow();
+                run_once = 1;
+            }
+        } /*else if(materialState == EnumMatState.REMAT) {
+            //System.out.println("uh, is this working at all? " + materialState);
+            if (ticks % 60 < 30) {
+                if (pulses <= 2)
+                    this.alpha -= 0.01;
+                else this.alpha -= 0.02;
+            } else {
+                this.alpha += 0.01;
+            }
+            if (ticks % 60 == 0)
+                ++this.pulses;
+            ++ticks;
+            //if (ticks >= 360) {
+            //    //if (!level.isClientSide) {
+            //    //    level.setBlockAndUpdate(worldPosition, getBlockState());
+            //    //}
+            //    matState = getNextMatState();
+            //}
+        }*/
+        if(materialState == EnumMatState.SOLID) {
+            //System.out.println("uh, is this working at all? " + materialState);
+            this.alpha = 1;
+            ticks = 0;
+            run_once = 0;
+        }
+
         //System.out.println(previousstate + " " + currentState() + " " + getNextDoorState());
         if (currentState() != previousstate) {
             rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
@@ -126,6 +183,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
         }
         previousstate = currentState();
+    }
+
+    public void iDontKnow() {
+        level.playSound(null, worldPosition, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 1.0F, 1.0F);
     }
 
     public void setDoorState(EnumDoorState state) {

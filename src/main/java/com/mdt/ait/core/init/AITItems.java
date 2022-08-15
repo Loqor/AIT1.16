@@ -4,16 +4,13 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.items.DematterStick;
 import com.mdt.ait.common.items.DevTool;
 import com.mdt.ait.common.items.SonicItem;
+import com.mdt.ait.common.items.TARDISKey;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
-import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.imageio.spi.RegisterableService;
 
 public class AITItems {
 
@@ -21,6 +18,9 @@ public class AITItems {
 
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(
             "tennant_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    public static final RegistryObject<TARDISKey> GOLDEN_TARDIS_KEY = ITEMS.register(
+            "golden_tardis_key", () -> new TARDISKey(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
             "dematter_stick", () -> new DematterStick(new Item.Properties().tab(AITItemGroups.AITITEMS)));

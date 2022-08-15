@@ -67,7 +67,7 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		box.render(matrixStack, buffer, packedLight, packedOverlay);
+		box.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -77,6 +77,6 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 	}
 
 	public void render(TardisTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
-		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1);
+		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, tile.getAlpha());
 	}
 }

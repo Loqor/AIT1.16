@@ -2,6 +2,7 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
+import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
@@ -12,6 +13,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;

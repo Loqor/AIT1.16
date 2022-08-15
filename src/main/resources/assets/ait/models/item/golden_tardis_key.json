@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ait:item/dev_tool"
+    "layer0": "ait:item/golden_tardis_key"
   }
 }
