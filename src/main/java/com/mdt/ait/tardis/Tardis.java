@@ -110,22 +110,22 @@ public class Tardis {
             switch (this.exterior_facing.toString()) {
                 case "north": {
                     System.out.println("north");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() - 2, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() - 1, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "south": {
                     System.out.println("south");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 2, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 1, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "east": {
                     System.out.println("east");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 2, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 1, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "west": {
                     System.out.println("west");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 2, this.exterior_position.getY(), this.exterior_position.getZ() - 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 1, this.exterior_position.getY(), this.exterior_position.getZ() - 0.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
             }

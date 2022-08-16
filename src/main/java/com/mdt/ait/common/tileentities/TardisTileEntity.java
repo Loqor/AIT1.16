@@ -55,6 +55,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     private float alpha = 1;
     private int ticks, pulses;
     private int run_once = 0;
+    private int run_once_remat = 0;
 
     public EnumExteriorType getNextExterior() {
         switch (currentexterior) {
@@ -110,6 +111,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         EnumMatState materialState = EnumMatState.values()[this.serializeNBT().getInt("matState")];
         int mattype = this.serializeNBT().getInt("matState");
         if(materialState == EnumMatState.DEMAT) {
+            this.currentstate = EnumDoorState.CLOSED;
             //System.out.println("uh, is this working at all? " + materialState);
             if (ticks % 60 < 30) {
                 if (pulses <= 2)
@@ -123,7 +125,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 ++this.pulses;
 
             ++ticks;
-            if (ticks >= 255) {
+            if (ticks >= 257) {
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
                 }
@@ -132,30 +134,34 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 iDontKnow();
                 run_once = 1;
             }
-        } /*else if(materialState == EnumMatState.REMAT) {
+        }
+        if(materialState == EnumMatState.REMAT) {
             //System.out.println("uh, is this working at all? " + materialState);
             if (ticks % 60 < 30) {
-                if (pulses <= 2)
-                    this.alpha -= 0.01;
-                else this.alpha -= 0.02;
+                if (pulses >= 1.25)
+                    this.alpha += 0.01;
+                else this.alpha += 0.02;
             } else {
-                this.alpha += 0.01;
+                this.alpha -= 0.01;
             }
             if (ticks % 60 == 0)
                 ++this.pulses;
             ++ticks;
-            //if (ticks >= 360) {
-            //    //if (!level.isClientSide) {
-            //    //    level.setBlockAndUpdate(worldPosition, getBlockState());
-            //    //}
-            //    matState = getNextMatState();
-            //}
-        }*/
+            if (ticks >= 180) {
+                matState = EnumMatState.SOLID;
+            }
+            if(run_once_remat == 0) {
+                iDontKnowRemat();
+                run_once_remat = 1;
+            }
+        }
         if(materialState == EnumMatState.SOLID) {
             //System.out.println("uh, is this working at all? " + materialState);
             this.alpha = 1;
             ticks = 0;
             run_once = 0;
+            pulses = 0;
+            run_once_remat = 0;
         }
 
         //System.out.println(previousstate + " " + currentState() + " " + getNextDoorState());
@@ -187,6 +193,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public void iDontKnow() {
         level.playSound(null, worldPosition, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 1.0F, 1.0F);
+    }
+
+    public void iDontKnowRemat() {
+        level.playSound(null, worldPosition, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 1.0F, 1.0F);
     }
 
     public void setDoorState(EnumDoorState state) {
@@ -262,7 +272,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
         }
         if (!world.isClientSide()) {
-            if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
+            if ((matState == EnumMatState.REMAT && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
                 if (linked_tardis == null) {
                     System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL"); // HOLY SHIT I FIXED IT
                     return;
@@ -354,20 +364,4 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
-
-    //public void onPlace(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-    //    if(currentstate != CLOSED) {
-    //        RegistryKey<World> world1 = world.dimension();
-    //        linked_tardis.exterior_dim.add(world1);
-    //        syncToClient();
-    //    }
-    //}
-
-    //public void onRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-    //    if(currentstate != CLOSED) {
-    //        RegistryKey<World> world1 = world.dimension();
-    //        linked_tardis.exterior_dim.remove(world1);
-    //        syncToClient();
-    //    }
-    //}
 }

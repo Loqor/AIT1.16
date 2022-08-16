@@ -29,4 +29,7 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<BasicInteriorDoorTile>> BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "interior_door",
             () -> TileEntityType.Builder.of(BasicInteriorDoorTile::new, AITBlocks.INTERIOR_DOOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<TardisCoralTile>> TARDIS_CORAL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "tardis_coral",
+            () -> TileEntityType.Builder.of(TardisCoralTile::new, AITBlocks.TARDIS_CORAL_BLOCK.get()).build(null));
 }

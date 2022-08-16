@@ -4,6 +4,7 @@ import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
 import net.minecraft.block.Block;

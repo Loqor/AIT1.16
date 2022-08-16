@@ -25,6 +25,8 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "typewriter_ding")));
     public static final RegistryObject<SoundEvent> TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_takeoff")));
+    public static final RegistryObject<SoundEvent> TARDIS_LANDING = SOUNDS.register("tardis_landing", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "tardis_landing")));
     public static final RegistryObject<SoundEvent> TARDIS_LOCK = SOUNDS.register("tardis_lock", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_lock")));
 }

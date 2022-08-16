@@ -76,7 +76,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("mint_box") && exteriortype == 1) {
