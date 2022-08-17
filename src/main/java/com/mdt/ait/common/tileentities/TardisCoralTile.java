@@ -66,7 +66,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         TardisManager tardisManager = AIT.tardisManager;
         TileEntity entity = level.getBlockEntity(worldPosition);
         ++ticks;
-        if(ticks == 37.5/*750*/) {
+        if(ticks == 37/*750*/) {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
@@ -74,7 +74,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
-        if(ticks == 112.5/*2250*/) {
+        if(ticks == 112/*2250*/) {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
@@ -82,7 +82,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
-        if(ticks == 187.5/*3750*/) {
+        if(ticks == 187/*3750*/) {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
@@ -90,8 +90,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
             this.coralState = getNextCoralState();
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
-        if(ticks == 262.5/*5250*/) {
-            this.coralState = getNextCoralState();
+        if(ticks == 262/*5250*/) {
             level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
         if (ticks >= 300/*6000*/) {  //6000 is 5 minutes
@@ -106,7 +105,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         tardisTileEntity.linked_tardis_id = tardis.tardisID;
                         tardisTileEntity.matState = EnumMatState.REMAT;
                         tardis.exterior_facing = facingDirection;
-                        tardisTileEntity.currentexterior = pickRandomExterior();
+                        tardisTileEntity.currentexterior = EnumExteriorType.TYPE_40_TT_CAPSULE;//pickRandomExterior();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -167,7 +166,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         return facingDirection;
     }
 
-    public EnumExteriorType pickRandomExterior() {
+    /*public EnumExteriorType pickRandomExterior() {
         return EnumExteriorType.values()[new Random().nextInt(EnumExteriorType.values().length)];
-    }
+    }*/
 }

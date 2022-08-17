@@ -136,7 +136,7 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        if(coralState == EnumCoralState.FOURTH) {model.bone.yRot = (float) Math.toRadians(spinny);}
+        if(coralState == EnumCoralState.SEVENTH) {model.bone.yRot = (float) Math.toRadians(spinny);}
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(coralStateLocation)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

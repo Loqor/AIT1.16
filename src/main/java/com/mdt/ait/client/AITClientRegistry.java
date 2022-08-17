@@ -3,14 +3,12 @@ package com.mdt.ait.client;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.consoles.DevConsole;
-import com.mdt.ait.client.models.exteriors.BakerExterior;
-import com.mdt.ait.client.models.exteriors.BasicBox;
-import com.mdt.ait.client.models.exteriors.CoralExterior;
-import com.mdt.ait.client.models.exteriors.MintExterior;
+import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
+import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.AITBlocks;
@@ -89,12 +87,14 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.TYPEWRITER_TILE_ENTITY_TYPE.get(), TypewriterRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.CONSOLE_TILE_ENTITY_TYPE.get(), BasicConsoleRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_CORAL_TILE_ENTITY_TYPE.get(), TardisCoralRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_LEVER_TILE_ENTITY_TYPE.get(), TardisLeverRenderer::new);
 
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CORAL_BOX, CoralExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.POSTER_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BAKER_BOX, BakerExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.TYPE_40_TT_CAPSULE, Type40TTCapsuleExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);

@@ -1,13 +1,11 @@
 package com.mdt.ait.client.renderers.tardis;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.exteriors.BakerExterior;
-import com.mdt.ait.client.models.exteriors.BasicBox;
-import com.mdt.ait.client.models.exteriors.CoralExterior;
-import com.mdt.ait.client.models.exteriors.MintExterior;
+import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -34,6 +32,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     public static final ResourceLocation MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_exterior.png");
     public static final ResourceLocation CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_exterior.png");
     public static final ResourceLocation BAKER_LOCATION  = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/baker_exterior.png");
+    public static final ResourceLocation TT40_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/type_40_tt_capsule_exterior.png");
     public static final ResourceLocation BASIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_tardis_emission.png");
     public static final ResourceLocation MINT_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_emission.png");
     public static final ResourceLocation CORAL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_tardis_emission.png");
@@ -139,7 +138,38 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BAKER_LM_LOCATION, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
+        if (exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5) {
+            this.model = new Type40TTCapsuleExterior();
+            this.texture = TT40_LOCATION;
+            MatrixStackIn.pushPose();
+            MatrixStackIn.translate(0.5, 0, 0.5);
+            MatrixStackIn.translate(0, 1.4949f, 0);
+            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
+            if(tile.currentState() == EnumDoorState.CLOSED) {
+                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = true;
+                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = true;
+                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = true;
+                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = true;
+            }
+            if(tile.currentState() == EnumDoorState.FIRST) {
+                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = true;
+                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = true;
+                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = false;
+                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = false;
+            }
+            if(tile.currentState() == EnumDoorState.BOTH) {
+                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = false;
+                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = false;
+                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = false;
+                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = false;
+            }
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
+            MatrixStackIn.popPose();
+        }
         MatrixStackIn.translate(0.5, 0, 0.5);
+        if(exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5)
+            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
         MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
