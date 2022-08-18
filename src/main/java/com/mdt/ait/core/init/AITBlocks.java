@@ -21,6 +21,7 @@ public class AITBlocks {
 
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
+    public static final RegistryObject<Block> ROUNDEL_FACE_BLOCK = BLOCKS.register("roundel_face", RoundelFaceBlock::new);
     public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console_block", ConsoleBlock::new);
     public static final RegistryObject<Block> TARDIS_CORAL_BLOCK = BLOCKS.register("tardis_coral", TardisCoralBlock::new);
     public static final RegistryObject<Block> TSV_BLOCK = BLOCKS.register("tsv", TSVBlock::new);

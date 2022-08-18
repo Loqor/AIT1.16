@@ -6,6 +6,7 @@
   "block.ait.basic_interior_door_block" : "Interior Doors",
   "block.ait.typewriter": "Typewriter",
   "block.ait.console_block": "Development Console",
+  "block.ait.roundel_face": "Dynamic Roundel Face",
   "itemGroup.Blocks": "AIT Blocks",
   "itemGroup.Items": "AIT Items",
   "itemGroup.Roundels": "AIT Roundels",

@@ -37,6 +37,9 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TARDIS_LEVER = ITEMS.register(
             "tardis_lever", () -> new BlockItem(
                     AITBlocks.TARDIS_LEVER_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> ROUNDEL_FACE = ITEMS.register(
+            "roundel_face", () -> new BlockItem(
+                    AITBlocks.ROUNDEL_FACE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> CONSOLE_BLOCK = ITEMS.register(
             "console_block", () -> new BlockItem(
                     AITBlocks.CONSOLE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));

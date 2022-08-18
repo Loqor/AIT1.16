@@ -88,6 +88,7 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.CONSOLE_TILE_ENTITY_TYPE.get(), BasicConsoleRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_CORAL_TILE_ENTITY_TYPE.get(), TardisCoralRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_LEVER_TILE_ENTITY_TYPE.get(), TardisLeverRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.ROUNDEL_FACE_TILE_ENTITY_TYPE.get(), RoundelFaceRenderer::new);
 
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);
@@ -95,6 +96,7 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.POSTER_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BAKER_BOX, BakerExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.TYPE_40_TT_CAPSULE, Type40TTCapsuleExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.HELLBENT_TT_CAPSULE, HellBentTTCapsuleExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);

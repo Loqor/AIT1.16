@@ -5,6 +5,8 @@ import com.mdt.ait.client.models.tileentities.TardisLever;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
+import com.mdt.ait.core.init.enums.EnumCoralState;
+import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -27,7 +29,10 @@ public class TardisLeverRenderer extends TileEntityRenderer<TardisLeverTile> {
 
     @Override
     public void render(TardisLeverTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+        //EnumLeverState leverState = EnumLeverState.values()[tile.serializeNBT().getInt("leverState")];
+        //int leverstatetype = tile.serializeNBT().getInt("leverState");
         MatrixStackIn.pushPose();
+        this.model.bone.xRot = (float) Math.toRadians(tile.leverPosition);
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);

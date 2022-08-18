@@ -70,6 +70,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             case BAKER_BOX:
                 return EnumExteriorType.TYPE_40_TT_CAPSULE;
             case TYPE_40_TT_CAPSULE:
+                return EnumExteriorType.HELLBENT_TT_CAPSULE;
+            case HELLBENT_TT_CAPSULE:
                 return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;

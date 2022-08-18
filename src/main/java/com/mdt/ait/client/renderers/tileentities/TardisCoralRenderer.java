@@ -46,11 +46,9 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
     public void render(TardisCoralTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         EnumCoralState coralState = EnumCoralState.values()[tile.serializeNBT().getInt("coralState")];
         int coralstatetype = tile.serializeNBT().getInt("coralState");
-        ++spinny;
         MatrixStackIn.pushPose();
         if(coralState == EnumCoralState.FIRST || coralState == EnumCoralState.FINAL) {
             this.coralStateLocation = ONE_TARDIS_CORAL_LOCATION;
-            spinny = 0;
         }
         if(coralState == EnumCoralState.SECOND) {
             this.coralStateLocation = TWO_TARDIS_CORAL_LOCATION;
@@ -119,7 +117,9 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
         }
         if(coralState == EnumCoralState.SEVENTH) {
             this.coralStateLocation = SEVEN_TARDIS_CORAL_LOCATION;
+            ++spinny;
             MatrixStackIn.pushPose();
+            //this.model.bone.yRot = (float) Math.toRadians(spinny);
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
             MatrixStackIn.translate(0, 1.4949f, 0);
@@ -136,7 +136,6 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        if(coralState == EnumCoralState.SEVENTH) {model.bone.yRot = (float) Math.toRadians(spinny);}
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(coralStateLocation)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

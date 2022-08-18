@@ -35,4 +35,7 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TardisLeverTile>> TARDIS_LEVER_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_lever",
             () -> TileEntityType.Builder.of(TardisLeverTile::new, AITBlocks.TARDIS_LEVER_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<RoundelFaceTile>> ROUNDEL_FACE_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "roundel_face",
+            () -> TileEntityType.Builder.of(RoundelFaceTile::new, AITBlocks.ROUNDEL_FACE_BLOCK.get()).build(null));
 }

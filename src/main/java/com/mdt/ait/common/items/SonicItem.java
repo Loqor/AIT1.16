@@ -1,10 +1,9 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.client.models.tileentities.Typewriter;
-import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.blocks.TestBlock;
-import com.mdt.ait.common.blocks.TypewriterBlock;
+import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
+import com.mdt.ait.common.tileentities.RoundelFaceTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
@@ -35,7 +34,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import org.apache.logging.log4j.core.jmx.Server;
-import com.mdt.ait.common.blocks.ConsoleBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -110,6 +108,14 @@ public class SonicItem extends Item {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if(tileEntity instanceof TardisTileEntity) {
                 ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
+            }
+            return ActionResultType.sidedSuccess(world.isClientSide());
+        }
+
+        if (block instanceof RoundelFaceBlock && playerentity.isCrouching()) {
+            TileEntity tileEntity = world.getBlockEntity(blockpos);
+            if(tileEntity instanceof RoundelFaceTile) {
+                ((RoundelFaceTile) tileEntity).useOnRoundelFace(context, blockpos, blockstate, block);
             }
             return ActionResultType.sidedSuccess(world.isClientSide());
         }

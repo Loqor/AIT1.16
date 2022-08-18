@@ -33,6 +33,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     public static final ResourceLocation CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_exterior.png");
     public static final ResourceLocation BAKER_LOCATION  = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/baker_exterior.png");
     public static final ResourceLocation TT40_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/type_40_tt_capsule_exterior.png");
+    public static final ResourceLocation HELLBENT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/hellbent_tt_capsule.png");
     public static final ResourceLocation BASIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_tardis_emission.png");
     public static final ResourceLocation MINT_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_emission.png");
     public static final ResourceLocation CORAL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/coral_tardis_emission.png");
@@ -57,11 +58,11 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         int exteriortype = tile.serializeNBT().getInt("currentexterior");
         EnumMatState materialState = EnumMatState.values()[tile.serializeNBT().getInt("matState")];
         int mattype = tile.serializeNBT().getInt("matState");
-        if(materialState != EnumMatState.SOLID) {
-            ++spinny;
-        } else if (materialState == EnumMatState.SOLID) {
-            spinny = 0;
-        }
+        //if(materialState != EnumMatState.SOLID) {
+        //    ++spinny;
+        //} else if (materialState == EnumMatState.SOLID) {
+        //    spinny = 0;
+        //}
         if (exterior.getSerializedName().equals("basic_box") && exteriortype == 0) {
             this.model = new BasicBox();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
@@ -126,7 +127,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new BakerExterior();
             this.texture = BAKER_LOCATION;
             this.BakerText(MatrixStackIn, Buffer, CombinedLight);
-            ((BakerExterior)this.model).lamp.yRot = (float) Math.toRadians(spinny);
+            //((BakerExterior)this.model).lamp.yRot = (float) Math.toRadians(spinny);
             ((BakerExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             ((BakerExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.pushPose();
@@ -167,9 +168,24 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
             MatrixStackIn.popPose();
         }
+        if (exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6) {
+            this.model = new HellBentTTCapsuleExterior();
+            this.texture = HELLBENT_LOCATION;
+            ((HellBentTTCapsuleExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            ((HellBentTTCapsuleExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            MatrixStackIn.pushPose();
+            MatrixStackIn.translate(0.5, 0, 0.5);
+            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.translate(0, 1.4949f, 0);
+            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
+            MatrixStackIn.popPose();
+        }
         MatrixStackIn.translate(0.5, 0, 0.5);
         if(exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5)
             MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
+        if(exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6)
+            MatrixStackIn.scale(1.25f, 1.25f, 1.25f);
         MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));

@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class TardisLever extends EntityModel<Entity> {
-	private final ModelRenderer bone;
-	private final ModelRenderer cube_r1;
-	private final ModelRenderer bb_main;
+	public final ModelRenderer bone;
+	public final ModelRenderer cube_r1;
+	public final ModelRenderer bb_main;
 
 	public TardisLever() {
 		texWidth = 64;
