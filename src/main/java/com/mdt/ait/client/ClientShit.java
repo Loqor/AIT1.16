@@ -9,6 +9,9 @@ public class ClientShit {
     public static void shit(BipedModel bipedModel, LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo callbackInfo) {
         if(livingEntity.getMainHandItem().getItem() == AITItems.COW_SKULL.get()){
             System.out.println("uhhh");
+            bipedModel.head.visible = false;
+            bipedModel.hat.visible = false;
+            callbackInfo.cancel();
         }
     }
 }
