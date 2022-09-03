@@ -5,6 +5,7 @@
   "block.ait.invis_light_block": "Invisible Light Block",
   "block.ait.basic_interior_door_block" : "Interior Doors",
   "block.ait.typewriter": "Typewriter",
+  "block.ait.cow_skull": "Skull",
   "block.ait.console_block": "Development Console",
   "block.ait.roundel_face": "Dynamic Roundel Face",
   "itemGroup.Blocks": "AIT Blocks",

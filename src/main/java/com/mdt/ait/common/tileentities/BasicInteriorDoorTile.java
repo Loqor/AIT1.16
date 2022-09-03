@@ -121,6 +121,10 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         }
     }
 
+    public Tardis getInteriorID() {
+        return linked_exterior;
+    }
+
     private VoxelShape getTardisInteriorDoorCollider(BlockState blockstate) {
         switch(blockstate.getValue(FACING)) {
             case NORTH:

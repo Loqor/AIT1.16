@@ -46,7 +46,7 @@ public class RoundelFaceRenderer extends TileEntityRenderer<RoundelFaceTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(RoundelFaceBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(roundelLocation)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(roundelLocation)), 15728880, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

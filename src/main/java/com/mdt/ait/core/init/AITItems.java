@@ -6,6 +6,9 @@ import com.mdt.ait.common.items.DevTool;
 import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.common.items.TARDISKey;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -100,6 +103,8 @@ public class AITItems {
             "ormuluclock", () -> new BlockItem(AITBlocks.ORMULUCLOCK.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> ARMILLARYSPHERE = ITEMS.register(
             "armillarysphere", () -> new BlockItem(AITBlocks.ARMILLARYSPHERE.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> COW_SKULL = ITEMS.register(
+            "cow_skull", () -> new BlockItem(AITBlocks.COW_SKULL.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> WAR_SOLID = ITEMS.register(
             "war_solid", () -> new BlockItem(AITBlocks.WAR_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> WAR_SOLID_SLAB = ITEMS.register(

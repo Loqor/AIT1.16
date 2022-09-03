@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ait:block/cow_skull",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ait:block/cow_skull"
+    },
+    "facing=south": {
+      "model": "ait:block/cow_skull",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ait:block/cow_skull",
+      "y": 270
+    }
+  }
+}

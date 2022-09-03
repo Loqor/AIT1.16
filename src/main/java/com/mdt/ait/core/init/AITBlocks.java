@@ -148,6 +148,11 @@ public class AITBlocks {
             "armillarysphere", () -> new DirectionalBlock(DirectionalBlock.Properties.of(
                     Material.METAL, MaterialColor.COLOR_BROWN).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
+    //Forest cosmetic blocks
+    public static final RegistryObject<Block> COW_SKULL = BLOCKS.register(
+            "cow_skull", () -> new DirectionalBlock(DirectionalBlock.Properties.of(
+                    Material.SHULKER_SHELL, MaterialColor.COLOR_LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+
 
     //War Blocks
     public static final RegistryObject<Block> WAR_ROUNDEL_A = BLOCKS.register(

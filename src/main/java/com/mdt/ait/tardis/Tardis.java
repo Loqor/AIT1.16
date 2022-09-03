@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.world.ForgeChunkManager;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -101,6 +103,21 @@ public class Tardis {
                     break;
                 }
             }
+        }
+    }
+
+    public void positionForTardisChange() {
+        TardisManager tardisManager = AIT.tardisManager;
+        ServerWorld target_world = AIT.server.getLevel(this.exterior_dimension);
+        this.exterior_position = new BlockPos(this.exterior_position.getX(), this.exterior_position.getY() + 20, this.exterior_position.getZ());
+        try {
+            Tardis tardis = tardisManager.createTardis(this.tardisID, this.exterior_position, this.exterior_dimension);
+            TardisTileEntity tardisTileEntity = (TardisTileEntity) target_world.getBlockEntity(this.exterior_position);
+            assert tardisTileEntity != null;
+            tardisTileEntity.linked_tardis = tardis;
+            tardisTileEntity.linked_tardis_id = tardis.tardisID;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

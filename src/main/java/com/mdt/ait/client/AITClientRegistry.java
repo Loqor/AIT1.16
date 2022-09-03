@@ -60,6 +60,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.BRASS_PILLAR.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(AITBlocks.MINT_SOLID_SLAB.get(), RenderType.solid());
             RenderTypeLookup.setRenderLayer(AITBlocks.ORMULUCLOCK.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(AITBlocks.COW_SKULL.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(AITBlocks.ARMILLARYSPHERE.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_A.get(), RenderType.solid());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_B.get(), RenderType.solid());
