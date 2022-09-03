@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.mdt.ait.mixin",
+  "refmap": "regen.refmap.json",
+  "client": [
+    "PlayerModelMixin"
+  ],
+  "minVersion": "0.8",
+  "mixins": [
+  ]
+}

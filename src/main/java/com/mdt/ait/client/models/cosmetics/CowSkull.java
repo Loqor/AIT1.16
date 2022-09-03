@@ -3,16 +3,16 @@ package com.mdt.ait.client.models.cosmetics;// Made with Blockbench 4.3.1
 // Paste this class into your mod and generate all required imports
 
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.GenericHeadModel;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 
-public class CowSkull extends BipedModel<LivingEntity> {
+public class CowSkull extends AgeableModel<LivingEntity> {
 	private final ModelRenderer bipedHead;
 	private final ModelRenderer armorHead;
 	private final ModelRenderer cube_r1;
@@ -21,12 +21,7 @@ public class CowSkull extends BipedModel<LivingEntity> {
 	private final ModelRenderer cube_r4;
 	private final ModelRenderer cube_r5;
 
-	private LivingEntity livingEntity = null;
-	private EquipmentSlotType slot = EquipmentSlotType.HEAD;
-
-
-	public CowSkull(float size) {
-		super(size, 0, 16, 16);
+	public CowSkull() {
 		texWidth = 64;
 		texHeight = 64;
 
@@ -84,22 +79,29 @@ public class CowSkull extends BipedModel<LivingEntity> {
 		cube_r5.texOffs(29, 0).addBox(5.999F, -7.001F, 4.999F, 6.0F, 5.0F, 4.0F, 0.0F, false);
 	}
 
-	public void setupAnim(float p_225603_1_, float p_225603_2_, float p_225603_3_) {
-		this.bipedHead.yRot = p_225603_2_ * ((float)Math.PI / 180F);
-		this.bipedHead.xRot = p_225603_3_ * ((float)Math.PI / 180F);
+	@Override
+	public void setupAnim(LivingEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+
 	}
 
+	@Override
 	public void renderToBuffer(MatrixStack pMatrixStack, IVertexBuilder pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-			this.bipedHead.render(pMatrixStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+		this.bipedHead.render(pMatrixStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+	}
+
+	@Override
+	protected Iterable<ModelRenderer> headParts() {
+		return ImmutableList.of(bipedHead);
+	}
+
+	@Override
+	protected Iterable<ModelRenderer> bodyParts() {
+		return ImmutableList.of();
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
-	}
-
-	public void render(MatrixStack pMatrixStack, IVertexBuilder vertexBuffer, int pPackedLight, int noOverlay, int i, int i1, int i2, float v) {
-		this.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, noOverlay, 1, 1, 1, 1.0F);
 	}
 }

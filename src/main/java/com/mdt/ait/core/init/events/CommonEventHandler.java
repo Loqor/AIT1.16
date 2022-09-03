@@ -94,24 +94,6 @@ public class CommonEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public void onEntityRenderPre(RenderPlayerEvent event) {
-        LivingEntity l = event.getPlayer();
-        Item item = l.getMainHandItem().getItem();
-        if(item == AITItems.COW_SKULL.get() && run_once == 1) {
-            PlayerModel<AbstractClientPlayerEntity> model = event.getRenderer().getModel();
-            model.head.visible = false;
-            model.hat.visible = false;
-            event.getRenderer().addLayer(new CowSkullModelLayer(event.getRenderer()));
-            run_once = 0;
-        } else {
-            PlayerModel<AbstractClientPlayerEntity> model = event.getRenderer().getModel();
-            model.head.visible = true;
-            model.hat.visible = true;
-            run_once = 1;
-        }
-    }
-
     //@SubscribeEvent
     //public void onEntityRender(RenderPlayerEvent event) {
     //    event.setCanceled(true);
