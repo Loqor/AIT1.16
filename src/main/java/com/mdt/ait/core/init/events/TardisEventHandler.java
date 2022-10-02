@@ -33,22 +33,25 @@ public class TardisEventHandler {
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) throws Exception {
         if (event.getState().getBlock() instanceof ITardisBlock) {
-            BlockPos blockPos = event.getPos();
-            BlockState blockState = event.getPlacedBlock();
-            Block block = blockState.getBlock();
-            Entity entity = event.getEntity();
-            assert entity != null;
-            Direction entityFacingDirection = entity.getDirection();
-            Direction blockFacingDirection = entityFacingDirection.getOpposite();
-            RegistryKey<World> worldRegistryKey = entity.level.dimension();
-            World world = (World) event.getWorld();
+            System.out.println(event.getEntity());
+            if (event.getEntity() != null) {
+                BlockPos blockPos = event.getPos();
+                BlockState blockState = event.getPlacedBlock();
+                Block block = blockState.getBlock();
+                Entity entity = event.getEntity();
+                assert entity != null;
+                Direction entityFacingDirection = entity.getDirection();
+                Direction blockFacingDirection = entityFacingDirection.getOpposite();
+                RegistryKey<World> worldRegistryKey = entity.level.dimension();
+                World world = (World) event.getWorld();
 
-            TardisManager tardisManager = AIT.tardisManager;
-            Tardis tardis = tardisManager.createTardis(entity.getUUID(), blockPos, worldRegistryKey);
-            TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(blockPos);
-            assert tardisTileEntity != null;
-            tardisTileEntity.linked_tardis = tardis;
-            tardisTileEntity.linked_tardis_id = tardis.tardisID;
+                TardisManager tardisManager = AIT.tardisManager;
+                Tardis tardis = tardisManager.createTardis(entity.getUUID(), blockPos, worldRegistryKey);
+                TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(blockPos);
+                assert tardisTileEntity != null;
+                tardisTileEntity.linked_tardis = tardis;
+                tardisTileEntity.linked_tardis_id = tardis.tardisID;
+            }
 
         }
     }
