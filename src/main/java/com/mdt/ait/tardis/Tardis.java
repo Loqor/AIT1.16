@@ -96,6 +96,13 @@ public class Tardis {
         }
     }
 
+    public void teleportExteriorTo(RegistryKey<World> dimension, BlockPos position, Direction facing) {
+        ServerWorld oldWorld = AIT.server.getLevel(exterior_dimension);
+        ServerWorld newWorld = AIT.server.getLevel(dimension);
+        oldWorld.destroyBlock(exterior_position, true);
+        newWorld.setBlock(position, new TardisBlock().defaultBlockState(), 1);
+    }
+
     public void teleportToInterior(PlayerEntity playerEntity) {
         if (playerEntity instanceof ServerPlayerEntity) {
             ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
