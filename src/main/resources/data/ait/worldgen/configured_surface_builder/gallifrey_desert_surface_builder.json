@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:default",
+  "config": {
+    "top_material": {
+      "Name": "ait:gallifrey_sand",
+      "Properties": {
+        "snowy": "false"
+      }
+    },
+    "under_material": {
+      "Name": "ait:gallifrey_sand"
+    },
+    "underwater_material": {
+      "Name": "minecraft:gravel"
+    }
+  }
+}

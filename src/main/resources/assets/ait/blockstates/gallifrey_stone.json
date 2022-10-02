@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "" : [
+      {"model" : "ait:block/gallifrey_stone"}
+    ]
+  }
+}

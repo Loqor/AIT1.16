@@ -44,6 +44,7 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
     public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 0.99375, 2, 1));
     public static final VoxelShape SOUTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 0.99375));
     public static final VoxelShape WEST_AABB = VoxelShapes.create(new AxisAlignedBB(0.006249999999999978, 0, 0, 1, 2, 1));
+    public static final VoxelShape SIEGE = Block.box(-4, 0, -4, 4, 4, 4);
 
     public TardisBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
@@ -60,11 +61,18 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
 
     @Override
     public BlockRenderType getRenderShape(BlockState pState) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+        return BlockRenderType.INVISIBLE;
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
+        if (tileEntity instanceof TardisTileEntity) {
+            EnumExteriorType exteriorType = ((TardisTileEntity) tileEntity).currentExterior();
+            if (exteriorType == EnumExteriorType.SIEGE_MODE) {
+                return SIEGE;
+            }
+        }
         switch (state.getValue(FACING)) {
             case NORTH:
                 return NORTH_AABB;

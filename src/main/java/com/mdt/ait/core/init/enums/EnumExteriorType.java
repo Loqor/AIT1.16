@@ -13,7 +13,13 @@ public enum EnumExteriorType implements IStringSerializable {
     POSTER_BOX("poster_box", TardisTileEntity::new),
     BAKER_BOX("baker_box", TardisTileEntity::new),
     TYPE_40_TT_CAPSULE("type_40_tt_capsule", TardisTileEntity::new),
-    HELLBENT_TT_CAPSULE("hellbent_tt_capsule", TardisTileEntity::new);
+    HELLBENT_TT_CAPSULE("hellbent_tt_capsule", TardisTileEntity::new),
+    NUKA_COLA_EXTERIOR("nuka_cola_exterior", TardisTileEntity::new),
+    SIEGE_MODE("siege_mode", TardisTileEntity::new),
+    ARCADE_CABINET_EXTERIOR("arcade_cabinet_exterior", TardisTileEntity::new),
+    CUSHING_EXTERIOR("cushing_exterior", TardisTileEntity::new),
+    CLASSIC_EXTERIOR("classic_exterior", TardisTileEntity::new),
+    HARTNELL_EXTERIOR("hartnell_exterior", TardisTileEntity::new);
 
     public final Supplier<TardisTileEntity> tileEntity;
     public final String name;

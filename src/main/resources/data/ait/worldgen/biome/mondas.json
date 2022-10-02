@@ -1,0 +1,65 @@
+{
+  "surface_builder": "minecraft:grass",
+  "depth": 0.1,
+  "scale": 0.2,
+  "temperature": -1,
+  "downfall": 0.8,
+  "precipitation": "snow",
+  "category": "taiga",
+  "player_spawn_friendly": false,
+  "effects": {
+    "sky_color": 3227220,
+    "fog_color": 3227220,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "grass_color": 2641526,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    }
+  },
+  "starts": [
+    "minecraft:mineshaft"
+  ],
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_water"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_dirt",
+      "minecraft:ore_gravel",
+      "minecraft:ore_granite",
+      "minecraft:ore_diorite",
+      "minecraft:ore_andesite",
+      "minecraft:ore_coal",
+      "minecraft:ore_iron",
+      "minecraft:ore_gold",
+      "minecraft:ore_redstone",
+      "minecraft:ore_diamond",
+      "minecraft:ore_lapis",
+      "minecraft:disk_sand",
+      "minecraft:disk_clay",
+      "minecraft:disk_gravel"
+    ],
+    [],
+    [
+      "minecraft:spring_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

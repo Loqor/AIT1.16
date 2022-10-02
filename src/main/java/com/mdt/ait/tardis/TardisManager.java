@@ -39,7 +39,7 @@ public class TardisManager {
             UUID tardisID = UUID.randomUUID();
             tardisWorldSavedData.setDirty(true);
             latestTardisNumber += 1;
-            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber));
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
             tardis_list.put(tardisID, tardis);
             loaded = true;
             return tardis;
@@ -47,7 +47,29 @@ public class TardisManager {
             UUID tardisID = UUID.randomUUID();
             tardisWorldSavedData.setDirty(true);
             latestTardisNumber += 1;
-            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber));
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
+            tardis_list.put(tardisID, tardis);
+            return tardis;
+
+        }
+    }
+
+    public Tardis cloneExistingTardis(UUID owner, BlockPos exterior_position, RegistryKey<World> exterior_dimension) throws Exception {
+
+        if (!loaded) {
+            System.out.println("Warning TardisManager has not been loaded before Creating New Tardis");
+            UUID tardisID = UUID.randomUUID();
+            tardisWorldSavedData.setDirty(true);
+            latestTardisNumber += 1;
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
+            tardis_list.put(tardisID, tardis);
+            loaded = true;
+            return tardis;
+        } else {
+            UUID tardisID = UUID.randomUUID();
+            tardisWorldSavedData.setDirty(true);
+            latestTardisNumber += 1;
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
             tardis_list.put(tardisID, tardis);
             return tardis;
 

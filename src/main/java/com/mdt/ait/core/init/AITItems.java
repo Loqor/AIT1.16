@@ -1,14 +1,10 @@
 package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.items.DematterStick;
-import com.mdt.ait.common.items.DevTool;
-import com.mdt.ait.common.items.SonicItem;
-import com.mdt.ait.common.items.TARDISKey;
+import com.mdt.ait.common.AITArmorMaterials;
+import com.mdt.ait.common.items.*;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -19,8 +15,72 @@ public class AITItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, AIT.MOD_ID);
 
+
+    //Fezzes
+    public static final RegistryObject<FezArmorItem> WHITE_FEZ = ITEMS.register(
+            "white_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> GRAY_FEZ = ITEMS.register(
+            "gray_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> BLACK_FEZ = ITEMS.register(
+            "black_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> RED_FEZ = ITEMS.register(
+            "red_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> ORANGE_FEZ = ITEMS.register(
+            "orange_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> YELLOW_FEZ = ITEMS.register(
+            "yellow_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> L_GREEN_FEZ = ITEMS.register(
+            "l_green_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> GREEN_FEZ = ITEMS.register(
+            "green_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> D_GREEN_FEZ = ITEMS.register(
+            "d_green_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> L_BLUE_FEZ = ITEMS.register(
+            "l_blue_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> BLUE_FEZ = ITEMS.register(
+            "blue_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> D_BLUE_FEZ = ITEMS.register(
+            "d_blue_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> L_PURPLE_FEZ = ITEMS.register(
+            "l_purple_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> PURPLE_FEZ = ITEMS.register(
+            "purple_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> D_PURPLE_FEZ = ITEMS.register(
+            "d_purple_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> PINK_FEZ = ITEMS.register(
+            "pink_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+
+    public static final RegistryObject<FezArmorItem> BROWN_FEZ = ITEMS.register(
+            "brown_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
+    /*======================================================================================================================================================*/
+
+    //Cosmetics
+    public static final RegistryObject<MessengerArmorItem> MESSENGER_BAG = ITEMS.register(
+            "messenger_bag", () -> new MessengerArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
+
+    public static final RegistryObject<ThreeDGlassesArmorItem> THREED_GLASSES = ITEMS.register(
+            "3d_glasses", () -> new ThreeDGlassesArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
+
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(
             "tennant_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    public static final RegistryObject<SonicItem> WHITTAKER_SONIC = ITEMS.register(
+            "whittaker_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<TARDISKey> GOLDEN_TARDIS_KEY = ITEMS.register(
             "golden_tardis_key", () -> new TARDISKey(new Item.Properties().tab(AITItemGroups.AITITEMS)));
@@ -34,6 +94,12 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
                     AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> RECORD_PLAYER = ITEMS.register(
+            "record_player", () -> new BlockItem(
+                    AITBlocks.RECORD_PLAYER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> GBTCASING = ITEMS.register(
+            "gbtcasing", () -> new BlockItem(
+                    AITBlocks.GBTCASING_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> TARDIS_CORAL = ITEMS.register(
             "tardis_coral", () -> new BlockItem(
                     AITBlocks.TARDIS_CORAL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
@@ -73,6 +139,10 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TEST_BLOCK_ITEM = ITEMS.register("test_block",
             () -> new BlockItem(
                     AITBlocks.TEST_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> GALLIFREY_STONE = ITEMS.register(
+            "gallifrey_stone", () -> new BlockItem(AITBlocks.GALLIFREY_STONE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> GALLIFREY_SAND = ITEMS.register(
+            "gallifrey_sand", () -> new BlockItem(AITBlocks.GALLIFREY_SAND.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final  RegistryObject<BlockItem> STEEL_GRATE = ITEMS.register(
             "steel_grate", () -> new BlockItem(AITBlocks.STEEL_GRATE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final  RegistryObject<BlockItem> STEEL_GRATE_SLAB = ITEMS.register(

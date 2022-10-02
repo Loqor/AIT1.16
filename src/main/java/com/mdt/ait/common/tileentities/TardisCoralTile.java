@@ -1,6 +1,7 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.GBTCasingBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITSounds;
@@ -25,6 +26,7 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -74,7 +76,24 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
     public void tick() {
         TardisManager tardisManager = AIT.tardisManager;
         TileEntity entity = level.getBlockEntity(worldPosition);
-        if (level.getLevelData().isRaining()) {
+        BlockPos casingPos1 = new BlockPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ() - 1);
+        BlockPos casingPos2 = new BlockPos(worldPosition.getX() + 1, worldPosition.getY(), worldPosition.getZ());
+        BlockPos casingPos3 = new BlockPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ() + 1);
+        BlockPos casingPos4 = new BlockPos(worldPosition.getX() - 1, worldPosition.getY(), worldPosition.getZ());
+        BlockPos casingPos = casingPos1;
+        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.SOUTH) {
+            casingPos = casingPos1;
+        }
+        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.WEST) {
+            casingPos = casingPos2;
+        }
+        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.NORTH) {
+            casingPos = casingPos3;
+        }
+        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.EAST) {
+            casingPos = casingPos4;
+        }
+        if (level.canSeeSky(worldPosition) && (level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
             ++ticks;
             if (ticks == 37/*750*/) {
                 this.coralState = getNextCoralState();
@@ -104,6 +123,60 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks >= 300/*6000*/) {  //6000 is 5 minutes
+                if (!level.isClientSide) {
+                    switchDirectionForTARDIS();
+                    if (run_once == 0) {
+                        LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
+                        bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+                        level.addFreshEntity(bolt);
+                        try {
+                            Tardis tardis = tardisManager.createTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
+                            TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
+                            assert tardisTileEntity != null;
+                            tardisTileEntity.linked_tardis = tardis;
+                            tardisTileEntity.linked_tardis_id = tardis.tardisID;
+                            tardisTileEntity.matState = EnumMatState.REMAT;
+                            tardis.exterior_facing = facingDirection;
+                            tardisTileEntity.currentexterior = EnumExteriorType.HELLBENT_TT_CAPSULE;//pickRandomExterior();
+                            syncToClient();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        run_once = 1;
+                    }
+                }
+            }
+        } else if (level.canSeeSky(worldPosition) && !(level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
+            ticks = 0;
+            ++ticks;
+            if (ticks == 750) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 1500) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 2250) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 3000) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 3750) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 4500) {
+                this.coralState = getNextCoralState();
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks == 5250) {
+                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+            if (ticks >= 6000) {  //6000 is 5 minutes
                 if (!level.isClientSide) {
                     switchDirectionForTARDIS();
                     if (run_once == 0) {

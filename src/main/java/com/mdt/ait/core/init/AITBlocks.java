@@ -20,6 +20,8 @@ public class AITBlocks {
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
 
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
+    public static final RegistryObject<Block> RECORD_PLAYER_BLOCK = BLOCKS.register("record_player", RecordPlayerBlock::new);
+    public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
     public static final RegistryObject<Block> ROUNDEL_FACE_BLOCK = BLOCKS.register("roundel_face", RoundelFaceBlock::new);
     public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console_block", ConsoleBlock::new);
@@ -31,6 +33,13 @@ public class AITBlocks {
     public static final RegistryObject<InvisBlock> INVIS_BLOCK = BLOCKS.register("invis_block", InvisBlock::new);
 
     public static final RegistryObject<InvisLightBlock> INVIS_LIGHT_BLOCK = BLOCKS.register("invis_light_block", InvisLightBlock::new);
+
+    //Gallifrey
+    public static final RegistryObject<Block> GALLIFREY_STONE = BLOCKS.register(
+            "gallifrey_stone", () -> new Block(Block.Properties.of(
+                    Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F).sound(SoundType.STONE)));
+    public static final RegistryObject<GallifreySandBlock> GALLIFREY_SAND = BLOCKS.register(
+            "gallifrey_sand", () -> new GallifreySandBlock(AbstractBlock.Properties.of(Material.SAND, MaterialColor.COLOR_RED).strength(0.5F).sound(SoundType.SAND)));
 
     //Steel Grating
     public static final RegistryObject<Block> STEEL_GRATE = BLOCKS.register(
@@ -149,8 +158,8 @@ public class AITBlocks {
                     Material.METAL, MaterialColor.COLOR_BROWN).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
     //Forest cosmetic blocks
-    public static final RegistryObject<Block> COW_SKULL = BLOCKS.register(
-            "cow_skull", () -> new DirectionalBlock(DirectionalBlock.Properties.of(
+    public static final RegistryObject<CowSkullBlock> COW_SKULL = BLOCKS.register(
+            "cow_skull", () -> new CowSkullBlock(CowSkullBlock.Properties.of(
                     Material.SHULKER_SHELL, MaterialColor.COLOR_LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
 

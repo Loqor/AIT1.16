@@ -2,6 +2,7 @@ package com.mdt.ait.network;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.network.packets.DimensionSyncPacket;
+import com.mdt.ait.network.packets.MonitorExteriorChangePacket;
 import com.mojang.serialization.Codec;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -44,12 +45,17 @@ public class Network {
         final Class<PACKET> packetClass = (Class<PACKET>) (defaultPacket.getClass());
 
         channel.registerMessage(id, packetClass, encoder, decoder, handler);
+        //NETWORK_CHANNEL.registerMessage(id, MonitorExteriorChangePacket.class, MonitorExteriorChangePacket::encode, MonitorExteriorChangePacket::decode, MonitorExteriorChangePacket::handle);
     }
 
     public static void sendTo(Object msg, ServerPlayerEntity player) {
         if (!(player instanceof FakePlayer)) {
             NETWORK_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg);
         }
+    }
+
+    public static void sendToServer(Object msg) {
+        NETWORK_CHANNEL.sendToServer(msg);
     }
 
     public static void sendPacketToAll(Object packet) {

@@ -44,6 +44,12 @@ minecraft {
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
+    mixin {
+        add sourceSets.main, "ait.refmap.json"
+
+        config "ait.mixins.json"
+    }
+
     runs {
         client {
             workingDirectory project.file('run')
@@ -63,7 +69,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                ait {
                     source sourceSets.main
                 }
             }
@@ -85,7 +91,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                ait {
                     source sourceSets.main
                 }
             }
@@ -110,7 +116,7 @@ minecraft {
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                ait {
                     source sourceSets.main
                 }
             }

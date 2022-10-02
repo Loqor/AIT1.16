@@ -20,9 +20,15 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TSVTile>> TSV_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tsv",
             () -> TileEntityType.Builder.of(TSVTile::new, AITBlocks.TSV_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<RecordPlayerTile>> RECORD_PLAYER_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "record_player",
+            () -> TileEntityType.Builder.of(RecordPlayerTile::new, AITBlocks.RECORD_PLAYER_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<TypewriterTile>> TYPEWRITER_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "typewriter",
             () -> TileEntityType.Builder.of(TypewriterTile::new, AITBlocks.TYPEWRITER_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<GBTCasingTile>> GBTCASING_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "gbtcasing",
+            () -> TileEntityType.Builder.of(GBTCasingTile::new, AITBlocks.GBTCASING_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<RampTile>> RAMP_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "ramp",
             () -> TileEntityType.Builder.of(RampTile::new, AITBlocks.RAMP_BLOCK.get()).build(null));

@@ -11,8 +11,12 @@ import java.awt.*;
 public class AITDimensions {
     // https://misode.github.io/dimension/
     public static RegistryKey<World> TARDIS_DIMENSION;
+    public static RegistryKey<World> GALLIFREY;
+    public static RegistryKey<World> MONDAS;
 
     public static void init() {
         TARDIS_DIMENSION = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(AIT.MOD_ID, "tardis_dimension"));
+        GALLIFREY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(AIT.MOD_ID, "gallifrey"));
+        MONDAS = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(AIT.MOD_ID, "mondas"));
     }
 }

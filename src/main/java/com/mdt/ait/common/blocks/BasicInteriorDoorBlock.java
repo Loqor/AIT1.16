@@ -71,26 +71,8 @@ public class BasicInteriorDoorBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-        TileEntity tileEntity = world.getBlockEntity(bpos);
-        if(tileEntity instanceof BasicInteriorDoorTile) {
-            ((BasicInteriorDoorTile) tileEntity).onListAdd(blockstate, world, bpos, blockState, bool);
-        }
-        super.onPlace(blockstate, world, bpos, blockState, bool);
-    }
-
-    @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
-    }
-
-    @Override
-    public void onRemove(BlockState blockstate, World world, BlockPos bpos, BlockState blockState, boolean bool) {
-        TileEntity tileEntity = world.getBlockEntity(bpos);
-        if(tileEntity instanceof BasicInteriorDoorTile) {
-            ((BasicInteriorDoorTile) tileEntity).onListRemove(blockstate, world, bpos, blockState, bool);
-        }
-        super.onRemove(blockstate, world, bpos, blockState, bool);
     }
 
     @Override

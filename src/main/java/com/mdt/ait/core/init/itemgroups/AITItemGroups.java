@@ -1,8 +1,6 @@
 package com.mdt.ait.core.init.itemgroups;
 
-import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITItems;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
@@ -18,7 +16,7 @@ public class AITItemGroups {
     public static final ItemGroup AITBLOCKS = new ItemGroup("Blocks") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(AITItems.TEST_BLOCK_ITEM.get());
+            return new ItemStack(AITItems.TYPEWRITER.get());
         }
     };
 
@@ -26,6 +24,19 @@ public class AITItemGroups {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(AITItems.HARTNELL_MINT_A.get());
+        }
+    };
+
+    public static final ItemGroup AITCOSMETICS = new ItemGroup("Cosmetics") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.THREED_GLASSES.get());
+        }
+    };
+    public static final ItemGroup AITFEZZES = new ItemGroup("Fezzes") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.RED_FEZ.get());
         }
     };
 }

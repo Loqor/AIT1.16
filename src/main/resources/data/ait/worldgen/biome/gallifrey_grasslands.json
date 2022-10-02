@@ -1,0 +1,48 @@
+{
+  "surface_builder": "ait:gallifrey_grasslands_surface_builder",
+  "depth": 0.5,
+  "scale": 0.15,
+  "temperature": 0,
+  "downfall": 0.9,
+  "precipitation": "none",
+  "category": "none",
+  "player_spawn_friendly": false,
+  "effects": {
+    "sky_color": 14521700,
+    "fog_color": 15653065,
+    "water_color": 8688819,
+    "water_fog_color": 6974106,
+    "grass_color": 12669502,
+    "foliage_color": 14406354
+  },
+  "starts": [
+    "minecraft:mineshaft"
+  ],
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_water"
+    ],
+    [
+      "minecraft:ore_gravel",
+      "minecraft:ore_granite",
+      "minecraft:ore_coal",
+      "minecraft:ore_iron",
+      "minecraft:ore_gold",
+      "minecraft:ore_redstone",
+      "minecraft:ore_diamond",
+      "minecraft:ore_lapis"
+    ],
+    [
+      "ait:gallifreyan_tree"
+    ]
+  ]
+}

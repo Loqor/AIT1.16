@@ -1,0 +1,62 @@
+{
+  "type": "ait:gallifrey_dimension_type",
+  "generator": {
+    "type": "minecraft:noise",
+    "seed": 1982379836,
+    "settings": "ait:gallifrey",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "seed": 1982379836,
+      "altitude_noise": {
+        "firstOctave": -7,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "temperature_noise": {
+        "firstOctave": -7,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "humidity_noise": {
+        "firstOctave": -7,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "weirdness_noise": {
+        "firstOctave": -7,
+        "amplitudes": [
+          1,
+          1
+        ]
+      },
+      "biomes": [
+        {
+          "biome": "ait:gallifrey_grasslands",
+          "parameters": {
+            "altitude": 0.36,
+            "temperature": 0.5,
+            "humidity": 1,
+            "weirdness": 0.5,
+            "offset": 1
+          }
+        },
+        {
+          "biome": "ait:gallifrey_desert",
+          "parameters": {
+            "altitude": 0,
+            "temperature": 1,
+            "humidity": 0,
+            "weirdness": 0,
+            "offset": 1
+          }
+        }
+      ]
+    }
+  }
+}

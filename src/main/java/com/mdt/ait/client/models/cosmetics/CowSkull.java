@@ -42,19 +42,19 @@ public class CowSkull extends AgeableModel<LivingEntity> {
 		armorHead.texOffs(45, 23).addBox(11.0635F, -7.0F, 8.9762F, 1.0F, 3.0F, 5.0F, 0.0F, false);
 		armorHead.texOffs(16, 39).addBox(4.5635F, -4.8499F, 0.1941F, 1.0F, 2.0F, 7.0F, 0.0F, false);
 		armorHead.texOffs(45, 5).addBox(4.0635F, -7.0F, 8.9762F, 1.0F, 3.0F, 5.0F, 0.0F, false);
-		armorHead.texOffs(0, 0).addBox(1.0635F, -19.0F, 11.9762F, 14.0F, 13.0F, 0.0F, 0.0F, false);
+		armorHead.texOffs(0, 0).addBox(1.0635F, -19.0F, 11.9762F, 14.0F, 13.0F, 0.0F, 0.001F, false);
 
 		cube_r1 = new ModelRenderer(this);
 		cube_r1.setPos(0.0F, 0.0F, 0.0F);
 		armorHead.addChild(cube_r1);
 		setRotationAngle(cube_r1, 0.0F, -0.3927F, 0.0F);
-		cube_r1.texOffs(0, 14).addBox(18.5F, -21.0F, 5.3F, 12.0F, 13.0F, 0.0F, 0.0F, false);
+		cube_r1.texOffs(0, 14).addBox(18.5F, -21.0F, 5.3F, 12.0F, 13.0F, 0.0F, 0.001F, false);
 
 		cube_r2 = new ModelRenderer(this);
 		cube_r2.setPos(16.1271F, 0.0F, 0.0F);
 		armorHead.addChild(cube_r2);
 		setRotationAngle(cube_r2, 0.0F, 0.3927F, 0.0F);
-		cube_r2.texOffs(25, 14).addBox(-30.5F, -21.0F, 5.3F, 12.0F, 13.0F, 0.0F, 0.0F, false);
+		cube_r2.texOffs(25, 14).addBox(-30.5F, -21.0F, 5.3F, 12.0F, 13.0F, 0.0F, 0.001F, false);
 
 		cube_r3 = new ModelRenderer(this);
 		cube_r3.setPos(-7.1865F, 0.9646F, 3.0749F);

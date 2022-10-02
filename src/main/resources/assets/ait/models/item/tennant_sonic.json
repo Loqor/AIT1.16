@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "ait:item/tennant_sonic"
+		"0": "ait:item/sonic_screwdrivers/tennant_sonic"
 	},
 	"elements": [
 		{

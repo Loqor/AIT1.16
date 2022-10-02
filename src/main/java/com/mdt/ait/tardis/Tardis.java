@@ -6,23 +6,19 @@ import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Tuple;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.world.ForgeChunkManager;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -40,12 +36,14 @@ public class Tardis {
 
     public BlockPos console_position;
     public final UUID owner;
+    public boolean lockedTardis;
 
     public final UUID tardisID;
 
-    public Tardis(UUID player, BlockPos exterior_position, RegistryKey<World> exterior_dimension, UUID tardisID, Tuple<Integer, Integer> grid_position) {
+    public Tardis(UUID player, BlockPos exterior_position, RegistryKey<World> exterior_dimension, UUID tardisID, Tuple<Integer, Integer> grid_position, boolean lockedTardis) {
         System.out.println("Creating new tardis");
         this.owner = player;
+        this.lockedTardis = lockedTardis;
         this.exterior_dimension = exterior_dimension;
         this.exterior_position = exterior_position;
         this.grid_position = grid_position;
@@ -59,6 +57,26 @@ public class Tardis {
         this.generateInterior();
 //        this.interiorTeleportPos = this.interior_door_position.relative(interior_door_facing.getOpposite(), 1);
 
+    }
+
+    public void lockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        World world = playerentity.level;
+        //this.lockedTardis = true;
+        world.playSound(null, this.exterior_position.getX(),
+                this.exterior_position.getY(), this.exterior_position.getZ(),
+                AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+        System.out.println(this.lockedTardis);
+    }
+
+    public void unlockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        PlayerEntity playerentity = context.getPlayer();
+        World world = playerentity.level;
+        this.lockedTardis = false;
+        world.playSound(null, this.exterior_position.getX(),
+                this.exterior_position.getY(), this.exterior_position.getZ(),
+                AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+        System.out.println(this.lockedTardis);
     }
 
     private void generateInterior() {
@@ -84,12 +102,12 @@ public class Tardis {
             switch (this.interior_door_facing.getOpposite().toString()) {
                 case "north": {
                     System.out.println("north");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "south": {
                     System.out.println("south");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "east": {
@@ -99,23 +117,23 @@ public class Tardis {
                 }
                 case "west": {
                     System.out.println("west");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
             }
         }
     }
 
-    public void positionForTardisChange() {
+    public void positionForTardisChange(BlockPos bpos, Tardis TardiS, TardisTileEntity tte, UUID uuid) {
         TardisManager tardisManager = AIT.tardisManager;
-        ServerWorld target_world = AIT.server.getLevel(this.exterior_dimension);
-        this.exterior_position = new BlockPos(this.exterior_position.getX(), this.exterior_position.getY() + 20, this.exterior_position.getZ());
+        ServerWorld target_world = AIT.server.getLevel(TardiS.exterior_dimension);
+        BlockPos exteriorPosition = new BlockPos(bpos);
         try {
-            Tardis tardis = tardisManager.createTardis(this.tardisID, this.exterior_position, this.exterior_dimension);
-            TardisTileEntity tardisTileEntity = (TardisTileEntity) target_world.getBlockEntity(this.exterior_position);
-            assert tardisTileEntity != null;
-            tardisTileEntity.linked_tardis = tardis;
-            tardisTileEntity.linked_tardis_id = tardis.tardisID;
+            target_world.setBlockEntity(exteriorPosition, tte);
+            target_world.setBlock(exteriorPosition, tte.getBlockState(), 1);
+            Tardis tardis = tardisManager.createTardis(tte.linked_tardis_id, exteriorPosition, TardiS.exterior_dimension);
+            tte.linked_tardis = tardis;
+            uuid = tardis.tardisID;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,27 +145,31 @@ public class Tardis {
             switch (this.exterior_facing.toString()) {
                 case "north": {
                     System.out.println("north");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() - 1, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() - 0.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "south": {
                     System.out.println("south");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 1, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 1.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "east": {
                     System.out.println("east");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 1, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() + 1.5, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "west": {
                     System.out.println("west");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 1, this.exterior_position.getY(), this.exterior_position.getZ() - 0.5, exterior_facing.toYRot(), playerEntity.xRot);
+                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.exterior_position.getX() - 0.5, this.exterior_position.getY(), this.exterior_position.getZ() + 0.5, exterior_facing.toYRot(), playerEntity.xRot);
                     break;
                 }
             }
         }
     }
+
+    /*public static void getExteriorPosition(World world) {
+        TileEntity te = world.getBlockEntity();
+    }*/
 
     public Tardis(CompoundNBT tag) { // Loading
         this.owner = tag.getUUID("owner");
@@ -160,6 +182,7 @@ public class Tardis {
         this.exterior_facing = Direction.byName(tag.getString("exterior_facing"));
         this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.interior_door_facing = Direction.byName(tag.getString("interior_door_facing"));
+        this.lockedTardis = Boolean.valueOf(false);
 
     }
 
@@ -177,8 +200,7 @@ public class Tardis {
         tag.putLong("interior_door_position", this.interior_door_position.asLong());
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());
+        tag.putBoolean("lockedTardis", false);
         return tag;
     }
-
-
 }

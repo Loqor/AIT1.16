@@ -39,7 +39,7 @@ public class AITRenderTypes extends RenderType {
     }
 
     public static RenderType TardisRenderOver(ResourceLocation locationIn) {
-        State state = State.builder().setTextureState(new TextureState(locationIn, false, false)).setDiffuseLightingState(DIFFUSE_LIGHTING_ENABLED).setTransparencyState(GENERIC).setAlphaState(DEFAULT_ALPHA).setShadeModelState(SMOOTH_SHADE).setCullState(CULL).setLightmapState(RenderState.LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
+        State state = State.builder().setTextureState(new TextureState(locationIn, false, false)).setDiffuseLightingState(DIFFUSE_LIGHTING_ENABLED).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setAlphaState(DEFAULT_ALPHA).setShadeModelState(SMOOTH_SHADE).setCullState(CULL).setLightmapState(RenderState.LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
         return RenderType.create("tardis", DefaultVertexFormats.NEW_ENTITY, 7, 256, state);
     }
 }
