@@ -1,6 +1,7 @@
 package com.mdt.ait.core.init.events;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
@@ -10,6 +11,7 @@ import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
@@ -33,25 +35,31 @@ public class TardisEventHandler {
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) throws Exception {
         if (event.getState().getBlock() instanceof ITardisBlock) {
-            System.out.println(event.getEntity());
-            if (event.getEntity() != null) {
-                BlockPos blockPos = event.getPos();
-                BlockState blockState = event.getPlacedBlock();
-                Block block = blockState.getBlock();
-                Entity entity = event.getEntity();
-                assert entity != null;
-                Direction entityFacingDirection = entity.getDirection();
-                Direction blockFacingDirection = entityFacingDirection.getOpposite();
-                RegistryKey<World> worldRegistryKey = entity.level.dimension();
-                World world = (World) event.getWorld();
 
-                TardisManager tardisManager = AIT.tardisManager;
-                Tardis tardis = tardisManager.createTardis(entity.getUUID(), blockPos, worldRegistryKey);
-                TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(blockPos);
-                assert tardisTileEntity != null;
-                tardisTileEntity.linked_tardis = tardis;
-                tardisTileEntity.linked_tardis_id = tardis.tardisID;
-            }
+            BlockPos blockPos = event.getPos();
+            BlockState blockState = event.getPlacedBlock();
+            Block block = blockState.getBlock();
+
+            World world = (World) event.getWorld();
+            RegistryKey<World> worldRegistryKey = world.dimension();
+
+            TardisManager tardisManager = AIT.tardisManager;
+
+            if (event.getEntity() == null) {
+                if (!blockState.getValue(TardisBlock.isExistingTardis)) {
+                    Entity entity = event.getEntity();
+                    assert entity != null;
+                    Direction entityFacingDirection = entity.getDirection();
+                    Direction blockFacingDirection = entityFacingDirection.getOpposite();
+                    Tardis tardis = tardisManager.createNewTardis(entity.getUUID(), blockPos, worldRegistryKey);
+                    TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(blockPos);
+                    assert tardisTileEntity != null;
+                    tardisTileEntity.linked_tardis = tardis;
+                    tardisTileEntity.linked_tardis_id = tardis.tardisID;
+                }
+                }
+
+
 
         }
     }

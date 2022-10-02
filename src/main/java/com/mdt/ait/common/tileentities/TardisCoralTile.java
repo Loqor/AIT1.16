@@ -4,7 +4,6 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.GBTCasingBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
 import com.mdt.ait.core.init.AITBlocks;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumCoralState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
@@ -15,7 +14,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -24,14 +22,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 import java.util.UUID;
 
 public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
@@ -130,7 +124,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
                         try {
-                            Tardis tardis = tardisManager.createTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
+                            Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
                             TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
                             assert tardisTileEntity != null;
                             tardisTileEntity.linked_tardis = tardis;
@@ -184,7 +178,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
                         try {
-                            Tardis tardis = tardisManager.createTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
+                            Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
                             TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
                             assert tardisTileEntity != null;
                             tardisTileEntity.linked_tardis = tardis;

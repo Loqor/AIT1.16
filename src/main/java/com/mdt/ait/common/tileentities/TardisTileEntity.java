@@ -2,19 +2,15 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.common.items.TARDISKey;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumLockState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +31,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.Dimension;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -58,6 +53,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public float rightDoorRotation = 0;
     public float nukaDoorRotation = 0;
     public int arcadeDoorDistance = 0;
+
+    public boolean isExistingTardis = false;
     public float spinny = 0;
     public int alphaForLightMap = 15728880;
     protected EnumDoorState currentstate = CLOSED;

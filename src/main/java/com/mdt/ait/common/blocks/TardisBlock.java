@@ -16,12 +16,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +40,8 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static EnumProperty<EnumExteriorType> EXTERIOR_TYPE = AITBlockStates.TARDIS_EXTERIOR;
+
+    public static BooleanProperty isExistingTardis = BooleanProperty.create("is_existing_tardis");
 
 
     public static final VoxelShape NORTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0.006249999999999978, 1, 2, 1));
@@ -102,14 +106,26 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
         }
     }
 
+
+
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING).add(EXTERIOR_TYPE);
+        pBuilder.add(FACING).add(EXTERIOR_TYPE).add(isExistingTardis);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        BlockState blockState = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        blockState = blockState.setValue(isExistingTardis, false);
+
+        return blockState;
+    }
+
+    public final BlockState getStateIfMoved(Direction facing) {
+        BlockState blockState = this.defaultBlockState().setValue(FACING, facing);
+        blockState = blockState.setValue(isExistingTardis, true);
+
+        return blockState;
     }
 
     @Nullable

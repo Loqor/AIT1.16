@@ -96,11 +96,11 @@ public class Tardis {
         }
     }
 
-    public void teleportExteriorTo(RegistryKey<World> dimension, BlockPos position, Direction facing) {
-        ServerWorld oldWorld = AIT.server.getLevel(exterior_dimension);
-        ServerWorld newWorld = AIT.server.getLevel(dimension);
-        oldWorld.destroyBlock(exterior_position, true);
-        newWorld.setBlock(position, new TardisBlock().defaultBlockState(), 1);
+    public void __moveExterior(BlockPos newExteriorPosition, Direction newExteriorFacing, RegistryKey<World> newExteriorDimension) {
+        this.exterior_position = newExteriorPosition;
+        this.exterior_facing = newExteriorFacing;
+        this.exterior_dimension = newExteriorDimension;
+
     }
 
     public void teleportToInterior(PlayerEntity playerEntity) {
@@ -138,7 +138,7 @@ public class Tardis {
         try {
             target_world.setBlockEntity(exteriorPosition, tte);
             target_world.setBlock(exteriorPosition, tte.getBlockState(), 1);
-            Tardis tardis = tardisManager.createTardis(tte.linked_tardis_id, exteriorPosition, TardiS.exterior_dimension);
+            Tardis tardis = tardisManager.createNewTardis(tte.linked_tardis_id, exteriorPosition, TardiS.exterior_dimension);
             tte.linked_tardis = tardis;
             uuid = tardis.tardisID;
         } catch (Exception e) {
@@ -189,7 +189,7 @@ public class Tardis {
         this.exterior_facing = Direction.byName(tag.getString("exterior_facing"));
         this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.interior_door_facing = Direction.byName(tag.getString("interior_door_facing"));
-        this.lockedTardis = Boolean.valueOf(false);
+        this.lockedTardis = tag.getBoolean("locked_tardis"); // Loqor is an idiot and fucked this up ~ Creativious
 
     }
 
@@ -207,7 +207,7 @@ public class Tardis {
         tag.putLong("interior_door_position", this.interior_door_position.asLong());
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());
-        tag.putBoolean("lockedTardis", false);
+        tag.putBoolean("locked_tardis", this.lockedTardis);
         return tag;
     }
 }
