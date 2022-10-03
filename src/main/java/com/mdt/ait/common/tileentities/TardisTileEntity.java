@@ -181,7 +181,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     @Override
     public void tick() {
-        System.out.println(linked_tardis_id);
         isItDark();
         //System.out.println(currentexterior);
         EnumMatState materialState = EnumMatState.values()[this.serializeNBT().getInt("matState")];
@@ -203,10 +202,11 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             ++ticks;
             if (ticks >= 257) {
                 if (!level.isClientSide) {
-                    linked_tardis.positionForTardisChange(new BlockPos(worldPosition.getX() + 1, worldPosition.getY(), worldPosition.getZ() + 5),
-                            this.linked_tardis, this, this.linked_tardis.tardisID);
+                    AIT.tardisManager.moveTardis(this.linked_tardis_id, new BlockPos(
+                                    worldPosition.getX() + 1, worldPosition.getY(), worldPosition.getZ() + 5),
+                            this.linked_tardis.exterior_facing, this.linked_tardis.exterior_dimension);
                     this.matState = EnumMatState.REMAT;
-                    level.removeBlock(worldPosition, false);
+//                    level.removeBlock(worldPosition, false);
                 }
             }
             if(run_once == 0) {

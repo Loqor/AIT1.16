@@ -1,17 +1,23 @@
-// Made with Blockbench 4.4.1
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.4.1
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-public class HartnellExterior extends EntityModel<Entity> {
-	private final ModelRenderer box;
-	private final ModelRenderer right_door;
-	private final ModelRenderer left_door;
-	private final ModelRenderer base;
-	private final ModelRenderer cube_r1;
-	private final ModelRenderer cube_r2;
-	private final ModelRenderer cube_r3;
-	private final ModelRenderer cube_r4;
+import com.mdt.ait.client.models.exteriors.BasicBox;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class HartnellExterior extends BasicBox {
+	public final ModelRenderer box;
+	public final ModelRenderer right_door;
+	public final ModelRenderer left_door;
+	public final ModelRenderer base;
+	public final ModelRenderer cube_r1;
+	public final ModelRenderer cube_r2;
+	public final ModelRenderer cube_r3;
+	public final ModelRenderer cube_r4;
 
 	public HartnellExterior() {
 		texWidth = 512;

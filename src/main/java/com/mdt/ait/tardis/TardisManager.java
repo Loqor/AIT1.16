@@ -1,8 +1,10 @@
 package com.mdt.ait.tardis;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
+import com.mdt.ait.core.init.enums.EnumDoorState;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -17,6 +19,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -70,14 +73,19 @@ public class TardisManager {
         ServerWorld newDimension = server.getLevel(exterior_dimension);
         assert newDimension != null;
         assert oldDimension != null;
-        BlockState newBlockState = new TardisBlock().getStateIfMoved(exterior_facing);
+        BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
         newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
-        oldDimension.removeBlock(tardis.exterior_position, true);
+        newDimension.getBlockState(new_exterior_position).createTileEntity(newDimension);
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
+
+        System.out.println(newTardisTileEntity);
         assert newTardisTileEntity != null;
+        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
+        newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
         tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension);
+        oldDimension.removeBlock(tardis.exterior_position, false);
 
         return tardis;
 

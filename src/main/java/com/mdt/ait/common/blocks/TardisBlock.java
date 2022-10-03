@@ -121,7 +121,7 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
         return blockState;
     }
 
-    public final BlockState getStateIfMoved(Direction facing) {
+    public BlockState getStateIfMoved(Direction facing) {
         BlockState blockState = this.defaultBlockState().setValue(FACING, facing);
         blockState = blockState.setValue(isExistingTardis, true);
 
