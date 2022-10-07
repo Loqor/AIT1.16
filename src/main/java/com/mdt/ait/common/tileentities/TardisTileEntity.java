@@ -103,7 +103,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public EnumExteriorType getLastExterior() {
-        /// sdfdsfs
         switch (currentexterior) {
             case BASIC_BOX:
                 return EnumExteriorType.HARTNELL_EXTERIOR;
@@ -181,6 +180,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     @Override
     public void tick() {
+        //System.out.println(linked_tardis_id);
         isItDark();
         //System.out.println(currentexterior);
         EnumMatState materialState = EnumMatState.values()[this.serializeNBT().getInt("matState")];
@@ -202,7 +202,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             ++ticks;
             if (ticks >= 257) {
                 if (!level.isClientSide) {
-                    AIT.tardisManager.moveTardis(this.linked_tardis_id, new BlockPos(
+                    AIT.tardisManager.moveTARDIS(this.linked_tardis_id, new BlockPos(
                                     worldPosition.getX() + 1, worldPosition.getY(), worldPosition.getZ() + 5),
                             this.linked_tardis.exterior_facing, this.linked_tardis.exterior_dimension);
                     this.matState = EnumMatState.REMAT;

@@ -1,6 +1,5 @@
 package com.mdt.ait.tardis;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
@@ -66,7 +65,7 @@ public class TardisManager {
         return tardis_list.get(tardisID);
     }
 
-    public Tardis moveTardis(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
+    public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
         Tardis tardis = getTardis(tardis_id);
 
         ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
@@ -74,8 +73,6 @@ public class TardisManager {
         assert newDimension != null;
         assert oldDimension != null;
         BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
-        newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
-        newDimension.getBlockState(new_exterior_position).createTileEntity(newDimension);
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
         System.out.println(newTardisTileEntity);
@@ -86,6 +83,8 @@ public class TardisManager {
         newTardisTileEntity.linked_tardis = tardis;
         tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension);
         oldDimension.removeBlock(tardis.exterior_position, false);
+        newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
+        newDimension.getBlockState(new_exterior_position).createTileEntity(newDimension);
 
         return tardis;
 

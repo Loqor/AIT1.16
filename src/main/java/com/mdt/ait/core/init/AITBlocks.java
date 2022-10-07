@@ -181,19 +181,19 @@ public class AITBlocks {
     //Random Roundels
     public static final RegistryObject<Block> THREE_DOCTORS_ROUNDEL_A = BLOCKS.register(
             "3_doctors_roundel_a", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> THREE_DOCTORS_ROUNDEL_B = BLOCKS.register(
             "3_doctors_roundel_b", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL)));
 
     //Light Blocks
     public static final RegistryObject<RotatedPillarBlock> LIGHT_BLOCK_ORANGE = BLOCKS.register("light_block_orange", () -> new RotatedPillarBlock(Block.Properties.of(
             Material.GLASS, MaterialColor.COLOR_ORANGE).harvestLevel(-1).sound(SoundType.GLASS).noOcclusion().lightLevel((p_235464_0_) -> 10)));
     public static final RegistryObject<RotatedPillarBlock> LIGHT_BLOCK_BLUE = BLOCKS.register("light_block_blue", () -> new RotatedPillarBlock(Block.Properties.of(
-            Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).harvestLevel(-1).sound(SoundType.GLASS).noOcclusion().lightLevel((p_235464_0_) -> 10)));
+            Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).harvestLevel(-1).sound(SoundType.GLASS).lightLevel((p_235464_0_) -> 10)));
     public static final RegistryObject<RotatedPillarBlock> LIGHT_BLOCK_PURPLE = BLOCKS.register("light_block_purple", () -> new RotatedPillarBlock(Block.Properties.of(
-            Material.GLASS, MaterialColor.COLOR_PURPLE).harvestLevel(-1).sound(SoundType.GLASS).noOcclusion().lightLevel((p_235464_0_) -> 10)));
+            Material.GLASS, MaterialColor.COLOR_PURPLE).harvestLevel(-1).sound(SoundType.GLASS).lightLevel((p_235464_0_) -> 10)));
     public static final RegistryObject<RotatedPillarBlock> LIGHT_BLOCK_GREEN = BLOCKS.register("light_block_green", () -> new RotatedPillarBlock(Block.Properties.of(
-            Material.GLASS, MaterialColor.COLOR_LIGHT_GREEN).harvestLevel(-1).sound(SoundType.GLASS).noOcclusion().lightLevel((p_235464_0_) -> 10)));
+            Material.GLASS, MaterialColor.COLOR_LIGHT_GREEN).harvestLevel(-1).sound(SoundType.GLASS).lightLevel((p_235464_0_) -> 10)));
 
 }

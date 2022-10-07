@@ -69,11 +69,11 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.HARTNELL_BLOWUP_SOLID.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.STEEL_GRATE_BLOCK.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(AITBlocks.STEEL_GRATE_BLOCK_SLAB.get(), RenderType.translucent());
-            RenderTypeLookup.setRenderLayer(AITBlocks.BRASS_PILLAR.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(AITBlocks.BRASS_PILLAR.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.MINT_SOLID_SLAB.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.ORMULUCLOCK.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(AITBlocks.COW_SKULL.get(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(AITBlocks.ARMILLARYSPHERE.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(AITBlocks.ORMULUCLOCK.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.COW_SKULL.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.ARMILLARYSPHERE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_A.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_B.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_SOLID.get(), RenderType.cutoutMipped());

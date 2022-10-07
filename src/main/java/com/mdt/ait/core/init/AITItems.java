@@ -5,8 +5,7 @@ import com.mdt.ait.common.AITArmorMaterials;
 import com.mdt.ait.common.items.*;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,7 +13,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class AITItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, AIT.MOD_ID);
-
 
     //Fezzes
     public static final RegistryObject<FezArmorItem> WHITE_FEZ = ITEMS.register(
@@ -69,6 +67,10 @@ public class AITItems {
             "brown_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
     /*======================================================================================================================================================*/
 
+    //Foodstuffs
+    public static final RegistryObject<Item> NUKA_COLA = ITEMS.register(
+            "nuka_cola", () -> new Item(new Item.Properties().stacksTo(16).tab(AITItemGroups.AITFOODSTUFFS).food(CustomFood.NUKA_COLA)));
+
     //Cosmetics
     public static final RegistryObject<MessengerArmorItem> MESSENGER_BAG = ITEMS.register(
             "messenger_bag", () -> new MessengerArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
@@ -76,24 +78,34 @@ public class AITItems {
     public static final RegistryObject<ThreeDGlassesArmorItem> THREED_GLASSES = ITEMS.register(
             "3d_glasses", () -> new ThreeDGlassesArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
 
+
+    //Sonic Screwdrivers
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(
             "tennant_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<SonicItem> WHITTAKER_SONIC = ITEMS.register(
             "whittaker_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+
+    //Keys
     public static final RegistryObject<TARDISKey> GOLDEN_TARDIS_KEY = ITEMS.register(
             "golden_tardis_key", () -> new TARDISKey(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+
+    //Tools
     public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
             "dematter_stick", () -> new DematterStick(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<DevTool> DEV_TOOL = ITEMS.register(
             "dev_tool", () -> new DevTool(new Item.Properties().tab(AITItemGroups.AITITEMS))
     );
+
+    //Time Machines
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
                     AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+
     public static final RegistryObject<BlockItem> RECORD_PLAYER = ITEMS.register(
             "record_player", () -> new BlockItem(
                     AITBlocks.RECORD_PLAYER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
@@ -115,14 +127,15 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TSV = ITEMS.register(
             "tsv", () -> new BlockItem(
                     AITBlocks.TSV_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-
     public static final RegistryObject<BlockItem> RAMP = ITEMS.register(
             "ramp", () -> new BlockItem(
                     AITBlocks.RAMP_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
 
+    //Monitors
     public static final RegistryObject<BlockItem> TYPEWRITER = ITEMS.register(
             "typewriter", () -> new BlockItem(
                     AITBlocks.TYPEWRITER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+
 
     public static final RegistryObject<BlockItem> INVIS_BLOCK = ITEMS.register(
             "invis_block", () -> new BlockItem(
@@ -132,6 +145,7 @@ public class AITItems {
             AITBlocks.INVIS_LIGHT_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)
     ));
 
+    //Interior Doors
     public static final RegistryObject<BlockItem> BASIC_INTERIOR_DOOR = ITEMS.register(
             "interior_doors", () -> new BlockItem(
                     AITBlocks.INTERIOR_DOOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));

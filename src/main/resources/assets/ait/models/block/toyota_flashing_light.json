@@ -9,16 +9,15 @@
     "particle" : "ait:block/toyota_flashing_light"
   },
   "elements": [
-    {
-      "from": [0, 0, 0],
-      "to": [16, 16, 16],
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
       "faces": {
-        "north": {"uv": [0, 0, 16, 16], "texture": "#0"},
-        "east": {"uv": [0, 0, 16, 16], "texture": "#3"},
-        "south": {"uv": [0, 0, 16, 16], "texture": "#0"},
-        "west": {"uv": [0, 0, 16, 16], "texture": "#3"},
-        "up": {"uv": [0, 0, 16, 16], "texture": "#2"},
-        "down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#1", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#2",    "cullface": "up"},
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#0",   "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#0",   "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#3",   "cullface": "west" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#3",   "cullface": "east" }
       }
     }
   ]

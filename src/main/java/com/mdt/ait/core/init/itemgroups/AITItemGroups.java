@@ -39,4 +39,10 @@ public class AITItemGroups {
             return new ItemStack(AITItems.RED_FEZ.get());
         }
     };
+    public static final ItemGroup AITFOODSTUFFS = new ItemGroup("Foodstuffs") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.NUKA_COLA.get());
+        }
+    };
 }

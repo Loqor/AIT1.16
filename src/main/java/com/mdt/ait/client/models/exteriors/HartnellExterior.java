@@ -1,6 +1,4 @@
-package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.4.1
-// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package com.mdt.ait.client.models.exteriors;
 
 
 import com.mdt.ait.client.models.exteriors.BasicBox;
