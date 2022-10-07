@@ -26,6 +26,7 @@ import java.util.UUID;
 public class TardisManager {
     public static HashMap<UUID, Tardis> tardis_list = new HashMap<UUID, Tardis>();
 
+    public static HashMap<Integer, UUID> integerMapToUUID = new HashMap<Integer, UUID>();
     public static int latestTardisNumber = -1;
 
     private static boolean loaded = false;
@@ -49,6 +50,7 @@ public class TardisManager {
             latestTardisNumber += 1;
             Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
             tardis_list.put(tardisID, tardis);
+            integerMapToUUID.put(latestTardisNumber, tardis.tardisID);
             loaded = true;
             return tardis;
         } else {
@@ -57,6 +59,7 @@ public class TardisManager {
             latestTardisNumber += 1;
             Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
             tardis_list.put(tardisID, tardis);
+            integerMapToUUID.put(latestTardisNumber, tardis.tardisID);
             return tardis;
 
         }
@@ -64,6 +67,31 @@ public class TardisManager {
 
     public Tardis getTardis(UUID tardisID) {
         return tardis_list.get(tardisID);
+    }
+
+    public Tardis getTardisFromPosition(BlockPos pos) {
+        int x = pos.getX();
+        int z = pos.getZ();
+        int x_grid_position;
+        int z_grid_position;
+        int x_r = TardisConfig.tardis_dimension_start_x - x;
+        double x_g = ((double) x_r) / ((double) TardisConfig.tardis_area_x);
+        int x_gr = ((int) Math.ceil(x_g));
+        if (x_gr > 0) {
+            x_grid_position = x_gr + 1;
+        } else {
+            x_grid_position = 1;
+        }
+        int z_r = TardisConfig.tardis_dimension_start_z - z;
+        double z_g = ((double) z_r) / ((double) TardisConfig.tardis_area_z);
+        int z_gr = ((int) Math.ceil(z_g));
+        if (z_gr > 0) {
+            z_grid_position = z_gr + 1;
+        } else {
+            z_grid_position = 1;
+        }
+
+        return getTardis(integerMapToUUID.get(x_grid_position));
     }
 
     public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
@@ -95,10 +123,15 @@ public class TardisManager {
     public void load(CompoundNBT tag) {
         System.out.println("Tardis Manager: Loading!");
         ListNBT tardis_nbt_list = tag.getList("tardis_list", Constants.NBT.TAG_COMPOUND); // Always add Constants.NBT.TAG_COMPOUND idk why you need it but you do
+        ListNBT int_to_tardis_id_list = tag.getList("integer_tardis_list_to_get_UUID", Constants.NBT.TAG_COMPOUND);
         tardis_nbt_list.forEach((inbt) -> {
             Tardis tardis = new Tardis((CompoundNBT) inbt);
             tardis_list.put(tardis.tardisID, tardis);
         });
+        int_to_tardis_id_list.forEach((inbt -> {
+            CompoundNBT nbt = ((CompoundNBT) inbt);
+            integerMapToUUID.put(nbt.getInt("number"), nbt.getUUID("tardis_ID"));
+        }));
         loaded = true;
         latestTardisNumber = tardis_list.size() - 1;
         tardisWorldSavedData.setDirty(false);
@@ -109,8 +142,16 @@ public class TardisManager {
         System.out.println("Tardis Manager Saving");
         System.out.println(tardis_list);
         ListNBT tardis_nbt_list = new ListNBT(); // Create ListNBT
+        ListNBT int_to_tardis_id_list = new ListNBT(); // Create ListNBT
         tardis_list.forEach((id, tardis) -> tardis_nbt_list.add(tardis.save()));
+        integerMapToUUID.forEach((number, UUID) -> {
+            CompoundNBT nbt = new CompoundNBT();
+            nbt.putInt("number", number);
+            nbt.putUUID("tardis_ID", UUID);
+            int_to_tardis_id_list.add(nbt);
+        });
         tag.put("tardis_list", tardis_nbt_list);
+        tag.put("integer_tardis_list_to_get_UUID", int_to_tardis_id_list);
         tardisWorldSavedData.setDirty(false);
         return tag;
     }

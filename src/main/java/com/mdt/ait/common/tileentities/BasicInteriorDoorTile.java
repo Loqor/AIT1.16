@@ -75,7 +75,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }*/
 
     @Override public void tick() {
-        System.out.println(currentstate);
+//        System.out.println(currentstate);
         AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
         aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
         this.level.getEntities(null, aabb).forEach(this::entityInside);

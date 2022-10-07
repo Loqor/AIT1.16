@@ -1,8 +1,10 @@
 package com.mdt.ait.common.items;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TestBlock;
 import com.mdt.ait.core.init.enums.EnumDevToolModes;
 import com.mdt.ait.tardis.TardisInteriors;
+import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -46,18 +48,20 @@ public class DevTool extends Item {
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         Item item = playerentity.getMainHandItem().getItem();
+        if (!world.isClientSide) {
+            playerentity.setItemInHand(context.getHand(), handleItemStackNBT(playerentity.getItemInHand(context.getHand())));
+            if (block instanceof TestBlock && playerentity.isCrouching() && this.current_mode.equals(EnumDevToolModes.PLACE_EXTERIOR)) { // Creates interior
+//                System.out.println("Creating exterior");
+//                ServerWorld serverWorld = (ServerWorld) world;
+//                BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
+//                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
+//                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
 
-        if (block instanceof TestBlock && playerentity.isCrouching() && this.current_mode.equals(EnumDevToolModes.PLACE_EXTERIOR)) { // Creates interior
-            if (!world.isClientSide) {
-                System.out.println("Creating exterior");
-                ServerWorld serverWorld = (ServerWorld) world;
-                BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
-                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
-                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
+                System.out.println(AIT.tardisManager.getTardisFromPosition(playerentity.blockPosition()).tardisID);
 
             }
-
         }
+
         return ActionResultType.SUCCESS;
     }
 

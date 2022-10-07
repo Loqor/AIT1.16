@@ -3,7 +3,7 @@ package com.mdt.ait.tardis;
 public class TardisConfig {
 
     public static final int tardis_usable_area_x = 40055;
-    public static final int tardis_usable_area_z = 10055;
+    public static final int tardis_usable_area_z = 40055;
     public static final int tardis_area_x = tardis_usable_area_x + 1000;
     public static final int tardis_area_z = tardis_usable_area_z + 1000;
     public static final int tardis_dimension_start_x = 28000000;
