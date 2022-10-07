@@ -79,13 +79,11 @@ public class TardisManager {
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
         assert newTardisTileEntity != null;
-        System.out.println(newTardisTileEntity);
-//        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
+        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
         newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
         oldDimension.removeBlock(tardis.exterior_position, false);
-
 
         tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
 
