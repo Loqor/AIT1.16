@@ -62,12 +62,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         return this.leverState;
     }
 
-
-
     @Override
     public void tick() {
-        //TardisManager tardisManager = AIT.tardisManager;
-        //TileEntity entity = level.getBlockEntity(worldPosition);
+        TardisManager tardisManager = AIT.tardisManager;
+        TileEntity entity = level.getBlockEntity(worldPosition);
         if(leverState == EnumLeverState.DEACTIVE) {
             if (leverPosition > 0f) {
                 leverPosition -= 15.0f;
@@ -85,12 +83,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         if(leverState == EnumLeverState.ACTIVE) {
             runafter = 1;
             if(runafter == 1) {
-                //this.linked_tardis.positionForTardisChange();
                 runafter = 0;
+                //PUT STUFF HERE
             }
         }
-        //System.out.println(runafter);
-        //System.out.println(linked_tardis);
     }
 
     @Override
@@ -101,23 +97,12 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.leverState = EnumLeverState.values()[nbt.getInt("leverState")];
-        //if (level != null) {
-        //    if (!level.isClientSide()) { // Server Side Only
-        //        this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis.tardisID);
-        //    }
-        //}
-        //if (this.linked_tardis.tardisID == null) {
-        //    System.out.println("Linked Tardis ID is null");
-        //}
         super.load(pState, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("leverState", this.leverState.ordinal());
-        //if (this.linked_tardis.tardisID != null) {
-        //    nbt.putUUID("tardisUUID", this.linked_tardis.tardisID);
-        //}
         return super.save(nbt);
     }
 

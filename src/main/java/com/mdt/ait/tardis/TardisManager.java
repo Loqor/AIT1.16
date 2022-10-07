@@ -4,6 +4,7 @@ import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
 import com.mdt.ait.core.init.enums.EnumDoorState;
+import com.mdt.ait.core.init.enums.EnumMatState;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -86,7 +87,7 @@ public class TardisManager {
         oldDimension.removeBlock(tardis.exterior_position, false);
 
         tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
-
+        newTardisTileEntity.setMatState(EnumMatState.REMAT);
         return tardis;
 
     }

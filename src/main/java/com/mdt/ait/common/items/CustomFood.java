@@ -1,7 +1,6 @@
 package com.mdt.ait.common.items;
 
 import net.minecraft.item.Food;
-import net.minecraft.item.Foods;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 

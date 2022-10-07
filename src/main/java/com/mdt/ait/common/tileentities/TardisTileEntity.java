@@ -10,7 +10,9 @@ import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -151,6 +153,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         this.currentexterior = exterior;
     }
 
+    public void setMatState(EnumMatState matState) {
+        this.matState = matState;
+    }
+
     public TardisTileEntity() {
         super(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
     }
@@ -202,11 +208,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             ++ticks;
             if (ticks >= 257) {
                 if (!level.isClientSide) {
-                    AIT.tardisManager.moveTARDIS(this.linked_tardis_id, new BlockPos(
-                                    worldPosition.getX() + 1, worldPosition.getY(), worldPosition.getZ() + 5),
-                            this.linked_tardis.exterior_facing, this.linked_tardis.exterior_dimension);
-                    this.matState = EnumMatState.REMAT;
-//                    level.removeBlock(worldPosition, false);
+                    BlockPos blockPos = new BlockPos(worldPosition.getX() + 5, worldPosition.getY(), worldPosition.getZ() + 5);
+                    AIT.tardisManager.moveTARDIS(this.linked_tardis_id, blockPos, this.linked_tardis.exterior_facing, AITDimensions.GALLIFREY);
                 }
             }
             if(run_once == 0) {
@@ -374,53 +377,55 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         ItemStack key = playerentity.getMainHandItem();
-        if (this.currentstate != LOCKED && !key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
-            if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-                this.setDoorState(this.getNextDoorState());
-                if (world.getBlockEntity(linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
-                    ServerWorld exteriorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                    ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.interior_door_position, 0, 0, true, true);
-                    if(this.currentstate == FIRST) {
-                        ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
+        if(this.matState == EnumMatState.SOLID) {
+                if (this.currentstate != LOCKED && !key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
+                    if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                        this.setDoorState(this.getNextDoorState());
+                        if (world.getBlockEntity(linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
+                            ServerWorld exteriorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                            ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.interior_door_position, 0, 0, true, true);
+                            if (this.currentstate == FIRST) {
+                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
+                            }
+                            if (this.currentstate == BOTH) {
+                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
+                            }
+                            if (this.currentstate == CLOSED) {
+                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = CLOSED;
+                            }
+                            syncToClient();
+                        }
+                        if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
+                            if (this.currentstate == CLOSED)
+                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            if (this.currentstate == FIRST)
+                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            if (this.currentstate == BOTH)
+                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            syncToClient();
+                        } else {
+                            if (currentState() != FIRST)
+                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            if (currentState() == FIRST)
+                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            syncToClient();
+                        }
                     }
-                    if(this.currentstate == BOTH) {
-                        ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
-                    }
-                    if(this.currentstate == CLOSED) {
-                        ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = CLOSED;
-                    }
-                    syncToClient();
-                }
-                if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
-                    if (this.currentstate == CLOSED)
-                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    if (this.currentstate == FIRST)
-                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    if (this.currentstate == BOTH)
-                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    syncToClient();
                 } else {
-                    if (currentState() != FIRST)
-                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    if (currentState() == FIRST)
-                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    this.currentstate = LOCKED;
+                    playerentity.sendMessage(new TranslationTextComponent(
+                            "TARDIS locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
+                    world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                     syncToClient();
                 }
-            }
-        } else {
-            this.currentstate = LOCKED;
-            playerentity.sendMessage(new TranslationTextComponent(
-                    "TARDIS locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
-            world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            syncToClient();
-        }
-        if(this.currentstate == LOCKED && key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
-            this.getNextDoorState();
-            playerentity.sendMessage(new TranslationTextComponent(
-                    "TARDIS unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
-            world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            syncToClient();
+                if (this.currentstate == LOCKED && key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
+                    this.getNextDoorState();
+                    playerentity.sendMessage(new TranslationTextComponent(
+                            "TARDIS unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
+                    world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    syncToClient();
 
+                }
         }
         return ActionResultType.SUCCESS;
     }
