@@ -75,7 +75,6 @@ public class TardisManager {
         BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
-        System.out.println(newTardisTileEntity);
         assert newTardisTileEntity != null;
         newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
