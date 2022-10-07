@@ -1,5 +1,6 @@
 package com.mdt.ait.tardis;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
@@ -32,7 +33,7 @@ public class TardisManager {
     private static boolean loaded = false;
 
 
-    private final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+    private final MinecraftServer server = AIT.server;
 
     public static TardisWorldSavedData tardisWorldSavedData;
 
