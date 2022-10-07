@@ -5,7 +5,7 @@ import net.minecraft.item.Foods;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 
-public class CustomFood extends Foods {
+public class CustomFood {
 
     public static final Food NUKA_COLA = (new Food.Builder()).nutrition(4).saturationMod(1.2F).effect
             (new EffectInstance(Effects.NIGHT_VISION, 4000, 1), 1.0F).effect

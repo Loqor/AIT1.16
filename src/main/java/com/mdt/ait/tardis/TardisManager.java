@@ -72,18 +72,22 @@ public class TardisManager {
         ServerWorld newDimension = server.getLevel(exterior_dimension);
         assert newDimension != null;
         assert oldDimension != null;
+
         BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
+        newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
+
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
         assert newTardisTileEntity != null;
-        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
+        System.out.println(newTardisTileEntity);
+//        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
         newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
-        tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension);
         oldDimension.removeBlock(tardis.exterior_position, false);
-        newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
-        newDimension.getBlockState(new_exterior_position).createTileEntity(newDimension);
+
+
+        tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
 
         return tardis;
 

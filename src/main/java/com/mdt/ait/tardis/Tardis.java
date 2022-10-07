@@ -194,7 +194,6 @@ public class Tardis {
     }
 
     public CompoundNBT save() {
-        System.out.println("SAVEEEEEEEEEEEEEEEEEEEEEEEEE 453342");
         CompoundNBT tag = new CompoundNBT();
         tag.putUUID("owner", this.owner);
         tag.putUUID("tardis_id", this.tardisID);
