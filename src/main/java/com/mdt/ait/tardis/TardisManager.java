@@ -70,6 +70,10 @@ public class TardisManager {
     }
 
     public Tardis getTardisFromPosition(BlockPos pos) {
+        return getTardis(getTardisIDFromPosition(pos));
+    }
+
+    public UUID getTardisIDFromPosition(BlockPos pos) {
         int x = pos.getX();
         int z = pos.getZ();
         int x_grid_position;
@@ -91,7 +95,7 @@ public class TardisManager {
             z_grid_position = 1;
         }
 
-        return getTardis(integerMapToUUID.get(x_grid_position));
+        return integerMapToUUID.get(x_grid_position);
     }
 
     public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
