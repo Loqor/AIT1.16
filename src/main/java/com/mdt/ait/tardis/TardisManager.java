@@ -28,7 +28,7 @@ public class TardisManager {
     public static HashMap<UUID, Tardis> tardis_list = new HashMap<UUID, Tardis>();
 
     public static HashMap<Integer, UUID> integerMapToUUID = new HashMap<Integer, UUID>();
-    public static int latestTardisNumber = -1;
+    public static int latestTardisNumber = 0;
 
     private static boolean loaded = false;
 
@@ -82,21 +82,23 @@ public class TardisManager {
         int x_r = TardisConfig.tardis_dimension_start_x - x;
         double x_g = ((double) x_r) / ((double) TardisConfig.tardis_area_x);
         int x_gr = ((int) Math.ceil(x_g));
-        if (x_gr > 0) {
-            x_grid_position = x_gr + 1;
-        } else {
-            x_grid_position = 1;
-        }
+//        if (x_gr > 0) {
+//            x_grid_position = x_gr + 1;
+//        } else {
+//            x_grid_position = 1;
+//        }
         int z_r = TardisConfig.tardis_dimension_start_z - z;
         double z_g = ((double) z_r) / ((double) TardisConfig.tardis_area_z);
         int z_gr = ((int) Math.ceil(z_g));
-        if (z_gr > 0) {
-            z_grid_position = z_gr + 1;
-        } else {
-            z_grid_position = 1;
-        }
+//        if (z_gr > 0) {
+//            z_grid_position = z_gr + 1;
+//        } else {
+//            z_grid_position = 1;
+//        }
 
-        return integerMapToUUID.get(x_grid_position);
+        System.out.println(integerMapToUUID);
+        System.out.println(x_gr);
+        return integerMapToUUID.get(x_gr);
     }
 
     public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
@@ -117,6 +119,7 @@ public class TardisManager {
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
         newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
+        newDimension.setBlockEntity(new_exterior_position, newTardisTileEntity);
         oldDimension.removeBlock(tardis.exterior_position, false);
 
         tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last

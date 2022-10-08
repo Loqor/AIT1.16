@@ -20,6 +20,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -39,7 +40,6 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     public EnumLeverState leverState = EnumLeverState.DEACTIVE;
     public float leverPosition = 0;
-    public Tardis linked_tardis;
     public ServerWorld lever_dim;
     public double waiting_for_flight = 0;
     public int runafter = 0;
@@ -65,8 +65,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     }
 
     public void changeMatStateFromLever() {
-        TardisManager tardisManager = AIT.tardisManager;
-        Tardis tardis = tardisManager.getTardis(tardisID);
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
         BlockPos exteriorPos = tardis.exterior_position;
         assert world != null;
@@ -74,6 +73,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         assert tardisTileEntity != null;
         if(leverState == EnumLeverState.ACTIVE) {
             tardisTileEntity.matState = EnumMatState.DEMAT;
+            AIT.tardisManager.moveTARDIS(tardisID, new BlockPos(35, 56, 50), Direction.NORTH, tardis.exterior_dimension);
         } else {
             tardisTileEntity.matState = EnumMatState.REMAT;
         }
@@ -119,6 +119,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("leverState", this.leverState.ordinal());
+        System.out.println(tardisID);
         nbt.putUUID("tardisID", this.tardisID);
         return super.save(nbt);
     }

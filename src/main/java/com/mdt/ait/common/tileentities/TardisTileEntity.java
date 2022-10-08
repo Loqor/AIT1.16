@@ -207,13 +207,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
             ++ticks;
             if (ticks >= 257) {
-                if (!level.isClientSide) {
-                    BlockPos blockPos = new BlockPos(136, 76, 152);
-                    ServerWorld forceWorld = AIT.server.getLevel(this.linked_tardis.exterior_dimension);
-                    ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, true, true);
-                    AIT.tardisManager.moveTARDIS(this.linked_tardis_id, blockPos, this.linked_tardis.exterior_facing, /*this.linked_tardis.exterior_dimension*/AITDimensions.GALLIFREY);
-                    ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, false, false);
-                }
             }
             if(run_once == 0) {
                 iDontKnow();
