@@ -88,5 +88,55 @@
         "stream": false
       }
     ]
+  },
+  "knine_growl": {
+    "category": "ambient",
+    "subtitle": "k9.knine_growl.sub",
+    "sounds": [
+      {
+        "name": "adventuresintime:entities/k9/knine_growl",
+        "stream": false
+      }
+    ]
+  },
+  "knine_whine": {
+    "category": "ambient",
+    "subtitle": "k9.knine_whine.sub",
+    "sounds": [
+      {
+        "name": "adventuresintime:entities/k9/knine_whine",
+        "stream": false
+      }
+    ]
+  },
+  "knine_pant": {
+    "category": "ambient",
+    "subtitle": "k9.knine_pant.sub",
+    "sounds": [
+      {
+        "name": "adventuresintime:entities/k9/knine_pant",
+        "stream": false
+      }
+    ]
+  },
+  "knine_hurt": {
+    "category": "ambient",
+    "subtitle": "k9.knine_hurt.sub",
+    "sounds": [
+      {
+        "name": "adventuresintime:entities/k9/knine_hurt",
+        "stream": false
+      }
+    ]
+  },
+  "knine_death": {
+    "category": "ambient",
+    "subtitle": "k9.knine_death.sub",
+    "sounds": [
+      {
+        "name": "adventuresintime:entities/k9/knine_death",
+        "stream": false
+      }
+    ]
   }
 }

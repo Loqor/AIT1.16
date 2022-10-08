@@ -1,8 +1,11 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.tardis.Tardis;
+import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -23,6 +26,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class TardisLeverBlock extends Block {
 
@@ -71,6 +75,10 @@ public class TardisLeverBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TardisLeverTile();
+        TardisLeverTile tardisLeverTile = new TardisLeverTile();
+        BlockPos worldPos = tardisLeverTile.getBlockPos();
+        TardisManager tardisManager = AIT.tardisManager;
+        tardisLeverTile.tardisID = tardisManager.getTardisIDFromPosition(worldPos);
+        return tardisLeverTile;
     }
 }

@@ -43,6 +43,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     public ServerWorld lever_dim;
     public double waiting_for_flight = 0;
     public int runafter = 0;
+    public int run_once = 0;
+    public UUID tardisID;
 
     public TardisLeverTile() {
         super(AITTiles.TARDIS_LEVER_TILE_ENTITY_TYPE.get());
@@ -62,10 +64,23 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         return this.leverState;
     }
 
+    public void changeMatStateFromLever() {
+        TardisManager tardisManager = AIT.tardisManager;
+        Tardis tardis = tardisManager.getTardis(tardisID);
+        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        BlockPos exteriorPos = tardis.exterior_position;
+        assert world != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
+        assert tardisTileEntity != null;
+        if(leverState == EnumLeverState.ACTIVE) {
+            tardisTileEntity.matState = EnumMatState.DEMAT;
+        } else {
+            tardisTileEntity.matState = EnumMatState.REMAT;
+        }
+    }
+
     @Override
     public void tick() {
-        TardisManager tardisManager = AIT.tardisManager;
-        TileEntity entity = level.getBlockEntity(worldPosition);
         if(leverState == EnumLeverState.DEACTIVE) {
             if (leverPosition > 0f) {
                 leverPosition -= 15.0f;
@@ -97,12 +112,14 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.leverState = EnumLeverState.values()[nbt.getInt("leverState")];
+        this.tardisID = nbt.getUUID("tardisID");
         super.load(pState, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("leverState", this.leverState.ordinal());
+        nbt.putUUID("tardisID", this.tardisID);
         return super.save(nbt);
     }
 
@@ -122,6 +139,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         Block block = blockstate.getBlock();
         if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
             leverState = getNextLeverState();
+            changeMatStateFromLever();
             syncToClient();
         }
         return ActionResultType.SUCCESS;

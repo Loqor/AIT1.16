@@ -10,12 +10,14 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.ArmorStandArmorModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 
 public class FezModelLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
@@ -109,6 +111,7 @@ public class FezModelLayer<T extends LivingEntity, M extends EntityModel<T>> ext
                 model.head.translateAndRotate(pMatrixStack);
                 model.hat.visible = false;
                 model.head.visible = false;
+
             }
             IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.TEXTURE));
             pMatrixStack.translate(-0.025, 0.05, 0);

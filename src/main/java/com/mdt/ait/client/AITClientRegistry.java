@@ -7,6 +7,7 @@ import com.mdt.ait.client.models.cosmetics.Fez;
 import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
+import com.mdt.ait.client.renderers.entity.K9EntityRenderer;
 import com.mdt.ait.client.renderers.layers.CowSkullModelLayer;
 import com.mdt.ait.client.renderers.layers.FezModelLayer;
 import com.mdt.ait.client.renderers.layers.MessengerBagModelLayer;
@@ -14,12 +15,14 @@ import com.mdt.ait.client.renderers.layers.ThreeDGlassesModelLayer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
+import com.mdt.ait.core.init.AITEntities;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockModelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -32,6 +35,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -124,6 +128,7 @@ public class AITClientRegistry {
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);
 
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.K9.get(), K9EntityRenderer::new);
 
         Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
         for (PlayerRenderer renderPlayer : skinMap.values()) {
@@ -132,7 +137,6 @@ public class AITClientRegistry {
             renderPlayer.addLayer(new MessengerBagModelLayer<>(renderPlayer));
             renderPlayer.addLayer(new ThreeDGlassesModelLayer<>(renderPlayer));
         }
-
     }
 
 }

@@ -68,6 +68,7 @@ public class AIT {
         AITItems.ITEMS.register(bus);
         AITTiles.TILE_ENTITIES.register(bus);
         AITSounds.SOUNDS.register(bus);
+        AITEntities.ENTITIES.register(bus);
         AITContainerTypes.CONTAINER_TYPES.register(bus);
     }
 

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "## ",
+    "BWW",
+    " WW"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:string"
+    },
+    "B": {
+      "item": "minecraft:black_dye"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "result": {
+    "item": "ait:white_fez",
+    "count": 1
+  },
+  "group": "fezzes"
+}

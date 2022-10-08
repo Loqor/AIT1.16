@@ -13,6 +13,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
@@ -35,6 +37,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+
+import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 
 public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock has some of the same functionality as interface ICantBreak
 

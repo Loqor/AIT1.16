@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:black_dye"
+    },
+    {
+      "item": "ait:white_fez"
+    }
+  ],
+  "result": {
+    "item": "ait:black_fez",
+    "count": 1
+  },
+  "group": "fezzes"
+}

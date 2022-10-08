@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "ait:k9_spawn_egg"
+    },
+    "title": "The Nuts & the Bolts",
+    "description": "Tame K-9, your personal robot companion!",
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "ait:k9_entity"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

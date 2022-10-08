@@ -30,7 +30,7 @@ public class RoundelFaceBlock extends Block {
     public static final VoxelShape WEST_AABB = VoxelShapes.create(new AxisAlignedBB(0.006249999999999978, 0, 0, 1, 1, 1));
 
     public RoundelFaceBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission().lightLevel((p_235464_0_) -> 10));
+        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission().lightLevel((p_235464_0_) -> 15));
     }
 
     @Override

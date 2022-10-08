@@ -29,4 +29,16 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "tardis_landing")));
     public static final RegistryObject<SoundEvent> TARDIS_LOCK = SOUNDS.register("tardis_lock", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_lock")));
+    public static final RegistryObject<SoundEvent> KNINE_GROWL = SOUNDS.register("knine_growl", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_growl")));
+    public static final RegistryObject<SoundEvent> KNINE_WHINE = SOUNDS.register("knine_whine", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_whine")));
+    public static final RegistryObject<SoundEvent> KNINE_PANT = SOUNDS.register("knine_pant", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_pant")));
+    public static final RegistryObject<SoundEvent> KNINE_HURT = SOUNDS.register("knine_hurt", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_hurt")));
+    public static final RegistryObject<SoundEvent> KNINE_DEATH = SOUNDS.register("knine_death", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_death")));
+    public static final RegistryObject<SoundEvent> KNINE_AMBIENT = SOUNDS.register("knine_ambient", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "knine_ambient")));
 }

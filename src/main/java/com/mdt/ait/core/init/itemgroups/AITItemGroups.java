@@ -45,4 +45,10 @@ public class AITItemGroups {
             return new ItemStack(AITItems.NUKA_COLA.get());
         }
     };
+    public static final ItemGroup AITMOBS = new ItemGroup("Mobs") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.K9_SPAWN_EGG.get());
+        }
+    };
 }

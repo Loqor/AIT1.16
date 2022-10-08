@@ -17,20 +17,15 @@ import net.minecraft.world.Dimension;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-public class ClientShit {
+public class ClientThings {
 
-    public static void shit(BipedModel bipedModel, LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo callbackInfo) {
+    public static void thing(BipedModel bipedModel, LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo callbackInfo) {
+
         if(livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == AITItems.COW_SKULL.get()){
             bipedModel.head.visible = false;
             bipedModel.hat.visible = false;
             callbackInfo.cancel();
         }
-        /*Item item = livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem();
-        if(item == AITItems.COW_SKULL.get()){
-            System.out.println("uhhh");
-            bipedModel.head.visible = false;
-            bipedModel.hat.visible = false;
-            callbackInfo.cancel();
-        }*/
+
     }
 }

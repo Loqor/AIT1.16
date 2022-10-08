@@ -1,6 +1,6 @@
 package com.mdt.ait.mixin;
 
-import com.mdt.ait.client.ClientShit;
+import com.mdt.ait.client.ClientThings;
 import com.mdt.ait.core.init.AITItems;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
@@ -18,7 +18,7 @@ public class PlayerModelMixin {
         BipedModel bipedModel = (BipedModel) (Object) this;
 
         if(livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == AITItems.COW_SKULL.get()){
-            ClientShit.shit(bipedModel, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, callbackInfo);
+            ClientThings.thing(bipedModel, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, callbackInfo);
         }
     }
 

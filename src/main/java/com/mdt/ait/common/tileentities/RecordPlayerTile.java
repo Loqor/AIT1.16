@@ -134,6 +134,9 @@ public class RecordPlayerTile extends TileEntity implements ITickableTileEntity 
             playerState = EnumRecordPlayerState.PLAYING;
             world.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), SoundEvents.MUSIC_DISC_PIGSTEP, SoundCategory.MASTER, 10, 1);
         }
+        if(playerState == EnumRecordPlayerState.CLOSED) {
+
+        }
         return ActionResultType.SUCCESS;
     }
 

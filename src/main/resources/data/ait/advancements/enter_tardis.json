@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "ait:tardis"
+    },
+    "title": "Barbara, What Are You Doing?",
+    "description": "Enter the TARDIS for the first time",
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "from": "minecraft:overworld",
+        "to": "ait:tardis_dimension"
+      }
+    }
+  },
+  "rewards": {
+    "experience": 69
+  }
+}
