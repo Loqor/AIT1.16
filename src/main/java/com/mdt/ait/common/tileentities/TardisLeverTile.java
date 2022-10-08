@@ -136,13 +136,16 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
-        BlockState blockstate = world.getBlockState(blockpos);
-        Block block = blockstate.getBlock();
-        if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-            leverState = getNextLeverState();
-            changeMatStateFromLever();
-            syncToClient();
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            BlockState blockstate = world.getBlockState(blockpos);
+            Block block = blockstate.getBlock();
+            if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                leverState = getNextLeverState();
+                changeMatStateFromLever();
+                syncToClient();
+            }
         }
+
         return ActionResultType.SUCCESS;
     }
 

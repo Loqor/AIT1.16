@@ -89,9 +89,11 @@ public class Tardis {
         BlockState interiorDoorBlockState = Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockState(interior_door_position);
         if (interiorDoorBlockState.getBlock() instanceof BasicInteriorDoorBlock) {
             this.interior_door_facing = interiorDoorBlockState.getValue(BasicInteriorDoorBlock.FACING);
+            assert tardisWorld != null;
             TileEntity interiorDoorTileEntity = tardisWorld.getBlockEntity(this.interior_door_position);
             if (interiorDoorTileEntity instanceof BasicInteriorDoorTile) {
-                ((BasicInteriorDoorTile) interiorDoorTileEntity).linked_exterior = this;
+                ((BasicInteriorDoorTile) interiorDoorTileEntity).linked_tardis = this;
+                ((BasicInteriorDoorTile) interiorDoorTileEntity).tardisID = this.tardisID;
             }
         }
     }

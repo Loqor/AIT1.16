@@ -1,6 +1,7 @@
 package com.mdt.ait.core.init.events;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
@@ -20,6 +21,8 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.UUID;
 
 public class TardisEventHandler {
 
@@ -62,6 +65,26 @@ public class TardisEventHandler {
 
 
 
+        }
+        if (event.getState().getBlock() instanceof BasicInteriorDoorBlock) {
+            if (!event.getWorld().isClientSide()) {
+                ServerWorld serverWorld = (ServerWorld) event.getWorld();
+                if (serverWorld.dimension() == AITDimensions.TARDIS_DIMENSION) {
+                    Tardis tardis = AIT.tardisManager.getTardisFromPosition(event.getPos());
+                    BlockPos maybe_interior_door_position = tardis.interior_door_position;
+                    BlockState blockState = serverWorld.getBlockState(maybe_interior_door_position);
+                    Block block = blockState.getBlock();
+                    if (block instanceof BasicInteriorDoorBlock) {
+                        // @TODO: On destroy will make it so we can place the interior back in the same spot, basically it won't let the player replace the door where it originally was.
+                        // @TODO: Add a message for the player to remove the original interior door
+                        // @TODO: Make sure to not remove the block from their inventory if it's cancelled
+                        event.setCanceled(true); // Event cancelled
+                    } else {
+                        tardis.interior_door_position = event.getPos();
+                        tardis.interior_door_facing = serverWorld.getBlockState(event.getPos()).getValue(BasicInteriorDoorBlock.FACING);
+                    }
+                }
+            }
         }
     }
 

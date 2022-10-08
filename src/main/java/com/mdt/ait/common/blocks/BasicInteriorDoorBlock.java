@@ -1,8 +1,10 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -23,12 +25,16 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class BasicInteriorDoorBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    public UUID tardisID;
 
     public static final VoxelShape NORTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, -0.0625, 1, 2, -0.006249999999999978));
     public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(1.00625, 0, 0, 1.0625, 2, 1));
@@ -83,6 +89,23 @@ public class BasicInteriorDoorBlock extends Block {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
+        super.onPlace(blockState1, world, blockPos, blockState2, bool);
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+//            BlockPos tempBlockPos = AIT.tardisManager.getTardis(this.tardisID).interior_door_position;
+            ServerWorld serverWorld = ((ServerWorld) world);
+            BasicInteriorDoorTile basicInteriorDoorTile = ((BasicInteriorDoorTile) serverWorld.getBlockEntity(blockPos));
+            assert basicInteriorDoorTile != null;
+            basicInteriorDoorTile.tardisID = this.tardisID;
+            basicInteriorDoorTile.linked_tardis = AIT.tardisManager.getTardis(this.tardisID);
+            serverWorld.setBlockEntity(blockPos, basicInteriorDoorTile);
+        }
+
+
     }
 
     @Nullable

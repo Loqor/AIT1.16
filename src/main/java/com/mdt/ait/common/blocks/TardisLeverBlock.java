@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
@@ -78,12 +79,10 @@ public class TardisLeverBlock extends Block {
     @Override
     public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
         super.onPlace(blockState1, world, blockPos, blockState2, bool);
-        if (!world.isClientSide) {
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             TardisLeverTile tardisLeverTile = (TardisLeverTile) serverWorld.getBlockEntity(blockPos);
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            System.out.println(blockPos);
-            System.out.println(this.tardisID);
             assert tardisLeverTile != null;
             tardisLeverTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, tardisLeverTile);
