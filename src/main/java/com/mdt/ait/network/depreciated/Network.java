@@ -1,8 +1,7 @@
-package com.mdt.ait.network;
+package com.mdt.ait.network.depreciated;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.network.packets.DimensionSyncPacket;
-import com.mdt.ait.network.packets.MonitorExteriorChangePacket;
+import com.mdt.ait.network.depreciated.packets.DimensionSyncPacket;
 import com.mojang.serialization.Codec;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

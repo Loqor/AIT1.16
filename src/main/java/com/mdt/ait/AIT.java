@@ -2,41 +2,23 @@ package com.mdt.ait;
 
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
-import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.core.init.*;
-import com.mdt.ait.core.init.events.ClientEventHandler;
 import com.mdt.ait.core.init.events.CommonEventHandler;
 import com.mdt.ait.core.init.events.TardisEventHandler;
-import com.mdt.ait.network.Network;
+import com.mdt.ait.network.NetworkHandler;
+import com.mdt.ait.network.depreciated.Network;
+import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
 import com.mdt.ait.tardis.TardisManager;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtils;
-import net.minecraft.potion.Potions;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.storage.DimensionSavedDataManager;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ISkyRenderHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.glfw.GLFW;
 
 @Mod(AIT.MOD_ID)
 public class AIT {
@@ -56,6 +38,7 @@ public class AIT {
 
     public AIT() throws ClassNotFoundException {
         // https://misode.github.io helps with data generation
+
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         MinecraftForge.EVENT_BUS.register(this);

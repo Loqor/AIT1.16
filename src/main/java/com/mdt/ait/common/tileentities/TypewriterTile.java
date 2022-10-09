@@ -1,28 +1,18 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.blocks.TypewriterBlock;
 import com.mdt.ait.common.container.MonitorContainer;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.network.Network;
-import com.mdt.ait.network.packets.MonitorExteriorChangePacket;
+import com.mdt.ait.network.depreciated.Network;
+import com.mdt.ait.network.depreciated.packets.MonitorExteriorChangePacket;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.BeaconContainer;
-import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.*;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -30,12 +20,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class TypewriterTile extends LockableLootTileEntity {
 

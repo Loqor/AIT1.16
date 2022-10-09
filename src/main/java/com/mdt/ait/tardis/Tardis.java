@@ -7,6 +7,7 @@ import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,6 +32,8 @@ public class Tardis implements IEnergyStorage {
     public Direction exterior_facing;
     public Direction interior_door_facing;
     public final BlockPos center_position;
+
+    public EnumExteriorType exteriorType;
     public TardisInterior currentInterior;
     public final Tuple<Integer, Integer> grid_position;
     public RegistryKey<World> exterior_dimension;
@@ -63,6 +66,7 @@ public class Tardis implements IEnergyStorage {
         this.max_energy_storage = TardisConfig.tardis_default_base_energy_storage;
         this.energy_recharge_rate = TardisConfig.tardis_default_energy_recharge_rate;
         this.current_energy = this.max_energy_storage;
+        this.exteriorType = ((TardisTileEntity) Objects.requireNonNull(Objects.requireNonNull(AIT.server.getLevel(exterior_dimension)).getBlockEntity(exterior_position))).currentExterior();
         this.center_position = new BlockPos(TardisConfig.tardis_dimension_start_x-(TardisConfig.tardis_area_x * grid_position.getA()) + ((TardisConfig.tardis_area_x - 1)/2) + 1,TardisConfig.tardis_center_y,TardisConfig.tardis_dimension_start_z-(TardisConfig.tardis_area_z * grid_position.getB()) + ((TardisConfig.tardis_area_z - 1)/2) + 1);
         BlockState exteriorBlockState = Objects.requireNonNull(AIT.server.getLevel(exterior_dimension)).getBlockState(exterior_position);
         if (exteriorBlockState.getBlock() instanceof TardisBlock) {
@@ -73,8 +77,18 @@ public class Tardis implements IEnergyStorage {
 
     }
 
+    public void setExteriorType(EnumExteriorType exteriorType) {
+        this.exteriorType = exteriorType;
+        ServerWorld exteriorWorld = AIT.server.getLevel(exterior_dimension);
+        assert exteriorWorld != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(exterior_position);
+        assert tardisTileEntity != null;
+        tardisTileEntity.setExterior(exteriorType);
+    }
+
     public void lockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
+        assert playerentity != null;
         World world = playerentity.level;
         //this.lockedTardis = true;
         world.playSound(null, this.exterior_position.getX(),
@@ -85,6 +99,7 @@ public class Tardis implements IEnergyStorage {
 
     public void unlockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
+        assert playerentity != null;
         World world = playerentity.level;
         this.lockedTardis = false;
         world.playSound(null, this.exterior_position.getX(),
@@ -158,6 +173,7 @@ public class Tardis implements IEnergyStorage {
         ServerWorld target_world = AIT.server.getLevel(TardiS.exterior_dimension);
         BlockPos exteriorPosition = new BlockPos(bpos);
         try {
+            assert target_world != null;
             target_world.setBlockEntity(exteriorPosition, tte);
             target_world.setBlock(exteriorPosition, tte.getBlockState(), 1);
             Tardis tardis = tardisManager.createNewTardis(tte.linked_tardis_id, exteriorPosition, TardiS.exterior_dimension);
@@ -220,6 +236,7 @@ public class Tardis implements IEnergyStorage {
         this.max_energy_storage = tag.getInt("max_energy_storage");
         this.current_energy = tag.getInt("current_energy");
         this.energy_recharge_rate = tag.getInt("energy_recharge_rate");
+        this.exteriorType = EnumExteriorType.valueOf(tag.getString("exterior_type"));
 
     }
 
@@ -247,6 +264,7 @@ public class Tardis implements IEnergyStorage {
         tag.putInt("max_energy_storage", this.max_energy_storage);
         tag.putInt("current_energy", this.current_energy);
         tag.putInt("energy_recharge_rate", this.energy_recharge_rate);
+        tag.putString("exterior_type", this.exteriorType.toString());
         return tag;
     }
 

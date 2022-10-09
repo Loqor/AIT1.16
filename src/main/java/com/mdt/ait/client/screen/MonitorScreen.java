@@ -1,30 +1,16 @@
 package com.mdt.ait.client.screen;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.container.MonitorContainer;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.network.Network;
-import com.mdt.ait.network.packets.MonitorExteriorChangePacket;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-
-import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class MonitorScreen extends ContainerScreen<MonitorContainer> {

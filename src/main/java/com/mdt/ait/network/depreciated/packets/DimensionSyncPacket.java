@@ -1,4 +1,4 @@
-package com.mdt.ait.network.packets;
+package com.mdt.ait.network.depreciated.packets;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
