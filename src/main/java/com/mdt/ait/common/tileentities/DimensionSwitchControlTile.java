@@ -77,7 +77,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
         if(currentdimensionstate == EnumDimensionControlState.MONDAS) {
             newDimension = AITDimensions.MONDAS;
         }
-        AIT.tardisManager.dimensionForTARDIS(newDimension);
+        AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
     }
 
 

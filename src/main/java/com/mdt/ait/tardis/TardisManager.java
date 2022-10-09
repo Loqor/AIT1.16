@@ -104,11 +104,11 @@ public class TardisManager {
         return integerMapToUUID.get(x_gr);
     }
 
-    public RegistryKey<World> dimensionForTARDIS(RegistryKey<World> new_exterior_dimension) {
-        return new_exterior_dimension;
+    public void setTargetDimensionForTardis(UUID tardisIDRegistryKey, RegistryKey<World> newTargetDimension) {
+        this.getTardis(tardisIDRegistryKey).target_dimension = newTargetDimension;
     }
 
-    public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
+    public void moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
         Tardis tardis = getTardis(tardis_id);
 
         ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
@@ -141,7 +141,21 @@ public class TardisManager {
             ForgeChunkManager.forceChunk(forceWorld1, AIT.MOD_ID, new_exterior_position, 0, 0, true, true);
             newTardisTileEntity.setMatState(EnumMatState.REMAT);
         }
-        return tardis;
+    }
+
+    public void setTardisTargetLocation(UUID tardisID, BlockPos targetPosition, Direction targetFacing, RegistryKey<World> targetDimension) {
+        Tardis tardis = getTardis(tardisID);
+        tardis.__setTargetLocation(targetPosition, targetFacing, targetDimension);
+    }
+
+    public void moveTardisToTargetLocation(UUID tardisID) {
+        Tardis tardis = getTardis(tardisID);
+        moveTARDIS(tardisID, tardis.targetPosition, tardis.target_facing_direction, tardis.target_dimension);
+    }
+
+    public boolean doesTardisHaveATargetLocation(UUID tardisID) {
+        Tardis tardis = getTardis(tardisID);
+        return tardis.targetPosition != null && tardis.target_dimension != null && tardis.target_facing_direction != null;
     }
 
     public void load(CompoundNBT tag) {

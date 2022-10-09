@@ -40,6 +40,10 @@ public class Tardis {
 
     public final UUID tardisID;
 
+    public RegistryKey<World> target_dimension;
+    public BlockPos targetPosition;
+    public Direction target_facing_direction;
+
     public Tardis(UUID player, BlockPos exterior_position, RegistryKey<World> exterior_dimension, UUID tardisID, Tuple<Integer, Integer> grid_position, boolean lockedTardis) {
         System.out.println("Creating new tardis");
         this.owner = player;
@@ -103,6 +107,12 @@ public class Tardis {
         this.exterior_facing = newExteriorFacing;
         this.exterior_dimension = newExteriorDimension;
 
+    }
+
+    public void __setTargetLocation(BlockPos newTargetPosition, Direction newTargetFacing, RegistryKey<World> newTargetDimension) {
+        this.target_dimension = newTargetDimension;
+        this.targetPosition = newTargetPosition;
+        this.target_facing_direction = newTargetFacing;
     }
 
     public void teleportToInterior(PlayerEntity playerEntity) {
@@ -192,6 +202,11 @@ public class Tardis {
         this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.interior_door_facing = Direction.byName(tag.getString("interior_door_facing"));
         this.lockedTardis = tag.getBoolean("locked_tardis"); // Loqor is an idiot and fucked this up ~ Creativious
+        if (tag.contains("target_dimension_registry_name") || tag.contains("target_position") || tag.contains("target_facing") || tag.contains("target_dimension_resource_location")) {
+            this.targetPosition = BlockPos.of(tag.getLong("target_position"));
+            this.target_dimension = RegistryKey.create(RegistryKey.createRegistryKey(new ResourceLocation(tag.getString("target_dimension_registry_name"))), new ResourceLocation(tag.getString("target_dimension_resource_location")));
+            this.target_facing_direction = Direction.byName(tag.getString("target_facing"));
+        }
 
     }
 
@@ -210,6 +225,12 @@ public class Tardis {
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());
         tag.putBoolean("locked_tardis", this.lockedTardis);
+        if (target_dimension != null || targetPosition != null || target_facing_direction != null) {
+            tag.putString("target_dimension_registry_name", this.target_dimension.getRegistryName().toString()); // IT IS NOT NULL YOU IDIOT I ALREADY CHECKED FOR IT
+            tag.putString("target_dimension_resource_location", this.target_dimension.location().toString());
+            tag.putLong("target_position", this.targetPosition.asLong());
+            tag.putString("target_facing", this.target_facing_direction.toString());
+        }
         return tag;
     }
 }

@@ -77,9 +77,14 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
         assert tardisTileEntity != null;
         if(leverState == EnumLeverState.ACTIVE) {
-            tardisWorld.playSound(null,tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER,7,1);
-            tardisTileEntity.matState = EnumMatState.DEMAT;
-                AIT.tardisManager.moveTARDIS(tardisID, new BlockPos(worldPosition.getX() + 5, worldPosition.getY(), worldPosition.getZ() + 5), tardis.exterior_facing, tardis.exterior_dimension);
+
+            if (AIT.tardisManager.doesTardisHaveATargetLocation(tardisID)) {
+                tardisWorld.playSound(null,tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER,7,1);
+                tardisTileEntity.matState = EnumMatState.DEMAT;
+                AIT.tardisManager.moveTardisToTargetLocation(tardisID);
+            } else {
+                leverState = EnumLeverState.DEACTIVE;
+            }
         } //else {
           //  tardisTileEntity.matState = EnumMatState.REMAT;
         //}
@@ -122,7 +127,9 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.leverState = EnumLeverState.values()[nbt.getInt("leverState")];
-        this.tardisID = nbt.getUUID("tardisID");
+        if (nbt.contains("tardisID")) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
         super.load(pState, nbt);
     }
 
@@ -130,7 +137,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("leverState", this.leverState.ordinal());
         System.out.println(tardisID);
-        nbt.putUUID("tardisID", this.tardisID);
+        if (tardisID != null ) {
+            nbt.putUUID("tardisID", this.tardisID);
+        }
+
         return super.save(nbt);
     }
 
