@@ -19,11 +19,12 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.energy.IEnergyStorage;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class Tardis {
+public class Tardis implements IEnergyStorage {
 
     public BlockPos exterior_position;
     public BlockPos interior_door_position;
@@ -35,6 +36,12 @@ public class Tardis {
     public RegistryKey<World> exterior_dimension;
 
     public BlockPos console_position;
+
+    public int max_energy_storage;
+
+    public int current_energy;
+
+    public int energy_recharge_rate; // Energy per second
     public final UUID owner;
     public boolean lockedTardis;
 
@@ -53,6 +60,9 @@ public class Tardis {
         this.grid_position = grid_position;
         this.tardisID = tardisID;
         this.currentInterior = TardisInteriors.devInterior;
+        this.max_energy_storage = TardisConfig.tardis_default_base_energy_storage;
+        this.energy_recharge_rate = TardisConfig.tardis_default_energy_recharge_rate;
+        this.current_energy = this.max_energy_storage;
         this.center_position = new BlockPos(TardisConfig.tardis_dimension_start_x-(TardisConfig.tardis_area_x * grid_position.getA()) + ((TardisConfig.tardis_area_x - 1)/2) + 1,TardisConfig.tardis_center_y,TardisConfig.tardis_dimension_start_z-(TardisConfig.tardis_area_z * grid_position.getB()) + ((TardisConfig.tardis_area_z - 1)/2) + 1);
         BlockState exteriorBlockState = Objects.requireNonNull(AIT.server.getLevel(exterior_dimension)).getBlockState(exterior_position);
         if (exteriorBlockState.getBlock() instanceof TardisBlock) {
@@ -207,6 +217,9 @@ public class Tardis {
             this.target_dimension = RegistryKey.create(RegistryKey.createRegistryKey(new ResourceLocation(tag.getString("target_dimension_registry_name"))), new ResourceLocation(tag.getString("target_dimension_resource_location")));
             this.target_facing_direction = Direction.byName(tag.getString("target_facing"));
         }
+        this.max_energy_storage = tag.getInt("max_energy_storage");
+        this.current_energy = tag.getInt("current_energy");
+        this.energy_recharge_rate = tag.getInt("energy_recharge_rate");
 
     }
 
@@ -231,6 +244,60 @@ public class Tardis {
             tag.putLong("target_position", this.targetPosition.asLong());
             tag.putString("target_facing", this.target_facing_direction.toString());
         }
+        tag.putInt("max_energy_storage", this.max_energy_storage);
+        tag.putInt("current_energy", this.current_energy);
+        tag.putInt("energy_recharge_rate", this.energy_recharge_rate);
         return tag;
+    }
+
+    @Override
+    public int receiveEnergy(int receiveAmount, boolean simulate) {
+        if (current_energy + receiveAmount > max_energy_storage) {
+            if (!simulate) {
+                current_energy += (receiveAmount - ((current_energy + receiveAmount) -max_energy_storage));
+            }
+            return (receiveAmount - ((current_energy + receiveAmount) -max_energy_storage));
+        } else {
+            if (!simulate) {
+                current_energy += receiveAmount;
+            }
+            return receiveAmount;
+        }
+    }
+
+    @Override
+    public int extractEnergy(int extractAmount, boolean simulate) {
+        // Ignore boolean
+        if (extractAmount > current_energy) {
+            if (!simulate) {
+                current_energy -= current_energy;
+            }
+            return current_energy;
+        } else {
+            if (!simulate) {
+                current_energy -= extractAmount;
+            }
+            return extractAmount;
+        }
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return current_energy;
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return max_energy_storage;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return true;
+    }
+
+    @Override
+    public boolean canReceive() {
+        return true;
     }
 }
