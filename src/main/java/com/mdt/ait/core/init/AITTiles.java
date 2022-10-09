@@ -44,4 +44,10 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<RoundelFaceTile>> ROUNDEL_FACE_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "roundel_face",
             () -> TileEntityType.Builder.of(RoundelFaceTile::new, AITBlocks.ROUNDEL_FACE_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<BasicRotorTile>> BASIC_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "basic_rotor",
+            () -> TileEntityType.Builder.of(BasicRotorTile::new, AITBlocks.BASIC_ROTOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<DimensionSwitchControlTile>> DIMENSION_SWITCH_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "dimension_switch_control",
+            () -> TileEntityType.Builder.of(DimensionSwitchControlTile::new, AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get()).build(null));
 }

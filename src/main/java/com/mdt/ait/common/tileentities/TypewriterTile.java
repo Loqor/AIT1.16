@@ -35,10 +35,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class TypewriterTile extends LockableLootTileEntity {
 
     public static int slots = 1;
+    //public UUID tardisID;
     protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 
     public TypewriterTile() {
@@ -62,20 +64,21 @@ public class TypewriterTile extends LockableLootTileEntity {
 
     @Override
     public CompoundNBT save(CompoundNBT compound) {
-        super.save(compound);
         if(!this.trySaveLootTable(compound)) {
             ItemStackHelper.saveAllItems(compound, this.items);
         }
-        return compound;
+        //compound.putUUID("tardisID", this.tardisID);
+        return super.save(compound);
     }
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
         this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         if (!this.tryLoadLootTable(nbt)) {
             ItemStackHelper.loadAllItems(nbt, this.items);
         }
+        //this.tardisID = nbt.getUUID("tardisID");
+        super.load(state, nbt);
     }
 
     @Override public int getContainerSize() {

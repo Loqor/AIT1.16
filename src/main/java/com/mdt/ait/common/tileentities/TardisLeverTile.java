@@ -3,6 +3,7 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
@@ -19,13 +20,13 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
@@ -45,6 +46,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     public int runafter = 0;
     public int run_once = 0;
     public UUID tardisID;
+    public int flightTicks = 0;
+    public boolean doorIsClosed = false;
 
     public TardisLeverTile() {
         super(AITTiles.TARDIS_LEVER_TILE_ENTITY_TYPE.get());
@@ -67,16 +70,19 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     public void changeMatStateFromLever() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         BlockPos exteriorPos = tardis.exterior_position;
         assert world != null;
+        assert tardisWorld != null;
         TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
         assert tardisTileEntity != null;
         if(leverState == EnumLeverState.ACTIVE) {
+            tardisWorld.playSound(null,tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER,7,1);
             tardisTileEntity.matState = EnumMatState.DEMAT;
-            AIT.tardisManager.moveTARDIS(tardisID, new BlockPos(35, 56, 50), Direction.NORTH, tardis.exterior_dimension);
-        } else {
-            tardisTileEntity.matState = EnumMatState.REMAT;
-        }
+                AIT.tardisManager.moveTARDIS(tardisID, new BlockPos(worldPosition.getX() + 5, worldPosition.getY(), worldPosition.getZ() + 5), tardis.exterior_facing, tardis.exterior_dimension);
+        } //else {
+          //  tardisTileEntity.matState = EnumMatState.REMAT;
+        //}
     }
 
     @Override
@@ -102,6 +108,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                 //PUT STUFF HERE
             }
         }
+        if(leverState == EnumLeverState.ACTIVE && flightTicks < 360) {
+            flightTicks += 1;
+        }
+        //System.out.println("Flight Ticks: " + flightTicks);
     }
 
     @Override
@@ -137,12 +147,48 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
             BlockState blockstate = world.getBlockState(blockpos);
             Block block = blockstate.getBlock();
+            BlockPos interiorDoorPos = tardis.interior_door_position;
             if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-                leverState = getNextLeverState();
-                changeMatStateFromLever();
+                if(flightTicks <= 5) {
+                    this.leverState = getNextLeverState();
+                    changeMatStateFromLever();
+                }
                 syncToClient();
+                if(interiorDoorPos != null) {
+                    BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                    if (basicInteriorDoorTile != null) {
+                        basicInteriorDoorTile.setLockedState(true);
+                        tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER,7,1);
+                        syncToClient();
+                    }
+                }
+                if(flightTicks >= 360) {
+                    if (leverState == EnumLeverState.ACTIVE) {
+                        this.leverState = getNextLeverState();
+                        AIT.tardisManager.rematerialize = true;
+                        BlockPos exteriorPos = tardis.exterior_position;
+                        assert tardisWorld != null;
+                        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
+                        assert tardisTileEntity != null;
+                        tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
+                        if (interiorDoorPos != null) {
+                            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                            if (basicInteriorDoorTile != null) {
+                                basicInteriorDoorTile.setLockedState(false);
+                                tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
+                                flightTicks = 0;
+                                syncToClient();
+                            }
+                        }
+                    }
+                } else {
+                    playerEntity.sendMessage(new TranslationTextComponent(
+                            "TARDIS has not finished its journey! Time remaining: " + flightTicks).setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
+                }
             }
         }
 

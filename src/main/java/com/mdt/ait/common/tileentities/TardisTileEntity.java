@@ -2,6 +2,7 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.entities.K9Entity;
 import com.mdt.ait.common.items.TARDISKey;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -380,20 +381,20 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 if (this.currentstate != LOCKED && !key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
                     if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
                         this.setDoorState(this.getNextDoorState());
-                        if (world.getBlockEntity(linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
+                        /*if (world.getBlockEntity(this.linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
                             ServerWorld exteriorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                            ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.interior_door_position, 0, 0, true, true);
+                            ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, this.linked_tardis.interior_door_position, 0, 0, true, true);
                             if (this.currentstate == FIRST) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
+                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = FIRST;
                             }
                             if (this.currentstate == BOTH) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = FIRST;
+                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = FIRST;
                             }
                             if (this.currentstate == CLOSED) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(linked_tardis.interior_door_position)).currentstate = CLOSED;
+                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = CLOSED;
                             }
                             syncToClient();
-                        }
+                        }*/
                         if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
                             if (this.currentstate == CLOSED)
                                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);

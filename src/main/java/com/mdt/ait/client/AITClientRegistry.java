@@ -14,6 +14,7 @@ import com.mdt.ait.client.renderers.layers.MessengerBagModelLayer;
 import com.mdt.ait.client.renderers.layers.ThreeDGlassesModelLayer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
+import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.core.init.AITEntities;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
@@ -110,6 +111,8 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.ROUNDEL_FACE_TILE_ENTITY_TYPE.get(), RoundelFaceRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.GBTCASING_TILE_ENTITY_TYPE.get(), GBTCasingRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.RECORD_PLAYER_TILE_ENTITY_TYPE.get(), RecordPlayerRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.BASIC_ROTOR_TILE_ENTITY_TYPE.get(), BasicRotorRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.DIMENSION_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DimensionSwitchControlRenderer::new);
 
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);

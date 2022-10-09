@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.world.ForgeChunkManager;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class TardisManager {
     private final MinecraftServer server = AIT.server;
 
     public static TardisWorldSavedData tardisWorldSavedData;
+    public boolean rematerialize = false;
 
     public TardisManager() {
         tardisWorldSavedData = new TardisWorldSavedData(this);
@@ -101,6 +104,10 @@ public class TardisManager {
         return integerMapToUUID.get(x_gr);
     }
 
+    public RegistryKey<World> dimensionForTARDIS(RegistryKey<World> new_exterior_dimension) {
+        return new_exterior_dimension;
+    }
+
     public Tardis moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
         Tardis tardis = getTardis(tardis_id);
 
@@ -109,23 +116,32 @@ public class TardisManager {
         assert newDimension != null;
         assert oldDimension != null;
 
+        ServerWorld forceWorld = AIT.server.getLevel(tardis.exterior_dimension);
+        assert forceWorld != null;
+        ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);
         BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
-        newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
 
-        TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
+        if(rematerialize = true) {
+            newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
 
-        assert newTardisTileEntity != null;
-        newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
-        newTardisTileEntity.linked_tardis_id = tardis.tardisID;
-        newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
-        newTardisTileEntity.linked_tardis = tardis;
-        newDimension.setBlockEntity(new_exterior_position, newTardisTileEntity);
-        oldDimension.removeBlock(tardis.exterior_position, false);
+            TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
-        tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
-        newTardisTileEntity.setMatState(EnumMatState.REMAT);
+            assert newTardisTileEntity != null;
+            newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
+            newTardisTileEntity.linked_tardis_id = tardis.tardisID;
+            newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
+            newTardisTileEntity.linked_tardis = tardis;
+            newDimension.setBlockEntity(new_exterior_position, newTardisTileEntity);
+            oldDimension.removeBlock(tardis.exterior_position, false);
+
+            tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
+            ServerWorld forceWorld1 = AIT.server.getLevel(exterior_dimension);
+            ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, tardis.exterior_position, 0, 0, false, false);
+            assert forceWorld1 != null;
+            ForgeChunkManager.forceChunk(forceWorld1, AIT.MOD_ID, new_exterior_position, 0, 0, true, true);
+            newTardisTileEntity.setMatState(EnumMatState.REMAT);
+        }
         return tardis;
-
     }
 
     public void load(CompoundNBT tag) {

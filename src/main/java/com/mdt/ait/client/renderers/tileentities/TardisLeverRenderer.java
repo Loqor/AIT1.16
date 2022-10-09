@@ -1,12 +1,10 @@
 package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.tileentities.TardisLever;
+import com.mdt.ait.client.models.tileentities.controls.TardisLever;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
-import com.mdt.ait.core.init.enums.EnumCoralState;
-import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;

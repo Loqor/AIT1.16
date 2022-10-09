@@ -23,6 +23,8 @@ public class AITBlocks {
     public static final RegistryObject<Block> RECORD_PLAYER_BLOCK = BLOCKS.register("record_player", RecordPlayerBlock::new);
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
+    public static final RegistryObject<Block> BASIC_ROTOR_BLOCK = BLOCKS.register("basic_rotor", BasicRotorBlock::new);
+    public static final RegistryObject<Block> DIMENSION_SWITCH_CONTROL_BLOCK = BLOCKS.register("dimension_switch_control", DimensionSwitchControlBlock::new);
     public static final RegistryObject<Block> ROUNDEL_FACE_BLOCK = BLOCKS.register("roundel_face", RoundelFaceBlock::new);
     public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console_block", ConsoleBlock::new);
     public static final RegistryObject<Block> TARDIS_CORAL_BLOCK = BLOCKS.register("tardis_coral", TardisCoralBlock::new);

@@ -3,9 +3,13 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.entities.K9Entity;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumLeverState;
+import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -19,11 +23,15 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
@@ -43,6 +51,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public Tardis linked_tardis;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
+    public boolean lockedState = false;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);
@@ -52,7 +61,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         return this.currentstate;
     }
 
-    /*public EnumDoorState getNextDoorState() {
+    public EnumDoorState getNextDoorState() {
         switch (currentstate) {
             case CLOSED:
                 return FIRST;
@@ -64,13 +73,67 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 return CLOSED;
         }
         return CLOSED;
-    }*/
+    }
 
-    /*public void setDoorState(EnumDoorState state) {
+    public void setLockedState(Boolean lockedState) {
+        this.lockedState = lockedState;
+    }
+
+    public void setDoorState(EnumDoorState state) {
         this.currentstate = state;
-    }*/
+    }
+
+    public void setExteriorDoorState() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        BlockPos exteriorPos = tardis.exterior_position;
+        assert world != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
+        assert tardisTileEntity != null;
+        if(currentstate == EnumDoorState.CLOSED) {
+            tardisTileEntity.setDoorState(CLOSED);
+        }
+        if(currentstate == EnumDoorState.FIRST) {
+            tardisTileEntity.setDoorState(FIRST);
+        }
+        if(currentstate == EnumDoorState.BOTH) {
+            tardisTileEntity.setDoorState(BOTH);
+        }
+    }
+
+    public void setInteriorDoorStateFromExterior() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        BlockPos exteriorPos = tardis.exterior_position;
+        assert world != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
+        assert tardisTileEntity != null;
+        if(tardisTileEntity.currentstate == EnumDoorState.CLOSED) {
+            this.setDoorState(CLOSED);
+        }
+        if(tardisTileEntity.currentstate == EnumDoorState.FIRST) {
+            this.setDoorState(FIRST);
+        }
+        if(tardisTileEntity.currentstate == EnumDoorState.BOTH) {
+            this.setDoorState(BOTH);
+        }
+    }
+
+    public void notSolidDoorState() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        BlockPos exteriorPos = tardis.exterior_position;
+        assert world != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
+        assert tardisTileEntity != null;
+        if(tardisTileEntity.matState != EnumMatState.SOLID) {
+            currentstate = CLOSED;
+        }
+    }
 
     @Override public void tick() {
+        //notSolidDoorState();
+        //setInteriorDoorStateFromExterior();
 //        System.out.println(currentstate);
         AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
         aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
@@ -107,12 +170,8 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 rightDoorRotation = 0.0f;
             }
         }
-        if(currentState() == LOCKED) {
-            leftDoorRotation = 0.0f;
-            rightDoorRotation = 0.0f;
-        }
         //System.out.println("Right Door Rotation: "+ rightDoorRotation + " || " + "Left Door Rotation: " + leftDoorRotation);
-        //previousstate = currentState();
+        previousstate = currentState();
     }
 
     @Override
@@ -160,9 +219,12 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerentity, BlockPos blockpos, Hand hand) {
-        BlockState blockstate = world.getBlockState(blockpos);
-        Block block = blockstate.getBlock();
-        if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+        if(lockedState != true) {
+            BlockState blockstate = world.getBlockState(blockpos);
+            Block block = blockstate.getBlock();
+            if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                this.setDoorState(this.getNextDoorState());
+                //setExteriorDoorState();
                 if (this.currentstate == CLOSED)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                 if (this.currentstate == FIRST)
@@ -170,21 +232,20 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 if (this.currentstate == BOTH)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                 syncToClient();
-            } else {
-                if (currentState() != FIRST)
-                    world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                if (currentState() == FIRST)
-                    world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                syncToClient();
             }
+        } else {
+            this.currentstate = EnumDoorState.CLOSED;
+            playerentity.sendMessage(new TranslationTextComponent(
+                    "Door is locked during flight!").setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
+            world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            syncToClient();
+        }
         return ActionResultType.SUCCESS;
     }
 
-
-
     @Override public void load(BlockState pState, CompoundNBT nbt) {
         System.out.println("Door load");
-        this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
+        this.currentstate = EnumDoorState.values()[nbt.getInt("currentState")];
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         if (nbt.contains("tardis_id")) {
@@ -194,7 +255,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
     @Override public CompoundNBT save(CompoundNBT nbt) {
         System.out.println("Door save");
-        nbt.putInt("currentstate", this.currentstate.ordinal());
+        nbt.putInt("currentState", this.currentstate.ordinal());
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
         System.out.println(this.currentstate);

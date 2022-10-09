@@ -105,7 +105,6 @@ public class AITItems {
             "tardis", () -> new BlockItem(
                     AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
-
     //Misc.
     public static final RegistryObject<BlockItem> RECORD_PLAYER = ITEMS.register(
             "record_player", () -> new BlockItem(
@@ -116,9 +115,19 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TARDIS_CORAL = ITEMS.register(
             "tardis_coral", () -> new BlockItem(
                     AITBlocks.TARDIS_CORAL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    //Controls
     public static final RegistryObject<BlockItem> TARDIS_LEVER = ITEMS.register(
             "tardis_lever", () -> new BlockItem(
                     AITBlocks.TARDIS_LEVER_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> BASIC_ROTOR = ITEMS.register(
+            "basic_rotor", () -> new BlockItem(
+                    AITBlocks.BASIC_ROTOR_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> DIMENSION_SWITCH_CONTROL = ITEMS.register(
+            "dimension_switch_control", () -> new BlockItem(
+                    AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+
     public static final RegistryObject<BlockItem> ROUNDEL_FACE = ITEMS.register(
             "roundel_face", () -> new BlockItem(
                     AITBlocks.ROUNDEL_FACE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
