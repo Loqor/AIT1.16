@@ -40,6 +40,7 @@ public class TardisManager {
 
     public static TardisWorldSavedData tardisWorldSavedData;
     public boolean rematerialize = false;
+    public boolean canFall = true;
 
     public TardisManager() {
         tardisWorldSavedData = new TardisWorldSavedData(this);
@@ -68,6 +69,10 @@ public class TardisManager {
             return tardis;
 
         }
+    }
+
+    public boolean isCanFall() {
+        return true;
     }
 
     public Tardis getTardis(UUID tardisID) {
@@ -199,6 +204,7 @@ public class TardisManager {
         }));
         loaded = true;
         latestTardisNumber = tardis_list.size() - 1;
+        tag.getBoolean("canFall");
         tardisWorldSavedData.setDirty(false);
 
     }
@@ -218,6 +224,7 @@ public class TardisManager {
         tag.put("tardis_list", tardis_nbt_list);
         tag.put("integer_tardis_list_to_get_UUID", int_to_tardis_id_list);
         tardisWorldSavedData.setDirty(false);
+        tag.putBoolean("canFall", canFall);
         return tag;
     }
 

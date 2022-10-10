@@ -1,17 +1,23 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.AIT;
+import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -35,16 +41,21 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 
+import java.util.Random;
+import java.util.UUID;
+
 import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 
-public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock has some of the same functionality as interface ICantBreak
+public class TardisBlock extends FallingBlock implements ITardisBlock { // ITardisBlock has some of the same functionality as interface ICantBreak
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static EnumProperty<EnumExteriorType> EXTERIOR_TYPE = AITBlockStates.TARDIS_EXTERIOR;
 
+    public UUID tardisID;
     public static BooleanProperty isExistingTardis = BooleanProperty.create("is_existing_tardis");
 
 
@@ -56,6 +67,22 @@ public class TardisBlock extends Block implements ITardisBlock { // ITardisBlock
 
     public TardisBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
+    }
+
+    @Override
+    public void tick(BlockState pState, ServerWorld pLevel, BlockPos pPos, Random pRand) {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        if(AIT.tardisManager.canFall) {
+            if (pLevel.isEmptyBlock(pPos.below()) || isFree(pLevel.getBlockState(pPos.below())) && pPos.getY() >= 0) {
+                /*FallingTardisEntity */ FallingBlockEntity fallingblockentity = new /*FallingTardisEntity*/FallingBlockEntity(pLevel, (double) pPos.getX() + 0.5D, (double) pPos.getY(), (double) pPos.getZ() + 0.5D, pLevel.getBlockState(pPos));
+                this.falling(fallingblockentity);
+                pLevel.addFreshEntity(fallingblockentity);
+                //@TODO: MAKE tardis.exterior_position return the final position of the fallingblockentity
+            }
+        }
+    }
+    protected void falling(FallingBlockEntity pEntity) {
+        pEntity.setHurtsEntities(true);
     }
 
     @Override
