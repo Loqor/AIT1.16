@@ -255,9 +255,9 @@ public class Tardis implements IEnergyStorage {
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());
         tag.putBoolean("locked_tardis", this.lockedTardis);
-        if (target_dimension != null || targetPosition != null || target_facing_direction != null) {
+        if (target_dimension != null && targetPosition != null && target_facing_direction != null) {
             tag.putString("target_dimension_registry_name", this.target_dimension.getRegistryName().toString()); // IT IS NOT NULL YOU IDIOT I ALREADY CHECKED FOR IT
-            tag.putString("target_dimension_resource_location", this.target_dimension.location().toString());
+            tag.putString("target_dimension_resource_location", this.target_dimension.location().toString()); // @todo FIX THIS SHIT CREATIVIOUS
             tag.putLong("target_position", this.targetPosition.asLong());
             tag.putString("target_facing", this.target_facing_direction.toString());
         }

@@ -1,38 +1,23 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.tileentities.controls.BasicRotor;
-import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.TardisLeverBlock;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mdt.ait.tardis.Tardis;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
-public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
+public class HartnellRotorTile extends TileEntity implements ITickableTileEntity {
 
     public UUID tardisID;
     public float rotorTick;
@@ -46,9 +31,21 @@ public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
         return currentstate;
     }
 
-    public BasicRotorTile() {
-        super(AITTiles.BASIC_ROTOR_TILE_ENTITY_TYPE.get());
+    public HartnellRotorTile() {
+        super(AITTiles.HARTNELL_ROTOR_TILE_ENTITY_TYPE.get());
     }
+
+    /*public boolean isTardisInFlight() {
+        boolean isFlight = false;
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+        assert exteriorWorld != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(tardis.exterior_position);
+        if(tardisTileEntity.matState != EnumMatState.SOLID || tardisTileEntity == null) {
+            isFlight = true;
+        }
+        return isFlight;
+    }*/
 
     public void getFlightState() {
         //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
@@ -66,18 +63,6 @@ public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
         //    rotorTick += 1;
         //}
     }
-
-    /*public boolean isTardisInFlight() {
-        boolean isFlight = false;
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
-        assert exteriorWorld != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(tardis.exterior_position);
-        if(tardisTileEntity.matState != EnumMatState.SOLID || tardisTileEntity == null) {
-            isFlight = true;
-        }
-        return isFlight;
-    }*/
 
     @Override
     public void tick() {

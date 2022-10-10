@@ -94,10 +94,10 @@ public class AITItems {
 
     //Tools
     public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
-            "dematter_stick", () -> new DematterStick(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+            "dematter_stick", () -> new DematterStick(new Item.Properties()));
 
     public static final RegistryObject<DevTool> DEV_TOOL = ITEMS.register(
-            "dev_tool", () -> new DevTool(new Item.Properties().tab(AITItemGroups.AITITEMS))
+            "dev_tool", () -> new DevTool(new Item.Properties())
     );
 
     //Time Machines
@@ -123,9 +123,18 @@ public class AITItems {
     public static final RegistryObject<BlockItem> BASIC_ROTOR = ITEMS.register(
             "basic_rotor", () -> new BlockItem(
                     AITBlocks.BASIC_ROTOR_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> HARTNELL_ROTOR = ITEMS.register(
+            "hartnell_rotor", () -> new BlockItem(
+                    AITBlocks.HARTNELL_ROTOR_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> DIMENSION_SWITCH_CONTROL = ITEMS.register(
             "dimension_switch_control", () -> new BlockItem(
                     AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> TARDIS_COORDINATE_CONTROL = ITEMS.register(
+            "tardis_coordinate_control", () -> new BlockItem(
+                    AITBlocks.TARDIS_COORDINATE_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> EXTERIOR_FACING_CONTROL = ITEMS.register(
+            "exterior_facing_control", () -> new BlockItem(
+                    AITBlocks.EXTERIOR_FACING_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
 
     public static final RegistryObject<BlockItem> ROUNDEL_FACE = ITEMS.register(
@@ -162,7 +171,7 @@ public class AITItems {
 
     public static final RegistryObject<BlockItem> TEST_BLOCK_ITEM = ITEMS.register("test_block",
             () -> new BlockItem(
-                    AITBlocks.TEST_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+                    AITBlocks.TEST_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<BlockItem> GALLIFREY_STONE = ITEMS.register(
             "gallifrey_stone", () -> new BlockItem(AITBlocks.GALLIFREY_STONE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> GALLIFREY_SAND = ITEMS.register(

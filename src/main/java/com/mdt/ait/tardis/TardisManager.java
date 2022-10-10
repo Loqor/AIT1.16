@@ -7,6 +7,7 @@ import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
@@ -116,13 +117,31 @@ public class TardisManager {
         assert newDimension != null;
         assert oldDimension != null;
 
+        BlockPos __setAirBlockPos = new BlockPos(new_exterior_position.getX(), new_exterior_position.getY() +1 , new_exterior_position.getZ());
+
         ServerWorld forceWorld = AIT.server.getLevel(tardis.exterior_dimension);
         assert forceWorld != null;
         ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);
         BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
-
         if(rematerialize = true) {
             newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
+            if((newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.BEDROCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DIAMOND_BLOCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.END_PORTAL_FRAME)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DRAGON_EGG)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.NETHERITE_BLOCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.ANCIENT_DEBRIS)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DIAMOND_ORE)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.COMMAND_BLOCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REPEATING_COMMAND_BLOCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.CHAIN_COMMAND_BLOCK)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.PISTON)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.STICKY_PISTON)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REDSTONE_WIRE)
+                    || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REPEATER))
+            {
+                newDimension.setBlockAndUpdate(__setAirBlockPos, Blocks.AIR.defaultBlockState());
+            }
 
             TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
 
@@ -146,6 +165,14 @@ public class TardisManager {
     public void setTardisTargetLocation(UUID tardisID, BlockPos targetPosition, Direction targetFacing, RegistryKey<World> targetDimension) {
         Tardis tardis = getTardis(tardisID);
         tardis.__setTargetLocation(targetPosition, targetFacing, targetDimension);
+    }
+
+    public void setTardisTargetBlockPos(UUID tardisID, BlockPos __targetPosition) {
+        this.getTardis(tardisID).targetPosition = __targetPosition;
+    }
+
+    public void setTardisExteriorFacing(UUID tardisID, Direction __targetFacing) {
+        this.getTardis(tardisID).target_facing_direction = __targetFacing;
     }
 
     public void moveTardisToTargetLocation(UUID tardisID) {

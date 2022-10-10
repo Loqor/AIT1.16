@@ -100,6 +100,13 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             }
         }
         if(leverState == EnumLeverState.ACTIVE) {
+            ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+            assert serverWorld != null;
+            PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(),worldPosition.getY(),worldPosition.getZ(),60,false);
+            if(playerEntity != null) {
+                playerEntity.displayClientMessage(new TranslationTextComponent
+                        ("" + (flightTicks * 100) / 360 + "%").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withItalic(true)), true);
+            }
             if (leverPosition < 30f) {
                 leverPosition += 5.0f;
             } else {
@@ -197,7 +204,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     }
                 } else {
                     playerEntity.sendMessage(new TranslationTextComponent(
-                            "TARDIS has not finished its journey! Time remaining: " + flightTicks).setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
+                            "TARDIS has not finished its journey!").setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
                 }
             }
         }

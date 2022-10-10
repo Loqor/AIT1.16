@@ -47,7 +47,16 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<BasicRotorTile>> BASIC_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "basic_rotor",
             () -> TileEntityType.Builder.of(BasicRotorTile::new, AITBlocks.BASIC_ROTOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<HartnellRotorTile>> HARTNELL_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "hartnell_rotor",
+            () -> TileEntityType.Builder.of(HartnellRotorTile::new, AITBlocks.HARTNELL_ROTOR_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<DimensionSwitchControlTile>> DIMENSION_SWITCH_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "dimension_switch_control",
             () -> TileEntityType.Builder.of(DimensionSwitchControlTile::new, AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<TardisCoordinateControlTile>> TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "tardis_coordinate_control",
+            () -> TileEntityType.Builder.of(TardisCoordinateControlTile::new, AITBlocks.TARDIS_COORDINATE_CONTROL_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<ExteriorFacingControlTile>> EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "exterior_facing_control",
+            () -> TileEntityType.Builder.of(ExteriorFacingControlTile::new, AITBlocks.EXTERIOR_FACING_CONTROL_BLOCK.get()).build(null));
 }
