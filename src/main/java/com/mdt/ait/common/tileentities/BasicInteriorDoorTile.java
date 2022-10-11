@@ -4,6 +4,8 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.entities.K9Entity;
+import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -16,6 +18,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -75,8 +79,45 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         return CLOSED;
     }
 
-    public void setLockedState(Boolean lockedState) {
+    public void setLockedState(Boolean lockedState, EnumDoorState state) {
         this.lockedState = lockedState;
+        this.currentstate = state;
+    }
+
+    public void keyUsedOnTardisDoor(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        System.out.println(lockedState);
+        PlayerEntity playerEntity = context.getPlayer();
+        Item item = playerEntity.getMainHandItem().getItem();
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+
+        if(block instanceof BasicInteriorDoorBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
+            lockedState = true;
+            /*if(interiorDoorPos != null) {
+                BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                if (doorTile != null) {
+                    doorTile.setLockedState(true, EnumDoorState.CLOSED);
+                }
+            }*/
+            this.currentstate = CLOSED;
+            playerEntity.displayClientMessage(new TranslationTextComponent(
+                    "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            syncToClient();
+        }
+        if (block instanceof BasicInteriorDoorBlock && item == AITItems.GOLDEN_TARDIS_KEY.get() && lockedState == true && playerEntity.isCrouching()) {
+            lockedState = false;
+            /*if(interiorDoorPos != null) {
+                BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                if (doorTile != null) {
+                    doorTile.setLockedState(false, EnumDoorState.CLOSED);
+                }
+            }*/
+            playerEntity.displayClientMessage(new TranslationTextComponent(
+                    "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            syncToClient();
+        }
     }
 
     public void setDoorState(EnumDoorState state) {

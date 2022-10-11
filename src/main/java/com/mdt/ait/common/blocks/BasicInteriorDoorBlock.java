@@ -36,6 +36,11 @@ public class BasicInteriorDoorBlock extends Block {
 
     public UUID tardisID;
 
+    /*public static final VoxelShape NORTH_AABB = VoxelShapes.box(0, 0, -1, 2, 32, -0.1);
+    public static final VoxelShape EAST_AABB = VoxelShapes.box(16.1, 0, 0, 16, 32, 2);
+    public static final VoxelShape SOUTH_AABB = VoxelShapes.box(0, 0, 16.1, 2, 32, 16);
+    public static final VoxelShape WEST_AABB = VoxelShapes.box(-1, 0, 0, -0.1, 32, 2);*/
+
     public static final VoxelShape NORTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, -0.0625, 1, 2, -0.006249999999999978));
     public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(1.00625, 0, 0, 1.0625, 2, 1));
     public static final VoxelShape SOUTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 1.00625, 1, 2, 1.0625));
@@ -48,6 +53,23 @@ public class BasicInteriorDoorBlock extends Block {
     @Override
     public BlockRenderType getRenderShape(BlockState pState) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+        switch(pState.getValue(FACING)) {
+            case NORTH:
+                return NORTH_AABB;
+            case EAST:
+                return EAST_AABB;
+            case SOUTH:
+                return SOUTH_AABB;
+            case WEST:
+                return WEST_AABB;
+            default:
+                throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
+                        "//HOW THE HECK DID YOU GET HERE??");
+        }
     }
 
     @Override

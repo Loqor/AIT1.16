@@ -71,6 +71,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     private int run_once = 0;
     private int run_once_remat = 0;
     public TARDISKey tardisKey;
+    public boolean lockedState = false;
     // aaaa
 
     public EnumExteriorType getNextExterior() {
@@ -103,6 +104,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;
+    }
+
+    public void setLockedState(Boolean lockedState) {
+        this.lockedState = lockedState;
     }
 
     public EnumExteriorType getLastExterior() {
@@ -308,11 +313,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 arcadeDoorDistance = 0;
             }
         }
-        if(currentState() == LOCKED) {
-            leftDoorRotation = 0.0f;
-            rightDoorRotation = 0.0f;
-            nukaDoorRotation = 0.0f;
-        }
         //System.out.println("Right Door Rotation: "+ rightDoorRotation + " || " + "Left Door Rotation: " + leftDoorRotation);
         previousstate = currentState();
     }
@@ -378,54 +378,32 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         Block block = blockstate.getBlock();
         ItemStack key = playerentity.getMainHandItem();
         if(this.matState == EnumMatState.SOLID) {
-                if (this.currentstate != LOCKED && !key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
-                    if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-                        this.setDoorState(this.getNextDoorState());
-                        /*if (world.getBlockEntity(this.linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
-                            ServerWorld exteriorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                            ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, this.linked_tardis.interior_door_position, 0, 0, true, true);
-                            if (this.currentstate == FIRST) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = FIRST;
-                            }
-                            if (this.currentstate == BOTH) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = FIRST;
-                            }
-                            if (this.currentstate == CLOSED) {
-                                ((BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position)).currentstate = CLOSED;
-                            }
-                            syncToClient();
-                        }*/
-                        if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
-                            if (this.currentstate == CLOSED)
-                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            if (this.currentstate == FIRST)
-                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            if (this.currentstate == BOTH)
-                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            syncToClient();
-                        } else {
-                            if (currentState() != FIRST)
-                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            if (currentState() == FIRST)
-                                world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            syncToClient();
-                        }
+            if(lockedState != true) {
+                if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                    this.setDoorState(this.getNextDoorState());
+                    if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
+                        if (this.currentstate == CLOSED)
+                            world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        if (this.currentstate == FIRST)
+                            world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        if (this.currentstate == BOTH)
+                            world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        syncToClient();
+                    } else {
+                        if (currentState() != FIRST)
+                            world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        if (currentState() == FIRST)
+                            world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        syncToClient();
                     }
-                } else {
-                    this.currentstate = LOCKED;
-                    playerentity.sendMessage(new TranslationTextComponent(
-                            "TARDIS locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
-                    world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    syncToClient();
                 }
-                if (this.currentstate == LOCKED && key.equals(AITItems.GOLDEN_TARDIS_KEY.get())) {
-                    this.getNextDoorState();
-                    playerentity.sendMessage(new TranslationTextComponent(
-                            "TARDIS unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
-                    world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    syncToClient();
-
-                }
+            } else {
+                this.currentstate = EnumDoorState.CLOSED;
+                playerentity.displayClientMessage(new TranslationTextComponent(
+                        "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+                level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                syncToClient();
+            }
         }
         return ActionResultType.SUCCESS;
     }
@@ -467,10 +445,45 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             currentexterior = getNextExterior();
             syncToClient();
         }
-        //if(block instanceof TardisBlock && (item == AITItems.TENNANT_SONIC.get()/* || item == AITItems.WHITTAKER_SONIC.get()*/)) {
-        //    playerentity.sendMessage(new TranslationTextComponent(
-        //            "This is a TARDIS, you dumb fuck.").setStyle(Style.EMPTY.withColor(TextFormatting.GREEN)), UUID.randomUUID());
-        //}
+    }
+
+    public void keyUsedOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+        System.out.println(lockedState);
+        PlayerEntity playerEntity = context.getPlayer();
+        Item item = playerEntity.getMainHandItem().getItem();
+        Tardis tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        BlockPos interiorDoorPos = tardis.interior_door_position;
+
+        if(block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
+            lockedState = true;
+            /*if(interiorDoorPos != null) {
+                BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                if (doorTile != null) {
+                    doorTile.setLockedState(true, EnumDoorState.CLOSED);
+                }
+            }*/
+            this.currentstate = CLOSED;
+            playerEntity.displayClientMessage(new TranslationTextComponent(
+                    "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+            level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            syncToClient();
+        }
+        if (block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get() && lockedState == true && playerEntity.isCrouching()) {
+            lockedState = false;
+            /*if(interiorDoorPos != null) {
+                BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                if (doorTile != null) {
+                    doorTile.setLockedState(false, EnumDoorState.CLOSED);
+                }
+            }*/
+            playerEntity.displayClientMessage(new TranslationTextComponent(
+                    "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+            level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            syncToClient();
+        }
     }
 
     public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
@@ -510,6 +523,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         this.nukaDoorRotation = nbt.getFloat("nukaDoorRotation");
+        this.lockedState = nbt.getBoolean("lockedState");
         super.load(pState, nbt);
     }
 
@@ -524,6 +538,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
         nbt.putFloat("nukaDoorRotation", this.nukaDoorRotation);
+        nbt.putBoolean("lockedState", this.lockedState);
         return super.save(nbt);
     }
 
