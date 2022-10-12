@@ -19,7 +19,8 @@ public enum EnumExteriorType implements IStringSerializable {
     ARCADE_CABINET_EXTERIOR("arcade_cabinet_exterior", TardisTileEntity::new),
     CUSHING_EXTERIOR("cushing_exterior", TardisTileEntity::new),
     CLASSIC_EXTERIOR("classic_exterior", TardisTileEntity::new),
-    HARTNELL_EXTERIOR("hartnell_exterior", TardisTileEntity::new);
+    HARTNELL_EXTERIOR("hartnell_exterior", TardisTileEntity::new),
+    HUDOLIN_EXTERIOR("hudolin_exterior", TardisTileEntity::new);
 
     public final Supplier<TardisTileEntity> tileEntity;
     public final String name;

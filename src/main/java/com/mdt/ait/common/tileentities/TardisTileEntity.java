@@ -8,9 +8,11 @@ import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
+import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -60,6 +62,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public boolean isExistingTardis = false;
     public float spinny = 0;
     public int alphaForLightMap = 15728880;
+    public EnumRotorState currentfloatstate = EnumRotorState.MOVING;
+    public float floatTick;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
     public UUID linked_tardis_id;
@@ -101,6 +105,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             case CLASSIC_EXTERIOR:
                 return EnumExteriorType.HARTNELL_EXTERIOR;
             case HARTNELL_EXTERIOR:
+                return EnumExteriorType.HUDOLIN_EXTERIOR;
+            case HUDOLIN_EXTERIOR:
                 return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;
@@ -113,7 +119,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumExteriorType getLastExterior() {
         switch (currentexterior) {
             case BASIC_BOX:
-                return EnumExteriorType.HARTNELL_EXTERIOR;
+                return EnumExteriorType.HUDOLIN_EXTERIOR;
             case MINT_BOX:
                 return EnumExteriorType.BASIC_BOX;
             case CORAL_BOX:
@@ -139,6 +145,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 return EnumExteriorType.CUSHING_EXTERIOR;
             case HARTNELL_EXTERIOR:
                 return EnumExteriorType.CLASSIC_EXTERIOR;
+            case HUDOLIN_EXTERIOR:
+                return EnumExteriorType.HARTNELL_EXTERIOR;
         }
         return EnumExteriorType.BASIC_BOX;
     }
@@ -511,6 +519,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
         this.matState = EnumMatState.values()[nbt.getInt("matState")];
+        this.currentfloatstate = EnumRotorState.values()[nbt.getInt("currentFloatingState")];
         this.linked_tardis_id = nbt.getUUID("tardisUUID");
         if (level != null) {
             if (!level.isClientSide()) { // Server Side Only
@@ -532,6 +541,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         nbt.putInt("currentexterior", this.currentexterior.ordinal());
         nbt.putInt("currentstate", this.currentstate.ordinal());
         nbt.putInt("matState", this.matState.ordinal());
+        nbt.putInt("currentFloatingState", this.currentfloatstate.ordinal());
         if (this.linked_tardis_id != null) {
             nbt.putUUID("tardisUUID", this.linked_tardis_id);
         }

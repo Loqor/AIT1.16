@@ -6,6 +6,7 @@ import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumMatState;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.FallingBlockEntity;
@@ -73,6 +74,17 @@ public class TardisManager {
     public Tardis getTardis(UUID tardisID) {
         return tardis_list.get(tardisID);
     }
+
+    /*public boolean getBlockUnderTardis(UUID tardisID, ServerWorld level) {
+        Tardis tardis = this.getTardis(tardisID);
+        BlockPos underTardis = new BlockPos(tardis.exterior_position.getX(),
+                tardis.exterior_position.getY() - 1, tardis.exterior_position.getZ());
+        Block block = level.getBlockState(underTardis).getBlock();
+        if(block == Blocks.AIR) {
+            return true;
+        }
+        return false;
+    }*/
 
     public Tardis getTardisFromPosition(BlockPos pos) {
         return getTardis(getTardisIDFromPosition(pos));

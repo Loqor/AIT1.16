@@ -130,6 +130,7 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CUSHING_EXTERIOR, CushingExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CLASSIC_EXTERIOR, ClassicExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.HARTNELL_EXTERIOR, HartnellExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.HUDOLIN_EXTERIOR, HudolinExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);

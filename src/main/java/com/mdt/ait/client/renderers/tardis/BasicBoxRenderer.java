@@ -5,12 +5,17 @@ import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
+import com.mdt.ait.core.init.enums.EnumRotorState;
+import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -19,11 +24,14 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
@@ -45,6 +53,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     public static final ResourceLocation CUSHING_BASE_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/cushing_exterior.png");
     public static final ResourceLocation CLASSIC_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/classic_exterior.png");
     public static final ResourceLocation HARTNELL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/hartnell_exterior.png");
+    public static final ResourceLocation HUDOLIN_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/hudolin_exterior.png");
 
     //Lightmaps
     public static final ResourceLocation BASIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_tardis_emission.png");
@@ -59,6 +68,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     public static final ResourceLocation CUSHING_BASE_LM_NW_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/cushing_exterior_emission_no_windows.png");
     public static final ResourceLocation CLASSIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/classic_exterior_emission.png");
     public static final ResourceLocation HARTNELL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/hartnell_exterior_emission.png");
+    public static final ResourceLocation HUDOLIN_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/hudolin_exterior_emission.png");
 
     public BasicBox model;
     private final TileEntityRendererDispatcher rendererDispatcher;
@@ -72,6 +82,25 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
     @Override
     public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+        //ServerWorld level = AIT.server.getLevel(tile.linked_tardis.exterior_dimension);
+        /*if(AIT.tardisManager.getBlockUnderTardis(tile.linked_tardis_id, level)) {
+            if (tile.currentfloatstate == EnumRotorState.MOVING) {
+                if (tile.floatTick < 0.4f/*1.5f*//*) {
+                    tile.floatTick += 0.0005f;
+                } else {
+                    tile.floatTick = 0.8f/*1.5f*//*;
+                    tile.currentfloatstate = EnumRotorState.STATIC;
+                }
+            }
+            if (tile.currentfloatstate == EnumRotorState.STATIC) {
+                if (tile.floatTick > 0.0f) {
+                    tile.floatTick -= 0.0005f;
+                } else {
+                    tile.floatTick = 0.0f;
+                    tile.currentfloatstate = EnumRotorState.MOVING;
+                }
+            }
+        }*/
         MatrixStackIn.pushPose();
         EnumExteriorType exterior = EnumExteriorType.values()[tile.serializeNBT().getInt("currentexterior")];
         int exteriortype = tile.serializeNBT().getInt("currentexterior");
@@ -261,6 +290,9 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
+            /*if(tile.getBlockUnderTardis()) {
+                MatrixStackIn.translate(0, tile.floatTick, 0);
+            }*/
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
@@ -293,6 +325,21 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            MatrixStackIn.popPose();
+        }
+        if (exterior.getSerializedName().equals("hudolin_exterior") && exteriortype == 13) {
+            this.model = new HudolinExterior();
+            this.hudolinText(MatrixStackIn, Buffer, CombinedLight);
+            this.texture = HUDOLIN_LOCATION;
+            ((HudolinExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            ((HudolinExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            MatrixStackIn.pushPose();
+            MatrixStackIn.translate(0.5, 0, 0.5);
+            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
+            MatrixStackIn.translate(0, 1.4949f, 0);
+            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HUDOLIN_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
@@ -329,7 +376,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     public void smithMintPosterText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.6f, -0.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
@@ -362,7 +408,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     public void coralText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.6f, -0.30f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
@@ -394,8 +439,39 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         MatrixStackIn.popPose();
     }
 
+    public void hudolinText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(0.925f, 2.68f, -0.31f);
+        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+        FontRenderer fontRenderer = this.rendererDispatcher.getFont();
+        IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        MatrixStackIn.popPose();
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(1.32f, 2.68f, 0.925f);
+        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        MatrixStackIn.popPose();
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(-0.32f, 2.68f, 0.0900f);
+        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        MatrixStackIn.popPose();
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(0.09f, 2.68f, 1.33f);
+        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        MatrixStackIn.popPose();
+    }
+
     public void cushingText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.825f, -0.375f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
@@ -428,7 +504,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     public void classicText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.725f, -0.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
@@ -461,7 +536,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     public void hartnellText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.6775f, -0.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
@@ -494,7 +568,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     public void BakerText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.925f, 2.475f, -0.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
