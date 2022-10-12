@@ -3,6 +3,7 @@ package com.mdt.ait.common;
 import java.util.function.Supplier;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.core.init.AITSounds;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Items;

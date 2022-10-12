@@ -41,4 +41,6 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "knine_death")));
     public static final RegistryObject<SoundEvent> KNINE_AMBIENT = SOUNDS.register("knine_ambient", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "knine_ambient")));
+    public static final RegistryObject<SoundEvent> FLY_WING_SOUND = SOUNDS.register("fly_wing_sound", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "fly_wing_sound")));
 }

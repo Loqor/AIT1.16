@@ -18,7 +18,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'hudolin-for-l0a'
+version = '1.16.5-1.0'
 group = 'com.mdt.ait' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ait'
 

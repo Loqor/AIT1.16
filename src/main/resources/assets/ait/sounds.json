@@ -1,7 +1,7 @@
 {
   "sonic_sound": {
     "category": "ambient",
-    "subtitle": "Sonic Sound",
+    "subtitle": "Sonic sound",
     "sounds": [
       {
         "name": "ait:sonic/sonic_sound",
@@ -11,7 +11,7 @@
   },
   "sonic_active": {
     "category": "ambient",
-    "subtitle": "Sonic Active",
+    "subtitle": "Sonic active",
     "sounds": [
       {
         "name": "ait:sonic/sonic_active",
@@ -21,7 +21,7 @@
   },
   "police_box_open": {
     "category": "ambient",
-    "subtitle": "TARDIS Doors Open",
+    "subtitle": "TARDIS doors open",
     "sounds": [
       {
         "name": "ait:boxes/police_box_open",
@@ -31,7 +31,7 @@
   },
   "police_box_close": {
     "category": "ambient",
-    "subtitle": "TARDIS Doors Close",
+    "subtitle": "TARDIS doors close",
     "sounds": [
       {
         "name": "ait:boxes/police_box_close",
@@ -41,7 +41,7 @@
   },
   "tardis_first_enter": {
     "category": "ambient",
-    "subtitle": "TARDIS First Enter",
+    "subtitle": "TARDIS first enter",
     "sounds": [
       {
         "name": "ait:music/tardis_first_enter",
@@ -51,7 +51,7 @@
   },
   "typewriter_ding": {
     "category": "ambient",
-    "subtitle": "Typewriter Ding",
+    "subtitle": "Typewriter ding",
     "sounds": [
       {
         "name": "ait:block_sounds/typewriter_ding",
@@ -61,7 +61,7 @@
   },
   "tardis_takeoff": {
     "category": "ambient",
-    "subtitle": "TARDIS Takeoff",
+    "subtitle": "TARDIS takeoff",
     "sounds": [
       {
         "name": "ait:boxes/tardis_takeoff",
@@ -71,7 +71,7 @@
   },
   "tardis_landing": {
     "category": "ambient",
-    "subtitle": "TARDIS Landing",
+    "subtitle": "TARDIS landing",
     "sounds": [
       {
         "name": "ait:boxes/tardis_landing",
@@ -81,7 +81,7 @@
   },
   "tardis_lock": {
     "category": "ambient",
-    "subtitle": "TARDIS Lock",
+    "subtitle": "TARDIS lock",
     "sounds": [
       {
         "name": "ait:boxes/tardis_lock",
@@ -91,7 +91,7 @@
   },
   "knine_growl": {
     "category": "ambient",
-    "subtitle": "k9.knine_growl.sub",
+    "subtitle": "K9 growl",
     "sounds": [
       {
         "name": "adventuresintime:entities/k9/knine_growl",
@@ -101,7 +101,7 @@
   },
   "knine_whine": {
     "category": "ambient",
-    "subtitle": "k9.knine_whine.sub",
+    "subtitle": "K9 whine",
     "sounds": [
       {
         "name": "adventuresintime:entities/k9/knine_whine",
@@ -111,7 +111,7 @@
   },
   "knine_pant": {
     "category": "ambient",
-    "subtitle": "k9.knine_pant.sub",
+    "subtitle": "K9 pant",
     "sounds": [
       {
         "name": "adventuresintime:entities/k9/knine_pant",
@@ -121,7 +121,7 @@
   },
   "knine_hurt": {
     "category": "ambient",
-    "subtitle": "k9.knine_hurt.sub",
+    "subtitle": "K9 hurt",
     "sounds": [
       {
         "name": "adventuresintime:entities/k9/knine_hurt",
@@ -131,10 +131,20 @@
   },
   "knine_death": {
     "category": "ambient",
-    "subtitle": "k9.knine_death.sub",
+    "subtitle": "K9 dies",
     "sounds": [
       {
         "name": "adventuresintime:entities/k9/knine_death",
+        "stream": false
+      }
+    ]
+  },
+  "fly_wing_sound": {
+    "category": "player",
+    "subtitle": "Angel wings flutter",
+    "sounds" : [
+      {
+        "name": "adventuresintime:cosmetic/fly_wing_sound",
         "stream": false
       }
     ]

@@ -3,15 +3,11 @@ package com.mdt.ait.client;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.consoles.DevConsole;
-import com.mdt.ait.client.models.cosmetics.Fez;
 import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
 import com.mdt.ait.client.renderers.entity.K9EntityRenderer;
-import com.mdt.ait.client.renderers.layers.CowSkullModelLayer;
-import com.mdt.ait.client.renderers.layers.FezModelLayer;
-import com.mdt.ait.client.renderers.layers.MessengerBagModelLayer;
-import com.mdt.ait.client.renderers.layers.ThreeDGlassesModelLayer;
+import com.mdt.ait.client.renderers.layers.*;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
@@ -143,6 +139,7 @@ public class AITClientRegistry {
             renderPlayer.addLayer(new FezModelLayer<>(renderPlayer));
             renderPlayer.addLayer(new MessengerBagModelLayer<>(renderPlayer));
             renderPlayer.addLayer(new ThreeDGlassesModelLayer<>(renderPlayer));
+            renderPlayer.addLayer(new AngelWingsModelLayer<>(renderPlayer));
         }
     }
 
