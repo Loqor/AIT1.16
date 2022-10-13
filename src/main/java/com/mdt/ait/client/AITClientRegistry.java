@@ -6,6 +6,8 @@ import com.mdt.ait.client.models.consoles.DevConsole;
 import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
+import com.mdt.ait.client.renderers.entity.AngelEntityRenderer;
+import com.mdt.ait.client.renderers.entity.CyberCavalryRenderer;
 import com.mdt.ait.client.renderers.entity.K9EntityRenderer;
 import com.mdt.ait.client.renderers.layers.*;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
@@ -132,6 +134,8 @@ public class AITClientRegistry {
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);
 
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.K9.get(), K9EntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.CYBERCAVALRY.get(), CyberCavalryRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.ANGEL_ENTITY.get(), AngelEntityRenderer::new);
 
         Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
         for (PlayerRenderer renderPlayer : skinMap.values()) {

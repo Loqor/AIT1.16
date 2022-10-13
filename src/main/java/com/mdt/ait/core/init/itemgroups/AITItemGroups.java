@@ -51,4 +51,10 @@ public class AITItemGroups {
             return new ItemStack(AITItems.K9_SPAWN_EGG.get());
         }
     };
+    public static final ItemGroup AITWEAPONS = new ItemGroup("Weapons") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(AITItems.ANGEL_SWORD.get());
+        }
+    };
 }

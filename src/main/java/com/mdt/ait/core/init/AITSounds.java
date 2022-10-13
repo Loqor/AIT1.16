@@ -43,4 +43,6 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "knine_ambient")));
     public static final RegistryObject<SoundEvent> FLY_WING_SOUND = SOUNDS.register("fly_wing_sound", () -> new SoundEvent (
             new ResourceLocation(AIT.MOD_ID, "fly_wing_sound")));
+    public static final RegistryObject<SoundEvent> CYBER_SHOCK_SOUND = SOUNDS.register("cyber_shock_sound", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "cyber_shock_sound")));
 }

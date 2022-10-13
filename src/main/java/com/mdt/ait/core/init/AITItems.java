@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.AITArmorMaterials;
 import com.mdt.ait.common.items.*;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.RegistryObject;
@@ -88,6 +89,11 @@ public class AITItems {
     public static final RegistryObject<SonicItem> WHITTAKER_SONIC = ITEMS.register(
             "whittaker_sonic", () -> new SonicItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+    //Weapons
+    public static final RegistryObject<CyberShockItem> CYBER_SHOCK = ITEMS.register(
+            "cyber_shock", () -> new CyberShockItem(ItemTier.DIAMOND, 5, 2.0f, new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<AngelSwordItem> ANGEL_SWORD = ITEMS.register(
+            "angel_sword", () -> new AngelSwordItem(ItemTier.NETHERITE, 12, 3.0f, new Item.Properties().tab(AITItemGroups.AITWEAPONS)));
 
     //Keys
     public static final RegistryObject<TARDISKey> GOLDEN_TARDIS_KEY = ITEMS.register(
@@ -276,4 +282,8 @@ public class AITItems {
     //Entities
     public static final RegistryObject<AITSpawnEgg> K9_SPAWN_EGG = ITEMS.register
             ("k9_spawn_egg", () -> new AITSpawnEgg(AITEntities.K9,0x2F329F,0x2FBD9F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
+    public static final RegistryObject<AITSpawnEgg> CYBER_CAVALRY_SPAWN_EGG = ITEMS.register
+            ("cybercavalry_spawn_egg", () -> new AITSpawnEgg(AITEntities.CYBERCAVALRY,0x2F329F,0x2FBD9F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
+    public static final RegistryObject<AITSpawnEgg> ANGEL_ENTITY_SPAWN_EGG = ITEMS.register
+            ("angel_entity_spawn_egg", () -> new AITSpawnEgg(AITEntities.ANGEL_ENTITY,0x2F329F,0x2F329F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
 }
