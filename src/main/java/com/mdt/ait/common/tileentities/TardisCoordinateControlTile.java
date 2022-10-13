@@ -39,9 +39,9 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public String coordinateDisplay;
     private RegistryKey<World> newDimension;
     public BlockPos newSetPosition;
-    public int xPos;
-    public int yPos;
-    public int zPos;
+    public int xPos = 0;
+    public int yPos = 0;
+    public int zPos = 0;
     public int incrementValue;
     public EnumCoordinateState currentCoordinateState = EnumCoordinateState.NULL;
     public EnumCoordinatePosNegState currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
@@ -115,88 +115,85 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
             //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-            BlockState blockstate = world.getBlockState(blockpos);
-            Block block = blockstate.getBlock();
-            if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
-                double mouseX = pHit.getLocation().x - blockpos.getX();
-                double mouseZ = pHit.getLocation().z - blockpos.getZ();
-                this.Xx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-                this.Xz = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-                this.Yx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-                this.Yz = 0.375; // 0.35 = 17.5 pixels 0.025 = 1/2 of a pixel
-                this.Zx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-                this.Zz = 0.6875; // 0.6875 = 13.75 pixels
-                this.IncrementX = 0.375; // 0.375 = 1.5 and a half pixels
-                this.IncrementZ = 0; // 0 pixels
-                this.width = 0.25; // 0.25 = 5 pixels
-                this.height = 0.25; // 0.25 = 5 pixels
-                this.incrementWidth = 0.125; // 0.125 = 1 1/2 of a pixel
-                this.incrementHeight = 0.125; // 0.125 = 1 1/2 of a pixel
-                boolean isHoveredOverX = mouseX >= Xx && mouseZ >= Xz && mouseX <= (Xx + width) && mouseZ <= (Xz + height);
-                boolean isHoveredOverY = mouseX >= Yx && mouseZ >= Yz && mouseX <= (Yx + width) && mouseZ <= (Yz + height);
-                boolean isHoveredOverZ = mouseX >= Zx && mouseZ >= Zz && mouseX <= (Zx + width) && mouseZ <= (Zz + height);
-                boolean isHoveredOverIncrement = mouseX >= IncrementX && mouseZ >= IncrementZ && mouseX <= (IncrementX + incrementWidth) && mouseZ <= (IncrementZ + incrementHeight);
-                if(currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
-                    if (isHoveredOverX) {
-                        xPos += incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverY) {
-                        yPos += incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverZ) {
-                        zPos += incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverIncrement) {
-                        this.incrementValue = getNextIncrement();
-                    }
+        BlockState blockstate = world.getBlockState(blockpos);
+        Block block = blockstate.getBlock();
+        if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
+            double mouseX = pHit.getLocation().x - blockpos.getX();
+            double mouseZ = pHit.getLocation().z - blockpos.getZ();
+            this.Xx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
+            this.Xz = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
+            this.Yx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
+            this.Yz = 0.375; // 0.35 = 17.5 pixels 0.025 = 1/2 of a pixel
+            this.Zx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
+            this.Zz = 0.6875; // 0.6875 = 13.75 pixels
+            this.IncrementX = 0.375; // 0.375 = 1.5 and a half pixels
+            this.IncrementZ = 0; // 0 pixels
+            this.width = 0.25; // 0.25 = 5 pixels
+            this.height = 0.25; // 0.25 = 5 pixels
+            this.incrementWidth = 0.125; // 0.125 = 1 1/2 of a pixel
+            this.incrementHeight = 0.125; // 0.125 = 1 1/2 of a pixel
+            boolean isHoveredOverX = mouseX >= Xx && mouseZ >= Xz && mouseX <= (Xx + width) && mouseZ <= (Xz + height);
+            boolean isHoveredOverY = mouseX >= Yx && mouseZ >= Yz && mouseX <= (Yx + width) && mouseZ <= (Yz + height);
+            boolean isHoveredOverZ = mouseX >= Zx && mouseZ >= Zz && mouseX <= (Zx + width) && mouseZ <= (Zz + height);
+            boolean isHoveredOverIncrement = mouseX >= IncrementX && mouseZ >= IncrementZ && mouseX <= (IncrementX + incrementWidth) && mouseZ <= (IncrementZ + incrementHeight);
+            if(currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
+                if (isHoveredOverX) {
+                    xPos += incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
                 }
-                if(currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
-                    if (isHoveredOverX) {
-                        xPos -= incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverY) {
-                        yPos -= incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverZ) {
-                        zPos -= incrementValue;
-                        this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
-                    } else {
-                        this.currentCoordinateState = EnumCoordinateState.NULL;
-                    }
-                    if (isHoveredOverIncrement) {
-                        this.incrementValue = getNextIncrement();
-                    }
+                if (isHoveredOverY) {
+                    yPos += incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
                 }
-                System.out.println(mouseX + " || " + mouseZ);
-                System.out.println("Xstuff: " + Xx + ", " + Xz + " || Ystuff: " + Yx + ", " + Yz + " || Zstuff: " + Zx + ", " + Zz);
-                System.out.println(isHoveredOverX + ", " + isHoveredOverY + ", " + isHoveredOverZ);
-                System.out.println(currentPosNegState);
-                if(!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
-                    if(playerEntity.isCrouching()) {
-                        this.currentPosNegState = getNextPosNegState();
-                    }
+                if (isHoveredOverZ) {
+                    zPos += incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
                 }
-                changePositionFromControl();
-                syncToClient();
+                if (isHoveredOverIncrement) {
+                    this.incrementValue = getNextIncrement();
+                }
             }
+            if(currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
+                if (isHoveredOverX) {
+                    xPos -= incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                }
+                if (isHoveredOverY) {
+                    yPos -= incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                }
+                if (isHoveredOverZ) {
+                    zPos -= incrementValue;
+                    this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
+                } else {
+                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                }
+                if (isHoveredOverIncrement) {
+                    this.incrementValue = getNextIncrement();
+                }
+            }
+//                System.out.println(mouseX + " || " + mouseZ);
+//                System.out.println("Xstuff: " + Xx + ", " + Xz + " || Ystuff: " + Yx + ", " + Yz + " || Zstuff: " + Zx + ", " + Zz);
+//                System.out.println(isHoveredOverX + ", " + isHoveredOverY + ", " + isHoveredOverZ);
+//                System.out.println(currentPosNegState);
+            if(!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
+                if(playerEntity.isCrouching()) {
+                    this.currentPosNegState = getNextPosNegState();
+                }
+            }
+            changePositionFromControl();
+            syncToClient();
         }
         return ActionResultType.SUCCESS;
     }
@@ -204,11 +201,21 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
 
     public void changePositionFromControl() {
         newSetPosition = new BlockPos(xPos, yPos, zPos);
-        AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+        if (this.tardisID != null) {
+            AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+        }
+
     }
 
     @Override
     public void tick() {
+        if (tardisID != null) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            xPos = tardis.exterior_position.getX();
+            yPos = tardis.exterior_position.getY();
+            zPos = tardis.exterior_position.getZ();
+        }
+
     }
 
     @Override
@@ -218,6 +225,9 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
 
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
+        if (nbt.contains("tardisID")) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
         this.xPos = nbt.getInt("xPosition");
         this.yPos = nbt.getInt("yPosition");
         this.zPos = nbt.getInt("zPosition");
@@ -226,7 +236,6 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         this.currentCoordinateState = EnumCoordinateState.values()[nbt.getInt("currentcoordinatestate")];
         this.currentPosNegState = EnumCoordinatePosNegState.values()[nbt.getInt("currentposnegstate")];
         this.currentdimensionstate = EnumDimensionControlState.values()[nbt.getInt("currentdimensionstate")];
-        this.tardisID = nbt.getUUID("tardisID");
         super.load(pState, nbt);
     }
 
@@ -240,7 +249,10 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         nbt.putInt("currentcoordinatestate", this.currentCoordinateState.ordinal());
         nbt.putInt("currentposnegstate", this.currentPosNegState.ordinal());
         nbt.putInt("currentdimensionstate", this.currentdimensionstate.ordinal());
-        nbt.putUUID("tardisID", this.tardisID);
+        if (this.tardisID != null) {
+            nbt.putUUID("tardisID", this.tardisID);
+        }
+
         return super.save(nbt);
     }
 

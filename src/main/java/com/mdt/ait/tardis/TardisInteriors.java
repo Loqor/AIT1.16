@@ -12,7 +12,7 @@ public class TardisInteriors {
     public static TardisInterior devInterior;
 
     public static void init() {
-        // For right now, all interiors are static, therefore do not move the InteriorDoor, your position to be teleported to won't change
+        // For right now, all interiors are static
         tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION); // Get the tardisWorld
         devInterior = new DevInterior(tardisWorld);
 

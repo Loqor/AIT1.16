@@ -49,7 +49,6 @@ public class TardisEventHandler {
             TardisManager tardisManager = AIT.tardisManager;
 
             if (event.getEntity() != null) {
-                AIT.print("Place yes past entity");
                 if (!blockState.getValue(TardisBlock.isExistingTardis)) {
                     Entity entity = event.getEntity();
                     assert entity != null;

@@ -76,13 +76,17 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
 
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
-        this.tardisID = nbt.getUUID("tardisID");
+        if (nbt.contains("tardisID")) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
         super.load(pState, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
-        nbt.putUUID("tardisID", this.tardisID);
+        if (this.tardisID != null) {
+            nbt.putUUID("tardisID", this.tardisID);
+        }
         return super.save(nbt);
     }
 

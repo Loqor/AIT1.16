@@ -77,24 +77,26 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
         if(currentdimensionstate == EnumDimensionControlState.MONDAS) {
             newDimension = AITDimensions.MONDAS;
         }
-        AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
+        if (tardisID != null) {
+            AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
+        }
+
     }
 
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-            BlockState blockstate = world.getBlockState(blockpos);
-            Block block = blockstate.getBlock();
-            if (block instanceof DimensionSwitchControlBlock && hand == Hand.MAIN_HAND) {
-                //playerEntity.sendMessage(new TranslationTextComponent(
-                //        "IS THIS WORKING?!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
-                currentdimensionstate = getNextDimensionState();
-                changeDimensionFromControl();
-                syncToClient();
-            }
+//        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+//        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        BlockState blockstate = world.getBlockState(blockpos);
+        Block block = blockstate.getBlock();
+        if (block instanceof DimensionSwitchControlBlock && hand == Hand.MAIN_HAND) {
+            //playerEntity.sendMessage(new TranslationTextComponent(
+            //        "IS THIS WORKING?!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
+            currentdimensionstate = getNextDimensionState();
+            changeDimensionFromControl();
+            syncToClient();
         }
+
         return ActionResultType.SUCCESS;
     }
 
@@ -106,14 +108,19 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.currentdimensionstate = EnumDimensionControlState.values()[nbt.getInt("currentdimensionstate")];
-        this.tardisID = nbt.getUUID("tardisID");
+        if (nbt.contains("tardisID")) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
+
         super.load(pState, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("currentdimensionstate", this.currentdimensionstate.ordinal());
-        nbt.putUUID("tardisID", this.tardisID);
+        if (this.tardisID != null) {
+            nbt.putUUID("tardisID", this.tardisID);
+        }
         return super.save(nbt);
     }
 

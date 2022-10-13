@@ -67,20 +67,21 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         if(this.currentExteriorFacingSetting == EnumExteriorFacingState.WEST) {
             this.newFacingDirection = Direction.WEST;
         }
-        AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+        if (this.tardisID != null) {
+            AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+        }
+
     }
 
     public ActionResultType useOn(World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {
-        if(!world.isClientSide() && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            BlockState blockstate = world.getBlockState(pPos);
-            Block block = blockstate.getBlock();
-            if (block instanceof ExteriorFacingControlBlock && pHandIn == Hand.MAIN_HAND) {
-                System.out.println("IM FUCKING HERE: " + getNextExteriorFacingSetting());
-                this.currentExteriorFacingSetting = getNextExteriorFacingSetting();
-            }
-            changeDirectionFromControl();
-            syncToClient();
+        BlockState blockstate = world.getBlockState(pPos);
+        Block block = blockstate.getBlock();
+        if (block instanceof ExteriorFacingControlBlock && pHandIn == Hand.MAIN_HAND) {
+//            System.out.println("IM FUCKING HERE: " + getNextExteriorFacingSetting());
+            this.currentExteriorFacingSetting = getNextExteriorFacingSetting();
         }
+        changeDirectionFromControl();
+        syncToClient();
         return ActionResultType.SUCCESS;
     }
 
@@ -93,13 +94,19 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     public void load(BlockState pState, CompoundNBT nbt) {
         this.exteriorFacingSetting = nbt.getFloat("exteriorFacingSetting");
         this.currentExteriorFacingSetting = EnumExteriorFacingState.values()[nbt.getInt("currentExteriorFacingSetting")];
-        this.tardisID = nbt.getUUID("tardisID");
+        if (nbt.contains("tardisID")) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
+
         super.load(pState, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
-        nbt.putUUID("tardisID", this.tardisID);
+        if (this.tardisID != null) {
+            nbt.putUUID("tardisID", this.tardisID);
+        }
+
         nbt.putInt("currentExteriorFacingSetting", this.currentExteriorFacingSetting.ordinal());
         nbt.putFloat("exteriorFacingSetting", this.exteriorFacingSetting);
         return super.save(nbt);
