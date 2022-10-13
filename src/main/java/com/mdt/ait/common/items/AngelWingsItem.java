@@ -8,8 +8,8 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -22,13 +22,20 @@ public class AngelWingsItem extends ArmorItem {
         super(wings, chest, tab);
     }
 
+    public static boolean isThisTrue = true;
+
     @Override
     public EquipmentSlotType getSlot() {
         return EquipmentSlotType.CHEST;
     }
 
+    @Override
+    public boolean isValidRepairItem(ItemStack pToRepair, ItemStack pRepair) {
+        return pRepair.getItem() == Items.FEATHER;
+    }
+
     public static boolean isFlyEnabled(ItemStack pElytraStack) {
-        return pElytraStack.getDamageValue() < pElytraStack.getMaxDamage();
+        return pElytraStack.getDamageValue() < pElytraStack.getMaxDamage() - 1;
     }
 
     @Override
@@ -68,5 +75,9 @@ public class AngelWingsItem extends ArmorItem {
     @Override
     public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
         return null;
+    }
+
+    public boolean isVisible() {
+        return this.isThisTrue;
     }
 }

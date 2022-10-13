@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -441,7 +442,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
     public void hudolinText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.68f, -0.31f);
+        MatrixStackIn.translate(0.925f, 2.68f, -0.33f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
@@ -450,14 +451,14 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.32f, 2.68f, 0.925f);
+        MatrixStackIn.translate(1.33f, 2.68f, 0.925f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.32f, 2.68f, 0.0900f);
+        MatrixStackIn.translate(-0.33f, 2.68f, 0.0900f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));

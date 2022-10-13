@@ -129,7 +129,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                 this.Yz = 0.375; // 0.35 = 17.5 pixels 0.025 = 1/2 of a pixel
                 this.Zx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
                 this.Zz = 0.6875; // 0.6875 = 13.75 pixels
-                this.IncrementX = 0.375; // 0.4375 = 8.75 pixels
+                this.IncrementX = 0.375; // 0.375 = 1.5 and a half pixels
                 this.IncrementZ = 0; // 0 pixels
                 this.width = 0.25; // 0.25 = 5 pixels
                 this.height = 0.25; // 0.25 = 5 pixels

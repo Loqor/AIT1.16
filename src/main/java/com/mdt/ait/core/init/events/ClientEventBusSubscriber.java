@@ -3,6 +3,7 @@ package com.mdt.ait.core.init.events;
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.core.init.AITContainerTypes;
+import com.mdt.ait.core.init.AITKeybinds;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,6 +15,8 @@ public class ClientEventBusSubscriber {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
+        AITKeybinds.register(event);
+
         ScreenManager.register(AITContainerTypes.MONITOR_CONTAINER_TYPE.get(), MonitorScreen::new);
     }
 

@@ -58,6 +58,7 @@ public class AIT {
     private void setup(final FMLCommonSetupEvent event) {
         Network.init();
         AITDimensions.init();
+        NetworkHandler.init();
         //KEY_OPEN_BAG_GUI = new KeyBinding("key.open_bag_gui", GLFW.GLFW_KEY_CAPS_LOCK, "key.categories.ait");
         //ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
     }

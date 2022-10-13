@@ -79,7 +79,7 @@ public class AITItems {
             "3d_glasses", () -> new ThreeDGlassesArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
 
     public static final RegistryObject<AngelWingsItem> ANGEL_WINGS = ITEMS.register(
-            "angel_wings", () -> new AngelWingsItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
+            "angel_wings", () -> new AngelWingsItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS).defaultDurability(864).fireResistant()));
 
     //Sonic Screwdrivers
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(

@@ -6,6 +6,8 @@
   "block.ait.basic_interior_door_block" : "Interior Doors",
   "block.ait.basic_rotor": "Classic Rotor",
   "block.ait.typewriter": "Typewriter",
+  "key.ait.hide_angel_wings": "Hide Angel Wings",
+  "key.category.ait": "Adventures In Time",
   "block.ait.tardis_coordinate_control": "Coordinate Control",
   "block.ait.exterior_facing_control": "Exterior Facing Control",
   "block.ait.hartnell_rotor": "Hartnell Rotor",
