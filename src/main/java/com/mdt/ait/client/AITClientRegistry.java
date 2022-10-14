@@ -114,6 +114,7 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE.get(), TardisCoordinateControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE.get(), ExteriorFacingControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.HARTNELL_ROTOR_TILE_ENTITY_TYPE.get(), HartnellRotorRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.TENNANT_MONITOR_TILE_ENTITY_TYPE.get(), TennantMonitorRenderer::new);
 
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);

@@ -142,6 +142,9 @@ public class AITItems {
     public static final RegistryObject<BlockItem> EXTERIOR_FACING_CONTROL = ITEMS.register(
             "exterior_facing_control", () -> new BlockItem(
                     AITBlocks.EXTERIOR_FACING_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> TENNANT_MONITOR = ITEMS.register(
+            "tennant_monitor", () -> new BlockItem(
+                    AITBlocks.TENNANT_MONITOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
 
     public static final RegistryObject<BlockItem> ROUNDEL_FACE = ITEMS.register(

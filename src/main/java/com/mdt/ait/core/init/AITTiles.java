@@ -59,4 +59,7 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<ExteriorFacingControlTile>> EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "exterior_facing_control",
             () -> TileEntityType.Builder.of(ExteriorFacingControlTile::new, AITBlocks.EXTERIOR_FACING_CONTROL_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<TennantMonitorTile>> TENNANT_MONITOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "tennant_monitor",
+            () -> TileEntityType.Builder.of(TennantMonitorTile::new, AITBlocks.TENNANT_MONITOR_BLOCK.get()).build(null));
 }
