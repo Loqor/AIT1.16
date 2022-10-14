@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class MonitorContainer extends Container {
     public TypewriterTile tile_entity;
-    private IWorldPosCallable canInteractWithCallable;
+    private final IWorldPosCallable canInteractWithCallable;
 
     public MonitorContainer(final int windowID, final PlayerInventory playerInv, final TypewriterTile te) {
         super(AITContainerTypes.MONITOR_CONTAINER_TYPE.get(), windowID);
