@@ -39,10 +39,10 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public String coordinateDisplay;
     private RegistryKey<World> newDimension;
     public BlockPos newSetPosition;
-    public int xPos = 0;
-    public int yPos = 0;
-    public int zPos = 0;
-    public int incrementValue;
+    public int xPos;
+    public int yPos;
+    public int zPos;
+    public int incrementValue = 1;
     public EnumCoordinateState currentCoordinateState = EnumCoordinateState.NULL;
     public EnumCoordinatePosNegState currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
     public EnumCoordinateDirectionState currentCoordinateDirectionState = EnumCoordinateDirectionState.NORTH;
@@ -74,6 +74,8 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         yPos = tardis.exterior_position.getY();
         zPos = tardis.exterior_position.getZ();
         currentCoordinateDirectionState = coordinateBlockDirectionState();
+        changePositionFromControl();
+        syncToClient();
     }
 
     public EnumCoordinatePosNegState getNextPosNegState() {
@@ -209,12 +211,12 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
 
     @Override
     public void tick() {
-        if (tardisID != null) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            xPos = tardis.exterior_position.getX();
-            yPos = tardis.exterior_position.getY();
-            zPos = tardis.exterior_position.getZ();
-        }
+        //if (tardisID != null) {
+        //    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        //    xPos = tardis.exterior_position.getX();
+        //    yPos = tardis.exterior_position.getY();
+        //    zPos = tardis.exterior_position.getZ();
+        //}
 
     }
 

@@ -36,32 +36,33 @@ public class HartnellRotorRenderer extends TileEntityRenderer<HartnellRotorTile>
     @Override
     public void render(HartnellRotorTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         //tile.rotorTick = tile.currentState() == EnumRotorState.MOVING ? 0.0f : 0.8f;
+        ResourceLocation lightingTexture = this.texture;
         //if(tile.isTardisInFlight()) {
-            ++tile.spinny;
-            if (tile.currentState() == EnumRotorState.MOVING) {
-                if (tile.rotorTick < 0.8f/*1.5f*/) {
-                    tile.rotorTick += 0.0005f;
-                } else {
-                    tile.rotorTick = 0.8f/*1.5f*/;
-                    tile.currentstate = EnumRotorState.STATIC;
-                }
-                if (tile.rotorTick < 0.8) {
-                    this.texture = LIGHTING_1;
-                } else {
-                    this.texture = LIGHTING_2;
-                }
-            }
-            if (tile.currentState() == EnumRotorState.STATIC) {
-                if (tile.rotorTick > 0.0f) {
-                    tile.rotorTick -= 0.0005f;
-                } else {
-                    tile.rotorTick = 0.0f;
-                    tile.currentstate = EnumRotorState.MOVING;
-                }
-            }
         //}
         //System.out.println(tile.rotorTick);
         MatrixStackIn.pushPose();
+        ++tile.spinny;
+        if (tile.currentState() == EnumRotorState.MOVING) {
+            if (tile.rotorTick < 0.8f/*1.5f*/) {
+                tile.rotorTick += 0.0005f;
+            } else {
+                tile.rotorTick = 0.8f/*1.5f*/;
+                tile.currentstate = EnumRotorState.STATIC;
+            }
+            if (tile.rotorTick < 0.8) {
+                lightingTexture = LIGHTING_1;
+            } else {
+                lightingTexture = LIGHTING_2;
+            }
+        }
+        if (tile.currentState() == EnumRotorState.STATIC) {
+            if (tile.rotorTick > 0.0f) {
+                tile.rotorTick -= 0.0005f;
+            } else {
+                tile.rotorTick = 0.0f;
+                tile.currentstate = EnumRotorState.MOVING;
+            }
+        }
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
@@ -73,7 +74,7 @@ public class HartnellRotorRenderer extends TileEntityRenderer<HartnellRotorTile>
         model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         model.casing.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(this.texture, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(lightingTexture, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.translate(0, -1.5, 0);
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);

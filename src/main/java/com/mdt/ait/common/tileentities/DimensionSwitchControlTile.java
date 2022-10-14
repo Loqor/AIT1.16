@@ -100,6 +100,11 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
         return ActionResultType.SUCCESS;
     }
 
+    public void onPlace() {
+        changeDimensionFromControl();
+        syncToClient();
+    }
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);

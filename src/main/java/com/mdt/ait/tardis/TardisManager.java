@@ -193,7 +193,9 @@ public class TardisManager {
     }
 
     public void setTardisTargetBlockPos(UUID tardisID, BlockPos __targetPosition) {
-        this.getTardis(tardisID).targetPosition = __targetPosition;
+        if(this.getTardis(tardisID).targetPosition != __targetPosition) {
+            this.getTardis(tardisID).targetPosition = __targetPosition;
+        }
     }
 
     public void setTardisExteriorFacing(UUID tardisID, Direction __targetFacing) {

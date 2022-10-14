@@ -84,6 +84,10 @@ public class ExteriorFacingControlBlock extends Block {
             assert exteriorFacingControlTile != null;
             exteriorFacingControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, exteriorFacingControlTile);
+            TileEntity tileEntity = world.getBlockEntity(blockPos);
+            if (tileEntity instanceof ExteriorFacingControlTile) {
+                ((ExteriorFacingControlTile) tileEntity).onPlace();
+            }
         }
     }
 

@@ -4,14 +4,20 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.RenderSkybox;
+import net.minecraft.client.renderer.RenderSkyboxCube;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ISkyRenderHandler;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,11 +32,11 @@ public class ClientEventHandler {
     public static void onEntityRenderPre(RenderPlayerEvent.Post event) {
         LivingEntity livingEntity = event.getPlayer();
         Item item = livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem();
-      //  if (item == AITItems.COW_SKULL.get()) {
-            PlayerModel<AbstractClientPlayerEntity> model = event.getRenderer().getModel();
-            model.head.visible = false;
-            model.hat.visible = false;
-      //  }
+        //  if (item == AITItems.COW_SKULL.get()) {
+        PlayerModel<AbstractClientPlayerEntity> model = event.getRenderer().getModel();
+        model.head.visible = false;
+        model.hat.visible = false;
+        //  }
     }
 
     /*@SubscribeEvent

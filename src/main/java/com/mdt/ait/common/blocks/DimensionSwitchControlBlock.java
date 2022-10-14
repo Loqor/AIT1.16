@@ -2,6 +2,7 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
+import com.mdt.ait.common.tileentities.TardisCoordinateControlTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.block.Block;
@@ -85,6 +86,10 @@ public class DimensionSwitchControlBlock extends Block {
             assert dimensionSwitchControlTile != null;
             dimensionSwitchControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, dimensionSwitchControlTile);
+            TileEntity tileEntity = world.getBlockEntity(blockPos);
+            if (tileEntity instanceof DimensionSwitchControlTile) {
+                ((DimensionSwitchControlTile) tileEntity).onPlace();
+            }
         }
     }
 

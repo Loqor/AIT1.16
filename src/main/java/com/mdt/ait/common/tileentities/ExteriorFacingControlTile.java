@@ -85,6 +85,11 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         return ActionResultType.SUCCESS;
     }
 
+    public void onPlace() {
+        changeDirectionFromControl();
+        syncToClient();
+    }
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);

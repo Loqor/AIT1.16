@@ -99,7 +99,6 @@ public class AITItems {
     public static final RegistryObject<TARDISKey> GOLDEN_TARDIS_KEY = ITEMS.register(
             "golden_tardis_key", () -> new TARDISKey(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
-
     //Tools
     public static final RegistryObject<DematterStick> DEMATTER_STICK = ITEMS.register(
             "dematter_stick", () -> new DematterStick(new Item.Properties()));
