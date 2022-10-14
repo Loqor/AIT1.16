@@ -1,6 +1,21 @@
 package com.mdt.ait.tardis;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+
+import java.util.ArrayList;
+
 public class TardisConfig {
+
+    public static final ArrayList<Block> cantLandOnBlockList = new ArrayList<>();
+
+    public static void init() {
+        cantLandOnBlockList.add(Blocks.AIR);
+        cantLandOnBlockList.add(Blocks.CAVE_AIR);
+        cantLandOnBlockList.add(Blocks.VOID_AIR);
+        cantLandOnBlockList.add(Blocks.WATER);
+        cantLandOnBlockList.add(Blocks.LAVA);
+    }
 
     public static final int tardis_usable_area_x = 40055;
     public static final int tardis_usable_area_z = 40055;

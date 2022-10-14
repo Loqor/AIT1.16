@@ -6,6 +6,8 @@ import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumMatState;
+import com.mdt.ait.tardis.special.DematTransit;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -112,8 +114,6 @@ public class TardisManager {
 //            z_grid_position = 1;
 //        }
 
-        System.out.println(integerMapToUUID);
-        System.out.println(x_gr);
         return integerMapToUUID.get(x_gr);
     }
 
@@ -128,69 +128,29 @@ public class TardisManager {
         return false;
     }*/
 
-    public void moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
-        Tardis tardis = getTardis(tardis_id);
+//    public void moveTARDIS(UUID tardis_id, BlockPos new_exterior_position, Direction exterior_facing, RegistryKey<World> exterior_dimension) {
+//        System.out.println("Move tardis");
+//        Tardis tardis = getTardis(tardis_id);
+//        ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
+//        ServerWorld newDimension = server.getLevel(exterior_dimension);
+//        assert newDimension != null;
+//        assert oldDimension != null;
+//
+//        ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);
+//        ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, new_exterior_position, 0, 0, true, true);
+//
+//        TardisTileEntity oldTardisTileEntity = (TardisTileEntity) oldDimension.getBlockEntity(tardis.exterior_position);
+//        BlockState oldBlockState = oldDimension.getBlockState(tardis.exterior_position);
+//        assert oldTardisTileEntity != null;
+//
+//    }
 
-        ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
-        ServerWorld newDimension = server.getLevel(exterior_dimension);
-        assert newDimension != null;
-        assert oldDimension != null;
 
-        BlockPos __setAirBlockPos = new BlockPos(new_exterior_position.getX(), new_exterior_position.getY() +1 , new_exterior_position.getZ());
 
-        ServerWorld forceWorld = AIT.server.getLevel(tardis.exterior_dimension);
-        assert forceWorld != null;
-
-        ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);
-        BlockState newBlockState = oldDimension.getBlockState(tardis.exterior_position).setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, exterior_facing);
-        if(rematerialize = true) {
-            //if(isBlockBelow(new BlockPos(new_exterior_position.getX(), new_exterior_position.getY() - 1, new_exterior_position.getZ()), newDimension)) {
-                //BlockPos newExteriorPositionCorrected = new BlockPos(new_exterior_position.getX(), new_exterior_position.getY() - 1, new_exterior_position.getZ());
-                newDimension.setBlockAndUpdate(new_exterior_position, newBlockState);
-                if ((newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.BEDROCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DIAMOND_BLOCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.END_PORTAL_FRAME)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DRAGON_EGG)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.NETHERITE_BLOCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.ANCIENT_DEBRIS)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.DIAMOND_ORE)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.COMMAND_BLOCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REPEATING_COMMAND_BLOCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.CHAIN_COMMAND_BLOCK)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.PISTON)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.STICKY_PISTON)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REDSTONE_WIRE)
-                        || (newDimension.getBlockState(__setAirBlockPos).getBlock() != Blocks.REPEATER)) {
-                    newDimension.setBlockAndUpdate(__setAirBlockPos, Blocks.AIR.defaultBlockState());
-                }
-
-                TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(new_exterior_position);
-
-                assert newTardisTileEntity != null;
-                newTardisTileEntity.setExterior(((TardisTileEntity) Objects.requireNonNull(oldDimension.getBlockEntity(tardis.exterior_position))).currentExterior());
-                newTardisTileEntity.linked_tardis_id = tardis.tardisID;
-                newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
-                newTardisTileEntity.linked_tardis = tardis;
-                newDimension.setBlockEntity(new_exterior_position, newTardisTileEntity);
-                oldDimension.removeBlock(tardis.exterior_position, false);
-
-                tardis.__moveExterior(new_exterior_position, exterior_facing, exterior_dimension); // Has to be called last
-                ServerWorld forceWorld1 = AIT.server.getLevel(exterior_dimension);
-                assert forceWorld1 != null;
-                ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, tardis.exterior_position, 0, 0, false, false);
-                if (!newDimension.getChunkAt(new_exterior_position).isEmpty()) {
-                    newTardisTileEntity.setMatState(EnumMatState.REMAT);
-                } else {
-                    newTardisTileEntity.setMatState(EnumMatState.SOLID);
-                }
-            //}
-        }
-    }
-
-    public void setTardisTargetLocation(UUID tardisID, BlockPos targetPosition, Direction targetFacing, RegistryKey<World> targetDimension) {
-        Tardis tardis = getTardis(tardisID);
-        tardis.__setTargetLocation(targetPosition, targetFacing, targetDimension);
-    }
+//    public void setTardisTargetLocation(UUID tardisID, BlockPos targetPosition, Direction targetFacing, RegistryKey<World> targetDimension) {
+//        Tardis tardis = getTardis(tardisID);
+//        tardis.__setTargetLocation(targetPosition, targetFacing, targetDimension);
+//    }
 
     public void setTardisTargetBlockPos(UUID tardisID, BlockPos __targetPosition) {
         if(this.getTardis(tardisID).targetPosition != __targetPosition) {
@@ -202,9 +162,17 @@ public class TardisManager {
         this.getTardis(tardisID).target_facing_direction = __targetFacing;
     }
 
-    public void moveTardisToTargetLocation(UUID tardisID) {
+    public DematTransit moveTardisToTargetLocation(UUID tardisID) {
         Tardis tardis = getTardis(tardisID);
-        moveTARDIS(tardisID, tardis.targetPosition, tardis.target_facing_direction, tardis.target_dimension);
+        ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
+        assert oldDimension != null;
+        ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);
+        TardisTileEntity oldTardisTileEntity = (TardisTileEntity) oldDimension.getBlockEntity(tardis.exterior_position);
+        assert oldTardisTileEntity != null;
+        DematTransit dematTransit = new DematTransit(tardisID);
+        oldTardisTileEntity.dematTardis(dematTransit);
+        return dematTransit;
+
     }
 
     public boolean doesTardisHaveATargetLocation(UUID tardisID) {

@@ -7,6 +7,7 @@ import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
+import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
@@ -22,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -74,6 +76,23 @@ public class Tardis implements IEnergyStorage {
         }
         this.generateInterior();
 //        this.interiorTeleportPos = this.interior_door_position.relative(interior_door_facing.getOpposite(), 1);
+
+    }
+
+    public void setExteriorDoorState(EnumDoorState doorState) {
+        ServerWorld world = AIT.server.getLevel(exterior_dimension);
+        assert world != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exterior_position);
+        assert tardisTileEntity != null;
+        tardisTileEntity.setDoorState(doorState);
+    }
+
+    public void setInteriorDoorState(EnumDoorState doorState) {
+        ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert world != null;
+        BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interior_door_position);
+        assert interiorDoorTile != null;
+        interiorDoorTile.setDoorState(doorState);
 
     }
 

@@ -68,6 +68,13 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         super(AITTiles.TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE.get());
     }
 
+    public void setListedPosition(BlockPos position) {
+        xPos = position.getX();
+        yPos = position.getY();
+        zPos = position.getZ();
+        syncToClient();
+    }
+
     public void onPlace() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         xPos = tardis.exterior_position.getX();
@@ -211,12 +218,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
 
     @Override
     public void tick() {
-        //if (tardisID != null) {
-        //    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        //    xPos = tardis.exterior_position.getX();
-        //    yPos = tardis.exterior_position.getY();
-        //    zPos = tardis.exterior_position.getZ();
-        //}
+
 
     }
 

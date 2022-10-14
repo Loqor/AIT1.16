@@ -10,6 +10,7 @@ import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mdt.ait.tardis.Tardis;
+import com.mdt.ait.tardis.special.DematTransit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -72,6 +73,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     protected EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
     private float alpha = 1;
     private int ticks, pulses;
+
+    public DematTransit dematTransit;
     private int run_once = 0;
     private int run_once_remat = 0;
     public TARDISKey tardisKey;
@@ -171,6 +174,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         this.matState = matState;
     }
 
+    public void dematTardis(DematTransit dematTransit) {
+        setMatState(EnumMatState.DEMAT);
+        this.dematTransit = dematTransit;
+
+    }
+
     public TardisTileEntity() {
         super(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
     }
@@ -221,6 +230,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
             ++ticks;
             if (ticks >= 257) {
+                this.dematTransit.finishedDematAnimation();
+                // Finish
             }
             if(run_once == 0) {
                 iDontKnow();
@@ -389,6 +400,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if(lockedState != true) {
                 if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
                     this.setDoorState(this.getNextDoorState());
+                    linked_tardis.setInteriorDoorState(this.currentstate);
                     if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
                         if (this.currentstate == CLOSED)
                             world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -451,6 +463,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
         if (block instanceof TardisBlock && (item == AITItems.TENNANT_SONIC.get() || item == AITItems.WHITTAKER_SONIC.get()) && playerentity.isCrouching()) {
             currentexterior = getNextExterior();
+            AIT.tardisManager.getTardis(linked_tardis_id).setExteriorType(currentExterior());
             syncToClient();
         }
     }
@@ -511,6 +524,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public void nextExteriorFromMonitor() {
         currentexterior = getNextExterior();
+        AIT.tardisManager.getTardis(linked_tardis_id).setExteriorType(currentExterior());
         syncToClient();
     }
 

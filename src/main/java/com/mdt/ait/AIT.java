@@ -8,6 +8,7 @@ import com.mdt.ait.core.init.events.TardisEventHandler;
 import com.mdt.ait.network.NetworkHandler;
 import com.mdt.ait.network.depreciated.Network;
 import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
+import com.mdt.ait.tardis.TardisConfig;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
 import net.minecraft.server.MinecraftServer;
@@ -59,6 +60,7 @@ public class AIT {
         Network.init();
         AITDimensions.init();
         NetworkHandler.init();
+        TardisConfig.init();
         //KEY_OPEN_BAG_GUI = new KeyBinding("key.open_bag_gui", GLFW.GLFW_KEY_CAPS_LOCK, "key.categories.ait");
         //ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
     }

@@ -124,54 +124,6 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         this.currentstate = state;
     }
 
-    public void setExteriorDoorState() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        BlockPos exteriorPos = tardis.exterior_position;
-        assert world != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
-        assert tardisTileEntity != null;
-        if(currentstate == EnumDoorState.CLOSED) {
-            tardisTileEntity.setDoorState(CLOSED);
-        }
-        if(currentstate == EnumDoorState.FIRST) {
-            tardisTileEntity.setDoorState(FIRST);
-        }
-        if(currentstate == EnumDoorState.BOTH) {
-            tardisTileEntity.setDoorState(BOTH);
-        }
-    }
-
-    public void setInteriorDoorStateFromExterior() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        BlockPos exteriorPos = tardis.exterior_position;
-        assert world != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
-        assert tardisTileEntity != null;
-        if(tardisTileEntity.currentstate == EnumDoorState.CLOSED) {
-            this.setDoorState(CLOSED);
-        }
-        if(tardisTileEntity.currentstate == EnumDoorState.FIRST) {
-            this.setDoorState(FIRST);
-        }
-        if(tardisTileEntity.currentstate == EnumDoorState.BOTH) {
-            this.setDoorState(BOTH);
-        }
-    }
-
-    public void notSolidDoorState() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        BlockPos exteriorPos = tardis.exterior_position;
-        assert world != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
-        assert tardisTileEntity != null;
-        if(tardisTileEntity.matState != EnumMatState.SOLID) {
-            currentstate = CLOSED;
-        }
-    }
-
     @Override public void tick() {
         //notSolidDoorState();
         //setInteriorDoorStateFromExterior();
@@ -265,6 +217,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             Block block = blockstate.getBlock();
             if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
                 this.setDoorState(this.getNextDoorState());
+                linked_tardis.setExteriorDoorState(this.currentstate);
                 //setExteriorDoorState();
                 if (this.currentstate == CLOSED)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
