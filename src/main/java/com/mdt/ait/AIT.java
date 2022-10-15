@@ -65,19 +65,4 @@ public class AIT {
         //ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
     }
 
-    public static void print(String string) {
-        System.out.println(string);
-    }
-
-    /*
-      DEPRECIATED
-      Moved to onWorldLoad in CommonEventHandler and TardisEventHandler
-     */
-    @Deprecated
-    private void worldLoad(final WorldLoadProgressScreen event) {
-
-
-
-    }
-
 }
