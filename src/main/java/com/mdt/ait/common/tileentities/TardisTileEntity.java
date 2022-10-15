@@ -254,8 +254,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 //ServerWorld forceWorld = AIT.server.getLevel(this.linked_tardis.exterior_dimension);
                 //ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, true, true);
                 matState = EnumMatState.SOLID;
-                System.out.println("Finished");
-                this.dematTransit.finished();
+                if (this.dematTransit != null) {
+                    this.dematTransit.finished();
+                }
+
                 //ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, false, false);
             }
             if(run_once_remat == 0) {
@@ -402,6 +404,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if(lockedState != true) {
                 if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
                     this.setDoorState(this.getNextDoorState());
+                    if (linked_tardis == null) {
+                        linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+                    }
                     linked_tardis.setInteriorDoorState(this.currentstate);
                     if (currentexterior != EnumExteriorType.NUKA_COLA_EXTERIOR) {
                         if (this.currentstate == CLOSED)
@@ -452,6 +457,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 if (tardis_world != null) {
                     ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
+                    if (linked_tardis == null) {
+                        linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+                    }
                     linked_tardis.teleportToInterior((PlayerEntity) entity);
                     syncToClient();
                 }
