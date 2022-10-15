@@ -198,10 +198,13 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             BlockPos interiorDoorPos = tardis.interior_door_position;
             if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND) {
                 if(flightTicks <= 5) {
-                    this.leverState = getNextLeverState();
-                    changeMatStateFromLever();
-                    playerEntity.sendMessage(new TranslationTextComponent(
-                            "Dematting...").setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
+                    if (this.dematTransit == null) {
+                        this.leverState = getNextLeverState();
+                        changeMatStateFromLever();
+                        playerEntity.sendMessage(new TranslationTextComponent(
+                                "Dematting...").setStyle(Style.EMPTY.withColor(TextFormatting.BLUE)), UUID.randomUUID());
+                    }
+
                 }
                 syncToClient();
                 if(interiorDoorPos != null) {

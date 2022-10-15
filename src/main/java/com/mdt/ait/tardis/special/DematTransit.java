@@ -116,7 +116,7 @@ public class DematTransit {
         assert oldTardisTileEntity != null;
         this.newBlockState = oldBlockState.setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, tardis.target_facing_direction);
         assert newDimension != null;
-        ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landing_position, 0, 0, true, true);
+        ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, newDimension.getChunk(tardis.exterior_position).getPos().x, newDimension.getChunk(tardis.exterior_position).getPos().z, true, true);
         oldDimension.removeBlock(tardis.exterior_position, false);
         readyForDemat = true;
         // pass or something idk
@@ -128,6 +128,7 @@ public class DematTransit {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
         assert newDimension != null;
+        ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landingPosition, newDimension.getChunk(landingPosition).getPos().x, newDimension.getChunk(landingPosition).getPos().z, true, true);
         newDimension.setBlockAndUpdate(landingPosition, newBlockState);
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(landingPosition);
         assert newTardisTileEntity != null;
