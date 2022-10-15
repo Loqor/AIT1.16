@@ -62,14 +62,12 @@ public class DematTransit {
                 boolean downFailed = false;
                 while (true) {
                     increase += 1;
-                    System.out.println(increase);
                     if (!upFailed) {
                         if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.above(increase)).getBlock())) {
                             System.out.println(newDimension.getBlockState(tardis.targetPosition.above(increase)).getBlock());
                             if (newDimension.getBlockState(tardis.targetPosition.above(increase + 1)).getBlock().equals(Blocks.AIR) && newDimension.getBlockState(tardis.targetPosition.above(increase + 2)).getBlock().equals(Blocks.AIR)) {
                                 targetPos = tardis.targetPosition.above(increase + 1);
                                 landTardisPart1(targetPos);
-                                System.out.println("Land up");
                                 break;
                             }
                         }
@@ -80,11 +78,9 @@ public class DematTransit {
                         }
                     } else {
                         if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.below(increase)).getBlock())) {
-                            System.out.println(newDimension.getBlockState(tardis.targetPosition.below(increase)).getBlock());
                             if (newDimension.getBlockState(tardis.targetPosition.above(increase + 1)).getBlock().equals(Blocks.AIR) && newDimension.getBlockState(tardis.targetPosition.above(increase + 2)).getBlock().equals(Blocks.AIR)) {
                                 targetPos = tardis.targetPosition.below(increase);
                                 landTardisPart1(targetPos.above(1));
-                                System.out.println("Land down");
                                 break;
                             }
                         }
@@ -123,7 +119,6 @@ public class DematTransit {
     }
 
     public void landTardisPart2() {
-        System.out.println("Part 2 of landing?");
         this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
