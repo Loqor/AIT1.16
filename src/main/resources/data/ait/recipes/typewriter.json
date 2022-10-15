@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "SRS",
+    "DGD"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "S": {
+      "item": "minecraft:spruce_planks"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "result": {
+    "item": "ait:typewriter"
+  }
+}

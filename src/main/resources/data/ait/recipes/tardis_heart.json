@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#C#",
+    "RNR",
+    "#/#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:ghast_tear"
+    },
+    "C": {
+      "item": "minecraft:compass"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "/": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "ait:tardis_heart"
+  }
+}

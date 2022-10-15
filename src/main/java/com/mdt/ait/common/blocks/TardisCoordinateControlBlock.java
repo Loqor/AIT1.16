@@ -37,16 +37,16 @@ public class TardisCoordinateControlBlock extends Block {
     public UUID tardisID;
 
     private static final VoxelShape NORTH_SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(1.5, 2, 1.5, 14.5, 3, 4.5), Block.box(6.5, 2, 1.5, 9.5, 3, 4.5)
-            , Block.box(1.5, 2, 1.5, 4.5, 3, 4.5), Block.box(14, 2, 6, 16, 3, 8)).optimize();
+            Block.box(4.5, 2, 4.5, 1.5, 3, 1.5), Block.box(6.5, 2, 1.5, 9.5, 3, 4.5)
+            , Block.box(11.5, 2, 1.5, 14.5, 3, 4.5), Block.box(16, 2, 6, 14, 3, 8)).optimize();
 
     private static final VoxelShape EAST_SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(14.5, 2, 11.5, 11.5, 3, 14.5), Block.box(14.5, 2, 11.5, 6.5, 3, 9.5)
-            , Block.box(14.5, 2, 11.5, 11.5, 3, 14.5)).optimize();
+            Block.box(1.5, 2, 1.5, 4.5, 3, 4.5), Block.box(1.5, 2, 6.5, 4.5, 3, 9.5)
+            , Block.box(1.5, 2, 11.5, 4.5, 3, 14.5), Block.box(6, 2, 0, 8, 3, 2)).optimize();
 
     private static final VoxelShape SOUTH_SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(14.5, 2, 11.5, 11.5, 3, 14.5), Block.box(6.5, 2, 11.5, 9.5, 3, 14.5)
-            , Block.box(11.5, 2, 11.5, 14.5, 3, 14.5), Block.box(0, 2, 6, 16, 3, 2)).optimize();
+            Block.box(4.5, 2, 4.5, 1.5, 3, 1.5), Block.box(6.5, 2, 1.5, 9.5, 3, 4.5)
+            , Block.box(1.5, 2, 1.5, 4.5, 3, 4.5), Block.box(6, 2, 0, 8, 3, 2)).optimize();
 
     private static final VoxelShape WEST_SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
             Block.box(1.5, 2, 1.5, 4.5, 3, 4.5), Block.box(1.5, 2, 6.5, 4.5, 3, 9.5)

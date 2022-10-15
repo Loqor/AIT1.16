@@ -144,31 +144,16 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(0.009375f, 0.009375f, 0.009375f);
         if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
+            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-180.0f));
+            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(67.5f));
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotationForText));
         }
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent(tile.xPos + ", " + tile.yPos + ", " + tile.zPos).getVisualOrderText();
         float tileWidth = 16;
         float objectWidth = fontRenderer.width(irp);
         MatrixStackIn.translate(-(objectWidth / 2f - tileWidth / 2f), 0.35f, zpos);
-        MatrixStackIn.translate(50.5, -54, -5);
+        MatrixStackIn.translate(-53, -54, -5);
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
     }
@@ -176,24 +161,9 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(0.009375f, 0.009375f, 0.009375f);
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
         if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
             MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
         }
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
@@ -209,22 +179,7 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(0.009375f, 0.009375f, 0.009375f);
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
         if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
             MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
@@ -242,21 +197,6 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(0.009375f, 0.009375f, 0.009375f);
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
-        if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
-            MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
-        }
         if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
             MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
@@ -276,15 +216,15 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(-67.5f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-180.0f));
+        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(67.5f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotationForText));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("Increment: " + tile.incrementValue).getVisualOrderText();
         float tileWidth = 16;
         float objectWidth = fontRenderer.width(irp);
         MatrixStackIn.translate(-(objectWidth / 2f - tileWidth / 2f), 0.35f, zpos);
-        MatrixStackIn.translate(39, -72, -2);
+        MatrixStackIn.translate(-41.5, -72, -2);
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
     }

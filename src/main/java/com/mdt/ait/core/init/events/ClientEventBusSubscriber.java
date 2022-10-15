@@ -17,7 +17,7 @@ public class ClientEventBusSubscriber {
     public static void clientSetup(FMLClientSetupEvent event) {
         AITKeybinds.register(event);
 
-        ScreenManager.register(AITContainerTypes.MONITOR_CONTAINER_TYPE.get(), MonitorScreen::new);
+        //ScreenManager.register(AITContainerTypes.MONITOR_CONTAINER_TYPE.get(), MonitorScreen::new);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.container.MonitorContainer;
 import net.minecraft.inventory.container.AbstractRepairContainer;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -16,8 +15,8 @@ public class AITContainerTypes {
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister
             .create(ForgeRegistries.CONTAINERS, AIT.MOD_ID);
 
-    public static final RegistryObject<ContainerType<MonitorContainer>> MONITOR_CONTAINER_TYPE = CONTAINER_TYPES
-            .register("monitor_container", () -> IForgeContainerType.create(MonitorContainer::new));
+    /*public static final RegistryObject<ContainerType<MonitorContainer>> MONITOR_CONTAINER_TYPE = CONTAINER_TYPES
+            .register("monitor_container", () -> IForgeContainerType.create(MonitorContainer::new));*/
 
     /*public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES =
             DeferredRegister.create(ForgeRegistries.CONTAINERS, AIT.MOD_ID);

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ait:toyota_flashing_light1"
+    }
+  ],
+  "result": {
+    "item": "ait:toyota_flashing_lighta"
+  }
+}

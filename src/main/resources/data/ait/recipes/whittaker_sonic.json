@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #P",
+    "iCi",
+    "O# "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "P": {
+      "item": "ait:sonic_crystal"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "O": {
+      "item": "minecraft:orange_dye"
+    }
+  },
+  "result": {
+    "item": "ait:whittaker_sonic"
+  }
+}

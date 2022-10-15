@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "GIG",
+    "BCB"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:black_concrete"
+    },
+    "C": {
+      "item": "minecraft:gray_wool"
+    }
+  },
+  "result": {
+    "item": "ait:hartnell_rotor"
+  }
+}

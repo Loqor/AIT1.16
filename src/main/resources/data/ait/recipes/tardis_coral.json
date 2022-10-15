@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#I#",
+    "LBC",
+    "#EX"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:ender_eye"
+    },
+    "I": {
+      "item": "ait:plasmic_shell"
+    },
+    "L": {
+      "item": "ait:tardis_lever"
+    },
+    "B": {
+      "item": "ait:tardis_heart"
+    },
+    "C": {
+      "item": "ait:tardis_coordinate_control"
+    },
+    "E": {
+      "item": "ait:dimension_switch_control"
+    },
+    "X": {
+      "item": "ait:exterior_facing_control"
+    }
+  },
+  "result": {
+    "item": "ait:tardis_coral",
+    "count": 1
+  }
+}

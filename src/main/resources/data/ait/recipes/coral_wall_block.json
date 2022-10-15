@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "## ",
+    "## ",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:dead_tube_coral_block"
+    }
+  },
+  "result": {
+    "item": "ait:coral_wall_block",
+    "count": 1
+  },
+  "group": "tardisblocks"
+}

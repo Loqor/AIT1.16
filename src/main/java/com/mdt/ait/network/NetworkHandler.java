@@ -25,6 +25,7 @@ public class NetworkHandler {
 
         CHANNEL.messageBuilder(TardisMonitorC2SExteriorChangePacket.class, index++, NetworkDirection.PLAY_TO_SERVER).encoder(TardisMonitorC2SExteriorChangePacket::encode).decoder(TardisMonitorC2SExteriorChangePacket::new).consumer((TardisMonitorC2SExteriorChangePacket::handle)).add();
         CHANNEL.registerMessage(0, InputMessage.class, InputMessage::encode, InputMessage::decode, InputMessage::handle);
+        //CHANNEL.registerMessage(0, OpenMonitorScreen.class, InputMessage::encode, InputMessage::decode, InputMessage::handle);
 
     }
 }

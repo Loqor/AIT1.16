@@ -1,17 +1,21 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.common.tileentities.TypewriterTile;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.tileentities.TypewriterTile;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.network.NetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -23,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -97,9 +102,11 @@ public class TypewriterBlock extends Block {
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
                                 Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide()) {
-            TileEntity te = worldIn.getBlockEntity(pos);
-            if (te instanceof TypewriterTile) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, (TypewriterTile) te, pos);
+            Block block = worldIn.getBlockState(pos).getBlock();
+            if (block instanceof TypewriterBlock) {
+                //NetworkHandler.CHANNEL.sendToServer();
+                //Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent(
+                //        "TARDIS Monitor")));
             }
         }
         return super.use(state, worldIn, pos, player, handIn, hit);
