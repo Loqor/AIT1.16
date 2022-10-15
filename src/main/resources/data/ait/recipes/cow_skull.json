@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "BWB",
+    " Y "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:bone_meal"
+    },
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "W": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "Y": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "item": "ait:cow_skull"
+  }
+}

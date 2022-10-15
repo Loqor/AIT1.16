@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ait:item/small_hartnell_chair"
+    "layer0": "ait:item/tardis_heart"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#S#",
+    " g "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:string"
+    },
+    "S": {
+      "item": "minecraft:spectral_arrow"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "ait:armillarysphere",
+    "count": 1
+  }
+}

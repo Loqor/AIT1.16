@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "SIS",
+    "S S"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_bars"
+    },
+    "S": {
+      "item": "minecraft:stone_brick_stairs"
+    },
+    "I": {
+      "item": "minecraft:iron_trapdoor"
+    }
+  },
+  "result": {
+    "item": "ait:ramp",
+    "count": 1
+  }
+}

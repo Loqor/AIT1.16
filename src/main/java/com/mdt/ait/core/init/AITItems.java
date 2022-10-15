@@ -15,6 +15,14 @@ public class AITItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, AIT.MOD_ID);
 
+    //Crafting stuff
+    public static final RegistryObject<Item> SONIC_CRYSTAL = ITEMS.register(
+            "sonic_crystal", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<Item> PLASMIC_SHELL = ITEMS.register(
+            "plasmic_shell", ()-> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<Item> TARDIS_HEART = ITEMS.register(
+            "tardis_heart", ()-> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
     //Fezzes
     public static final RegistryObject<FezArmorItem> WHITE_FEZ = ITEMS.register( //reciped
             "white_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
@@ -91,7 +99,7 @@ public class AITItems {
 
     //Weapons
     public static final RegistryObject<CyberShockItem> CYBER_SHOCK = ITEMS.register(
-            "cyber_shock", () -> new CyberShockItem(ItemTier.DIAMOND, 5, 2.0f, new Item.Properties().tab(AITItemGroups.AITITEMS)));
+            "cyber_shock", () -> new CyberShockItem(ItemTier.DIAMOND, 5, 2.0f, new Item.Properties().tab(AITItemGroups.AITWEAPONS)));
     public static final RegistryObject<AngelSwordItem> ANGEL_SWORD = ITEMS.register(
             "angel_sword", () -> new AngelSwordItem(ItemTier.NETHERITE, 12, 3.0f, new Item.Properties().tab(AITItemGroups.AITWEAPONS)));
 

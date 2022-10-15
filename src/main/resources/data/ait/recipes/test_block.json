@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#L ",
+    "L# ",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gray_wool"
+    },
+    "L": {
+      "item": "minecraft:light_gray_wool"
+    }
+  },
+  "result": {
+    "item": "ait:test_block"
+  }
+}

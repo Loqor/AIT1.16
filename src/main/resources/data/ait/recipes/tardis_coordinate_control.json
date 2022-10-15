@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "SCS",
+    "___"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:repeater"
+    },
+    "S": {
+      "item": "minecraft:stone_button"
+    },
+    "C": {
+      "item": "minecraft:compass"
+    },
+    "_": {
+      "item": "minecraft:smooth_stone_slab"
+    }
+  },
+  "result": {
+    "item": "ait:tardis_coordinate_control"
+  }
+}

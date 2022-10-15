@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "/R/",
+    "___"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:black_concrete"
+    },
+    "G": {
+      "item": "minecraft:gray_concrete"
+    },
+    "/": {
+      "item": "minecraft:stick"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "_": {
+      "item": "minecraft:smooth_stone_slab"
+    }
+  },
+  "result": {
+    "item": "ait:tardis_lever",
+    "count": 1
+  }
+}

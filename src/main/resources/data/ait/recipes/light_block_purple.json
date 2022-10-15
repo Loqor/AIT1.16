@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:purple_dye"
+    },
+    {
+      "item": "minecraft:redstone_lamp"
+    }
+  ],
+  "result": {
+    "item": "ait:light_block_purple"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#D#",
+    "SES",
+    "#C#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:red_sand"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result": {
+    "item": "ait:plasmic_shell",
+    "count": 1
+  }
+}

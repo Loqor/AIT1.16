@@ -130,18 +130,62 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
             double mouseX = pHit.getLocation().x - blockpos.getX();
             double mouseZ = pHit.getLocation().z - blockpos.getZ();
-            this.Xx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-            this.Xz = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-            this.Yx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-            this.Yz = 0.375; // 0.35 = 17.5 pixels 0.025 = 1/2 of a pixel
-            this.Zx = 0.0625; // 0.05 = 1 pixel 0.0125 = 1/4 of a pixel
-            this.Zz = 0.6875; // 0.6875 = 13.75 pixels
-            this.IncrementX = 0.375; // 0.375 = 1.5 and a half pixels
-            this.IncrementZ = 0; // 0 pixels
-            this.width = 0.25; // 0.25 = 5 pixels
-            this.height = 0.25; // 0.25 = 5 pixels
-            this.incrementWidth = 0.125; // 0.125 = 1 1/2 of a pixel
-            this.incrementHeight = 0.125; // 0.125 = 1 1/2 of a pixel
+            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
+                this.Xx = 0.6875;
+                this.Xz = 0.0625;
+                this.Yx = 0.375;
+                this.Yz = 0.0625;
+                this.Zx = 0.0625;
+                this.Zz = 0.0625;
+                this.IncrementX = 0.875;
+                this.IncrementZ = 0.375;
+                this.width = 0.25;
+                this.height = 0.25;
+                this.incrementWidth = 0.125;
+                this.incrementHeight = 0.125;
+            }
+            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
+                this.Xx = 0.0625;
+                this.Xz = 0.0625;
+                this.Yx = 0.0625;
+                this.Yz = 0.375;
+                this.Zx = 0.0625;
+                this.Zz = 0.6875;
+                this.IncrementX = 0.375;
+                this.IncrementZ = 1;
+                this.width = 0.25;
+                this.height = 0.25;
+                this.incrementWidth = 0.125;
+                this.incrementHeight = 0.125;
+            }
+            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
+                this.Xx = 0.0625;
+                this.Xz = 1.0625;
+                this.Yx = 0.0625;
+                this.Yz = 1.375;
+                this.Zx = 0.0625;
+                this.Zz = 1.6875;
+                this.IncrementX = 0.375;
+                this.IncrementZ = -0;
+                this.width = 0.25;
+                this.height = 0.25;
+                this.incrementWidth = 0.125;
+                this.incrementHeight = 0.125;
+            }
+            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
+                this.Xx = 0.0625;
+                this.Xz = 0.0625;
+                this.Yx = 0.0625;
+                this.Yz = 0.375;
+                this.Zx = 0.0625;
+                this.Zz = 0.6875;
+                this.IncrementX = 0.375;
+                this.IncrementZ = 0;
+                this.width = 0.25;
+                this.height = 0.25;
+                this.incrementWidth = 0.125;
+                this.incrementHeight = 0.125;
+            }
             boolean isHoveredOverX = mouseX >= Xx && mouseZ >= Xz && mouseX <= (Xx + width) && mouseZ <= (Xz + height);
             boolean isHoveredOverY = mouseX >= Yx && mouseZ >= Yz && mouseX <= (Yx + width) && mouseZ <= (Yz + height);
             boolean isHoveredOverZ = mouseX >= Zx && mouseZ >= Zz && mouseX <= (Zx + width) && mouseZ <= (Zz + height);

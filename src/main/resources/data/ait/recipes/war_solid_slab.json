@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ait:war_solid"
+    },
+    {
+      "item": "ait:war_solid"
+    }
+  ],
+  "result": {
+    "item": "ait:war_solid_slab"
+  }
+}

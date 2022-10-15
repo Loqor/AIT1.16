@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " iP",
+    "iCi",
+    "Bi "
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "ait:sonic_crystal"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "B": {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result": {
+    "item": "ait:tennant_sonic"
+  }
+}

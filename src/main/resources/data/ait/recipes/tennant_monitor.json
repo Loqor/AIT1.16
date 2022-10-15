@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#D#",
+    "RBR",
+    "#D#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:quartz"
+    },
+    "D": {
+      "item": "ait:coral_wall_block"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:blue_stained_glass_pane"
+    }
+  },
+  "result": {
+    "item": "ait:tennant_monitor"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "#B#",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "ait:coral_wall_block"
+    },
+    "B": {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result": {
+    "item": "ait:coral_wall_block_strip"
+  }
+}

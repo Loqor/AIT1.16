@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#B#",
+    "#B#",
+    "#B#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gray_concrete"
+    },
+    "B": {
+      "item": "minecraft:blue_concrete"
+    }
+  },
+  "result": {
+    "item": "ait:toyota_pillar"
+  }
+}
