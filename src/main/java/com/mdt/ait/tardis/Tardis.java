@@ -61,7 +61,9 @@ public class Tardis implements IEnergyStorage {
         this.owner = player;
         this.lockedTardis = lockedTardis;
         this.exterior_dimension = exterior_dimension;
+        this.target_dimension = this.exterior_dimension;
         this.exterior_position = exterior_position;
+        this.targetPosition = exterior_position;
         this.grid_position = grid_position;
         this.tardisID = tardisID;
         this.currentInterior = TardisInteriors.devInterior;
@@ -74,6 +76,7 @@ public class Tardis implements IEnergyStorage {
         if (exteriorBlockState.getBlock() instanceof TardisBlock) {
             this.exterior_facing = exteriorBlockState.getValue(TardisBlock.FACING);
         }
+        this.target_facing_direction = this.exterior_facing;
         this.generateInterior();
 //        this.interiorTeleportPos = this.interior_door_position.relative(interior_door_facing.getOpposite(), 1);
 

@@ -55,6 +55,51 @@ public class DematTransit {
                 if (newDimension.getBlockState(tardis.targetPosition.above(1)).getBlock().equals(Blocks.AIR)) {
                     landTardisPart1(tardis.targetPosition);
                 }
+            } else {
+                int increase = 0;
+                BlockPos targetPos;
+                boolean upFailed = false;
+                boolean downFailed = false;
+                while (true) {
+                    increase += 1;
+                    System.out.println(increase);
+                    if (!upFailed) {
+                        if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.above(increase)).getBlock())) {
+                            System.out.println(newDimension.getBlockState(tardis.targetPosition.above(increase)).getBlock());
+                            if (newDimension.getBlockState(tardis.targetPosition.above(increase + 1)).getBlock().equals(Blocks.AIR) && newDimension.getBlockState(tardis.targetPosition.above(increase + 2)).getBlock().equals(Blocks.AIR)) {
+                                targetPos = tardis.targetPosition.above(increase + 1);
+                                landTardisPart1(targetPos);
+                                System.out.println("Land up");
+                                break;
+                            }
+                        }
+
+                        if (tardis.targetPosition.above(increase + 2).getY() >= 255) {
+                            upFailed = true;
+                            increase = 0;
+                        }
+                    } else {
+                        if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.below(increase)).getBlock())) {
+                            System.out.println(newDimension.getBlockState(tardis.targetPosition.below(increase)).getBlock());
+                            if (newDimension.getBlockState(tardis.targetPosition.above(increase + 1)).getBlock().equals(Blocks.AIR) && newDimension.getBlockState(tardis.targetPosition.above(increase + 2)).getBlock().equals(Blocks.AIR)) {
+                                targetPos = tardis.targetPosition.below(increase);
+                                landTardisPart1(targetPos.above(1));
+                                System.out.println("Land down");
+                                break;
+                            }
+                        }
+
+                        if (tardis.targetPosition.below(increase + 2).getY() <= 0) {
+                            downFailed = true;
+                            increase = 0;
+                            break;
+                        }
+                    }
+
+                }
+                if (upFailed && downFailed) {
+                    landTardisPart1(tardis.targetPosition);
+                }
             }
         }
     }
@@ -94,6 +139,9 @@ public class DematTransit {
         newTardisTileEntity.dematTransit = this;
         newDimension.setBlockEntity(landingPosition, newTardisTileEntity);
         tardis.targetPosition = landingPosition;
+        if (!newDimension.getBlockState(landingPosition.above(1)).getBlock().equals(Blocks.AIR)) {
+            newDimension.removeBlock(landingPosition.above(1), false);
+        }
         tardis.__moveExterior(landingPosition, tardis.target_facing_direction, tardis.target_dimension);
     }
 

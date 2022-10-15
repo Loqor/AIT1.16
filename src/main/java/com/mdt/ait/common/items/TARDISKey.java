@@ -1,9 +1,12 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
+import com.mdt.ait.common.blocks.BasicRotorBlock;
+import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.enums.EnumLockState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,6 +18,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 import static com.mdt.ait.core.init.enums.EnumDoorState.BOTH;
 import static com.mdt.ait.core.init.enums.EnumDoorState.FIRST;
 
@@ -23,6 +28,8 @@ public class TARDISKey extends Item {
     public TARDISKey(Properties p_i48487_1_) {
         super(p_i48487_1_);
     }
+
+    public UUID tardisID;
 
     @Override
     public ActionResultType useOn(ItemUseContext context) {
@@ -43,6 +50,16 @@ public class TARDISKey extends Item {
                 ((BasicInteriorDoorTile) tileEntity).keyUsedOnTardisDoor(context, blockpos, blockstate, block);
             }
         }
+        if (block instanceof BasicRotorBlock) {
+            BasicRotorBlock basicRotorBlock = (BasicRotorBlock) block;
+            tardisID = basicRotorBlock.tardisID;
+        }
+        if (block instanceof HartnellRotorBlock) {
+            HartnellRotorBlock hartnellRotorBlock = (HartnellRotorBlock) block;
+            tardisID = hartnellRotorBlock.tardisID;
+        }
         return ActionResultType.sidedSuccess(world.isClientSide());
     }
+
+
 }
