@@ -100,6 +100,22 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
+        if (this.dematTransit != null) {
+            if (this.dematTransit.finished) {
+                ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                assert serverWorld != null;
+                PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
+                if (playerEntity != null) {
+                    playerEntity.sendMessage(new TranslationTextComponent(
+                            "The TARDIS has landed!").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
+                    this.dematTransit.finished = false;
+                }
+                this.dematTransit = null;
+                this.leverState = EnumLeverState.DEACTIVE;
+                syncToClient();
+            }
+
+        }
         if(leverState == EnumLeverState.ACTIVE) {
             if (leverPosition < 30f) {
                 leverPosition += 5.0f;
@@ -140,18 +156,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     // Ready to demat and run flight ticks
 
                 }
-                if (this.dematTransit.finished) {
-                    ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                    assert serverWorld != null;
-                    PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
-                    if (playerEntity != null) {
-                        playerEntity.sendMessage(new TranslationTextComponent(
-                                "The TARDIS has landed!").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
-                        this.dematTransit.finished = false;
-                    }
-                    this.dematTransit = null;
-                    this.leverState = EnumLeverState.DEACTIVE;
-                }
+
 
 
             }

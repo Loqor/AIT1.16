@@ -141,7 +141,6 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                 }
             }
         } else if (level.canSeeSky(worldPosition) && !(level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
-            ticks = 0;
             ++ticks;
             if (ticks == 750) {
                 this.coralState = getNextCoralState();
