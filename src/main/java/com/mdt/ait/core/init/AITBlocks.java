@@ -37,6 +37,9 @@ public class AITBlocks {
     public static final RegistryObject<Block> RAMP_BLOCK = BLOCKS.register("ramp", RampBlock::new);
     public static final RegistryObject<Block> INTERIOR_DOOR_BLOCK = BLOCKS.register("basic_interior_door_block", BasicInteriorDoorBlock::new);
     public static final RegistryObject<InvisBlock> INVIS_BLOCK = BLOCKS.register("invis_block", InvisBlock::new);
+    public static final RegistryObject<Block> INTERIOR_CENTER_BLOCK = BLOCKS.register(
+            "interior_center_block", () -> new Block(Block.Properties.of(
+                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
 
     public static final RegistryObject<InvisLightBlock> INVIS_LIGHT_BLOCK = BLOCKS.register("invis_light_block", InvisLightBlock::new);
 

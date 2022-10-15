@@ -24,6 +24,8 @@ public class DematTransit {
 
     public UUID tardisID;
 
+    public boolean isReadyForRemat = false;
+
     public BlockPos leverPos;
 
     public BlockPos landingPosition;

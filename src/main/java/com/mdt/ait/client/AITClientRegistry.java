@@ -97,6 +97,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.INVIS_BLOCK.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(AITBlocks.GALLIFREY_STONE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.GALLIFREY_SAND.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.INTERIOR_CENTER_BLOCK.get(), RenderType.cutoutMipped());
         });
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_TILE_ENTITY_TYPE.get(), BasicBoxRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TSV_TILE_ENTITY_TYPE.get(), TSVRenderer::new);

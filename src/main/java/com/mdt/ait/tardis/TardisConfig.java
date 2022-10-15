@@ -29,5 +29,5 @@ public class TardisConfig {
 
     public static final int tardis_default_energy_recharge_rate = 1000; // Per second
 
-    public static final String tardis_center_block_name = "minecraft:bedrock";
+    public static final String tardis_center_block_name = "ait:interior_center_block";
 }

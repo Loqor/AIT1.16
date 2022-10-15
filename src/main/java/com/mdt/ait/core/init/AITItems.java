@@ -280,6 +280,8 @@ public class AITItems {
             "toyota_roof_light", () -> new BlockItem(AITBlocks.TOYOTA_ROOF_LIGHT.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> TOYOTA_PILLAR = ITEMS.register(
             "toyota_pillar", () -> new BlockItem(AITBlocks.TOYOTA_PILLAR.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> INTERIOR_CENTER_BLOCK = ITEMS.register(
+            "interior_center_block", () -> new BlockItem(AITBlocks.INTERIOR_CENTER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
    /* public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
             "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
