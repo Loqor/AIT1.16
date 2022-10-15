@@ -164,6 +164,8 @@ public class TardisManager {
 
     public DematTransit moveTardisToTargetLocation(UUID tardisID) {
         Tardis tardis = getTardis(tardisID);
+        tardis.setInteriorDoorState(EnumDoorState.CLOSED);
+        tardis.setExteriorDoorState(EnumDoorState.CLOSED);
         ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
         assert oldDimension != null;
         ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, 0, 0, true, true);

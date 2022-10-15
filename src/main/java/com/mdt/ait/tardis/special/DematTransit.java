@@ -2,7 +2,9 @@ package com.mdt.ait.tardis.special;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
@@ -30,6 +32,8 @@ public class DematTransit {
 
     public boolean readyForDemat = false;
 
+    public boolean finished = false;
+
     public DematTransit(UUID tardisID) {
         this.tardisID = tardisID;
     }
@@ -56,6 +60,7 @@ public class DematTransit {
     }
 
     public void landTardisPart1(BlockPos landing_position) {
+
         this.landingPosition = landing_position;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
@@ -73,6 +78,8 @@ public class DematTransit {
     }
 
     public void landTardisPart2() {
+        System.out.println("Part 2 of landing?");
+        this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
         assert newDimension != null;
@@ -84,8 +91,25 @@ public class DematTransit {
         newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
         newTardisTileEntity.setMatState(EnumMatState.REMAT);
+        newTardisTileEntity.dematTransit = this;
         newDimension.setBlockEntity(landingPosition, newTardisTileEntity);
         tardis.targetPosition = landingPosition;
-        tardis.__moveExterior(tardis.targetPosition, tardis.target_facing_direction, tardis.target_dimension);
+        tardis.__moveExterior(landingPosition, tardis.target_facing_direction, tardis.target_dimension);
+    }
+
+    public void finished() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        tardis.lockedTardis = false;
+        ServerWorld exteriorDimension = AIT.server.getLevel(tardis.exterior_dimension);
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert exteriorDimension != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorDimension.getBlockEntity(tardis.exterior_position);
+        assert tardisTileEntity != null;
+        tardisTileEntity.setLockedState(false);
+        assert tardisWorld != null;
+        BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(tardis.interior_door_position);
+        assert interiorDoorTile != null;
+        interiorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
+        this.finished = true;
     }
 }

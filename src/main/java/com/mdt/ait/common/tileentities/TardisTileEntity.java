@@ -254,6 +254,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 //ServerWorld forceWorld = AIT.server.getLevel(this.linked_tardis.exterior_dimension);
                 //ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, true, true);
                 matState = EnumMatState.SOLID;
+                this.dematTransit.finished();
                 //ForgeChunkManager.forceChunk(forceWorld, AIT.MOD_ID, this.linked_tardis.exterior_position, 0, 0, false, false);
             }
             if(run_once_remat == 0) {

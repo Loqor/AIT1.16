@@ -107,7 +107,10 @@ public class SonicItem extends Item {
         if (block instanceof TardisBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if(tileEntity instanceof TardisTileEntity) {
-                ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
+                if (!world.isClientSide) {
+                    ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
+                }
+
             }
             return ActionResultType.sidedSuccess(world.isClientSide());
         }

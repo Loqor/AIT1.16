@@ -100,7 +100,7 @@ public class Tardis implements IEnergyStorage {
         this.exteriorType = exteriorType;
         ServerWorld exteriorWorld = AIT.server.getLevel(exterior_dimension);
         assert exteriorWorld != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(exterior_position);
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(this.exterior_position);
         assert tardisTileEntity != null;
         tardisTileEntity.setExterior(exteriorType);
     }
