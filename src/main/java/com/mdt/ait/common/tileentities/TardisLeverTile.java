@@ -132,6 +132,9 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         if (flightTicks < this.dematTransit.getFlightTicks()) {
                             flightTicks += 1;
                         }
+                        if(flightTicks >= this.dematTransit.getFlightTicks()){
+                            flightTicks = this.dematTransit.getFlightTicks();
+                        }
 
 
                         // Ready to demat and run flight ticks
@@ -205,10 +208,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             Block block = blockstate.getBlock();
             BlockPos interiorDoorPos = tardis.interior_door_position;
             if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND) {
+                this.leverState = getNextLeverState();
                 if (leverState == EnumLeverState.ACTIVE) {
                     if (flightTicks <= 5) {
                         if (this.dematTransit == null) {
-                            this.leverState = getNextLeverState();
                             changeMatStateFromLever();
                             playerEntity.sendMessage(new TranslationTextComponent(
                                     "Dematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)), UUID.randomUUID());
@@ -251,9 +254,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         }
                     }
 
-                } else if(leverState == EnumLeverState.DEACTIVE && this.dematTransit.isReadyForRemat) {
+                } else if(leverState == EnumLeverState.DEACTIVE && this.dematTransit != null && this.dematTransit.isReadyForRemat) {
                     this.dematTransit.landTardisPart2();
-                    this.dematTransit = null;
                     playerEntity.sendMessage(new TranslationTextComponent(
                             "Rematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
                 }
