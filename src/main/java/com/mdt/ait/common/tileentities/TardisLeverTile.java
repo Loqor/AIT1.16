@@ -103,63 +103,65 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         if(leverState == EnumLeverState.ACTIVE) {
             if (leverPosition < 30f) {
                 leverPosition += 5.0f;
+                syncToClient();
             } else {
                 leverPosition = 30f;
+                syncToClient();
             }
             if (this.dematTransit != null) {
-                if (leverState == EnumLeverState.ACTIVE) {
 
-                    if (this.dematTransit.readyForDemat) {
-                        ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                        assert serverWorld != null;
-                        PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
-                        if (playerEntity != null) {
-                            delay -= 1;
-                            if (delay == 20) {
-                                playerEntity.displayClientMessage(new TranslationTextComponent
-                                        ("" + (flightTicks * 100) / this.dematTransit.getFlightTicks() + "%").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withItalic(true)), true);
-                            } else if (delay == 0) {
-                                delay = 21;
-
-                            }
+                if (this.dematTransit.readyForDemat) {
+                    ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                    assert serverWorld != null;
+                    PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
+                    if (playerEntity != null) {
+                        delay -= 1;
+                        if (delay == 20) {
+                            playerEntity.displayClientMessage(new TranslationTextComponent
+                                    ("" + (flightTicks * 100) / this.dematTransit.getFlightTicks() + "%").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withItalic(true)), true);
+                        } else if (delay == 0) {
+                            delay = 21;
 
                         }
-                        if (flightTicks == this.dematTransit.getFlightTicks()) {
-                            this.dematTransit.isReadyForRemat = true;
-                            flightTicks = 0;
-                            playerEntity.sendMessage(new TranslationTextComponent("TARDIS is ready for rematerialization.\nPull lever to land").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA).withItalic(true)), UUID.randomUUID());
-                        }
-                        if (flightTicks < this.dematTransit.getFlightTicks()) {
-                            flightTicks += 1;
-                        }
-                        if(flightTicks >= this.dematTransit.getFlightTicks()){
-                            flightTicks = this.dematTransit.getFlightTicks();
-                        }
-
-
-                        // Ready to demat and run flight ticks
 
                     }
-                    if (this.dematTransit.finished) {
-                        ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                        assert serverWorld != null;
-                        PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
-                        if (playerEntity != null) {
-                            playerEntity.sendMessage(new TranslationTextComponent(
-                                    "The TARDIS has landed!").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
-                            this.dematTransit.finished = false;
-                        }
-                        this.dematTransit = null;
-                        this.leverState = EnumLeverState.DEACTIVE;
+                    if (flightTicks == this.dematTransit.getFlightTicks()) {
+                        this.dematTransit.isReadyForRemat = true;
+                        flightTicks = 0;
+                        this.dematTransit.readyForDemat = false;
+                        playerEntity.sendMessage(new TranslationTextComponent("TARDIS is ready for rematerialization.\nPull lever to land").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA).withItalic(true)), UUID.randomUUID());
+
                     }
+                    if (flightTicks < this.dematTransit.getFlightTicks()) {
+                        flightTicks += 1;
+                    }
+
+
+                    // Ready to demat and run flight ticks
 
                 }
+                if (this.dematTransit.finished) {
+                    ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                    assert serverWorld != null;
+                    PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
+                    if (playerEntity != null) {
+                        playerEntity.sendMessage(new TranslationTextComponent(
+                                "The TARDIS has landed!").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
+                        this.dematTransit.finished = false;
+                    }
+                    this.dematTransit = null;
+                    this.leverState = EnumLeverState.DEACTIVE;
+                }
+
+
             }
             if (leverState == EnumLeverState.DEACTIVE) {
                 if (leverPosition > 0f) {
                     leverPosition -= 15.0f;
+                    syncToClient();
                 } else {
                     leverPosition = 0f;
+                    syncToClient();
                 }
             }
         }
@@ -258,6 +260,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     this.dematTransit.landTardisPart2();
                     playerEntity.sendMessage(new TranslationTextComponent(
                             "Rematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
+                    syncToClient();
+
                 }
             }
         }
