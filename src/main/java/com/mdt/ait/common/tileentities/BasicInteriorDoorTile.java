@@ -122,6 +122,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 
     public void setDoorState(EnumDoorState state) {
         this.currentstate = state;
+        syncToClient();
     }
 
     @Override public void tick() {
