@@ -163,6 +163,7 @@ public class Tardis implements IEnergyStorage {
     }
 
     public void teleportToInterior(PlayerEntity playerEntity) {
+        // @TODO: Something breaks here that'll teleport the player to the void only on a server and I have no idea why!!!!
         if (playerEntity instanceof ServerPlayerEntity) {
             ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
             switch (this.interior_door_facing.getOpposite().toString()) {
