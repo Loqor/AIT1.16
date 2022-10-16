@@ -26,6 +26,7 @@ public class AngelWingsItem extends ArmorItem {
     //public static boolean isThisTrue = true;
     // @TODO ADD UPWARDS VELOCITY WHEN PRESSING SPACE, ALSO EVENTUALLY ADD THE AETHER DIMENSION AND TEMPLES FOR ANGELS TO SPAWN IN TO GET THESE WINGS
     // @TODO MAKE THE TARDIS GENERATE GREEKCHARACTERS FOR THE TARDISID
+    // @TODO BE ABLE TO CHECK FOR MULTIPLE CONTROLS
     @Override
     public EquipmentSlotType getSlot() {
         return EquipmentSlotType.CHEST;
