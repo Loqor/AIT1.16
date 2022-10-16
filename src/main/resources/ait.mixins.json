@@ -4,7 +4,8 @@
   "refmap": "ait.refmap.json",
   "client": [
     "PlayerModelMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "MainMenuScreenMixin"
   ],
   "minVersion": "0.8",
   "mixins": [
