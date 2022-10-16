@@ -482,6 +482,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void keyUsedOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         System.out.println(lockedState);
         PlayerEntity playerEntity = context.getPlayer();
+        ItemStack itemStack = playerEntity.getMainHandItem();
         Item item = playerEntity.getMainHandItem().getItem();
         Tardis tardis = AIT.tardisManager.getTardis(linked_tardis_id);
         ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
@@ -490,7 +491,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         if(block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
             BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
             TARDISKey tardisKey1 = (TARDISKey) item;
-            if (tardisKey1.tardisID == linked_tardis_id) {
+            if (TARDISKey.getTardisId(itemStack).equals(linked_tardis_id)) {
                 lockedState = true;
                 if (basicInteriorDoorTile != null) {
                     basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
@@ -512,7 +513,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         if (block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get() && lockedState == true && playerEntity.isCrouching()) {
             BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
             TARDISKey tardisKey1 = (TARDISKey) item;
-            if (tardisKey1.tardisID == linked_tardis_id) {
+            if (TARDISKey.getTardisId(itemStack).equals(linked_tardis_id)) {
                 lockedState = false;
                 if (basicInteriorDoorTile != null) {
                     basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);

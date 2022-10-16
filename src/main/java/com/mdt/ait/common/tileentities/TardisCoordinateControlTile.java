@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.DimensionSwitchControlBlock;
 import com.mdt.ait.common.blocks.TardisCoordinateControlBlock;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumCoordinateDirectionState;
 import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
@@ -126,6 +127,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
+            playerEntity.playSound(AITSounds.BUTTON_PRESS.get(), 5, 1);
             double mouseX = pHit.getLocation().x - blockpos.getX();
             double mouseZ = pHit.getLocation().z - blockpos.getZ();
             if(currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {

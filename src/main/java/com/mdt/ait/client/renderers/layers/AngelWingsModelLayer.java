@@ -49,6 +49,7 @@ public class AngelWingsModelLayer<T extends AbstractClientPlayerEntity, M extend
     public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         pMatrixStack.pushPose();
         Item item = pLivingEntity.getItemBySlot(EquipmentSlotType.CHEST).getItem();
+        ItemStack itemStack = pLivingEntity.getItemBySlot(EquipmentSlotType.CHEST);
         if (item == AITItems.ANGEL_WINGS.get()) {
             AngelWingsItem angelWingsItem = (AngelWingsItem) item;
             if (this.flying) {
@@ -85,35 +86,35 @@ public class AngelWingsModelLayer<T extends AbstractClientPlayerEntity, M extend
                 model.hat.visible = false;
                 model.head.visible = false;
             }
-            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.WHITE_WINGS_LOCATION));
+            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(WHITE_WINGS_LOCATION));
             if (pLivingEntity.isFallFlying()) {
-                this.angelWings.left_tip.yRot = -this.wingsTick;
-                this.angelWings.right_tip.yRot = this.wingsTick;
-                this.angelWings.left_base.yRot = -this.wingsBaseTick;
-                this.angelWings.right_base.yRot = this.wingsBaseTick;
+                angelWings.left_tip.yRot = -this.wingsTick;
+                angelWings.right_tip.yRot = this.wingsTick;
+                angelWings.left_base.yRot = -this.wingsBaseTick;
+                angelWings.right_base.yRot = this.wingsBaseTick;
             } else {
-                this.angelWings.left_tip.yRot = 0;
-                this.angelWings.right_tip.yRot = 0;
-                this.angelWings.left_base.yRot = 0;
-                this.angelWings.right_base.yRot = 0;
+                angelWings.left_tip.yRot = 0;
+                angelWings.right_tip.yRot = 0;
+                angelWings.left_base.yRot = 0;
+                angelWings.right_base.yRot = 0;
             }
-            if(angelWingsItem.isVisible()) {
-                if (this.wingAlpha < 1f) {
-                    this.wingAlpha += 0.01f;
-                } else {
-                    this.wingAlpha = 1f;
-                }
-                this.angelWings.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, this.wingAlpha);
-            } else {
-                pMatrixStack.pushPose();
-                if (this.wingAlpha > 0f) {
-                    this.wingAlpha -= 0.01f;
-                } else {
-                    this.wingAlpha = 0f;
-                }
-                this.angelWings.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, this.wingAlpha);
-                pMatrixStack.popPose();
-            }
+            //if(!angelWingsItem.getAreWingsVisible(itemStack)) {
+                //if (this.wingAlpha < 1f) {
+                //    this.wingAlpha += 0.01f;
+                //} else {
+                //    this.wingAlpha = 1f;
+                //}
+                angelWings.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            //} else {
+            //    pMatrixStack.pushPose();
+            //    if (this.wingAlpha > 0f) {
+            //        this.wingAlpha -= 0.01f;
+            //    } else {
+            //        this.wingAlpha = 0f;
+            //    }
+            //    angelWings.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, this.wingAlpha);
+            //    pMatrixStack.popPose();
+            //}
         }
         pMatrixStack.popPose();
     }
