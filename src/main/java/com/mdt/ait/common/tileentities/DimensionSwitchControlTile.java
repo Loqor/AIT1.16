@@ -3,6 +3,7 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.DimensionSwitchControlBlock;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.*;
 import com.mdt.ait.tardis.Tardis;
@@ -121,6 +122,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
             //playerEntity.sendMessage(new TranslationTextComponent(
             //        "IS THIS WORKING?!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
             currentdimensionstate = getNextDimensionState();
+            playerEntity.playSound(AITSounds.BUTTON_PRESS.get(), 5, 1);
             changeDimensionFromControl();
             syncToClient();
         }

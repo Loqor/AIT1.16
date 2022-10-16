@@ -3,7 +3,9 @@
   "package": "com.mdt.ait.mixin",
   "refmap": "ait.refmap.json",
   "client": [
-    "PlayerModelMixin"
+    "PlayerModelMixin",
+    "WorldRendererMixin",
+    "MainMenuScreenMixin"
   ],
   "minVersion": "0.8",
   "mixins": [

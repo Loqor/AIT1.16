@@ -1,43 +1,37 @@
-package com.mdt.ait.network.packets.keybinds;
+/*package com.mdt.ait.network.packets.keybinds;
 
-import java.util.function.Supplier;
-
-import com.mdt.ait.client.models.cosmetics.AngelWings;
 import com.mdt.ait.common.items.AngelWingsItem;
 import com.mdt.ait.core.init.AITItems;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-public class InputMessage {
+import java.util.function.Supplier;
 
+public class InputMessageS2C {
     public int key;
 
-    public InputMessage() {
+    public InputMessageS2C() {
     }
 
-    public InputMessage(int key) {
+    public InputMessageS2C(int key) {
         this.key = key;
     }
 
-    public static void encode(InputMessage message, PacketBuffer buffer) {
+    public static void encode(InputMessageS2C message, PacketBuffer buffer) {
         buffer.writeInt(message.key);
     }
 
-    public static InputMessage decode(PacketBuffer buffer) {
-        return new InputMessage(buffer.readInt());
+    public static InputMessageS2C decode(PacketBuffer buffer) {
+        return new InputMessageS2C(buffer.readInt());
     }
 
-    public static void handle(InputMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(InputMessageS2C message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayerEntity player = context.getSender();
@@ -59,4 +53,4 @@ public class InputMessage {
         });
         context.setPacketHandled(true);
     }
-}
+}*/

@@ -148,5 +148,15 @@
         "stream": false
       }
     ]
+  },
+  "button_press": {
+    "category": "ambient",
+    "subtitle": "Button press",
+    "sounds": [
+      {
+        "name": "ait:boxes/button_press",
+        "stream": false
+      }
+    ]
   }
 }

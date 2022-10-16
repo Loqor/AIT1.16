@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class TardisConfig {
 
     public static final ArrayList<Block> cantLandOnBlockList = new ArrayList<>();
+    public static final ArrayList<String> tardisNamesList = new ArrayList<>();
 
     public static void init() {
         cantLandOnBlockList.add(Blocks.AIR);
@@ -15,6 +16,30 @@ public class TardisConfig {
         cantLandOnBlockList.add(Blocks.VOID_AIR);
         cantLandOnBlockList.add(Blocks.WATER);
         cantLandOnBlockList.add(Blocks.LAVA);
+        tardisNamesList.add("Alpha");
+        tardisNamesList.add("Beta");
+        tardisNamesList.add("Gamma");
+        tardisNamesList.add("Delta");
+        tardisNamesList.add("Epsilon");
+        tardisNamesList.add("Zeta");
+        tardisNamesList.add("Eta");
+        tardisNamesList.add("Theta");
+        tardisNamesList.add("Iota");
+        tardisNamesList.add("Kappa");
+        tardisNamesList.add("Lambda");
+        tardisNamesList.add("Mu");
+        tardisNamesList.add("Nu");
+        tardisNamesList.add("Xi");
+        tardisNamesList.add("Omikron");
+        tardisNamesList.add("Pi");
+        tardisNamesList.add("Rho");
+        tardisNamesList.add("Sigma");
+        tardisNamesList.add("Tau");
+        tardisNamesList.add("Upsilon");
+        tardisNamesList.add("Phi");
+        tardisNamesList.add("Chi");
+        tardisNamesList.add("Psi");
+        tardisNamesList.add("Omega");
     }
 
     public static final int tardis_usable_area_x = 40055;
@@ -30,4 +55,5 @@ public class TardisConfig {
     public static final int tardis_default_energy_recharge_rate = 1000; // Per second
 
     public static final String tardis_center_block_name = "ait:interior_center_block";
+
 }

@@ -33,6 +33,7 @@ public class BasicRotorBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
+    public String tardisAlphabeticalID;
 
     private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
             Block.box(1, 2, 1, 15, 16, 15)).optimize();
@@ -73,6 +74,7 @@ public class BasicRotorBlock extends Block {
             ServerWorld serverWorld = ((ServerWorld) world);
             BasicRotorTile basicRotorTile = (BasicRotorTile) serverWorld.getBlockEntity(blockPos);
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert basicRotorTile != null;
             basicRotorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, basicRotorTile);

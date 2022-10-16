@@ -4,7 +4,6 @@ package com.mdt.ait.core.init.events;
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITKeybinds;
 import com.mdt.ait.network.NetworkHandler;
-import com.mdt.ait.network.packets.keybinds.InputMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -30,7 +29,7 @@ public class InputEvents {
 
     private static void onInput(Minecraft mc, int key, int action) {
         if(mc.screen == null && AITKeybinds.hideAngelWings.isDown()) {
-            NetworkHandler.CHANNEL.sendToServer(new InputMessage(key));
+            //NetworkHandler.CHANNEL.sendToServer(new InputMessageC2S(key));
         }
     }
 }

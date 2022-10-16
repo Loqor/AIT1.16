@@ -45,4 +45,6 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "fly_wing_sound")));
     public static final RegistryObject<SoundEvent> CYBER_SHOCK_SOUND = SOUNDS.register("cyber_shock_sound", () -> new SoundEvent (
             new ResourceLocation(AIT.MOD_ID, "cyber_shock_sound")));
+    public static final RegistryObject<SoundEvent> BUTTON_PRESS = SOUNDS.register("button_press", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "button_press")));
 }
