@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = AIT.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientEventHandler {
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public static void replaceSkybox(RenderWorldLastEvent event) {
 		Minecraft mc = Minecraft.getInstance();
 		ClientWorld level = mc.level;
@@ -26,7 +26,9 @@ public class ClientEventHandler {
 				
 		if (effects.getSkyRenderHandler() == null) {
 			if (dim.equals(AITDimensions.TARDIS_DIMENSION)) effects.setSkyRenderHandler(TardisSkyRenderer.INSTANCE);
+		} else {
+
 		}
-	}
+	}*/
 
 }

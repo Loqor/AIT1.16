@@ -1,5 +1,6 @@
 package com.mdt.ait.mixin;
 
+import com.mdt.ait.AIT;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -27,6 +28,7 @@ public class WorldRendererMixin {
     	RegistryKey<World> dim = mc.level.dimension();
     	    	
     	if (dim.equals(AITDimensions.GALLIFREY)) textureManager.bind(ModdedSkyBoxes.GALLIFREY_SUN);
+		if (dim.equals(AITDimensions.TARDIS_DIMENSION)) textureManager.bind(ModdedSkyBoxes.EYE_OF_HARMONY);
     	else textureManager.bind(oldSun);
     }
 
