@@ -41,6 +41,7 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -457,11 +458,11 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 if (tardis_world != null) {
-                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
+                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, tardis_world.getChunk(linked_tardis.center_position).getPos().x, tardis_world.getChunk(linked_tardis.center_position).getPos().z, true, true);
                     if (linked_tardis == null) {
                         linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
                     }
-                    linked_tardis.teleportToInterior((PlayerEntity) entity);
+                    linked_tardis.teleportToInterior((ServerPlayerEntity) entity);
                     syncToClient();
                 }
             }

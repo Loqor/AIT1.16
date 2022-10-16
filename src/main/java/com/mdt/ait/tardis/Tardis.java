@@ -163,28 +163,32 @@ public class Tardis implements IEnergyStorage {
         this.target_facing_direction = newTargetFacing;
     }
 
-    public void teleportToInterior(PlayerEntity playerEntity) {
+    public void teleportToInterior(ServerPlayerEntity playerEntity) {
         // @TODO: Something breaks here that'll teleport the player to the void only on a server and I have no idea why!!!!
-        if (playerEntity instanceof ServerPlayerEntity) {
+        if (playerEntity != null) {
             ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
             switch (this.interior_door_facing.getOpposite().toString()) {
                 case "north": {
                     System.out.println("north");
+                    assert target_world != null;
                     ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "south": {
                     System.out.println("south");
+                    assert target_world != null;
                     ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "east": {
                     System.out.println("east");
+                    assert target_world != null;
                     ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
                 case "west": {
                     System.out.println("west");
+                    assert target_world != null;
                     ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
                     break;
                 }
