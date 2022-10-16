@@ -81,6 +81,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         return this.leverState;
     }
 
+    public void setLeverState(EnumLeverState state) {
+        this.leverState = state;
+    }
+
     public void changeMatStateFromLever() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
@@ -91,7 +95,9 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             if (AIT.tardisManager.doesTardisHaveATargetLocation(tardisID)) {
                 tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
                 this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardisID);
-                this.dematTransit.leverPos = getBlockPos();
+                if(this.dematTransit.leverPos != this.worldPosition) {
+                    this.dematTransit.leverPos = getBlockPos();
+                }
             } else {
                 leverState = EnumLeverState.DEACTIVE;
             }
@@ -100,30 +106,38 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
+        if (leverState == EnumLeverState.DEACTIVE) {
+            if (leverPosition > 0f) {
+                leverPosition -= 15.0f;
+            } else {
+                leverPosition = 0f;
+            }
+        }
+        if(leverState == EnumLeverState.ACTIVE) {
+            if (leverPosition < 30f) {
+                leverPosition += 5.0f;
+            } else {
+                leverPosition = 30f;
+            }
+        }
         if (this.dematTransit != null) {
             if (this.dematTransit.finished) {
                 ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 assert serverWorld != null;
                 PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
-                if (playerEntity != null) {
-                    playerEntity.sendMessage(new TranslationTextComponent(
-                            "The TARDIS has landed!").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
-                    this.dematTransit.finished = false;
-                }
+                this.dematTransit.finished = false;
+                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                tardis.landed = true;
                 this.dematTransit = null;
                 this.leverState = EnumLeverState.DEACTIVE;
+                if(tardis.landed != false) {
+                    tardis.landed = false;
+                }
                 syncToClient();
             }
 
         }
         if(leverState == EnumLeverState.ACTIVE) {
-            if (leverPosition < 30f) {
-                leverPosition += 5.0f;
-                syncToClient();
-            } else {
-                leverPosition = 30f;
-                syncToClient();
-            }
             if (this.dematTransit != null) {
 
                 if (this.dematTransit.readyForDemat) {
@@ -151,22 +165,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     if (flightTicks < this.dematTransit.getFlightTicks()) {
                         flightTicks += 1;
                     }
-
-
                     // Ready to demat and run flight ticks
-
-                }
-
-
-
-            }
-            if (leverState == EnumLeverState.DEACTIVE) {
-                if (leverPosition > 0f) {
-                    leverPosition -= 15.0f;
-                    syncToClient();
-                } else {
-                    leverPosition = 0f;
-                    syncToClient();
                 }
             }
         }
@@ -215,15 +214,17 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             Block block = blockstate.getBlock();
             BlockPos interiorDoorPos = tardis.interior_door_position;
             if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND) {
-                this.leverState = getNextLeverState();
+                leverState = getNextLeverState();
+                System.out.println(this.leverState);
+                syncToClient();
                 if (leverState == EnumLeverState.ACTIVE) {
+                    tardis.landed = false;
                     if (flightTicks <= 5) {
                         if (this.dematTransit == null) {
                             changeMatStateFromLever();
                             playerEntity.sendMessage(new TranslationTextComponent(
                                     "Dematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)), UUID.randomUUID());
                         }
-
                     }
                     syncToClient();
                     if (interiorDoorPos != null) {
@@ -239,6 +240,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         if (flightTicks >= this.dematTransit.getFlightTicks()) {
                             if (leverState == EnumLeverState.ACTIVE) {
                                 this.leverState = getNextLeverState();
+                                syncToClient();
                                 AIT.tardisManager.rematerialize = true;
                                 BlockPos exteriorPos = tardis.exterior_position;
                                 assert tardisWorld != null;
@@ -255,13 +257,14 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                                     }
                                 }
                             }
-                        } else {
+                        } else if (flightTicks >= 10) {
                             playerEntity.sendMessage(new TranslationTextComponent(
                                     "TARDIS has not finished its journey!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), UUID.randomUUID());
                         }
                     }
 
                 } else if(leverState == EnumLeverState.DEACTIVE && this.dematTransit != null && this.dematTransit.isReadyForRemat) {
+                    tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
                     this.dematTransit.landTardisPart2();
                     playerEntity.sendMessage(new TranslationTextComponent(
                             "Rematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "ENE",
+    "FFF"
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "F": {
+      "item": "minecraft:feather"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "ait:angel_wings"
+  }
+}

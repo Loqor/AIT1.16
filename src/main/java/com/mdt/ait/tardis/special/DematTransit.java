@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static java.lang.Math.abs;
+
 public class DematTransit {
 
     public UUID tardisID;
@@ -36,14 +38,40 @@ public class DematTransit {
 
     public boolean finished = false;
 
+    public boolean waitTillLandingSoundIsOver = false;
+
+    public int landingSoundTick = 0;
+
+    public int tardisX;
+    public int tardisY;
+    public int tardisZ;
+    public int finalTardisX;
+    public int finalTardisY;
+    public int finalTardisZ;
+    public int finalTardisTicker;
+
     public DematTransit(UUID tardisID) {
         this.tardisID = tardisID;
     }
 
+    public int runTransitFormula() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        tardisX = tardis.exterior_position.getX() * 3;
+        tardisY = tardis.exterior_position.getY() * 3;
+        tardisZ = tardis.exterior_position.getZ() * 3;
+        finalTardisX = abs(tardisX);
+        finalTardisY = abs(tardisY);
+        finalTardisZ = abs(tardisZ);
+        finalTardisTicker = Math.min(finalTardisX + finalTardisY + finalTardisZ, 2400);
+        return finalTardisTicker;
+    }
+
     public int getFlightTicks() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        // 20 seconds
-        return 400; // @TODO: LOQOR MAKE A FORMULA FOR THIS
+        // 400 ticks = 20 seconds
+        // 100 ticks = 5 seconds
+        System.out.println(runTransitFormula() / 20);
+        return 100;//runTransitFormula(); // @TODO: LOQOR MAKE A FORMULA FOR THIS
     }
 
     public void finishedDematAnimation() {
@@ -103,7 +131,6 @@ public class DematTransit {
     }
 
     public void landTardisPart1(BlockPos landing_position) {
-
         this.landingPosition = landing_position;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
@@ -151,11 +178,22 @@ public class DematTransit {
         assert exteriorDimension != null;
         TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorDimension.getBlockEntity(tardis.exterior_position);
         assert tardisTileEntity != null;
-        tardisTileEntity.setLockedState(false);
+        tardisTileEntity.setLockedState(false, EnumDoorState.CLOSED);
         assert tardisWorld != null;
         BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(tardis.interior_door_position);
         assert interiorDoorTile != null;
         interiorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
-        this.finished = true;
+        if(!this.waitTillLandingSoundIsOver) {
+            while (this.landingSoundTick < 660) {
+                this.landingSoundTick += 1;
+            }
+        }
+        if(this.landingSoundTick == 660) {
+            this.waitTillLandingSoundIsOver = true;
+        }
+        if(this.waitTillLandingSoundIsOver) {
+            this.finished = true;
+        }
+        System.out.println(this.waitTillLandingSoundIsOver + " + " + this.landingSoundTick);
     }
 }

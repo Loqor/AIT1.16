@@ -5,6 +5,7 @@ import com.mdt.ait.common.blocks.ExteriorFacingControlBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumExteriorFacingState;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,7 +38,13 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
 
     @Override
     public void tick() {
-
+        if(this.tardisID != null) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            if (tardis.landed != false) {
+                newFacingDirection = tardis.exterior_facing;
+                //currentExteriorFacingSetting = exteriorFacingSetting();
+            }
+        }
     }
 
     public EnumExteriorFacingState getNextExteriorFacingSetting() {
@@ -50,6 +57,20 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
                 return EnumExteriorFacingState.WEST;
             case WEST:
                 return EnumExteriorFacingState.NORTH;
+        }
+        return EnumExteriorFacingState.NORTH;
+    }
+
+    public EnumExteriorFacingState exteriorFacingSetting() {
+        switch(currentExteriorFacingSetting) {
+            case NORTH:
+                return EnumExteriorFacingState.NORTH;
+            case EAST:
+                return EnumExteriorFacingState.EAST;
+            case SOUTH:
+                return EnumExteriorFacingState.SOUTH;
+            case WEST:
+                return EnumExteriorFacingState.WEST;
         }
         return EnumExteriorFacingState.NORTH;
     }
@@ -86,6 +107,20 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     }
 
     public void onPlace() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        newFacingDirection = tardis.exterior_facing;
+        if(tardis.exterior_facing == Direction.NORTH) {
+            currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
+        }
+        if(tardis.exterior_facing == Direction.EAST) {
+            currentExteriorFacingSetting = EnumExteriorFacingState.EAST;
+        }
+        if(tardis.exterior_facing == Direction.SOUTH) {
+            currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH;
+        }
+        if(tardis.exterior_facing == Direction.WEST) {
+            currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
+        }
         changeDirectionFromControl();
         syncToClient();
     }

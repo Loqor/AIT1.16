@@ -34,6 +34,7 @@ public class Tardis implements IEnergyStorage {
     public Direction exterior_facing;
     public Direction interior_door_facing;
     public final BlockPos center_position;
+    public Boolean landed = false;
 
     public EnumExteriorType exteriorType;
     public TardisInterior currentInterior;
@@ -260,6 +261,7 @@ public class Tardis implements IEnergyStorage {
         this.current_energy = tag.getInt("current_energy");
         this.energy_recharge_rate = tag.getInt("energy_recharge_rate");
         this.exteriorType = EnumExteriorType.valueOf(tag.getString("exterior_type"));
+        this.landed = Boolean.getBoolean("isLanded");
 
     }
 
@@ -288,6 +290,7 @@ public class Tardis implements IEnergyStorage {
         tag.putInt("current_energy", this.current_energy);
         tag.putInt("energy_recharge_rate", this.energy_recharge_rate);
         tag.putString("exterior_type", this.exteriorType.toString());
+        tag.putBoolean("isLanded", this.landed);
         return tag;
     }
 

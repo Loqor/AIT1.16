@@ -78,30 +78,12 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
     public void render(TardisCoordinateControlTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         mathy(tile);
         //System.out.println(tile.currentCoordinateDirectionState);
-        //double shiftingPositionEx;
-        //double shiftingPositionY;
-        //double shiftingPositionZ;
         if(tile.currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
             this.texture = BLUE_TEXTURE;
         }
         if(tile.currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
             this.texture = RED_TEXTURE;
         }
-        /*if(tile.currentCoordinateState == EnumCoordinateState.X_IS_TRUE) {
-            shiftingPositionEx = 0.025;
-        } else {
-            shiftingPositionEx = 0;
-        }
-        if(tile.currentCoordinateState == EnumCoordinateState.Y_IS_TRUE) {
-            shiftingPositionY = 0.025;
-        } else {
-            shiftingPositionY = 0;
-        }
-        if(tile.currentCoordinateState == EnumCoordinateState.Z_IS_TRUE) {
-            shiftingPositionZ = 0.025;
-        } else {
-            shiftingPositionZ = 0;
-        }*/
         MatrixStackIn.pushPose();
         if(tile.currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
             this.whatCoordinatesTextNorth(tile, MatrixStackIn, Buffer, CombinedLight);
@@ -124,15 +106,15 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoordinateControlBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0, 0/*shiftingPositionEx*/, 0);
+        MatrixStackIn.translate(0, tile.shiftingPositionEx, 0);
         model.x.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0, 0/*shiftingPositionY*/, 0);
+        MatrixStackIn.translate(0, tile.shiftingPositionY, 0);
         model.y.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0, 0/*shiftingPositionZ*/, 0);
+        MatrixStackIn.translate(0, tile.shiftingPositionZ, 0);
         model.z.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);

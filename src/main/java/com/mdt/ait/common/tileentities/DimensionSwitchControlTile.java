@@ -40,7 +40,33 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
 
     @Override
     public void tick() {
-        //System.out.println(currentdimensionstate);
+        if(this.tardisID != null) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            if (tardis.landed != false) {
+                newDimension = tardis.exterior_dimension;
+                if(tardis.exterior_dimension == AIT.server.overworld().dimension()) {
+                    currentdimensionstate = EnumDimensionControlState.EARTH;
+                    syncToClient();
+                }
+                if(tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+                    currentdimensionstate = EnumDimensionControlState.NETHER;
+                    syncToClient();
+                }
+                if(tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+                    currentdimensionstate = EnumDimensionControlState.END;
+                    syncToClient();
+                }
+                if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+                    currentdimensionstate = EnumDimensionControlState.GALLIFREY;
+                    syncToClient();
+                }
+                if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+                    currentdimensionstate = EnumDimensionControlState.MONDAS;
+                    syncToClient();
+                }
+                syncToClient();
+            }
+        }
     }
 
     public EnumDimensionControlState currentDimensionState() {
@@ -57,6 +83,8 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
                 return EnumDimensionControlState.GALLIFREY;
             case GALLIFREY:
                 return EnumDimensionControlState.MONDAS;
+            case MONDAS:
+                return EnumDimensionControlState.EARTH;
         }
         return EnumDimensionControlState.EARTH;
     }
@@ -101,6 +129,23 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     }
 
     public void onPlace() {
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        newDimension = tardis.exterior_dimension;
+        if(tardis.exterior_dimension == AIT.server.overworld().dimension()) {
+            currentdimensionstate = EnumDimensionControlState.EARTH;
+        }
+        if(tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+            currentdimensionstate = EnumDimensionControlState.NETHER;
+        }
+        if(tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+            currentdimensionstate = EnumDimensionControlState.END;
+        }
+        if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+            currentdimensionstate = EnumDimensionControlState.GALLIFREY;
+        }
+        if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+            currentdimensionstate = EnumDimensionControlState.MONDAS;
+        }
         changeDimensionFromControl();
         syncToClient();
     }

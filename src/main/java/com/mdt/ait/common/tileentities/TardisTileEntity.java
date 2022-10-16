@@ -115,8 +115,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         return EnumExteriorType.BASIC_BOX;
     }
 
-    public void setLockedState(Boolean lockedState) {
+    public void setLockedState(Boolean lockedState, EnumDoorState doorstate) {
         this.lockedState = lockedState;
+        this.currentstate = doorstate;
     }
 
     public EnumExteriorType getLastExterior() {
@@ -487,15 +488,15 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         BlockPos interiorDoorPos = tardis.interior_door_position;
 
         if(block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
+            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
             TARDISKey tardisKey1 = (TARDISKey) item;
             if (tardisKey1.tardisID == linked_tardis_id) {
                 lockedState = true;
-            /*if(interiorDoorPos != null) {
-                BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
-                if (doorTile != null) {
-                    doorTile.setLockedState(true, EnumDoorState.CLOSED);
+                if (basicInteriorDoorTile != null) {
+                    basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
+                    tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
+                    syncToClient();
                 }
-            }*/
                 this.currentstate = CLOSED;
                 playerEntity.displayClientMessage(new TranslationTextComponent(
                         "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
@@ -509,9 +510,15 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
         }
         if (block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get() && lockedState == true && playerEntity.isCrouching()) {
+            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
             TARDISKey tardisKey1 = (TARDISKey) item;
             if (tardisKey1.tardisID == linked_tardis_id) {
                 lockedState = false;
+                if (basicInteriorDoorTile != null) {
+                    basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
+                    tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
+                    syncToClient();
+                }
                 playerEntity.displayClientMessage(new TranslationTextComponent(
                         "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                 level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);

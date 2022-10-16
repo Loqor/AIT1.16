@@ -46,11 +46,9 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public EnumCoordinateState currentCoordinateState = EnumCoordinateState.NULL;
     public EnumCoordinatePosNegState currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
     public EnumCoordinateDirectionState currentCoordinateDirectionState = EnumCoordinateDirectionState.NORTH;
-    public Direction allButtonsState;
-    public double northXNumber;
-    public double eastXNumber;
-    public double southXNumber;
-    public double westXNumber;
+    public double shiftingPositionEx = 0;
+    public double shiftingPositionY = 0;
+    public double shiftingPositionZ = 0;
     public double Xx = 0.0625;
     public double Xz = 0.0625;
     public double Yx = 0.0625;
@@ -193,21 +191,21 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if(currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
                 if (isHoveredOverX) {
                     xPos += incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
+                    this.shiftingPositionEx = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionEx = 0;
                 }
                 if (isHoveredOverY) {
                     yPos += incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
+                    this.shiftingPositionY = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionY = 0;
                 }
                 if (isHoveredOverZ) {
                     zPos += incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
+                    this.shiftingPositionZ = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionZ = 0;
                 }
                 if (isHoveredOverIncrement) {
                     this.incrementValue = getNextIncrement();
@@ -216,21 +214,21 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if(currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
                 if (isHoveredOverX) {
                     xPos -= incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.X_IS_TRUE;
+                    this.shiftingPositionEx = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionEx = 0;
                 }
                 if (isHoveredOverY) {
                     yPos -= incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.Y_IS_TRUE;
+                    this.shiftingPositionY = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionY = 0;
                 }
                 if (isHoveredOverZ) {
                     zPos -= incrementValue;
-                    this.currentCoordinateState = EnumCoordinateState.Z_IS_TRUE;
+                    this.shiftingPositionZ = 0.025;
                 } else {
-                    this.currentCoordinateState = EnumCoordinateState.NULL;
+                    this.shiftingPositionZ = 0;
                 }
                 if (isHoveredOverIncrement) {
                     this.incrementValue = getNextIncrement();
@@ -257,13 +255,20 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         if (this.tardisID != null) {
             AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
         }
-
     }
 
     @Override
     public void tick() {
-
-
+        if(this.tardisID != null) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            if (tardis.landed != false) {
+                xPos = tardis.exterior_position.getX();
+                yPos = tardis.exterior_position.getY();
+                zPos = tardis.exterior_position.getZ();
+                //currentCoordinateDirectionState = coordinateBlockDirectionState();
+                syncToClient();
+            }
+        }
     }
 
     @Override
