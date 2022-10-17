@@ -221,7 +221,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
                     ServerWorld exteriorWorld = AIT.server.getLevel(linked_tardis.exterior_dimension);
                     assert exteriorWorld != null;
-                    ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.exterior_position, 0, 0, true, true);
+                    ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.exterior_position, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().x, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().z, true, true);
                     linked_tardis.teleportToExterior((PlayerEntity) entity);
                     syncToClient();
                 }
