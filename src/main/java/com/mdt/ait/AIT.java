@@ -12,6 +12,7 @@ import com.mdt.ait.tardis.TardisConfig;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -54,6 +55,8 @@ public class AIT {
         AITSounds.SOUNDS.register(bus);
         AITEntities.ENTITIES.register(bus);
         AITContainerTypes.CONTAINER_TYPES.register(bus);
+        System.out.println("AFafdsfsdf 34235254141312");
+        System.out.println(BlockPos.of(7690937166094766181L));
     }
 
     private void setup(final FMLCommonSetupEvent event) {

@@ -41,6 +41,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.UUID;
 
@@ -172,6 +173,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 //        System.out.println(currentstate);
         AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
         aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
+        assert this.level != null;
         this.level.getEntities(null, aabb).forEach(this::entityInside);
 
         if (currentState() != previousstate) {
@@ -214,7 +216,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
     }
 
-    private void entityInside(Entity entity) {
+    public void entityInside(Entity entity) {
         World world = entity.level;
         if (!world.isClientSide()) {
             if (linked_tardis != null) {
@@ -284,9 +286,15 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentState")];
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
-        if (nbt.contains("tardis_id")) {
-            this.linked_tardis = AIT.tardisManager.getTardis(nbt.getUUID("tardis_id"));
+        try {
+            if (nbt.contains("tardis_id")) {
+                this.linked_tardis = AIT.tardisManager.getTardis(nbt.getUUID("tardis_id"));
+                this.tardisID = this.linked_tardis.tardisID;
+            }
+        } catch (NullPointerException ignored) {
+            // ignored
         }
+
         super.load(pState, nbt);
     }
     @Override public CompoundNBT save(CompoundNBT nbt) {

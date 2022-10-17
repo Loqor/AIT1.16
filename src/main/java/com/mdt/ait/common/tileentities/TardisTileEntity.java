@@ -450,15 +450,17 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
         }
         if (!world.isClientSide()) {
-            if ((matState == EnumMatState.REMAT && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
+            if ((matState == EnumMatState.SOLID && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
                 if (linked_tardis == null) {
                     System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL"); // HOLY SHIT I FIXED IT
                     return;
                 }
 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                if (tardis_world != null) {
+                ServerWorld exteriorWorld = AIT.server.getLevel(linked_tardis.exterior_dimension);
+                if (tardis_world != null && exteriorWorld != null) {
                     ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, tardis_world.getChunk(linked_tardis.center_position).getPos().x, tardis_world.getChunk(linked_tardis.center_position).getPos().z, true, true);
+                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.exterior_position, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().x, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().z, true, true);
                     if (linked_tardis == null) {
                         linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
                     }

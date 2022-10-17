@@ -262,14 +262,19 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     @Override
     public void tick() {
         if(this.tardisID != null) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            if (tardis.landed != false) {
-                xPos = tardis.exterior_position.getX();
-                yPos = tardis.exterior_position.getY();
-                zPos = tardis.exterior_position.getZ();
-                //currentCoordinateDirectionState = coordinateBlockDirectionState();
-                syncToClient();
+            try {
+                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                if (tardis.landed != false) {
+                    xPos = tardis.exterior_position.getX();
+                    yPos = tardis.exterior_position.getY();
+                    zPos = tardis.exterior_position.getZ();
+                    //currentCoordinateDirectionState = coordinateBlockDirectionState();
+                    syncToClient();
+                }
+            } catch (NullPointerException ignored) {
+
             }
+
         }
     }
 

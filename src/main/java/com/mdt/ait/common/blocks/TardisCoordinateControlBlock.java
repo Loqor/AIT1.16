@@ -81,9 +81,12 @@ public class TardisCoordinateControlBlock extends Block {
     @Override
     public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-        if (tileEntity instanceof TardisCoordinateControlTile) {
-            ((TardisCoordinateControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
+        if (!pWorldIn.isClientSide) {
+            if (tileEntity instanceof TardisCoordinateControlTile) {
+                ((TardisCoordinateControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
+            }
         }
+
         return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
 

@@ -19,9 +19,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.server.TicketType;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.hooks.BasicEventHooks;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -164,32 +167,76 @@ public class Tardis implements IEnergyStorage {
     }
 
     public void teleportToInterior(ServerPlayerEntity playerEntity) {
+        System.out.println("Hey this is a thing");
+        System.out.println(this.interior_door_position);
         // @TODO: Something breaks here that'll teleport the player to the void only on a server and I have no idea why!!!!
         if (playerEntity != null) {
             ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+            ChunkPos chunkPos = new ChunkPos(this.interior_door_position);
+            assert target_world != null;
+//            target_world.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkPos, 1, playerEntity.getId());
+            playerEntity.stopRiding();
+            ServerWorld oldWorld = playerEntity.getLevel();
             switch (this.interior_door_facing.getOpposite().toString()) {
                 case "north": {
                     System.out.println("north");
-                    assert target_world != null;
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+//                    playerEntity.setLevel(target_world);
+//                    playerEntity.moveTo(this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    oldWorld.removePlayer(playerEntity, true);
+                    playerEntity.revive();
+                    playerEntity.gameMode.setLevel(target_world);
+                    playerEntity.setLevel(target_world);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
+                    BasicEventHooks.firePlayerChangedDimensionEvent(playerEntity, oldWorld.dimension(), target_world.dimension());
+                    target_world.addDuringCommandTeleport(playerEntity);
+                    playerEntity.connection.teleport(this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
+//                    BasicEventHooks.firePlayerChangedDimensionEvent(playerEntity, oldWorld.dimension(), target_world.dimension());
                     break;
                 }
                 case "south": {
                     System.out.println("south");
-                    assert target_world != null;
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    oldWorld.removePlayer(playerEntity, true);
+                    playerEntity.revive();
+                    playerEntity.gameMode.setLevel(target_world);
+                    playerEntity.setLevel(target_world);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
+                    BasicEventHooks.firePlayerChangedDimensionEvent(playerEntity, oldWorld.dimension(), target_world.dimension());
+                    target_world.addDuringCommandTeleport(playerEntity);
+                    playerEntity.connection.teleport(this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
                     break;
                 }
                 case "east": {
                     System.out.println("east");
-                    assert target_world != null;
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    oldWorld.removePlayer(playerEntity, true);
+                    playerEntity.revive();
+                    playerEntity.gameMode.setLevel(target_world);
+                    playerEntity.setLevel(target_world);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
+                    BasicEventHooks.firePlayerChangedDimensionEvent(playerEntity, oldWorld.dimension(), target_world.dimension());
+                    playerEntity.connection.teleport( this.interior_door_position.getX() + 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
                     break;
                 }
                 case "west": {
                     System.out.println("west");
-                    assert target_world != null;
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    oldWorld.removePlayer(playerEntity, true);
+                    playerEntity.revive();
+                    playerEntity.gameMode.setLevel(target_world);
+                    playerEntity.setLevel(target_world);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
+                    BasicEventHooks.firePlayerChangedDimensionEvent(playerEntity, oldWorld.dimension(), target_world.dimension());
+                    playerEntity.connection.teleport(this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    AIT.server.getPlayerList().sendLevelInfo(playerEntity, target_world);
+                    AIT.server.getPlayerList().sendAllPlayerInfo(playerEntity);
                     break;
                 }
             }

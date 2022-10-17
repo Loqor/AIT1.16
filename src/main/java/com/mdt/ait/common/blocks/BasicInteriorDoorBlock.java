@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
@@ -48,6 +49,18 @@ public class BasicInteriorDoorBlock extends Block {
 
     public BasicInteriorDoorBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission());
+    }
+
+    @Override
+    public void entityInside(BlockState p_196262_1_, World p_196262_2_, BlockPos p_196262_3_, Entity p_196262_4_) {
+        TileEntity tileEntity = p_196262_2_.getBlockEntity(p_196262_3_);
+        if (!p_196262_2_.isClientSide) {
+            if (tileEntity instanceof BasicInteriorDoorTile) {
+                ((BasicInteriorDoorTile) tileEntity).entityInside(p_196262_4_);
+                super.entityInside(p_196262_1_, p_196262_2_, p_196262_3_, p_196262_4_);
+            }
+        }
+
     }
 
     @Override
