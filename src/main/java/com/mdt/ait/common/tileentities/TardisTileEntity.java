@@ -41,7 +41,6 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -450,21 +449,19 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
         }
         if (!world.isClientSide()) {
-            if ((matState == EnumMatState.SOLID && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
+            if ((matState == EnumMatState.REMAT && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
                 if (linked_tardis == null) {
                     System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL"); // HOLY SHIT I FIXED IT
                     return;
                 }
 
                 ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                ServerWorld exteriorWorld = AIT.server.getLevel(linked_tardis.exterior_dimension);
-                if (tardis_world != null && exteriorWorld != null) {
-                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, tardis_world.getChunk(linked_tardis.center_position).getPos().x, tardis_world.getChunk(linked_tardis.center_position).getPos().z, true, true);
-                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.exterior_position, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().x, exteriorWorld.getChunk(linked_tardis.exterior_position).getPos().z, true, true);
+                if (tardis_world != null) {
+                    ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
                     if (linked_tardis == null) {
                         linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
                     }
-                    linked_tardis.teleportToInterior((ServerPlayerEntity) entity);
+                    linked_tardis.teleportToInterior((PlayerEntity) entity);
                     syncToClient();
                 }
             }
@@ -532,7 +529,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 playerEntity.displayClientMessage(new TranslationTextComponent(
                         "This TARDIS is not yours!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
             }
-            }
+        }
             /*if(interiorDoorPos != null) {
                 BasicInteriorDoorTile doorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
                 if (doorTile != null) {

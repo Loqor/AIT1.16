@@ -123,7 +123,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
-            //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
@@ -262,19 +262,14 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     @Override
     public void tick() {
         if(this.tardisID != null) {
-            try {
-                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                if (tardis.landed != false) {
-                    xPos = tardis.exterior_position.getX();
-                    yPos = tardis.exterior_position.getY();
-                    zPos = tardis.exterior_position.getZ();
-                    //currentCoordinateDirectionState = coordinateBlockDirectionState();
-                    syncToClient();
-                }
-            } catch (NullPointerException ignored) {
-
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            if (tardis.landed != false) {
+                xPos = tardis.exterior_position.getX();
+                yPos = tardis.exterior_position.getY();
+                zPos = tardis.exterior_position.getZ();
+                //currentCoordinateDirectionState = coordinateBlockDirectionState();
+                syncToClient();
             }
-
         }
     }
 

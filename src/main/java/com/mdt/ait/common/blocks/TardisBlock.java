@@ -132,13 +132,10 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
     @Override
     public void entityInside(BlockState blockstate, World world, BlockPos bpos, Entity entity) {
         TileEntity tileEntity = world.getBlockEntity(bpos);
-        if (!world.isClientSide) {
-            if (tileEntity instanceof TardisTileEntity) {
-                ((TardisTileEntity) tileEntity).entityInside(entity);
-                super.entityInside(blockstate, world, bpos, entity);
-            }
+        if (tileEntity instanceof TardisTileEntity) {
+            ((TardisTileEntity) tileEntity).entityInside(entity);
+            super.entityInside(blockstate, world, bpos, entity);
         }
-
     }
 
 
