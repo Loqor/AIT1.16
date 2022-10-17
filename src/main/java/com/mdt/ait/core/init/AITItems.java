@@ -154,6 +154,9 @@ public class AITItems {
             "tennant_monitor", () -> new BlockItem(
                     AITBlocks.TENNANT_MONITOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+    public static final RegistryObject<BlockItem> TARDIS_POWER_ACCESS_POINT = ITEMS.register(
+            "tardis_power_access_point", () -> new BlockItem(
+                    AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<BlockItem> ROUNDEL_FACE = ITEMS.register(
             "roundel_face", () -> new BlockItem(
@@ -172,7 +175,6 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TYPEWRITER = ITEMS.register(
             "typewriter", () -> new BlockItem(
                     AITBlocks.TYPEWRITER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-
 
     public static final RegistryObject<BlockItem> INVIS_BLOCK = ITEMS.register(
             "invis_block", () -> new BlockItem(

@@ -62,4 +62,7 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TennantMonitorTile>> TENNANT_MONITOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tennant_monitor",
             () -> TileEntityType.Builder.of(TennantMonitorTile::new, AITBlocks.TENNANT_MONITOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<TardisPowerAccessPointTile>> TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "tardis_power_access_point",
+            () -> TileEntityType.Builder.of(TardisPowerAccessPointTile::new, AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get()).build(null));
 }
