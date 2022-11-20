@@ -8,6 +8,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class ArcadeCabinet extends BasicBox {
 	public final ModelRenderer box;
@@ -117,7 +118,10 @@ public class ArcadeCabinet extends BasicBox {
 
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+		matrixStack.pushPose();
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(180f));
 		base.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		matrixStack.popPose();
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

@@ -145,21 +145,20 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     assert serverWorld != null;
                     PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
                     if (playerEntity != null) {
-                        delay -= 1;
-                        if (delay == 20) {
+                        //delay -= 1;
+                        //if (delay == 20) {
                             playerEntity.displayClientMessage(new TranslationTextComponent
-                                    ("" + (flightTicks * 100) / this.dematTransit.getFlightTicks() + "%").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withItalic(true)), true);
-                        } else if (delay == 0) {
-                            delay = 21;
-
-                        }
+                                    ("Flight remaining: " + (flightTicks * 100) / this.dematTransit.getFlightTicks() + "%").setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withItalic(true).withBold(true)), true);
+                        //} else if (delay == 0) {
+                        //    delay = 21;
+                        //}
 
                     }
                     if (flightTicks == this.dematTransit.getFlightTicks()) {
                         this.dematTransit.isReadyForRemat = true;
                         flightTicks = 0;
                         this.dematTransit.readyForDemat = false;
-                        playerEntity.sendMessage(new TranslationTextComponent("TARDIS is ready for rematerialization.\nPull lever to land").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA).withItalic(true)), UUID.randomUUID());
+                        playerEntity.sendMessage(new TranslationTextComponent("TARDIS is ready for rematerialisation.").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA).withItalic(true)), UUID.randomUUID());
 
                     }
                     if (flightTicks < this.dematTransit.getFlightTicks()) {
@@ -223,7 +222,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         if (this.dematTransit == null) {
                             changeMatStateFromLever();
                             playerEntity.sendMessage(new TranslationTextComponent(
-                                    "Dematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)), UUID.randomUUID());
+                                    "Dematerialising...").setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)), UUID.randomUUID());
                         }
                     }
                     syncToClient();
@@ -267,7 +266,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
                     this.dematTransit.landTardisPart2();
                     playerEntity.sendMessage(new TranslationTextComponent(
-                            "Rematerializing...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
+                            "Rematerialising...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
                     syncToClient();
 
                 }

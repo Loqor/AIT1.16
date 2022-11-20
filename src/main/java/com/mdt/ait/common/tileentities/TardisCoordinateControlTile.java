@@ -80,6 +80,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         yPos = tardis.exterior_position.getY();
         zPos = tardis.exterior_position.getZ();
         currentCoordinateDirectionState = coordinateBlockDirectionState();
+        this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
         changePositionFromControl();
         syncToClient();
     }
@@ -243,6 +244,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if(!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
                 if(playerEntity.isCrouching()) {
                     this.currentPosNegState = getNextPosNegState();
+                    System.out.println(this.currentPosNegState);
                 }
             }
             changePositionFromControl();

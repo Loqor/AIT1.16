@@ -92,6 +92,12 @@ public class TardisManager {
         return getTardis(getTardisIDFromPosition(pos));
     }
 
+    //public TardisTileEntity getTardisPositionFromID(UUID tardisID, World world) {
+    //    Tardis tardis = this.getTardis(tardisID);
+    //    TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(tardis.exterior_position);
+    //    return tardisTileEntity;
+    //}
+
     public UUID getTardisIDFromPosition(BlockPos pos) {
         int x = pos.getX();
         int z = pos.getZ();

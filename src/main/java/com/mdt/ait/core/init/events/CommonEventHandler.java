@@ -3,9 +3,11 @@ package com.mdt.ait.core.init.events;
 import com.google.common.eventbus.Subscribe;
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.renderers.layers.CowSkullModelLayer;
+import com.mdt.ait.common.blocks.ConsoleBlock;
 import com.mdt.ait.common.blocks.GBTCasingBlock;
 import com.mdt.ait.common.blocks.RampBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
+import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.TypewriterTile;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
@@ -33,11 +35,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -69,6 +73,20 @@ public class CommonEventHandler {
             event.setCanceled(true);
         }
     }
+
+    //@SubscribeEvent
+    //public void onBlockBreak(BlockEvent.BreakEvent event) {
+    //    BlockPos blockPos = event.getPos();
+    //    TileEntity tileEntity = event.getWorld().getBlockEntity(blockPos);
+    //    if (event.getState().getBlock() instanceof ConsoleBlock) {
+    //        ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) tileEntity;
+    //        if(consoleTileEntity.isRemovable) {
+    //            event.setCanceled(false);
+    //        } else {
+    //            event.setCanceled(true);
+    //        }
+    //    }
+    //}
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) { // When world loads

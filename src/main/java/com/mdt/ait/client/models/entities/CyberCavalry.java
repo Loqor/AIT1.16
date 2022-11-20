@@ -72,7 +72,11 @@ public class CyberCavalry extends BipedModel<CyberCavalryEntity> {
 		this.leftArm.z = 0.0F;
 		this.leftArm.x = 4.5F;
 		float f = 1.0F;
-		this.rightArm.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float) Math.PI) * 2.0F * pLimbSwingAmount * 0.5F / f;
+		if(pEntity.isAggressive()) {
+			this.rightArm.xRot = -45f;
+		} else {
+			this.rightArm.xRot = MathHelper.cos(pLimbSwing * 0.6662F + (float) Math.PI) * 2.0F * pLimbSwingAmount * 0.5F / f;
+		}
 		this.leftArm.xRot = MathHelper.cos(pLimbSwing * 0.6662F) * 2.0F * pLimbSwingAmount * 0.5F / f;
 		this.rightArm.zRot = 0.0F;
 		this.leftArm.zRot = 0.0F;

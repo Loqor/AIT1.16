@@ -308,6 +308,7 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
             this.Head.setPos(0.0F, 14F, 7.0F);
         }
     }
+
     @Override
     public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
         matrixStack.pushPose();

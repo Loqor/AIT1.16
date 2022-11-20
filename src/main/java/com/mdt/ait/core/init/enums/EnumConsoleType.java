@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 public enum EnumConsoleType implements IStringSerializable {
 
-    DEV_CONSOLE("dev_console", ConsoleTileEntity::new),
-    TEST_CONSOLE("test_console", ConsoleTileEntity::new);
+    BOREALIS_CONSOLE("borealis_console", ConsoleTileEntity::new),
+    DEV_CONSOLE("dev_console", ConsoleTileEntity::new);
 
     public final Supplier<ConsoleTileEntity> tileEntity;
     public final String name;

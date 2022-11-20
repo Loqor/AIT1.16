@@ -123,14 +123,13 @@ public class SonicItem extends Item {
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
 
-        //if (block instanceof ConsoleBlock && playerentity.isCrouching()) {
-        //    TileEntity tileEntity = world.getBlockEntity(blockpos);
-        //    if(tileEntity instanceof ConsoleTileEntity) {
-        //        ((ConsoleTileEntity) tileEntity).useOnConsole(context, blockpos, blockstate, block);
-        //    }
-        //    System.out.println("Idk if this is working or not");
-        //    return ActionResultType.sidedSuccess(world.isClientSide());
-        //}
+        if (block instanceof ConsoleBlock && playerentity.isCrouching()) {
+            TileEntity tileEntity = world.getBlockEntity(blockpos);
+            if(tileEntity instanceof ConsoleTileEntity) {
+                ((ConsoleTileEntity) tileEntity).useOnConsole(context, blockpos, blockstate, block);
+            }
+            return ActionResultType.sidedSuccess(world.isClientSide());
+        }
 
         if (block instanceof DoorBlock) {
             world.setBlock(blockpos, blockstate.setValue(OPEN, !blockstate.getValue(OPEN)), 10);

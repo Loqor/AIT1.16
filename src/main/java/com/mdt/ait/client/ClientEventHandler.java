@@ -1,7 +1,6 @@
 package com.mdt.ait.client;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.renderers.skyboxes.TardisSkyRenderer;
 import com.mdt.ait.core.init.AITDimensions;
 
 import net.minecraft.client.Minecraft;

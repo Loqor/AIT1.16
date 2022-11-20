@@ -41,6 +41,7 @@ public class K9Entity extends WolfEntity {
             return AITSounds.KNINE_AMBIENT.get();
         }
     }
+
     @Override
     protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
         return SoundEvents.IRON_GOLEM_HURT;//AITSounds.KNINE_HURT.get();
@@ -57,7 +58,7 @@ public class K9Entity extends WolfEntity {
         //this.goalSelector.addGoal(6, new LookAtGoal(this, DalekEntity.class, 8.0F));
         this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        //this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DalekEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ClassicDalekEntity.class, true));
     }
 
     @Override

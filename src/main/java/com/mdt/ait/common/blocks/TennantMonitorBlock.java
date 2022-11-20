@@ -1,9 +1,13 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.controls.TennantMonitor;
 import com.mdt.ait.client.screen.MonitorScreen;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.common.tileentities.TennantMonitorTile;
 import com.mdt.ait.common.tileentities.TypewriterTile;
+import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -25,9 +29,12 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.Random;
+import java.util.UUID;
 
 public class TennantMonitorBlock extends Block {
 
@@ -35,7 +42,7 @@ public class TennantMonitorBlock extends Block {
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
-    //public UUID tardisID;
+    public UUID tardisID;
 
     public TennantMonitorBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak());
@@ -71,18 +78,27 @@ public class TennantMonitorBlock extends Block {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    /*@Override
+    @Override
     public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
         super.onPlace(blockState1, world, blockPos, blockState2, bool);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
-            TypewriterTile typewriterTile = (TypewriterTile) serverWorld.getBlockEntity(blockPos);
+            TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) serverWorld.getBlockEntity(blockPos);
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            assert typewriterTile != null;
-            typewriterTile.tardisID = tardisID;
-            serverWorld.setBlockEntity(blockPos, typewriterTile);
+            assert tennantMonitorTile != null;
+            tennantMonitorTile.tardisID = tardisID;
+            serverWorld.setBlockEntity(blockPos, tennantMonitorTile);
         }
-    }*/
+    }
+
+    @Override
+    public void tick(BlockState pState, ServerWorld world, BlockPos blockPos, Random pRand) {
+        super.tick(pState, world, blockPos, pRand);
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION && tardisID == null) {
+            ServerWorld serverWorld = world;
+            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+        }
+    }
 
     @Nullable
     @Override
@@ -95,10 +111,16 @@ public class TennantMonitorBlock extends Block {
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
                                 Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide()) {
-            Block block = worldIn.getBlockState(pos).getBlock();
-            if (block instanceof TennantMonitorBlock) {
-                //Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent(
-                //        "TARDIS Monitor")));
+            if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
+                ServerWorld serverWorld = ((ServerWorld) worldIn);
+                TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) serverWorld.getBlockEntity(pos);
+                this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                assert tennantMonitorTile != null;
+                tennantMonitorTile.tardisID = tardisID;
+                Block block = worldIn.getBlockState(pos).getBlock();
+                if (block instanceof TennantMonitorBlock) {
+                    Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID));
+                }
             }
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

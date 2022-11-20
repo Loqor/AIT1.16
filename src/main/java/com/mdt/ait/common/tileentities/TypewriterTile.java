@@ -21,9 +21,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
 public class TypewriterTile extends TileEntity {
 
-    //public UUID tardisID;
+    public UUID tardisID;
 
     public TypewriterTile() {
         super(AITTiles.TYPEWRITER_TILE_ENTITY_TYPE.get());
@@ -32,18 +34,6 @@ public class TypewriterTile extends TileEntity {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
-    }
-
-    @Override
-    public CompoundNBT save(CompoundNBT compound) {
-        //compound.putUUID("tardisID", this.tardisID);
-        return super.save(compound);
-    }
-
-    @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        //this.tardisID = nbt.getUUID("tardisID");
-        super.load(state, nbt);
     }
 
     public void setLastExterior() {
@@ -69,4 +59,22 @@ public class TypewriterTile extends TileEntity {
         }
         Network.sendToServer(new MonitorExteriorChangePacket(11));
     }
+
+    @Override
+    public CompoundNBT save(CompoundNBT compound) {
+        if(tardisID != null) {
+            compound.putUUID("tardisID", this.tardisID);
+        }
+        return super.save(compound);
+    }
+
+    @Override
+    public void load(BlockState state, CompoundNBT nbt) {
+        if(tardisID != null) {
+            this.tardisID = nbt.getUUID("tardisID");
+        }
+        super.load(state, nbt);
+    }
+
+
 }

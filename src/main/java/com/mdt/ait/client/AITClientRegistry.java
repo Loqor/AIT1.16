@@ -2,16 +2,17 @@ package com.mdt.ait.client;
 
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.client.models.consoles.BorealisConsole;
 import com.mdt.ait.client.models.consoles.DevConsole;
 import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
-import com.mdt.ait.client.renderers.entity.AngelEntityRenderer;
-import com.mdt.ait.client.renderers.entity.CyberCavalryRenderer;
-import com.mdt.ait.client.renderers.entity.K9EntityRenderer;
+import com.mdt.ait.client.renderers.entity.*;
 import com.mdt.ait.client.renderers.layers.*;
+import com.mdt.ait.client.renderers.machines.DeloreanRenderer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
+import com.mdt.ait.common.entities.LaserShotEntity;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.core.init.AITEntities;
@@ -132,13 +133,35 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CLASSIC_EXTERIOR, ClassicExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.HARTNELL_EXTERIOR, HartnellExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.HUDOLIN_EXTERIOR, HudolinExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.TX3_EXTERIOR, TxThreeCapsule::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.TARDIM_EXTERIOR, TARDIMExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.SHALKA_EXTERIOR, ShalkaExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BOOTH_EXTERIOR, BoothExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.STEVE_EXTERIOR, SteveExterior::new);
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.FALLOUT_SHELTER_EXTERIOR, FalloutShelterExterior::new);
 
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
-        TARDIS_CONSOLE_MAP.put(EnumConsoleType.TEST_CONSOLE, DevConsole::new);
+        TARDIS_CONSOLE_MAP.put(EnumConsoleType.BOREALIS_CONSOLE, BorealisConsole::new);
 
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.K9.get(), K9EntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.CYBERCAVALRY.get(), CyberCavalryRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.ANGEL_ENTITY.get(), AngelEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.CLASSIC_DALEK_ENTITY.get(), ClassicDalekEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.LASER_SHOT_ENTITY.get(), LaserShotEntityRenderer::new);
+
+        //CONTROL ENTITIES
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.THROTTLE_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.COORDX_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.COORDY_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.COORDZ_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.INCREMENT_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        //RenderingRegistry.registerEntityRenderingHandler(AITEntities.FALLING_TARDIS_ENTITY.get(), BasicBoxRenderer::new);
+
+        //Machinery
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.DELOREAN.get(), DeloreanRenderer::new);
 
         Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
         for (PlayerRenderer renderPlayer : skinMap.values()) {

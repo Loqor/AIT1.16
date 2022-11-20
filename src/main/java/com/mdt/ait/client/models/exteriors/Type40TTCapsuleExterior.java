@@ -1,9 +1,8 @@
-package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.3.1
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.1
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -68,9 +67,5 @@ public class Type40TTCapsuleExterior extends BasicBox {
 		modelRenderer.xRot = x;
 		modelRenderer.yRot = y;
 		modelRenderer.zRot = z;
-	}
-
-	public void render(TardisTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
-		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, tile.getAlpha());
 	}
 }

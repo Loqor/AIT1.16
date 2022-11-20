@@ -196,10 +196,10 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6) {
-            this.model = new HellBentTTCapsuleExterior();
+            this.model = new HellBentTTCapsuleExterior.java();
             this.texture = HELLBENT_LOCATION;
-            ((HellBentTTCapsuleExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((HellBentTTCapsuleExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            ((HellBentTTCapsuleExterior.java)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            ((HellBentTTCapsuleExterior.java)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(1f, 1f, 1f);

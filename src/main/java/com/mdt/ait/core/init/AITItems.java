@@ -300,4 +300,6 @@ public class AITItems {
             ("cybercavalry_spawn_egg", () -> new AITSpawnEgg(AITEntities.CYBERCAVALRY,0x2F329F,0x2FBD9F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
     public static final RegistryObject<AITSpawnEgg> ANGEL_ENTITY_SPAWN_EGG = ITEMS.register
             ("angel_entity_spawn_egg", () -> new AITSpawnEgg(AITEntities.ANGEL_ENTITY,0x2F329F,0x2F329F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
+    public static final RegistryObject<AITSpawnEgg> CLASSIC_DALEK_ENTITY_SPAWN_EGG = ITEMS.register
+            ("classic_dalek_entity_spawn_egg", () -> new AITSpawnEgg(AITEntities.CLASSIC_DALEK_ENTITY,0x2F329F,0x6F525F,new Item.Properties().tab(AITItemGroups.AITMOBS)));
 }

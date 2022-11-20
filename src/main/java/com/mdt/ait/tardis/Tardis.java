@@ -12,6 +12,7 @@ import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemUseContext;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -97,7 +99,7 @@ public class Tardis implements IEnergyStorage {
         BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interior_door_position);
         assert interiorDoorTile != null;
         interiorDoorTile.setDoorState(doorState);
-
+        interiorDoorTile.syncToClient();
     }
 
     public void setExteriorType(EnumExteriorType exteriorType) {
@@ -107,6 +109,10 @@ public class Tardis implements IEnergyStorage {
         TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(this.exterior_position);
         assert tardisTileEntity != null;
         tardisTileEntity.setExterior(exteriorType);
+    }
+
+    public EnumExteriorType getExteriorType() {
+        return this.exteriorType;
     }
 
     public void lockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
@@ -170,22 +176,46 @@ public class Tardis implements IEnergyStorage {
             switch (this.interior_door_facing.getOpposite().toString()) {
                 case "north": {
                     System.out.println("north");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() - 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    if(((ServerPlayerEntity) playerEntity).gameMode.getGameModeForPlayer() != GameType.SURVIVAL) {
+                        ((ServerPlayerEntity) playerEntity).teleportTo(target_world,
+                                this.interior_door_position.getX() + 0.5,
+                                this.interior_door_position.getY(),
+                                this.interior_door_position.getZ() - 0.5,
+                                interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    }
                     break;
                 }
                 case "south": {
                     System.out.println("south");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 1.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    if(((ServerPlayerEntity) playerEntity).gameMode.getGameModeForPlayer() != GameType.SURVIVAL) {
+                        ((ServerPlayerEntity) playerEntity).teleportTo(target_world,
+                                this.interior_door_position.getX() + 0.5,
+                                this.interior_door_position.getY(),
+                                this.interior_door_position.getZ() + 1.5,
+                                interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    }
                     break;
                 }
                 case "east": {
                     System.out.println("east");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() + 1.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    if(((ServerPlayerEntity) playerEntity).gameMode.getGameModeForPlayer() != GameType.SURVIVAL) {
+                        ((ServerPlayerEntity) playerEntity).teleportTo(target_world,
+                                this.interior_door_position.getX() + 1.5,
+                                this.interior_door_position.getY(),
+                                this.interior_door_position.getZ() + 0.5,
+                                interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    }
                     break;
                 }
                 case "west": {
                     System.out.println("west");
-                    ((ServerPlayerEntity) playerEntity).teleportTo(target_world, this.interior_door_position.getX() - 0.5, this.interior_door_position.getY(), this.interior_door_position.getZ() + 0.5, interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    if(((ServerPlayerEntity) playerEntity).gameMode.getGameModeForPlayer() != GameType.SURVIVAL) {
+                        ((ServerPlayerEntity) playerEntity).teleportTo(target_world,
+                                this.interior_door_position.getX() - 0.5,
+                                this.interior_door_position.getY(),
+                                this.interior_door_position.getZ() + 0.5,
+                                interior_door_facing.getOpposite().toYRot(), playerEntity.xRot);
+                    }
                     break;
                 }
             }

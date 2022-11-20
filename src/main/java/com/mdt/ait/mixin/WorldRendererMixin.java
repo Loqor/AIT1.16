@@ -23,13 +23,16 @@ public class WorldRendererMixin {
 	
 	// ONLY USE THIS WITH A DEFAULT SKY RENDERER
     @Redirect(method = "Lnet/minecraft/client/renderer/WorldRenderer;renderSky(Lcom/mojang/blaze3d/matrix/MatrixStack;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureManager;bind(Lnet/minecraft/util/ResourceLocation;)V", ordinal = 0))
-    private void replaceSun(TextureManager textureManager, ResourceLocation oldSun) {
+    private void replaceTardisSun(TextureManager textureManager, ResourceLocation oldSun) {
 		Minecraft mc = Minecraft.getInstance();
     	RegistryKey<World> dim = mc.level.dimension();
-    	    	
-    	if (dim.equals(AITDimensions.GALLIFREY)) textureManager.bind(ModdedSkyBoxes.GALLIFREY_SUN);
-		if (dim.equals(AITDimensions.TARDIS_DIMENSION)) textureManager.bind(ModdedSkyBoxes.EYE_OF_HARMONY);
-    	else textureManager.bind(oldSun);
+		if (dim.equals(AITDimensions.TARDIS_DIMENSION)) {
+			textureManager.bind(ModdedSkyBoxes.EYE_OF_HARMONY);
+		} else if (dim != AITDimensions.GALLIFREY) {
+			textureManager.bind(oldSun);
+		} else {
+			textureManager.bind(ModdedSkyBoxes.GALLIFREY_SUN);
+		}
     }
 
 }

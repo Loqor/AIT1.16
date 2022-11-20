@@ -47,4 +47,18 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "cyber_shock_sound")));
     public static final RegistryObject<SoundEvent> BUTTON_PRESS = SOUNDS.register("button_press", () -> new SoundEvent (
             new ResourceLocation(AIT.MOD_ID, "button_press")));
+    public static final RegistryObject<SoundEvent> CYBER_MARCH_QUICK = SOUNDS.register("cyber_march_quick", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "cyber_march_quick")));
+    public static final RegistryObject<SoundEvent> CYBER_YWBD = SOUNDS.register("cyber_ywbd", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "cyber_ywbd")));
+    public static final RegistryObject<SoundEvent> DALEK_DEATH = SOUNDS.register("dalek_death", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "dalek_death")));
+    public static final RegistryObject<SoundEvent> DALEK_MOVE = SOUNDS.register("dalek_move", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "dalek_move")));
+    public static final RegistryObject<SoundEvent> DALEK_EXTERMINATE = SOUNDS.register("dalek_exterminate", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "dalek_exterminate")));
+    public static final RegistryObject<SoundEvent> DALEK_GUNFIRE = SOUNDS.register("dalek_gunfire", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "dalek_gunfire")));
+    public static final RegistryObject<SoundEvent> DALEK_HIT = SOUNDS.register("dalek_hit", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "dalek_hit")));
 }

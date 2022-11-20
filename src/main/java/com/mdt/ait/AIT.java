@@ -2,6 +2,7 @@ package com.mdt.ait;
 
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
+import com.mdt.ait.common.entities.DeloreanEntity;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.events.CommonEventHandler;
 import com.mdt.ait.core.init.events.TardisEventHandler;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -48,12 +50,17 @@ public class AIT {
         //bus.addListener(this::registerEntityAttributes);
         MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
         MinecraftForge.EVENT_BUS.register(new TardisEventHandler()); // Tardis specific event handler
+        bus.addListener(this::registerEntityAttributes);
         AITBlocks.BLOCKS.register(bus);
         AITItems.ITEMS.register(bus);
         AITTiles.TILE_ENTITIES.register(bus);
         AITSounds.SOUNDS.register(bus);
         AITEntities.ENTITIES.register(bus);
         AITContainerTypes.CONTAINER_TYPES.register(bus);
+    }
+
+    public void registerEntityAttributes(EntityAttributeCreationEvent event) {
+        event.put(AITEntities.DELOREAN.get(), DeloreanEntity.createAttributes().build());
     }
 
     private void setup(final FMLCommonSetupEvent event) {

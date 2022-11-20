@@ -94,7 +94,7 @@
     "subtitle": "K9 growl",
     "sounds": [
       {
-        "name": "adventuresintime:entities/k9/knine_growl",
+        "name": "ait:entities/k9/knine_growl",
         "stream": false
       }
     ]
@@ -104,7 +104,7 @@
     "subtitle": "K9 whine",
     "sounds": [
       {
-        "name": "adventuresintime:entities/k9/knine_whine",
+        "name": "ait:entities/k9/knine_whine",
         "stream": false
       }
     ]
@@ -114,7 +114,7 @@
     "subtitle": "K9 pant",
     "sounds": [
       {
-        "name": "adventuresintime:entities/k9/knine_pant",
+        "name": "ait:entities/k9/knine_pant",
         "stream": false
       }
     ]
@@ -124,7 +124,7 @@
     "subtitle": "K9 hurt",
     "sounds": [
       {
-        "name": "adventuresintime:entities/k9/knine_hurt",
+        "name": "ait:entities/k9/knine_hurt",
         "stream": false
       }
     ]
@@ -134,7 +134,77 @@
     "subtitle": "K9 dies",
     "sounds": [
       {
-        "name": "adventuresintime:entities/k9/knine_death",
+        "name": "ait:entities/k9/knine_death",
+        "stream": false
+      }
+    ]
+  },
+  "cyber_march_quick": {
+    "category": "ambient",
+    "subtitle": "Cybermen march",
+    "sounds": [
+      {
+        "name": "ait:entities/cybermen/cyber_march_quick",
+        "stream": false
+      }
+    ]
+  },
+  "cyber_ywbd": {
+    "category": "ambient",
+    "subtitle": "YOU WILL BE DELETED. - Cyberman",
+    "sounds": [
+      {
+        "name": "ait:entities/cybermen/cyber_ywbd",
+        "stream": false
+      }
+    ]
+  },
+  "dalek_death": {
+    "category": "ambient",
+    "subtitle": "Dalek death",
+    "sounds": [
+      {
+        "name": "ait:entities/daleks/dalek_death",
+        "stream": false
+      }
+    ]
+  },
+  "dalek_move": {
+    "category": "ambient",
+    "subtitle": "Dalek moving",
+    "sounds": [
+      {
+        "name": "ait:entities/daleks/dalek_move",
+        "stream": false
+      }
+    ]
+  },
+  "dalek_exterminate": {
+    "category": "ambient",
+    "subtitle": "Exterminate! - Daleks",
+    "sounds": [
+      {
+        "name": "ait:entities/daleks/exterminate",
+        "stream": false
+      }
+    ]
+  },
+  "dalek_gunfire": {
+    "category": "ambient",
+    "subtitle": "Dalek gunfire",
+    "sounds": [
+      {
+        "name": "ait:entities/daleks/dalek_gunfire",
+        "stream": false
+      }
+    ]
+  },
+  "dalek_hit": {
+    "category": "ambient",
+    "subtitle": "Dalek hit",
+    "sounds": [
+      {
+        "name": "ait:entities/daleks/dalek_hit",
         "stream": false
       }
     ]
@@ -144,7 +214,7 @@
     "subtitle": "Angel wings flutter",
     "sounds" : [
       {
-        "name": "adventuresintime:cosmetic/fly_wing_sound",
+        "name": "ait:cosmetic/fly_wing_sound",
         "stream": false
       }
     ]

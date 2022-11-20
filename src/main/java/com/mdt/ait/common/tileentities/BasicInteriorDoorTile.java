@@ -131,26 +131,31 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         if (block instanceof BasicInteriorDoorBlock && item == AITItems.GOLDEN_TARDIS_KEY.get() && lockedState == true && playerEntity.isCrouching()) {
             TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorDimension.getBlockEntity(linked_tardis.exterior_position);
             TARDISKey tardisKey1 = (TARDISKey) item;
-            if(tardisTileEntity != null) {
-                if (TARDISKey.getTardisId(itemStack).equals(linked_tardis.tardisID)) {
-                    lockedState = false;
-                    if (tardisTileEntity != null) {
-                        tardisTileEntity.setLockedState(false, EnumDoorState.CLOSED);
-                        tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
+            if(TARDISKey.getTardisId(itemStack) != null) {
+                if (tardisTileEntity != null) {
+                    if (TARDISKey.getTardisId(itemStack).equals(linked_tardis.tardisID)) {
+                        lockedState = false;
+                        if (tardisTileEntity != null) {
+                            tardisTileEntity.setLockedState(false, EnumDoorState.CLOSED);
+                            tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
+                            syncToClient();
+                        }
+                        playerEntity.displayClientMessage(new TranslationTextComponent(
+                                "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+                        level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        tardisWorld.playSound(null, linked_tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                         syncToClient();
+                    } else {
+                        playerEntity.displayClientMessage(new TranslationTextComponent(
+                                "This TARDIS is not yours!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                     }
-                    playerEntity.displayClientMessage(new TranslationTextComponent(
-                            "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
-                    level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    tardisWorld.playSound(null, linked_tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    syncToClient();
                 } else {
                     playerEntity.displayClientMessage(new TranslationTextComponent(
-                            "This TARDIS is not yours!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+                            "Tardis is in flight!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                 }
             } else {
                 playerEntity.displayClientMessage(new TranslationTextComponent(
-                        "Tardis is in flight!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+                        "Key is not linked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
             }
         }
             /*if(interiorDoorPos != null) {
@@ -163,13 +168,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 
     public void setDoorState(EnumDoorState state) {
         this.currentstate = state;
-        syncToClient();
     }
 
     @Override public void tick() {
-        //notSolidDoorState();
-        //setInteriorDoorStateFromExterior();
-//        System.out.println(currentstate);
         AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
         aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
         this.level.getEntities(null, aabb).forEach(this::entityInside);
@@ -178,7 +179,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
             leftDoorRotation = currentState() == FIRST ? 0.0f : (currentState() == BOTH ? 0.0f : 87.5f);
         }
-        if (currentState() != CLOSED) {
+        /*if (currentState() != CLOSED) {
             if (rightDoorRotation < 87.5f) {
                 rightDoorRotation += 5.0f;
             } else {
@@ -206,6 +207,35 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             }
         }
         //System.out.println("Right Door Rotation: "+ rightDoorRotation + " || " + "Left Door Rotation: " + leftDoorRotation);
+        previousstate = currentState();*/
+
+        if (currentState() != CLOSED) {
+            if (rightDoorRotation < 87.5f) {
+                rightDoorRotation += 5.0f;
+            } else {
+                rightDoorRotation = 87.5f;
+            }
+            if (currentState() == BOTH) {
+                if (leftDoorRotation < 87.5f) {
+                    leftDoorRotation += 5.0f;
+                } else {
+                    leftDoorRotation = 87.5f;
+                }
+            }
+        } else {
+            if (leftDoorRotation > 0.0f && rightDoorRotation > 0.0f) {
+                leftDoorRotation -= 15.0f;
+                rightDoorRotation -= 15.0f;
+            }
+        }
+        if(currentState() == CLOSED) {
+            if(leftDoorRotation == -2.5f) {
+                leftDoorRotation = 0.0f;
+            }
+            if(rightDoorRotation == -2.5f) {
+                rightDoorRotation = 0.0f;
+            }
+        }
         previousstate = currentState();
     }
 

@@ -1,39 +1,118 @@
 package com.mdt.ait.client.screen;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.network.NetworkHandler;
+import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
+import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class MonitorScreen extends Screen {
     private static final ResourceLocation MONITOR_GUI = new ResourceLocation(AIT.MOD_ID, "textures/screens/monitor_screen.png");
-
+    private static final ResourceLocation EXTERIOR_SELECTION_TEST = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/exterior_screen_test.png");
+    private static final ResourceLocation EXTERIOR_SELECTION_TEST2 = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/exterior_screen_test2.png");
+    private static final ResourceLocation BASIC_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/basic_exterior_screen.png");
     private int imageHeight;
     private int imageWidth;
+    public UUID tardisID;
+    public ResourceLocation SelectedTardis;
+    public Tardis tardis;
 
-    public MonitorScreen(ITextComponent label) {
+    public MonitorScreen(ITextComponent label, UUID tardisid) {
         super(label);
         ++this.imageHeight;
-        this.imageWidth = 176;
-        this.imageHeight = 167;
+        this.imageWidth = 231;
+        this.imageHeight = 150;
+        this.tardisID = tardisid;
+        this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
     }
+
+    //@TODO I know this is confusing, it's basically getting the next exterior type.
+    /*public void switchScreenTexture() {
+        Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+        if (tardis != null) {
+            if (tardis.getExteriorType() == EnumExteriorType.BASIC_BOX) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.MINT_BOX) {
+                this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
+            } else {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.CORAL_BOX) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.POSTER_BOX) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.BAKER_BOX) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.TYPE_40_TT_CAPSULE) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.HELLBENT_TT_CAPSULE) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.ARCADE_CABINET_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.CUSHING_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.CLASSIC_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.HARTNELL_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.HUDOLIN_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.TX3_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.TARDIM_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.SHALKA_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.BOOTH_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.STEVE_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+            }
+            if (tardis.getExteriorType() == EnumExteriorType.RANI_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
+            System.out.println(tardis.getExteriorType());
+        }
+    }*/
 
     @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         this.renderBackground(matrixStack);
+        this.renderTardisSelection(matrixStack);
         super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
     }
 
     @Override
     public void renderBackground(MatrixStack pMatrixStack) {
-        super.renderBackground(pMatrixStack);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bind(MONITOR_GUI);
         int i = (this.width - this.imageWidth) / 2;
@@ -46,22 +125,31 @@ public class MonitorScreen extends Screen {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         this.addButton(
-                new Button (i + 150, j + 55, 20, 20,
+                new Button (i + 207, j + 60, 20, 20,
                         new StringTextComponent(">"),
-                        (button) -> onPressLeftButton()));
-        this.addButton(
-                new Button (i + 5, j + 55, 20, 20,
-                        new StringTextComponent("<"),
                         (button) -> onPressRightButton()));
+        this.addButton(
+                new Button (i + 5, j + 60, 20, 20,
+                        new StringTextComponent("<"),
+                        (button) -> onPressLeftButton()));
+    }
+
+    public void renderTardisSelection(MatrixStack matrixStack) {
+        matrixStack.pushPose();
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.minecraft.getTextureManager().bind(SelectedTardis);
+        int i = (this.width - 64);
+        int j = (this.height - 64);
+        matrixStack.scale(0.5f, 0.5f, 0.5f);
+        this.blit(matrixStack, i  + 16, j - 64, 0, 0, 256, 256);
+        matrixStack.popPose();
     }
 
     private void onPressRightButton() {
-
+        NetworkHandler.CHANNEL.sendToServer(new TardisMonitorC2SExteriorChangePacket(this.tardisID, true));
     }
 
     private void onPressLeftButton() {
-
+        NetworkHandler.CHANNEL.sendToServer(new TardisMonitorC2SExteriorChangePacket(this.tardisID, false));
     }
-
-
 }

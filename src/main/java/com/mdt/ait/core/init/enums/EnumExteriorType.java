@@ -20,7 +20,14 @@ public enum EnumExteriorType implements IStringSerializable {
     CUSHING_EXTERIOR("cushing_exterior", TardisTileEntity::new),
     CLASSIC_EXTERIOR("classic_exterior", TardisTileEntity::new),
     HARTNELL_EXTERIOR("hartnell_exterior", TardisTileEntity::new),
-    HUDOLIN_EXTERIOR("hudolin_exterior", TardisTileEntity::new);
+    HUDOLIN_EXTERIOR("hudolin_exterior", TardisTileEntity::new),
+    TX3_EXTERIOR("tx3_exterior", TardisTileEntity::new),
+    TARDIM_EXTERIOR("tardim_exterior", TardisTileEntity::new),
+    SHALKA_EXTERIOR("shalka_exterior", TardisTileEntity::new),
+    BOOTH_EXTERIOR("booth_exterior", TardisTileEntity::new),
+    STEVE_EXTERIOR("steve_exterior", TardisTileEntity::new),
+    FALLOUT_SHELTER_EXTERIOR("fallout_shelter_exterior", TardisTileEntity::new),
+    RANI_EXTERIOR("rani_exterior", TardisTileEntity::new);
 
     public final Supplier<TardisTileEntity> tileEntity;
     public final String name;

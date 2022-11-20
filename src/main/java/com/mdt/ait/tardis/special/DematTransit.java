@@ -2,6 +2,7 @@ package com.mdt.ait.tardis.special;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.entities.ControlInteractionEntity;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
@@ -30,6 +31,8 @@ public class DematTransit {
 
     public BlockPos leverPos;
 
+    public ControlInteractionEntity leverControl;
+
     public BlockPos landingPosition;
 
     public BlockState newBlockState;
@@ -49,6 +52,7 @@ public class DematTransit {
     public int finalTardisY;
     public int finalTardisZ;
     public int finalTardisTicker;
+    public boolean areGoingCrossDimensionally = false;
 
     public DematTransit(UUID tardisID) {
         this.tardisID = tardisID;
@@ -56,13 +60,21 @@ public class DematTransit {
 
     public int runTransitFormula() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        tardisX = tardis.exterior_position.getX() * 3;
-        tardisY = tardis.exterior_position.getY() * 3;
-        tardisZ = tardis.exterior_position.getZ() * 3;
+        tardisX = tardis.exterior_position.getX() - tardis.targetPosition.getX();
+        tardisY = tardis.exterior_position.getY() - tardis.targetPosition.getY();
+        tardisZ = tardis.exterior_position.getZ() - tardis.targetPosition.getZ();
         finalTardisX = abs(tardisX);
         finalTardisY = abs(tardisY);
         finalTardisZ = abs(tardisZ);
-        finalTardisTicker = Math.min(finalTardisX + finalTardisY + finalTardisZ, 2400);
+        if(tardis.exterior_dimension == tardis.target_dimension) {
+            finalTardisTicker = Math.min((finalTardisX + finalTardisY + finalTardisZ) * 10, 2400);
+        } else {
+            finalTardisTicker = Math.min(((finalTardisX + finalTardisY + finalTardisZ) * 10) + 600, 2400);
+        }
+        //if (tardis.target_dimension != tardis.exterior_dimension) {
+        //    finalTardisTicker = (int) Math.sqrt(tardis.targetPosition.getX() ^ 2 + tardis.targetPosition.getZ() ^ 2) * 100;
+        //}
+        //finalTardisTicker = (int) Math.sqrt(tardis.targetPosition.getX()^2+tardis.targetPosition.getZ()^2);
         return finalTardisTicker;
     }
 
@@ -70,8 +82,11 @@ public class DematTransit {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         // 400 ticks = 20 seconds
         // 100 ticks = 5 seconds
-        System.out.println(runTransitFormula() / 20);
-        return 100;//runTransitFormula(); // @TODO: LOQOR MAKE A FORMULA FOR THIS
+        System.out.println(runTransitFormula());
+        if(runTransitFormula() >= 2400) {
+            System.out.println("TransitFormula is at max! 2 Minutes!");
+        }
+        return runTransitFormula(); // @TODO: LOQOR MAKE A FORMULA FOR THIS
     }
 
     public void finishedDematAnimation() {
@@ -135,6 +150,7 @@ public class DematTransit {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
+        ServerWorld tardisDimension = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         assert oldDimension != null;
         BlockState oldBlockState = oldDimension.getBlockState(tardis.exterior_position);
         TardisTileEntity oldTardisTileEntity = (TardisTileEntity) oldDimension.getBlockEntity(tardis.exterior_position);
@@ -142,6 +158,7 @@ public class DematTransit {
         this.newBlockState = oldBlockState.setValue(TardisBlock.isExistingTardis, true).setValue(TardisBlock.FACING, tardis.target_facing_direction);
         assert newDimension != null;
         ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, newDimension.getChunk(tardis.exterior_position).getPos().x, newDimension.getChunk(tardis.exterior_position).getPos().z, true, true);
+        ForgeChunkManager.forceChunk(tardisDimension, AIT.MOD_ID, tardis.interior_door_position, tardisDimension.getChunk(tardis.interior_door_position).getPos().x, tardisDimension.getChunk(tardis.interior_door_position).getPos().z, true, true);
         oldDimension.removeBlock(tardis.exterior_position, false);
         readyForDemat = true;
         // pass or something idk
