@@ -1,6 +1,9 @@
-package com.mdt.ait.client.models.exteriors;
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.1
+// Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
+// Paste this class into your mod and generate all required imports
 
 
+import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -8,6 +11,7 @@ import net.minecraft.entity.Entity;
 
 public class HellBentTTCapsuleExterior extends BasicBox {
 	public final ModelRenderer box;
+	public final ModelRenderer boti;
 	public final ModelRenderer frame;
 	public final ModelRenderer bone37;
 	public final ModelRenderer bone38;
@@ -65,7 +69,12 @@ public class HellBentTTCapsuleExterior extends BasicBox {
 
 		box = new ModelRenderer(this);
 		box.setPos(0.0F, 24.0F, 0.0F);
-		box.texOffs(80, 130).addBox(-9.0F, -36.0F, -1.0F, 18.0F, 34.0F, 2.0F, 0.0F, false);
+		
+
+		boti = new ModelRenderer(this);
+		boti.setPos(0.0F, 0.0F, 0.0F);
+		box.addChild(boti);
+		boti.texOffs(80, 130).addBox(-9.0F, -36.0F, -1.0F, 18.0F, 34.0F, 2.0F, 0.0F, false);
 
 		frame = new ModelRenderer(this);
 		frame.setPos(0.0F, 0.0F, 0.0F);
