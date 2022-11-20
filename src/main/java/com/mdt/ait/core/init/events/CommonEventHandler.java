@@ -9,6 +9,7 @@ import com.mdt.ait.common.blocks.RampBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.TypewriterTile;
+import com.mdt.ait.core.init.AITDimensionTypes;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
@@ -147,11 +148,15 @@ public class CommonEventHandler {
                     && (world.getBlockState(bPos7).getBlock() instanceof SoulSandBlock)
                     && (world.getBlockState(bPos8).getBlock() instanceof SoulSandBlock)
                     //&& (world.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)
-                    && world.canSeeSky(blockPos)) {
+                    && world.canSeeSky(blockPos) && world != AITDimensions.TARDIS_DIMENSION) {
                 event.setCanceled(false);
             } else {
                 event.setCanceled(true);
-                p.sendMessage(new TranslationTextComponent("You can't grow this on here!"), UUID.randomUUID());
+                if(world == AITDimensions.TARDIS_DIMENSION) {
+                    p.sendMessage(new TranslationTextComponent("You can't grow a TARDIS in a TARDIS!"), UUID.randomUUID());
+                } else {
+                    p.sendMessage(new TranslationTextComponent("You can't grow this on here!"), UUID.randomUUID());
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.2.4
 // Paste this class into your mod and generate all required imports
 
 
+import com.mdt.ait.common.blocks.FallingTardisEntity;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -78,5 +79,9 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 
 	public void render(TardisTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
 		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, tile.getAlpha());
+	}
+
+	public void renderFalling(FallingTardisEntity tardisEntity, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
+		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1);
 	}
 }

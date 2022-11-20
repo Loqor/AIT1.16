@@ -6,10 +6,7 @@ import com.mdt.ait.common.entities.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.BoatEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -35,9 +32,6 @@ public class AITEntities {
     public static final RegistryObject<EntityType<DeloreanEntity>> DELOREAN = ENTITIES.register(
             "delorean", () -> EntityType.Builder.of(DeloreanEntity::new, EntityClassification.MISC).sized(2.5f, 1.5f).build(
                     new ResourceLocation(AIT.MOD_ID, "delorean").toString()));
-    /*public static final RegistryObject<EntityType<FallingTardisEntity>> FALLING_TARDIS_ENTITY = ENTITIES.register(
-            "falling_tardis_entity", () -> EntityType.Builder.of(FallingTardisEntity::new, EntityClassification.MISC).sized(0, 0).build(
-                    new ResourceLocation(AIT.MOD_ID, "falling_tardis_entity").toString()));*/
     public static final RegistryObject<EntityType<ControlInteractionEntity>> THROTTLE_INTERACTION_ENTITY = ENTITIES.register(
             "throttle_interaction_entity", () -> EntityType.Builder.of(ControlInteractionEntity::new, EntityClassification.AMBIENT)
                     .sized(0.1875f, 0.1875f).build(
@@ -70,4 +64,7 @@ public class AITEntities {
             "exterior_facing_interaction_entity", () -> EntityType.Builder.of(ControlInteractionEntity::new, EntityClassification.AMBIENT)
                     .sized(ControlInteractionEntity.xSize(), ControlInteractionEntity.ySize()).build(
                             new ResourceLocation(AIT.MOD_ID, "exterior_facing_interaction_entity").toString()));
+    public static final RegistryObject<EntityType<FallingTardisEntity>> FALLING_TARDIS_ENTITY = ENTITIES.register(
+            "falling_tardis_entity", () -> EntityType.Builder.of(FallingTardisEntity::new, EntityClassification.AMBIENT).sized(0.125f, 0.125f).build(
+                    new ResourceLocation(AIT.MOD_ID, "falling_tardis_entity").toString()));
 }

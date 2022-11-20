@@ -11,6 +11,7 @@ import com.mdt.ait.client.renderers.entity.*;
 import com.mdt.ait.client.renderers.layers.*;
 import com.mdt.ait.client.renderers.machines.DeloreanRenderer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
+import com.mdt.ait.client.renderers.tardis.FallingTardisRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
 import com.mdt.ait.common.entities.LaserShotEntity;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
@@ -158,7 +159,7 @@ public class AITClientRegistry {
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
-        //RenderingRegistry.registerEntityRenderingHandler(AITEntities.FALLING_TARDIS_ENTITY.get(), BasicBoxRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.FALLING_TARDIS_ENTITY.get(), FallingTardisRenderer::new);
 
         //Machinery
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.DELOREAN.get(), DeloreanRenderer::new);
