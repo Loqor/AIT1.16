@@ -14,6 +14,9 @@ import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
+import com.qouteall.immersive_portals.api.PortalAPI;
+import com.qouteall.immersive_portals.portal.Portal;
+import com.qouteall.immersive_portals.portal.PortalManipulation;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -25,6 +28,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -34,13 +38,18 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.UUID;
 
@@ -54,6 +63,8 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public float rightDoorRotation = 0;
 
     public UUID tardisID;
+    protected Portal portal;
+    protected UUID portalUUID;
     public Tardis linked_tardis;
     protected EnumDoorState currentstate = CLOSED;
     public EnumDoorState previousstate = CLOSED;
@@ -67,6 +78,35 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         return this.currentstate;
     }
 
+    public void setPortal(Portal portal) {
+        if (portal != null) {
+            this.portal = PortalManipulation.completeBiWayPortal(portal, Portal.entityType);
+            //PortalAPI.spawnServerEntity(this.portal);
+            //if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH) {
+            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 0, true));
+            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 0, true);
+            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() - 1.1));
+            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH) {
+            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 0, true));
+            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 0, true);
+            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.1));
+            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST) {
+            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 90, true));
+            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 90, true);
+            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - 1.1, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.5));
+            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) {
+            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, -90, true));
+            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 180, true);
+            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.9, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.5));
+            //}
+            //PortalManipulation.rotatePortalBody(this.portal, linked_tardis.exterior_facing.getRotation());
+            this.portal.reloadAndSyncToClient();
+            syncToClient();
+        }
+    }
+
+
+
     public EnumDoorState getNextDoorState() {
         switch (currentstate) {
             case CLOSED:
@@ -79,6 +119,10 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 return CLOSED;
         }
         return CLOSED;
+    }
+
+    public Direction getFacing() {
+       return this.getBlockState().getValue(BasicInteriorDoorBlock.FACING);
     }
 
     public void setLockedState(Boolean lockedState, EnumDoorState state) {
@@ -171,43 +215,55 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     @Override public void tick() {
-        AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
-        aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
-        this.level.getEntities(null, aabb).forEach(this::entityInside);
+        if(this.isRemoved()) {
+            this.portal.remove();
+        }
+        //AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
+        //aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
+        //this.level.getEntities(null, aabb).forEach(this::entityInside);
 
         if (currentState() != previousstate) {
             rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
             leftDoorRotation = currentState() == FIRST ? 0.0f : (currentState() == BOTH ? 0.0f : 87.5f);
         }
-        /*if (currentState() != CLOSED) {
-            if (rightDoorRotation < 87.5f) {
-                rightDoorRotation += 5.0f;
-            } else {
-                rightDoorRotation = 87.5f;
-            }
-            if (currentState() == BOTH) {
-                if (leftDoorRotation < 87.5f) {
-                    leftDoorRotation += 5.0f;
-                } else {
-                    leftDoorRotation = 87.5f;
+        if(linked_tardis != null) {
+            if (linked_tardis.exterior_dimension != null) {
+                ServerWorld world = AIT.server.getLevel(linked_tardis.exterior_dimension);
+                if (this.getLevel() != null) {
+                    if (!this.getLevel().isClientSide) {
+                        if (this.portal == null) {
+                            if (this.portalUUID != null) {
+                                ServerWorld serverworld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                                this.portal = (Portal) serverworld.getEntity(this.portalUUID);
+                            }
+                        } else if (this.getLevel().getEntity(this.portal.getId()) == null) {
+                            ServerWorld tardisexteriordim = AIT.server.getLevel(linked_tardis.exterior_dimension);
+                            ServerWorld tardisinteriordim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                            ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
+                            ForgeChunkManager.forceChunk(tardisexteriordim, AIT.MOD_ID, this.getBlockPos(), chunkPos.x, chunkPos.z, true, true);
+                            ForgeChunkManager.forceChunk(tardisinteriordim, AIT.MOD_ID, linked_tardis.interior_door_position, chunkPos.x, chunkPos.z, true, true);
+                            PortalAPI.spawnServerEntity(this.portal);
+                            syncToClient();
+                        }
+                        if (this.portal != null) {
+                            TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(linked_tardis.exterior_position);
+                            if (tardisTileEntity != null) {
+                                if (tardisTileEntity != null) {
+                                    this.portal.setDestination(new Vector3d(linked_tardis.exterior_position.getX(), linked_tardis.exterior_position.getY(), linked_tardis.exterior_position.getZ()));
+                                }
+                            }
+                        }
+                        if (this.currentstate == CLOSED) {
+                            if (this.portal != null) {
+                                this.portal.remove();
+                                this.portal = null;
+                                this.portalUUID = null;
+                            }
+                        }
+                    }
                 }
             }
-        } else {
-            if (leftDoorRotation > 0.0f && rightDoorRotation > 0.0f) {
-                leftDoorRotation -= 15.0f;
-                rightDoorRotation -= 15.0f;
-            }
         }
-        if(currentState() == CLOSED) {
-            if(leftDoorRotation == -2.5f) {
-                leftDoorRotation = 0.0f;
-            }
-            if(rightDoorRotation == -2.5f) {
-                rightDoorRotation = 0.0f;
-            }
-        }
-        //System.out.println("Right Door Rotation: "+ rightDoorRotation + " || " + "Left Door Rotation: " + leftDoorRotation);
-        previousstate = currentState();*/
 
         if (currentState() != CLOSED) {
             if (rightDoorRotation < 87.5f) {
@@ -239,25 +295,42 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         previousstate = currentState();
     }
 
+    @Override public void setRemoved() {
+        super.setRemoved();
+        if (this.portal != null) {
+            this.portal.remove();
+            this.portal = null;
+            this.portalUUID = null;
+        }
+        if(this.getLevel() != null) {
+            if(!this.getLevel().isClientSide) {
+                ServerWorld overworld = (ServerWorld) this.getLevel();
+                ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
+                ForgeChunkManager.forceChunk(overworld, AIT.MOD_ID, this.getBlockPos(), chunkPos.x, chunkPos.z, false, false);
+            }
+        }
+        syncToClient();
+    }
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
     }
 
-    private void entityInside(Entity entity) {
-        World world = entity.level;
-        if (!world.isClientSide()) {
-            if (linked_tardis != null) {
-                if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
-                    ServerWorld exteriorWorld = AIT.server.getLevel(linked_tardis.exterior_dimension);
-                    assert exteriorWorld != null;
-                    ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.exterior_position, 0, 0, true, true);
-                    linked_tardis.teleportToExterior((PlayerEntity) entity);
-                    syncToClient();
-                }
-            }
-        }
-    }
+    //private void entityInside(Entity entity) {
+    //    World world = entity.level;
+    //    if (!world.isClientSide()) {
+    //        if (linked_tardis != null) {
+    //            if (currentstate != CLOSED && entity instanceof ServerPlayerEntity) {
+    //                ServerWorld exteriorWorld = AIT.server.getLevel(linked_tardis.exterior_dimension);
+    //                assert exteriorWorld != null;
+    //                ForgeChunkManager.forceChunk(exteriorWorld, AIT.MOD_ID, linked_tardis.exterior_position, 0, 0, true, true);
+    //                linked_tardis.teleportToExterior((PlayerEntity) entity);
+    //                syncToClient();
+    //            }
+    //        }
+    //    }
+    //}
 
     public Tardis getInteriorID() {
         return linked_tardis;
@@ -310,6 +383,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     @Override public void load(BlockState pState, CompoundNBT nbt) {
+        if(nbt.contains("portalID")) {
+            this.portalUUID = nbt.getUUID("portalID");
+        }
         System.out.println("Door load");
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentState")];
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
@@ -320,6 +396,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         super.load(pState, nbt);
     }
     @Override public CompoundNBT save(CompoundNBT nbt) {
+        if(this.portal != null) {
+            nbt.putUUID("portalID", this.portal.getUUID());
+        }
         System.out.println("Door save");
         nbt.putInt("currentState", this.currentstate.ordinal());
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);

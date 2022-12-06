@@ -30,6 +30,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
         this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));

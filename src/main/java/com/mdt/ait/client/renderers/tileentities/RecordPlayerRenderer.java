@@ -25,7 +25,21 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class RecordPlayerRenderer extends TileEntityRenderer<RecordPlayerTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player.png");
+    public static final ResourceLocation ORIGINAL = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player.png");
+    public static final ResourceLocation THIRTEEN_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_13.png");
+    public static final ResourceLocation CAT_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_cat.png");
+    public static final ResourceLocation BLOCKS_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_blocks.png");
+    public static final ResourceLocation CHIRP_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_chirp.png");
+    public static final ResourceLocation FAR_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_far.png");
+    public static final ResourceLocation MALL_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_mall.png");
+    public static final ResourceLocation MELLOHI_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_mellohi.png");
+    public static final ResourceLocation STAL_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_stal.png");
+    public static final ResourceLocation STRAD_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_strad.png");
+    public static final ResourceLocation WARD_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_ward.png");
+    public static final ResourceLocation ELEVEN_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_11.png");
+    public static final ResourceLocation WAIT_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_wait.png");
+    public static final ResourceLocation PIGSTEP_RECORD = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/record_player_pigstep.png");
+    private ResourceLocation texture;
     public RecordPlayer model;
     private final TileEntityRendererDispatcher rendererDispatcher;
     net.minecraft.client.renderer.ItemRenderer itemRenderer;
@@ -39,6 +53,7 @@ public class RecordPlayerRenderer extends TileEntityRenderer<RecordPlayerTile> {
         super(rendererDispatcherIn);
         this.model = new RecordPlayer();
         this.rendererDispatcher = rendererDispatcherIn;
+        this.texture = ORIGINAL;
     }
 
     public void mathy(RecordPlayerTile tile) {
@@ -93,18 +108,72 @@ public class RecordPlayerRenderer extends TileEntityRenderer<RecordPlayerTile> {
         if(facing == Direction.EAST || facing == Direction.WEST) {
             matrixStack.mulPose(Vector3f.ZN.rotationDegrees(rotatethex));
         }
-        ItemStack stack = new ItemStack(Items.MUSIC_DISC_PIGSTEP);
-        if(tile.playerState == EnumRecordPlayerState.PLAYING && tile.pigstepRecord) {
+        if(tile.playerState == EnumRecordPlayerState.PLAYING && tile.isHasRecord) {
             this.model.needle.yRot = (float) Math.toRadians(tile.needleState);
             this.model.record.yRot = (float) Math.toRadians(tile.spindisc);
-            this.renderItem(stack, new double[] {xposface, yposface, zposface},
+            //13
+            if(tile.record == Items.MUSIC_DISC_13) {
+                this.texture = THIRTEEN_RECORD;
+            }
+            //cat
+            if(tile.record == Items.MUSIC_DISC_CAT) {
+                this.texture = CAT_RECORD;
+            }
+            //blocks
+            if(tile.record == Items.MUSIC_DISC_BLOCKS) {
+                this.texture = BLOCKS_RECORD;
+            }
+            //chirp
+            if(tile.record == Items.MUSIC_DISC_CHIRP) {
+                this.texture = CHIRP_RECORD;
+            }
+            //far
+            if(tile.record == Items.MUSIC_DISC_FAR) {
+                this.texture = FAR_RECORD;
+            }
+            //mall
+            if(tile.record == Items.MUSIC_DISC_MALL) {
+                this.texture = MALL_RECORD;
+            }
+            //mellohi
+            if(tile.record == Items.MUSIC_DISC_MELLOHI) {
+                this.texture = MELLOHI_RECORD;
+            }
+            //stal
+            if(tile.record == Items.MUSIC_DISC_STAL) {
+                this.texture = STAL_RECORD;
+            }
+            //strad
+            if(tile.record == Items.MUSIC_DISC_STRAD) {
+                this.texture = STRAD_RECORD;
+            }
+            //ward
+            if(tile.record == Items.MUSIC_DISC_WARD) {
+                this.texture = WARD_RECORD;
+            }
+            //11
+            if(tile.record == Items.MUSIC_DISC_11) {
+                this.texture = ELEVEN_RECORD;
+            }
+            //wait
+            if(tile.record == Items.MUSIC_DISC_WAIT) {
+                this.texture = WAIT_RECORD;
+            }
+            //pigstep
+            if(tile.record == Items.MUSIC_DISC_PIGSTEP) {
+                this.texture = PIGSTEP_RECORD;
+            }
+            /*this.renderItem(stack, new double[] {xposface, yposface, zposface},
                     Vector3f.YN.rotationDegrees(rotatedisc), matrixStack, buffer, PartialTicks,
-                    CombinedOverlay, CombinedLight, 1.5f);
+                    CombinedOverlay, CombinedLight, 1.5f);*/
+        } else {
+            this.texture = ORIGINAL;
+            this.model.needle.yRot = 0;
         }
         matrixStack.popPose();
         matrixStack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(RecordPlayerBlock.FACING).toYRot()));
-        IVertexBuilder vertexBuffer = buffer.getBuffer(RenderType.entityTranslucent(this.LOCATION));
+        IVertexBuilder vertexBuffer = buffer.getBuffer(RenderType.entityTranslucent(this.texture));
         model.render(tile, matrixStack, vertexBuffer, CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         matrixStack.popPose();
     }

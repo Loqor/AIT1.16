@@ -11,6 +11,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class AITItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, AIT.MOD_ID);
@@ -89,6 +91,9 @@ public class AITItems {
 
     public static final RegistryObject<AngelWingsItem> ANGEL_WINGS = ITEMS.register(
             "angel_wings", () -> new AngelWingsItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS).defaultDurability(864).fireResistant()));
+
+    public static final RegistryObject<FourthsScarfArmorItem> FOURTHS_SCARF = ITEMS.register(
+            "fourths_scarf", () -> new FourthsScarfArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.CHEST, new Item.Properties().tab(AITItemGroups.AITCOSMETICS)));
 
     //Sonic Screwdrivers
     public static final RegistryObject<SonicItem> TENNANT_SONIC = ITEMS.register(

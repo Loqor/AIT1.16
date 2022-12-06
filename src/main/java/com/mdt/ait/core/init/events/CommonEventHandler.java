@@ -70,7 +70,7 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public void onPlayerMine(BlockEvent.BreakEvent event) {
-        if (event.getState().getBlock() instanceof ICantBreak) {
+        if (event.getState().getBlock() instanceof ICantBreak && AIT.server.getLevel(event.getPlayer().level.dimension()) != event.getWorld()) {
             event.setCanceled(true);
         }
     }

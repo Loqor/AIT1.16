@@ -67,4 +67,7 @@ public class AITEntities {
     public static final RegistryObject<EntityType<FallingTardisEntity>> FALLING_TARDIS_ENTITY = ENTITIES.register(
             "falling_tardis_entity", () -> EntityType.Builder.of(FallingTardisEntity::new, EntityClassification.AMBIENT).sized(0.125f, 0.125f).build(
                     new ResourceLocation(AIT.MOD_ID, "falling_tardis_entity").toString()));
+    /*public static final RegistryObject<EntityType<CustomPortalEntity>> CUSTOM_PORTAL_ENTITY = ENTITIES.register(
+            "custom_portal_entity", () -> EntityType.Builder.of(CustomPortalEntity::new,EntityClassification.MISC).build(
+                    new ResourceLocation(AIT.MOD_ID, "custom_portal_entity").toString()));*/
 }

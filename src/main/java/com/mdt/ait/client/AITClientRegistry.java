@@ -140,7 +140,7 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BOOTH_EXTERIOR, BoothExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.STEVE_EXTERIOR, SteveExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.FALLOUT_SHELTER_EXTERIOR, FalloutShelterExterior::new);
-
+        TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CLOCK_EXTERIOR, ClockExterior::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.BOREALIS_CONSOLE, BorealisConsole::new);
 
@@ -160,7 +160,7 @@ public class AITClientRegistry {
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.FALLING_TARDIS_ENTITY.get(), FallingTardisRenderer::new);
-
+        //RenderingRegistry.registerEntityRenderingHandler(AITEntities.CUSTOM_PORTAL_ENTITY.get(), CustomPortalRenderer::new);
         //Machinery
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.DELOREAN.get(), DeloreanRenderer::new);
 
@@ -171,6 +171,7 @@ public class AITClientRegistry {
             renderPlayer.addLayer(new MessengerBagModelLayer<>(renderPlayer));
             renderPlayer.addLayer(new ThreeDGlassesModelLayer<>(renderPlayer));
             renderPlayer.addLayer(new AngelWingsModelLayer<>(renderPlayer));
+            renderPlayer.addLayer(new FourthsScarfModelLayer<>(renderPlayer));
         }
     }
 
