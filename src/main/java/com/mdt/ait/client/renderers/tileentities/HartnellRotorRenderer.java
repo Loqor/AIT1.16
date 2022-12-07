@@ -61,14 +61,16 @@ public class HartnellRotorRenderer extends TileEntityRenderer<HartnellRotorTile>
             } else {
                 tile.rotorTick = 0.0f;
                 tile.currentstate = EnumRotorState.MOVING;
+                }
             }
-        }
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(HartnellRotorBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
+        //if(tile.isInFlight) {
+            MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
+        //}
         MatrixStackIn.pushPose();
         model.rotor.yRot = (float) Math.toRadians(tile.spinny / 64);
         model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);

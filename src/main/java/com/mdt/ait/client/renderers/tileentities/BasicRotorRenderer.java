@@ -36,7 +36,6 @@ public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
     @Override
     public void render(BasicRotorTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         //tile.rotorTick = tile.currentState() == EnumRotorState.MOVING ? 0.0f : 0.8f;
-        //if(tile.isTardisInFlight()) {
             ++tile.spinny;
             if (tile.currentState() == EnumRotorState.MOVING) {
                 if (tile.rotorTick < 0.8f/*1.5f*/) {
@@ -54,7 +53,6 @@ public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
                     tile.currentstate = EnumRotorState.MOVING;
                 }
             }
-        //}
         //System.out.println(tile.rotorTick);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 0, 0.5);
@@ -62,7 +60,9 @@ public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicRotorBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
+        //if(tile.isInFlight) {
+            MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
+        //}
         MatrixStackIn.pushPose();
         model.rotor.yRot = (float) Math.toRadians(tile.spinny / 64);
         model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);

@@ -39,6 +39,7 @@ public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
     public float setRotorTick = 0;
     private int __dontUse = 0;
     public boolean isLoaded = false;
+    public boolean isInFlight;
     public EnumRotorState currentstate = EnumRotorState.STATIC;
     public float spinny = 0;
 
@@ -50,38 +51,20 @@ public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
         super(AITTiles.BASIC_ROTOR_TILE_ENTITY_TYPE.get());
     }
 
-    public void getFlightState() {
-        //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        //ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        //assert world != null;
-        //TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(tardis.exterior_position);
-        //assert tardisTileEntity != null;
-        //if(tardisTileEntity.getMatState() != EnumMatState.SOLID) {
-        //if(rotorTick >= 0) {
-        //        rotorTick -= 1;
-        //} else {
-        //    rotorTick = setRotorTick;
-        //}
-        //if(rotorTick <= -10) {
-        //    rotorTick += 1;
-        //}
-    }
-
-    /*public boolean isTardisInFlight() {
-        boolean isFlight = false;
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
-        assert exteriorWorld != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(tardis.exterior_position);
-        if(tardisTileEntity.matState != EnumMatState.SOLID || tardisTileEntity == null) {
-            isFlight = true;
-        }
-        return isFlight;
-    }*/
-
     @Override
     public void tick() {
-
+        if(this.tardisID != null) {
+            if (this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    if(!tardis.landed) {
+                        isInFlight = true;
+                    } else {
+                        isInFlight = false;
+                    }
+                }
+            }
+        }
     }
 
     @Override

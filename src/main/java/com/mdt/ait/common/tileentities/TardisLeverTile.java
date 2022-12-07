@@ -86,20 +86,26 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     }
 
     public void changeMatStateFromLever() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-        assert world != null;
-        assert tardisWorld != null;
-        if(leverState == EnumLeverState.ACTIVE) {
-            if (AIT.tardisManager.doesTardisHaveATargetLocation(tardisID)) {
-                tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
-                this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardisID);
-                if(this.dematTransit.leverPos != this.worldPosition) {
-                    this.dematTransit.leverPos = getBlockPos();
+        if(this.tardisID != null) {
+            if(this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+                    ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                    assert world != null;
+                    assert tardisWorld != null;
+                    if (leverState == EnumLeverState.ACTIVE) {
+                        if (AIT.tardisManager.doesTardisHaveATargetLocation(tardisID)) {
+                            tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
+                            this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardisID);
+                            if (this.dematTransit.leverPos != this.worldPosition) {
+                                this.dematTransit.leverPos = getBlockPos();
+                            }
+                        } else {
+                            leverState = EnumLeverState.DEACTIVE;
+                        }
+                    }
                 }
-            } else {
-                leverState = EnumLeverState.DEACTIVE;
             }
         }
     }
@@ -122,16 +128,23 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         }
         if (this.dematTransit != null) {
             if (this.dematTransit.finished) {
-                ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                assert serverWorld != null;
-                PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
-                this.dematTransit.finished = false;
-                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                tardis.landed = true;
-                this.dematTransit = null;
-                this.leverState = EnumLeverState.DEACTIVE;
-                if(tardis.landed != false) {
-                    tardis.landed = false;
+                if(this.tardisID != null) {
+                    if (this.getLevel() != null) {
+                        if (!this.getLevel().isClientSide()) {
+                            ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                            assert serverWorld != null;
+                            PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
+                            this.dematTransit.finished = false;
+                            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                            tardis.landed = true;
+                            this.dematTransit = null;
+                            this.leverState = EnumLeverState.DEACTIVE;
+                            if (tardis.landed != false) {
+                                tardis.landed = false;
+                            }
+                            syncToClient();
+                        }
+                    }
                 }
                 syncToClient();
             }
@@ -139,7 +152,6 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         }
         if(leverState == EnumLeverState.ACTIVE) {
             if (this.dematTransit != null) {
-
                 if (this.dematTransit.readyForDemat) {
                     ServerWorld serverWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                     assert serverWorld != null;

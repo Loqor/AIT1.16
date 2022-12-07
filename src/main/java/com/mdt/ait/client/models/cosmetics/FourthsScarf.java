@@ -10,19 +10,19 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class FourthsScarf extends EntityModel<Entity> {
-	private final ModelRenderer scarf;
+	private final ModelRenderer bone;
 
 	public FourthsScarf() {
-		texWidth = 64;
-		texHeight = 64;
+		texWidth = 24;
+		texHeight = 16;
 
-		scarf = new ModelRenderer(this);
-		scarf.setPos(0.0F, 23.75F, 0.0F);
-		scarf.texOffs(0, 0).addBox(-5.0F, -24.0F, -2.5F, 10.0F, 0.0F, 5.0F, 0.0F, false);
-		scarf.texOffs(44, 40).addBox(-5.0F, -24.0F, -2.5F, 10.0F, 24.0F, 0.0F, 0.0F, false);
-		scarf.texOffs(44, 0).addBox(-5.0F, -24.0F, 2.5F, 10.0F, 24.0F, 0.0F, 0.0F, false);
-		scarf.texOffs(0, 35).addBox(-5.0F, -24.0F, -2.5F, 0.0F, 24.0F, 5.0F, 0.0F, false);
-		scarf.texOffs(11, 35).addBox(5.0F, -24.0F, -2.5F, 0.0F, 24.0F, 5.0F, 0.0F, false);
+		bone = new ModelRenderer(this);
+		bone.setPos(0.0F, 24.0F, 0.5F);
+		bone.texOffs(0, 0).addBox(-4.0F, -24.0F, -2.5F, 8.0F, 0.0F, 4.0F, 0.001F, false);
+		bone.texOffs(4, 4).addBox(-4.0F, -24.0F, -2.5F, 8.0F, 12.0F, 0.0F, 0.005F, false);
+		bone.texOffs(8, 4).addBox(-4.0F, -24.0F, 1.5F, 8.0F, 2.0F, 0.0F, 0.003F, false);
+		bone.texOffs(0, 0).addBox(-4.0F, -24.0F, -2.5F, 0.0F, 2.0F, 4.0F, 0.002F, false);
+		bone.texOffs(9, 0).addBox(4.0F, -24.0F, -2.5F, 0.0F, 2.0F, 4.0F, 0.004F, false);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class FourthsScarf extends EntityModel<Entity> {
 
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		scarf.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		bone.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

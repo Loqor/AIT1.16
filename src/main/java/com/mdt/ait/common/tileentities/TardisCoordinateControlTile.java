@@ -75,14 +75,20 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public void onPlace() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        xPos = tardis.exterior_position.getX();
-        yPos = tardis.exterior_position.getY();
-        zPos = tardis.exterior_position.getZ();
-        currentCoordinateDirectionState = coordinateBlockDirectionState();
-        this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
-        changePositionFromControl();
-        syncToClient();
+        if(this.tardisID != null) {
+            if (this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    xPos = tardis.exterior_position.getX();
+                    yPos = tardis.exterior_position.getY();
+                    zPos = tardis.exterior_position.getZ();
+                    currentCoordinateDirectionState = coordinateBlockDirectionState();
+                    this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
+                    changePositionFromControl();
+                    syncToClient();
+                }
+            }
+        }
     }
 
     public EnumCoordinatePosNegState getNextPosNegState() {
@@ -264,13 +270,17 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     @Override
     public void tick() {
         if(this.tardisID != null) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            if (tardis.landed != false) {
-                xPos = tardis.exterior_position.getX();
-                yPos = tardis.exterior_position.getY();
-                zPos = tardis.exterior_position.getZ();
-                //currentCoordinateDirectionState = coordinateBlockDirectionState();
-                syncToClient();
+            if(this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    if (tardis.landed != false) {
+                        xPos = tardis.exterior_position.getX();
+                        yPos = tardis.exterior_position.getY();
+                        zPos = tardis.exterior_position.getZ();
+                        //currentCoordinateDirectionState = coordinateBlockDirectionState();
+                        syncToClient();
+                    }
+                }
             }
         }
     }

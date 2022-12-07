@@ -106,6 +106,12 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
     @Override
     public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+        BlockPos belowTardis = tile.getBlockPos().below(1);
+        if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
+            MatrixStackIn.translate(0, +tile.upDown, 0);
+        } else {
+            MatrixStackIn.translate(0, 0, 0);
+        }
         //ServerWorld level = AIT.server.getLevel(tile.linked_tardis.exterior_dimension);
         /*if(AIT.tardisManager.getBlockUnderTardis(tile.linked_tardis_id, level)) {
             if (tile.currentfloatstate == EnumRotorState.MOVING) {
@@ -529,28 +535,6 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-        BlockPos belowTardis = tile.getBlockPos().below(1);
-        if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
-            if (tile.currentfloatstate == EnumRotorState.MOVING) {
-                if (tile.upDown < 0.55f/*1.5f*/) {
-                    tile.upDown += 0.001953125f;
-                } else {
-                    tile.upDown = 0.55f/*1.5f*/;
-                    tile.currentfloatstate = EnumRotorState.STATIC;
-                }
-            }
-            if (tile.currentfloatstate == EnumRotorState.STATIC) {
-                if (tile.upDown > 0.0f) {
-                    tile.upDown -= 0.001953125f;
-                } else {
-                    tile.upDown = 0.0f;
-                    tile.currentfloatstate = EnumRotorState.MOVING;
-                }
-            }
-            MatrixStackIn.translate(0, -tile.upDown, 0);
-        } else {
-            MatrixStackIn.translate(0, 0, 0);
-        }
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

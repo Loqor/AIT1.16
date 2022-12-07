@@ -39,10 +39,14 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     @Override
     public void tick() {
         if(this.tardisID != null) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            if (tardis.landed != false) {
-                newFacingDirection = tardis.exterior_facing;
-                //currentExteriorFacingSetting = exteriorFacingSetting();
+            if(this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    if (tardis.landed != false) {
+                        newFacingDirection = tardis.exterior_facing;
+                        //currentExteriorFacingSetting = exteriorFacingSetting();
+                    }
+                }
             }
         }
     }
@@ -98,7 +102,6 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         BlockState blockstate = world.getBlockState(pPos);
         Block block = blockstate.getBlock();
         if (block instanceof ExteriorFacingControlBlock && pHandIn == Hand.MAIN_HAND) {
-//            System.out.println("IM FUCKING HERE: " + getNextExteriorFacingSetting());
             this.currentExteriorFacingSetting = getNextExteriorFacingSetting();
         }
         changeDirectionFromControl();
@@ -107,22 +110,28 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     }
 
     public void onPlace() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        newFacingDirection = tardis.exterior_facing;
-        if(tardis.exterior_facing == Direction.NORTH) {
-            currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
+        if(this.tardisID != null) {
+            if (this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    newFacingDirection = tardis.exterior_facing;
+                    if (tardis.exterior_facing == Direction.NORTH) {
+                        currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
+                    }
+                    if (tardis.exterior_facing == Direction.EAST) {
+                        currentExteriorFacingSetting = EnumExteriorFacingState.EAST;
+                    }
+                    if (tardis.exterior_facing == Direction.SOUTH) {
+                        currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH;
+                    }
+                    if (tardis.exterior_facing == Direction.WEST) {
+                        currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
+                    }
+                    changeDirectionFromControl();
+                    syncToClient();
+                }
+            }
         }
-        if(tardis.exterior_facing == Direction.EAST) {
-            currentExteriorFacingSetting = EnumExteriorFacingState.EAST;
-        }
-        if(tardis.exterior_facing == Direction.SOUTH) {
-            currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH;
-        }
-        if(tardis.exterior_facing == Direction.WEST) {
-            currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
-        }
-        changeDirectionFromControl();
-        syncToClient();
     }
 
     @Override

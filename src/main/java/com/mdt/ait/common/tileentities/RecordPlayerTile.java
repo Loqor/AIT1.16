@@ -130,91 +130,93 @@ public class RecordPlayerTile extends TileEntity implements ITickableTileEntity 
         Block block = blockstate.getBlock();
         Item iteminmainhand = playerEntity.getItemBySlot(EquipmentSlotType.MAINHAND).getItem();
         System.out.println(iteminmainhand);
-        if (!playerEntity.isCrouching() && hand == Hand.MAIN_HAND && !world.isClientSide && iteminmainhand == Items.AIR && !isHasRecord) {
-            playerState = getNextPlayerState();
-            syncToClient();
-        }
-        if ((playerState == EnumRecordPlayerState.OPEN || playerState == EnumRecordPlayerState.PLAYING) && playerEntity.isCrouching() && hand == Hand.MAIN_HAND && !world.isClientSide && iteminmainhand == Items.AIR && isHasRecord) {
-            playerEntity.addItem(new ItemStack(record));
-            playerState = EnumRecordPlayerState.OPEN;
-            isHasRecord = false;
-            syncToClient();
-        }
-        if(playerState == EnumRecordPlayerState.OPEN && iteminmainhand.getItem() instanceof MusicDiscItem) {
-            //13
-            if(iteminmainhand == Items.MUSIC_DISC_13) {
-                record = Items.MUSIC_DISC_13;
-                soundToPlay = SoundEvents.MUSIC_DISC_13;
+        if(!world.isClientSide) {
+            if (!playerEntity.isCrouching() && hand == Hand.MAIN_HAND && !world.isClientSide && iteminmainhand == Items.AIR && !isHasRecord) {
+                playerState = getNextPlayerState();
+                syncToClient();
             }
-            //cat
-            if(iteminmainhand == Items.MUSIC_DISC_CAT) {
-                record = Items.MUSIC_DISC_CAT;
-                soundToPlay = SoundEvents.MUSIC_DISC_CAT;
+            if ((playerState == EnumRecordPlayerState.OPEN || playerState == EnumRecordPlayerState.PLAYING) && playerEntity.isCrouching() && hand == Hand.MAIN_HAND && !world.isClientSide && iteminmainhand == Items.AIR && isHasRecord) {
+                playerEntity.addItem(new ItemStack(record));
+                playerState = EnumRecordPlayerState.OPEN;
+                isHasRecord = false;
+                syncToClient();
             }
-            //blocks
-            if(iteminmainhand == Items.MUSIC_DISC_BLOCKS) {
-                record = Items.MUSIC_DISC_BLOCKS;
-                soundToPlay = SoundEvents.MUSIC_DISC_BLOCKS;
+            if (playerState == EnumRecordPlayerState.OPEN && iteminmainhand.getItem() instanceof MusicDiscItem) {
+                //13
+                if (iteminmainhand == Items.MUSIC_DISC_13) {
+                    record = Items.MUSIC_DISC_13;
+                    soundToPlay = SoundEvents.MUSIC_DISC_13;
+                }
+                //cat
+                if (iteminmainhand == Items.MUSIC_DISC_CAT) {
+                    record = Items.MUSIC_DISC_CAT;
+                    soundToPlay = SoundEvents.MUSIC_DISC_CAT;
+                }
+                //blocks
+                if (iteminmainhand == Items.MUSIC_DISC_BLOCKS) {
+                    record = Items.MUSIC_DISC_BLOCKS;
+                    soundToPlay = SoundEvents.MUSIC_DISC_BLOCKS;
+                }
+                //chirp
+                if (iteminmainhand == Items.MUSIC_DISC_CHIRP) {
+                    record = Items.MUSIC_DISC_CHIRP;
+                    soundToPlay = SoundEvents.MUSIC_DISC_CHIRP;
+                }
+                //far
+                if (iteminmainhand == Items.MUSIC_DISC_FAR) {
+                    record = Items.MUSIC_DISC_FAR;
+                    soundToPlay = SoundEvents.MUSIC_DISC_FAR;
+                }
+                //mall
+                if (iteminmainhand == Items.MUSIC_DISC_MALL) {
+                    record = Items.MUSIC_DISC_MALL;
+                    soundToPlay = SoundEvents.MUSIC_DISC_MALL;
+                }
+                //mellohi
+                if (iteminmainhand == Items.MUSIC_DISC_MELLOHI) {
+                    record = Items.MUSIC_DISC_MELLOHI;
+                    soundToPlay = SoundEvents.MUSIC_DISC_MELLOHI;
+                }
+                //stal
+                if (iteminmainhand == Items.MUSIC_DISC_STAL) {
+                    record = Items.MUSIC_DISC_STAL;
+                    soundToPlay = SoundEvents.MUSIC_DISC_STAL;
+                }
+                //strad
+                if (iteminmainhand == Items.MUSIC_DISC_STRAD) {
+                    record = Items.MUSIC_DISC_STRAD;
+                    soundToPlay = SoundEvents.MUSIC_DISC_STRAD;
+                }
+                //ward
+                if (iteminmainhand == Items.MUSIC_DISC_WARD) {
+                    record = Items.MUSIC_DISC_WARD;
+                    soundToPlay = SoundEvents.MUSIC_DISC_WARD;
+                }
+                //11
+                if (iteminmainhand == Items.MUSIC_DISC_11) {
+                    record = Items.MUSIC_DISC_11;
+                    soundToPlay = SoundEvents.MUSIC_DISC_11;
+                }
+                //wait
+                if (iteminmainhand == Items.MUSIC_DISC_WAIT) {
+                    record = Items.MUSIC_DISC_WAIT;
+                    soundToPlay = SoundEvents.MUSIC_DISC_WAIT;
+                }
+                //pigstep
+                if (iteminmainhand == Items.MUSIC_DISC_PIGSTEP) {
+                    record = Items.MUSIC_DISC_PIGSTEP;
+                    soundToPlay = SoundEvents.MUSIC_DISC_PIGSTEP;
+                }
+                ItemStack itemStack = playerEntity.getMainHandItem();
+                itemStack.shrink(1);
+                isHasRecord = true;
+                playerState = EnumRecordPlayerState.PLAYING;
+                world.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), soundToPlay, SoundCategory.MASTER, 10, 1);
             }
-            //chirp
-            if(iteminmainhand == Items.MUSIC_DISC_CHIRP) {
-                record = Items.MUSIC_DISC_CHIRP;
-                soundToPlay = SoundEvents.MUSIC_DISC_CHIRP;
-            }
-            //far
-            if(iteminmainhand == Items.MUSIC_DISC_FAR) {
-                record = Items.MUSIC_DISC_FAR;
-                soundToPlay = SoundEvents.MUSIC_DISC_FAR;
-            }
-            //mall
-            if(iteminmainhand == Items.MUSIC_DISC_MALL) {
-                record = Items.MUSIC_DISC_MALL;
-                soundToPlay = SoundEvents.MUSIC_DISC_MALL;
-            }
-            //mellohi
-            if(iteminmainhand == Items.MUSIC_DISC_MELLOHI) {
-                record = Items.MUSIC_DISC_MELLOHI;
-                soundToPlay = SoundEvents.MUSIC_DISC_MELLOHI;
-            }
-            //stal
-            if(iteminmainhand == Items.MUSIC_DISC_STAL) {
-                record = Items.MUSIC_DISC_STAL;
-                soundToPlay = SoundEvents.MUSIC_DISC_STAL;
-            }
-            //strad
-            if(iteminmainhand == Items.MUSIC_DISC_STRAD) {
-                record = Items.MUSIC_DISC_STRAD;
-                soundToPlay = SoundEvents.MUSIC_DISC_STRAD;
-            }
-            //ward
-            if(iteminmainhand == Items.MUSIC_DISC_WARD) {
-                record = Items.MUSIC_DISC_WARD;
-                soundToPlay = SoundEvents.MUSIC_DISC_WARD;
-            }
-            //11
-            if(iteminmainhand == Items.MUSIC_DISC_11) {
-                record = Items.MUSIC_DISC_11;
-                soundToPlay = SoundEvents.MUSIC_DISC_11;
-            }
-            //wait
-            if(iteminmainhand == Items.MUSIC_DISC_WAIT) {
-                record = Items.MUSIC_DISC_WAIT;
-                soundToPlay = SoundEvents.MUSIC_DISC_WAIT;
-            }
-            //pigstep
-            if(iteminmainhand == Items.MUSIC_DISC_PIGSTEP) {
-                record = Items.MUSIC_DISC_PIGSTEP;
-                soundToPlay = SoundEvents.MUSIC_DISC_PIGSTEP;
-            }
-            ItemStack itemStack = playerEntity.getMainHandItem();
-            itemStack.shrink(1);
-            isHasRecord = true;
-            playerState = EnumRecordPlayerState.PLAYING;
-            world.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), soundToPlay, SoundCategory.MASTER, 10, 1);
-        }
-        if(playerState == EnumRecordPlayerState.CLOSED || !isHasRecord) {
-            if(!world.isClientSide()) {
-                Minecraft.getInstance().getSoundManager().stop();
+            if (playerState == EnumRecordPlayerState.CLOSED || !isHasRecord) {
+                if (!world.isClientSide()) {
+                    Minecraft.getInstance().getSoundManager().stop();
+                }
             }
         }
         return ActionResultType.SUCCESS;

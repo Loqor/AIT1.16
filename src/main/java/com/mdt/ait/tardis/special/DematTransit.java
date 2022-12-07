@@ -97,7 +97,7 @@ public class DematTransit {
             assert oldDimension != null;
             assert newDimension != null;
             if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.below(1)).getBlock())) { // Checks if the block below the tardis's target position is a valid block to land on
-                if (newDimension.getBlockState(tardis.targetPosition.above(1)).getBlock().equals(Blocks.AIR)) {
+                if (newDimension.getBlockState(tardis.targetPosition.above(1)).getBlock().equals(Blocks.AIR) /*|| newDimension.getBlockState(tardis.targetPosition.below(1)).getBlock().equals(Blocks.SNOW)*/) {
                     landTardisPart1(tardis.targetPosition);
                 }
             } else {

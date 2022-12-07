@@ -41,6 +41,8 @@ public class FourthsScarfModelLayer<T extends LivingEntity, M extends EntityMode
                 model.head.visible = false;
             }
             IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.FOUR_LOCATION));
+            pMatrixStack.scale(1.125f, 1.125f, 1.125f);
+            pMatrixStack.translate(0, -0.03125f, 0);
             this.scarf.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();

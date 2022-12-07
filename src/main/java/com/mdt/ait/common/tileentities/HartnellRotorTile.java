@@ -24,6 +24,7 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
     public float setRotorTick = 0;
     private int __dontUse = 0;
     public boolean isLoaded = false;
+    public boolean isInFlight;
     public EnumRotorState currentstate = EnumRotorState.STATIC;
     public float spinny = 0;
 
@@ -34,18 +35,6 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
     public HartnellRotorTile() {
         super(AITTiles.HARTNELL_ROTOR_TILE_ENTITY_TYPE.get());
     }
-
-    /*public boolean isTardisInFlight() {
-        boolean isFlight = false;
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
-        assert exteriorWorld != null;
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(tardis.exterior_position);
-        if(tardisTileEntity.matState != EnumMatState.SOLID || tardisTileEntity == null) {
-            isFlight = true;
-        }
-        return isFlight;
-    }*/
 
     public void getFlightState() {
         //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
@@ -66,7 +55,18 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
 
     @Override
     public void tick() {
-
+        if(this.tardisID != null) {
+            if (this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    if(!tardis.landed) {
+                        isInFlight = true;
+                    } else {
+                        isInFlight = false;
+                    }
+                }
+            }
+        }
     }
 
     @Override

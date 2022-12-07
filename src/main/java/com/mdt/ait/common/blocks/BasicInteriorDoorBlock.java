@@ -5,6 +5,7 @@ import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -47,7 +48,7 @@ public class BasicInteriorDoorBlock extends Block {
     public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(-0.0625, 0, 0, -0.006249999999999978, 2, 1));
 
     public BasicInteriorDoorBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission());
+        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission());;
     }
 
     @Override
@@ -126,9 +127,20 @@ public class BasicInteriorDoorBlock extends Block {
             basicInteriorDoorTile.linked_tardis = AIT.tardisManager.getTardis(this.tardisID);
             serverWorld.setBlockEntity(blockPos, basicInteriorDoorTile);
         }
-
-
     }
+
+    /*@Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+        ServerWorld serverWorld = ((ServerWorld) world);
+        if(tardis != null) {
+            TardisTileEntity tardisTileEntity = ((TardisTileEntity) serverWorld.getBlockEntity(tardis.exterior_position));
+            if (tardisTileEntity != null) {
+                return tardisTileEntity.getExteriorLightLevel();
+            }
+        }
+        return 0;
+    }*/
 
     @Nullable
     @Override
