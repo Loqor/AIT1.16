@@ -21,6 +21,7 @@ import com.mdt.ait.core.init.enums.EnumConsoleType;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
+import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelRenderer;
@@ -48,6 +49,7 @@ import java.util.function.Supplier;
 public class AITClientRegistry {
     public static final EnumMap<EnumExteriorType, Supplier<EntityModel<Entity>>> TARDIS_EXTERIOR_MAP = new EnumMap<>(EnumExteriorType.class);
     public static final EnumMap<EnumConsoleType, Supplier<EntityModel<Entity>>> TARDIS_CONSOLE_MAP = new EnumMap<>(EnumConsoleType.class);
+    public static final EnumMap<EnumInteriorDoorType, Supplier<EntityModel<Entity>>> TARDIS_DOOR_MAP = new EnumMap<>(EnumInteriorDoorType.class);
 
     @SubscribeEvent
     public static void register(FMLClientSetupEvent event) {
@@ -119,7 +121,12 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.HARTNELL_ROTOR_TILE_ENTITY_TYPE.get(), HartnellRotorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TENNANT_MONITOR_TILE_ENTITY_TYPE.get(), TennantMonitorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE.get(), TardisPowerAccessPointRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DoorSwitchControlRenderer::new);
 
+        //Temporary
+        ClientRegistry.bindTileEntityRenderer(AITTiles.VORTEX_TILE_ENTITY_TYPE.get(), VortexRenderer::new);
+
+        //Exterior model registry
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.MINT_BOX, MintExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CORAL_BOX, CoralExterior::new);
@@ -141,6 +148,31 @@ public class AITClientRegistry {
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.STEVE_EXTERIOR, SteveExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.FALLOUT_SHELTER_EXTERIOR, FalloutShelterExterior::new);
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.CLOCK_EXTERIOR, ClockExterior::new);
+
+        //Interior door model registry
+        TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_BASIC_BOX, BasicBox::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_MINT_BOX, MintExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_CORAL_BOX, CoralExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_POSTER_BOX, BasicBox::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_BAKER_BOX, BakerExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_TYPE_40_TT_CAPSULE, Type40TTCapsuleExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_HELLBENT_TT_CAPSULE, HellBentTTCapsuleExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_NUKA_COLA_EXTERIOR, NukaColaExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_SIEGE_MODE, SiegeMode::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_ARCADE_CABINET_EXTERIOR, ArcadeCabinet::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_CUSHING_EXTERIOR, CushingExterior::new);
+        TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR, ClassicExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR, HartnellExterior::new);
+        TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR, HudolinExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_TX3_EXTERIOR, TxThreeCapsule::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR, TARDIMExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR, ShalkaExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_BOOTH_EXTERIOR, BoothExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_STEVE_EXTERIOR, SteveExterior::new);
+        TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR, FalloutShelterExterior::new);
+        //TARDIS_DOOR_MAP.put(EnumInteriorDoorType.DOOR_CLOCK_EXTERIOR, ClockExterior::new);
+
+        //Console model registry
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.BOREALIS_CONSOLE, BorealisConsole::new);
 
@@ -159,8 +191,12 @@ public class AITClientRegistry {
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AITEntities.MONITOR_INTERACTION_ENTITY.get(), ControlInteractionEntityRenderer::new);
+
+        //Falling TARDIS
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.FALLING_TARDIS_ENTITY.get(), FallingTardisRenderer::new);
         //RenderingRegistry.registerEntityRenderingHandler(AITEntities.CUSTOM_PORTAL_ENTITY.get(), CustomPortalRenderer::new);
+
         //Machinery
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.DELOREAN.get(), DeloreanRenderer::new);
 

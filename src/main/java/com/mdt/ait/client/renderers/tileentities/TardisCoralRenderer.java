@@ -21,19 +21,16 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
 
-    public static final ResourceLocation ONE_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state1.png");
-    public static final ResourceLocation TWO_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state2.png");
-    public static final ResourceLocation THREE_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state3.png");
-    public static final ResourceLocation FOUR_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state4.png");
-    public static final ResourceLocation FIVE_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state5.png");
-    public static final ResourceLocation SIX_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state6.png");
-    public static final ResourceLocation SEVEN_TARDIS_CORAL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state7.png");
-    public static final ResourceLocation BOTTOM_CORAL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state_bottom_emission.png");
-    public static final ResourceLocation TOP_CORAL_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral_state_top_emission.png");
+    public static final ResourceLocation STATE1 = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_1.png");
+    public static final ResourceLocation STATE2 = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_2.png");
+    public static final ResourceLocation STATE3 = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_3.png");
+    public static final ResourceLocation STATE4 = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_4.png");
+    public static final ResourceLocation STATE5 = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_5.png");
+    public static final ResourceLocation STATE_FINAL = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_coral/tardis_coral_final.png");
 
     public TardisCoral model;
     private final TileEntityRendererDispatcher rendererDispatcher;
-    public ResourceLocation coralStateLocation = ONE_TARDIS_CORAL_LOCATION;
+    public ResourceLocation coralStateLocation = STATE1;
     public float spinny = 0;
 
     public TardisCoralRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -47,88 +44,60 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
         EnumCoralState coralState = EnumCoralState.values()[tile.serializeNBT().getInt("coralState")];
         int coralstatetype = tile.serializeNBT().getInt("coralState");
         MatrixStackIn.pushPose();
-        if(coralState == EnumCoralState.FIRST || coralState == EnumCoralState.FINAL) {
-            this.coralStateLocation = ONE_TARDIS_CORAL_LOCATION;
+        if(coralState == EnumCoralState.FIRST) {
+            this.coralStateLocation = STATE1;
+            this.model.state1.visible = true;
+            this.model.state2.visible = false;
+            this.model.state3.visible = false;
+            this.model.state4.visible = false;
+            this.model.state5.visible = false;
+            this.model.finalstate.visible = false;
         }
         if(coralState == EnumCoralState.SECOND) {
-            this.coralStateLocation = TWO_TARDIS_CORAL_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BOTTOM_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+            this.coralStateLocation = STATE2;
+            this.model.state1.visible = false;
+            this.model.state2.visible = true;
+            this.model.state3.visible = false;
+            this.model.state4.visible = false;
+            this.model.state5.visible = false;
+            this.model.finalstate.visible = false;
         }
         if(coralState == EnumCoralState.THIRD) {
-            this.coralStateLocation = THREE_TARDIS_CORAL_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TOP_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+            this.coralStateLocation = STATE3;
+            this.model.state1.visible = false;
+            this.model.state2.visible = false;
+            this.model.state3.visible = true;
+            this.model.state4.visible = false;
+            this.model.state5.visible = false;
+            this.model.finalstate.visible = false;
         }
         if(coralState == EnumCoralState.FOURTH) {
-            this.coralStateLocation = FOUR_TARDIS_CORAL_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TOP_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+            this.coralStateLocation = STATE4;
+            this.model.state1.visible = false;
+            this.model.state2.visible = false;
+            this.model.state3.visible = false;
+            this.model.state4.visible = true;
+            this.model.state5.visible = false;
+            this.model.finalstate.visible = false;
         }
         if(coralState == EnumCoralState.FIFTH) {
-            this.coralStateLocation = FIVE_TARDIS_CORAL_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TOP_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+            this.coralStateLocation = STATE5;
+            this.model.state1.visible = false;
+            this.model.state2.visible = false;
+            this.model.state3.visible = false;
+            this.model.state4.visible = false;
+            this.model.state5.visible = true;
+            this.model.finalstate.visible = false;
         }
-        if(coralState == EnumCoralState.SIXTH) {
-            this.coralStateLocation = SIX_TARDIS_CORAL_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TOP_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if(coralState == EnumCoralState.SEVENTH) {
-            this.coralStateLocation = SEVEN_TARDIS_CORAL_LOCATION;
+        if(coralState == EnumCoralState.FINAL) {
+            this.coralStateLocation = STATE_FINAL;
+            this.model.state1.visible = false;
+            this.model.state2.visible = false;
+            this.model.state3.visible = false;
+            this.model.state4.visible = false;
+            this.model.state5.visible = false;
+            this.model.finalstate.visible = true;
             ++spinny;
-            MatrixStackIn.pushPose();
-            //this.model.bone.yRot = (float) Math.toRadians(spinny);
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1.051f, 1.051f, 1.051f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
-            MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TOP_CORAL_LM_LOCATION, false)),
-                    CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);

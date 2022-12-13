@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -45,15 +46,7 @@ public class InputMessageC2S {
         context.enqueueWork(() -> {
             ServerPlayerEntity player = context.getSender();
             assert player != null;
-            PlayerList playerList = AIT.server.getPlayerList();
-            for(ServerPlayerEntity playerFromList : playerList.getPlayers()) {
-                if(playerFromList.getLevel().equals(player.getLevel())) {
-                    if(player.distanceTo(playerFromList) <= 300) {
-                        //NetworkHandler.CHANNEL.sendTo(message, playerFromList.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
-                        NetworkHandler.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) player.getLevel().getChunk(player.blockPosition())), message);
-                    }
-                }
-            }
+            BlockPos blockPos = new BlockPos(player.getX(), player.getY(), player.getZ());
         });
         context.setPacketHandled(true);
     }

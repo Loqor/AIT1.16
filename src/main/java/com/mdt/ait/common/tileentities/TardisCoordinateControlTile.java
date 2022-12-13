@@ -62,6 +62,8 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public double height;
     public double incrementWidth;
     public double incrementHeight;
+    public boolean canChangePos = false;
+    public int runOnce = 0;
 
     public TardisCoordinateControlTile() {
         super(AITTiles.TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE.get());
@@ -79,12 +81,10 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
                     Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    xPos = tardis.exterior_position.getX();
-                    yPos = tardis.exterior_position.getY();
-                    zPos = tardis.exterior_position.getZ();
                     currentCoordinateDirectionState = coordinateBlockDirectionState();
                     this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
-                    changePositionFromControl();
+                    setListedPosition(tardis.targetPosition);
+                    AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exterior_position);
                     syncToClient();
                 }
             }
@@ -130,6 +130,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
+        canChangePos = true;
         //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
@@ -272,13 +273,16 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if (tardis.landed != false) {
-                        xPos = tardis.exterior_position.getX();
-                        yPos = tardis.exterior_position.getY();
-                        zPos = tardis.exterior_position.getZ();
-                        //currentCoordinateDirectionState = coordinateBlockDirectionState();
-                        syncToClient();
+                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    if (!canChangePos) {
+                        setListedPosition(tardis.targetPosition);
+                        if(ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
+                            setListedPosition(tardis.exterior_position);
+                        }
+                    }
+                    if(ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                        canChangePos = false;
                     }
                 }
             }
@@ -303,6 +307,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         this.currentCoordinateState = EnumCoordinateState.values()[nbt.getInt("currentcoordinatestate")];
         this.currentPosNegState = EnumCoordinatePosNegState.values()[nbt.getInt("currentposnegstate")];
         this.currentdimensionstate = EnumDimensionControlState.values()[nbt.getInt("currentdimensionstate")];
+        //this.canChangePos = nbt.getBoolean("canChangePos");
         super.load(pState, nbt);
     }
 
@@ -316,6 +321,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         nbt.putInt("currentcoordinatestate", this.currentCoordinateState.ordinal());
         nbt.putInt("currentposnegstate", this.currentPosNegState.ordinal());
         nbt.putInt("currentdimensionstate", this.currentdimensionstate.ordinal());
+        //nbt.putBoolean("canChangePos", this.canChangePos);
         if (this.tardisID != null) {
             nbt.putUUID("tardisID", this.tardisID);
         }

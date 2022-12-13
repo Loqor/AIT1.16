@@ -51,13 +51,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
             case FOURTH:
                 return EnumCoralState.FIFTH;
             case FIFTH:
-                return EnumCoralState.SIXTH;
-            case SIXTH:
-                return EnumCoralState.SEVENTH;
-            case SEVENTH:
                 return EnumCoralState.FINAL;
-            case FINAL:
-                return EnumCoralState.FIRST;
         }
         return EnumCoralState.FIRST;
     }
@@ -90,30 +84,23 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         if (level.canSeeSky(worldPosition) && (level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
             ++ticks;
             if (ticks == 37/*750*/) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.SECOND;
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 75/*1500*/) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.THIRD;
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 112/*2250*/) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.FOURTH;
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 150/*3000*/) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.FIFTH;
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 187/*3750*/) {
-                this.coralState = getNextCoralState();
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-            if (ticks == 225/*4500*/) {
-                this.coralState = getNextCoralState();
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-            if (ticks == 262/*5250*/) {
+                this.coralState = EnumCoralState.FINAL;
                 level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks >= 300/*6000*/) {  //6000 is 5 minutes
@@ -143,30 +130,23 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         } else if (level.canSeeSky(worldPosition) && !(level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
             ++ticks;
             if (ticks == 750) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.SECOND;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 1500) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.THIRD;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 2250) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.FOURTH;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 3000) {
-                this.coralState = getNextCoralState();
+                this.coralState = EnumCoralState.FIFTH;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks == 3750) {
-                this.coralState = getNextCoralState();
-                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-            if (ticks == 4500) {
-                this.coralState = getNextCoralState();
-                level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-            if (ticks == 5250) {
+                this.coralState = EnumCoralState.FINAL;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             if (ticks >= 6000) {  //6000 is 5 minutes

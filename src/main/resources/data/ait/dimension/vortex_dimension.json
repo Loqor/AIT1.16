@@ -1,0 +1,15 @@
+{
+  "type": "ait:vortex_dimension_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "ait:vortex",
+      "lakes": false,
+      "features": false,
+      "layers": [],
+      "structures": {
+        "structures": {}
+      }
+    }
+  }
+}

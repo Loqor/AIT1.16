@@ -7,6 +7,7 @@ import com.mdt.ait.common.blocks.DirectionalBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,6 +26,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
     public static final RegistryObject<Block> BASIC_ROTOR_BLOCK = BLOCKS.register("basic_rotor", BasicRotorBlock::new);
     public static final RegistryObject<Block> HARTNELL_ROTOR_BLOCK = BLOCKS.register("hartnell_rotor", HartnellRotorBlock::new);
+    public static final RegistryObject<Block> DOOR_SWITCH_CONTROL_BLOCK = BLOCKS.register("door_switch_control", DoorSwitchControlBlock::new);
     public static final RegistryObject<Block> EXTERIOR_FACING_CONTROL_BLOCK = BLOCKS.register("exterior_facing_control", ExteriorFacingControlBlock::new);
     public static final RegistryObject<Block> DIMENSION_SWITCH_CONTROL_BLOCK = BLOCKS.register("dimension_switch_control", DimensionSwitchControlBlock::new);
     public static final RegistryObject<Block> TARDIS_COORDINATE_CONTROL_BLOCK = BLOCKS.register("tardis_coordinate_control", TardisCoordinateControlBlock::new);
@@ -37,6 +39,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> RAMP_BLOCK = BLOCKS.register("ramp", RampBlock::new);
     public static final RegistryObject<Block> INTERIOR_DOOR_BLOCK = BLOCKS.register("basic_interior_door_block", BasicInteriorDoorBlock::new);
     public static final RegistryObject<InvisBlock> INVIS_BLOCK = BLOCKS.register("invis_block", InvisBlock::new);
+    public static final RegistryObject<Block> VORTEX_BLOCK = BLOCKS.register("vortex_block", VortexBlock::new);
     public static final RegistryObject<Block> TARDIS_POWER_ACCESS_POINT_BLOCK = BLOCKS.register("tardis_power_access_point", TardisPowerAccessPointBlock::new);
     public static final RegistryObject<Block> INTERIOR_CENTER_BLOCK = BLOCKS.register(
             "interior_center_block", () -> new Block(Block.Properties.of(

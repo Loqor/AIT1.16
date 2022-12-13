@@ -107,7 +107,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     @Override
     public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         BlockPos belowTardis = tile.getBlockPos().below(1);
-        if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
+        /*if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
             MatrixStackIn.translate(0, +tile.upDown, 0);
         } else {
             MatrixStackIn.translate(0, 0, 0);
@@ -133,6 +133,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         }*/
         MatrixStackIn.pushPose();
         EnumExteriorType exterior = EnumExteriorType.values()[tile.serializeNBT().getInt("currentexterior")];
+        EnumDoorState door = EnumDoorState.values()[tile.serializeNBT().getInt("currentstate")];
         int exteriortype = tile.serializeNBT().getInt("currentexterior");
         EnumMatState materialState = EnumMatState.values()[tile.serializeNBT().getInt("matState")];
         int mattype = tile.serializeNBT().getInt("matState");
@@ -145,8 +146,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new BasicBox();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = LOCATION;
-            this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                this.model.right_door.visible = false;
+                this.model.left_door.visible = false;
+            } else {
+                this.model.right_door.visible = true;
+                this.model.left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -160,8 +168,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new MintExterior();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = MINT_LOCATION;
-            ((MintExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((MintExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((MintExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((MintExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((MintExterior)this.model).right_door.visible = false;
+                ((MintExterior)this.model).left_door.visible = false;
+            } else {
+                ((MintExterior)this.model).right_door.visible = true;
+                ((MintExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -175,8 +190,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new CoralExterior();
             this.coralText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = CORAL_LOCATION;
-            ((CoralExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((CoralExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((CoralExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((CoralExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((CoralExterior)this.model).right_door.visible = false;
+                ((CoralExterior)this.model).left_door.visible = false;
+            } else {
+                ((CoralExterior)this.model).right_door.visible = true;
+                ((CoralExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -190,8 +212,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new BasicBox();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = POSTER_LOCATION;
-            this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                this.model.right_door.visible = false;
+                this.model.left_door.visible = false;
+            } else {
+                this.model.right_door.visible = true;
+                this.model.left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -206,8 +235,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.texture = BAKER_LOCATION;
             this.BakerText(MatrixStackIn, Buffer, CombinedLight);
             ((BakerExterior)this.model).lamp.yRot = (float) Math.toRadians(tile.spinny);
-            ((BakerExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((BakerExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((BakerExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((BakerExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((BakerExterior)this.model).right_door.visible = false;
+                ((BakerExterior)this.model).left_door.visible = false;
+            } else {
+                ((BakerExterior)this.model).right_door.visible = true;
+                ((BakerExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -249,8 +285,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         if (exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6) {
             this.model = new HellBentTTCapsuleExterior();
             this.texture = HELLBENT_LOCATION;
-            ((HellBentTTCapsuleExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((HellBentTTCapsuleExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((HellBentTTCapsuleExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((HellBentTTCapsuleExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((HellBentTTCapsuleExterior)this.model).right_door.visible = false;
+                ((HellBentTTCapsuleExterior)this.model).left_door.visible = false;
+            } else {
+                ((HellBentTTCapsuleExterior)this.model).right_door.visible = true;
+                ((HellBentTTCapsuleExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.98f, 0.98f, 0.98f);
@@ -339,10 +382,17 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         }
         if (exterior.getSerializedName().equals("classic_exterior") && exteriortype == 11) {
             this.model = new ClassicExterior();
-            this.BakerText(MatrixStackIn, Buffer, CombinedLight);
+            this.classicText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = CLASSIC_LOCATION;
-            ((ClassicExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((ClassicExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((ClassicExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((ClassicExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((ClassicExterior)this.model).right_door.visible = false;
+                ((ClassicExterior)this.model).left_door.visible = false;
+            } else {
+                ((ClassicExterior)this.model).right_door.visible = true;
+                ((ClassicExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -357,8 +407,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new HartnellExterior();
             this.hartnellText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = HARTNELL_LOCATION;
-            ((HartnellExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((HartnellExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((HartnellExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((HartnellExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((HartnellExterior)this.model).right_door.visible = false;
+                ((HartnellExterior)this.model).left_door.visible = false;
+            } else {
+                ((HartnellExterior)this.model).right_door.visible = true;
+                ((HartnellExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -372,8 +429,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new HudolinExterior();
             this.hudolinText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = HUDOLIN_LOCATION;
-            ((HudolinExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((HudolinExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((HudolinExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((HudolinExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((HudolinExterior)this.model).right_door.visible = false;
+                ((HudolinExterior)this.model).left_door.visible = false;
+            } else {
+                ((HudolinExterior)this.model).right_door.visible = true;
+                ((HudolinExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -422,8 +486,15 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             this.model = new ShalkaExterior();
             this.shalkaText(MatrixStackIn, Buffer, CombinedLight);
             this.texture = SHALKA_LOCATION;
-            ((ShalkaExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            ((ShalkaExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            if(!door.equals(EnumDoorState.CLOSED)) {
+                //((ShalkaExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+                //((ShalkaExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+                ((ShalkaExterior)this.model).right_door.visible = false;
+                ((ShalkaExterior)this.model).left_door.visible = false;
+            } else {
+                ((ShalkaExterior)this.model).right_door.visible = true;
+                ((ShalkaExterior)this.model).left_door.visible = true;
+            }
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
@@ -669,30 +740,30 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
     public void classicText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.725f, -0.28f);
+        MatrixStackIn.translate(0.925f, 2.475f, -0.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
-        IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
+        IReorderingProcessor irp = new StringTextComponent("POLICE === BOX").getVisualOrderText();
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.28f, 2.725f, 0.925f);
+        MatrixStackIn.translate(1.28f, 2.475f, 0.925f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.28f, 2.725f, 0.0900f);
+        MatrixStackIn.translate(-0.28f, 2.475f, 0.09f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.725f, 1.28f);
+        MatrixStackIn.translate(0.09f, 2.475f, 1.28f);
         MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);

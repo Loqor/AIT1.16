@@ -23,7 +23,7 @@ public class TardisCoralBlock extends Block implements ICantBreak {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 1, 16);
+    public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 32, 16);
 
     public TardisCoralBlock() {
         super(Properties.of(Material.BAMBOO).strength(15.0f).noOcclusion().instabreak().noCollission());

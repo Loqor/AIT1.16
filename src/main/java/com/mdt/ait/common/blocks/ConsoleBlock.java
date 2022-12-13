@@ -64,7 +64,7 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
             ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert consoleTileEntity != null;
-            consoleTileEntity.tardisID = tardisID;
+            consoleTileEntity.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, consoleTileEntity);
             consoleTileEntity.onPlace(pState, world, blockPos, pOldState, pIsMoving);
         }
@@ -76,7 +76,7 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
             ServerWorld serverWorld = ((ServerWorld) world);
             ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
             assert consoleTileEntity != null;
-            consoleTileEntity.onRemoval(pState, world, blockPos, pPlayer, pHand);
+            //consoleTileEntity.onRemoval(pState, world, blockPos, pPlayer, pHand);
         }
         return super.use(pState, world, blockPos, pPlayer, pHand, pHit);
     }
@@ -100,5 +100,17 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return state.getValue(CONSOLE_TYPE).tileEntity.get();
+    }
+
+    @Override
+    public void onRemove(BlockState pState, World world, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
+        super.onRemove(pState, world, blockPos, pNewState, pIsMoving);
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            ServerWorld serverWorld = ((ServerWorld) world);
+            ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
+            assert consoleTileEntity != null;
+            serverWorld.setBlockEntity(blockPos, consoleTileEntity);
+            consoleTileEntity.onRemove(pState, world, blockPos);
+        }
     }
 }

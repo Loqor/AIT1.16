@@ -86,6 +86,7 @@ public class TardisLeverBlock extends Block {
             assert tardisLeverTile != null;
             tardisLeverTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, tardisLeverTile);
+            tardisLeverTile.onPlace(blockState1, world, blockPos);
         }
     }
 

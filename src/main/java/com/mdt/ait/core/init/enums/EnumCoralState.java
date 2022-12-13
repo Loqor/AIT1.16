@@ -6,7 +6,5 @@ public enum EnumCoralState {
     THIRD,
     FOURTH,
     FIFTH,
-    SIXTH,
-    SEVENTH,
     FINAL
 }

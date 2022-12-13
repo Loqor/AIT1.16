@@ -33,10 +33,7 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import javax.naming.ldap.Control;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity {
 
@@ -44,7 +41,7 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
 
     public static HashMap<String, UUID> control_names = new HashMap<String, UUID>();
 
-    public boolean isThisConsoleHere;
+    public boolean isThisConsoleHere = false;
 
     public ControlInteractionEntity Throttle;
     public ControlInteractionEntity coordinateX;
@@ -54,6 +51,7 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     public ControlInteractionEntity DimControl;
     public ControlInteractionEntity posNeg;
     public ControlInteractionEntity exteriorFacing;
+    public ControlInteractionEntity Monitor;
 
     public ConsoleTileEntity(TileEntityType<?> p_i48289_1_) {
         super(p_i48289_1_);
@@ -155,15 +153,16 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     }
 
     public void entitiesMethod(World world) {
-        this.Throttle = new ControlInteractionEntity(AITEntities.THROTTLE_INTERACTION_ENTITY.get(), this.level);
-        this.coordinateX = new ControlInteractionEntity(AITEntities.COORDX_INTERACTION_ENTITY.get(), this.level);
-        this.coordinateY = new ControlInteractionEntity(AITEntities.COORDY_INTERACTION_ENTITY.get(), this.level);
-        this.coordinateZ = new ControlInteractionEntity(AITEntities.COORDZ_INTERACTION_ENTITY.get(), this.level);
-        this.Increment = new ControlInteractionEntity(AITEntities.INCREMENT_INTERACTION_ENTITY.get(), this.level);
-        this.DimControl = new ControlInteractionEntity(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), this.level);
-        this.posNeg = new ControlInteractionEntity(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), this.level);
-        this.exteriorFacing = new ControlInteractionEntity(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), this.level);
-        if (this.isThisConsoleHere) {
+        if(this.tardisID != null) {
+            this.Throttle = new ControlInteractionEntity(AITEntities.THROTTLE_INTERACTION_ENTITY.get(), this.level);
+            this.coordinateX = new ControlInteractionEntity(AITEntities.COORDX_INTERACTION_ENTITY.get(), this.level);
+            this.coordinateY = new ControlInteractionEntity(AITEntities.COORDY_INTERACTION_ENTITY.get(), this.level);
+            this.coordinateZ = new ControlInteractionEntity(AITEntities.COORDZ_INTERACTION_ENTITY.get(), this.level);
+            this.Increment = new ControlInteractionEntity(AITEntities.INCREMENT_INTERACTION_ENTITY.get(), this.level);
+            this.DimControl = new ControlInteractionEntity(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), this.level);
+            this.posNeg = new ControlInteractionEntity(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), this.level);
+            this.exteriorFacing = new ControlInteractionEntity(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), this.level);
+            this.Monitor = new ControlInteractionEntity(AITEntities.MONITOR_INTERACTION_ENTITY.get(), this.level);
             if (currentconsole == EnumConsoleType.BOREALIS_CONSOLE) {
                 double X = this.worldPosition.getX();
                 double Y = this.worldPosition.getY();
@@ -176,6 +175,17 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
                 world.addFreshEntity(this.DimControl);
                 world.addFreshEntity(this.posNeg);
                 world.addFreshEntity(this.exteriorFacing);
+                world.addFreshEntity(this.Monitor);
+                this.Throttle.setPos(X + 1.125, Y + 1.03125, Z + 1);
+                this.coordinateX.setPos(X + 0.25, Y + 0.875, Z);
+                this.coordinateY.setPos(X + 0.375, Y + 0.875, Z);
+                this.coordinateZ.setPos(X + 0.5, Y + 0.875, Z);
+                this.Increment.setPos(X + 0.625, Y + 0.875, Z);
+                this.DimControl.setPos(X + 0.75, Y + 1.25, Z);
+                this.posNeg.setPos(X + 0.125, Y + 0.875, Z);
+                this.exteriorFacing.setPos(X + 1, Y + 1.03125, Z);
+                this.Monitor.setPos(X + 1, Y + 1.15, Z + 1);
+                System.out.println("Is this working?" + world.addFreshEntity(this.Throttle));
                 this.Throttle.setControlName("Throttle");
                 this.coordinateX.setControlName("X");
                 this.coordinateY.setControlName("Y");
@@ -184,6 +194,7 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
                 this.DimControl.setControlName("Dimension Switch");
                 this.posNeg.setControlName("Positive/Negative");
                 this.exteriorFacing.setControlName("Exterior Facing");
+                this.Monitor.setControlName("Monitor");
                 this.Throttle.setControlTag(this.tardisID.toString(), this.tardisID);
                 this.coordinateX.setControlTag(this.tardisID.toString(), this.tardisID);
                 this.coordinateY.setControlTag(this.tardisID.toString(), this.tardisID);
@@ -192,16 +203,8 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
                 this.DimControl.setControlTag(this.tardisID.toString(), this.tardisID);
                 this.posNeg.setControlTag(this.tardisID.toString(), this.tardisID);
                 this.exteriorFacing.setControlTag(this.tardisID.toString(), this.tardisID);
-                this.Throttle.moveTo(X + 1.125, Y + 1.03125, Z + 1);
-                this.coordinateX.moveTo(X + 0.25, Y + 0.875, Z);
-                this.coordinateY.moveTo(X + 0.375, Y + 0.875, Z);
-                this.coordinateZ.moveTo(X + 0.5, Y + 0.875, Z);
-                this.Increment.moveTo(X + 0.625, Y + 0.875, Z);
-                this.DimControl.moveTo(X + 0.75, Y + 1.25, Z);
-                this.posNeg.moveTo(X + 0.125, Y + 0.875, Z);
-                this.exteriorFacing.moveTo(X + 1, Y + 1.03125, Z);
+                this.Monitor.setControlTag(this.tardisID.toString(), this.tardisID);
             }
-            this.isThisConsoleHere = false;
         }
     }
 
@@ -210,21 +213,18 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     }
 
     public void onPlace(BlockState pState, World world, BlockPos blockPos, BlockState pOldState, boolean pIsMoving) {
-        this.isThisConsoleHere = true;
         entitiesMethod(world);
-        //this.isRemovable = false;
-        //control_names.put(ControlInteractionEntity.Throttle, this.tardisID);
-        //control_names.put(ControlInteractionEntity.coordinateX, this.tardisID);
-        //control_names.put(ControlInteractionEntity.coordinateY, this.tardisID);
-        //control_names.put(ControlInteractionEntity.coordinateZ, this.tardisID);
-        //control_names.put(ControlInteractionEntity.Increment, this.tardisID);
-        //control_names.put(ControlInteractionEntity.DimensionalControl, this.tardisID);
-        //control_names.put(ControlInteractionEntity.posNeg, this.tardisID);
-        //for (int i = 0; i < control_names.size(); i++) { }
     }
 
-    public void onRemoval(BlockState pState, World world, BlockPos blockPos, PlayerEntity pPlayer, Hand pHand) {
-        //entitiesMethod(world);
-       // pPlayer.spawnAtLocation(new ItemStack(AITItems.CONSOLE_BLOCK.get()));
+    public void onRemove(BlockState pState, World world, BlockPos blockPos) {
+        this.Throttle.remove();
+        this.coordinateX.remove();
+        this.coordinateY.remove();
+        this.coordinateZ.remove();
+        this.Increment.remove();
+        this.DimControl.remove();
+        this.posNeg.remove();
+        this.exteriorFacing.remove();
+        this.Monitor.remove();
     }
 }

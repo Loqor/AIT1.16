@@ -1,0 +1,16 @@
+{
+  "credit": "Made by Loqor",
+  "parent" : "block/cube_all",
+  "textures": {
+    "0": "ait:block/door_switch_control",
+    "particle": "ait:block/door_switch_control"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#0", "cullface": "down" }
+      }
+    }
+  ]
+}

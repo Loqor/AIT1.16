@@ -1,6 +1,7 @@
 package com.mdt.ait.common.entities;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
@@ -10,6 +11,8 @@ import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.special.DematTransit;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Monitor;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
@@ -18,6 +21,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.AmbientEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -344,6 +348,9 @@ public class ControlInteractionEntity extends AmbientEntity {
                         currentExteriorFacingSetting.name()).setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withBold(true)), true);;
             }
             changeDirectionFromControl();
+        }
+        if(this.getCustomName().getContents().equals("Monitor") && this.tardisID != null) {
+            Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), this.tardisID));
         }
         if(!this.hurtMarked) {
             this.hurtMarked = true;

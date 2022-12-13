@@ -188,6 +188,16 @@ public class TardisManager {
         return tardis.targetPosition != null && tardis.target_dimension != null && tardis.target_facing_direction != null;
     }
 
+    public boolean isTardisGoingToOtherDim(UUID tardisID) {
+        Tardis tardis = getTardis(tardisID);
+        return tardis.target_dimension == tardis.exterior_dimension;
+    }
+
+    public boolean isTardisGoingToNewCoords(UUID tardisID) {
+        Tardis tardis = getTardis(tardisID);
+        return tardis.targetPosition == tardis.exterior_position;
+    }
+
     public void load(CompoundNBT tag) {
         System.out.println("Tardis Manager: Loading!");
         ListNBT tardis_nbt_list = tag.getList("tardis_list", Constants.NBT.TAG_COMPOUND); // Always add Constants.NBT.TAG_COMPOUND idk why you need it but you do

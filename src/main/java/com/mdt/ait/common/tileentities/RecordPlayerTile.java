@@ -130,7 +130,6 @@ public class RecordPlayerTile extends TileEntity implements ITickableTileEntity 
         Block block = blockstate.getBlock();
         Item iteminmainhand = playerEntity.getItemBySlot(EquipmentSlotType.MAINHAND).getItem();
         System.out.println(iteminmainhand);
-        if(!world.isClientSide) {
             if (!playerEntity.isCrouching() && hand == Hand.MAIN_HAND && !world.isClientSide && iteminmainhand == Items.AIR && !isHasRecord) {
                 playerState = getNextPlayerState();
                 syncToClient();
@@ -217,7 +216,6 @@ public class RecordPlayerTile extends TileEntity implements ITickableTileEntity 
                 if (!world.isClientSide()) {
                     Minecraft.getInstance().getSoundManager().stop();
                 }
-            }
         }
         return ActionResultType.SUCCESS;
     }

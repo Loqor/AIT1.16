@@ -8,12 +8,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.awt.event.KeyEvent;
 
 public class AITKeybinds {
-    public static KeyBinding hideAngelWings;
+    public static KeyBinding snapToOpenDoor;
 
     public static void register(final FMLClientSetupEvent event) {
-        hideAngelWings = create("hide_angel_wings", KeyEvent.VK_G);
+        snapToOpenDoor = create("snap_to_open_door", KeyEvent.VK_G);
 
-        ClientRegistry.registerKeyBinding(hideAngelWings);
+        ClientRegistry.registerKeyBinding(snapToOpenDoor);
     }
 
     private static KeyBinding create(String name, int key) {

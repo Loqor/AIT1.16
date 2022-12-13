@@ -25,6 +25,10 @@ public class AITItems {
     public static final RegistryObject<Item> TARDIS_HEART = ITEMS.register(
             "tardis_heart", ()-> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+    //Manuals
+    public static final RegistryObject<Item> GALLIFREYAN_MANUAL = ITEMS.register(
+            "gallifreyan_manual", () -> new Item((new Item.Properties().tab(AITItemGroups.AITITEMS))));
+
     //Fezzes
     public static final RegistryObject<FezArmorItem> WHITE_FEZ = ITEMS.register( //reciped
             "white_fez", () -> new FezArmorItem(AITArmorMaterials.FEZ, EquipmentSlotType.HEAD, new Item.Properties().tab(AITItemGroups.AITFEZZES)));
@@ -158,6 +162,9 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TENNANT_MONITOR = ITEMS.register(
             "tennant_monitor", () -> new BlockItem(
                     AITBlocks.TENNANT_MONITOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> DOOR_SWITCH_CONTROL_BLOCK = ITEMS.register(
+            "door_switch_control", () -> new BlockItem(
+                    AITBlocks.DOOR_SWITCH_CONTROL_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     public static final RegistryObject<BlockItem> TARDIS_POWER_ACCESS_POINT = ITEMS.register(
             "tardis_power_access_point", () -> new BlockItem(

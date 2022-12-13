@@ -1,5 +1,6 @@
 package com.mdt.ait.tardis;
 
+import com.mdt.ait.core.init.AITBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
@@ -16,6 +17,10 @@ public class TardisConfig {
         cantLandOnBlockList.add(Blocks.VOID_AIR);
         cantLandOnBlockList.add(Blocks.WATER);
         cantLandOnBlockList.add(Blocks.LAVA);
+        cantLandOnBlockList.add(AITBlocks.TARDIS_BLOCK.get());
+        cantLandOnBlockList.add(AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get());
+        cantLandOnBlockList.add(AITBlocks.TARDIS_LEVER_BLOCK.get());
+        cantLandOnBlockList.add(AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get());
         tardisNamesList.add("Alpha");
         tardisNamesList.add("Beta");
         tardisNamesList.add("Gamma");

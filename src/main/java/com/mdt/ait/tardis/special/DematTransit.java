@@ -60,9 +60,9 @@ public class DematTransit {
 
     public int runTransitFormula() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        tardisX = tardis.exterior_position.getX() - tardis.targetPosition.getX();
-        tardisY = tardis.exterior_position.getY() - tardis.targetPosition.getY();
-        tardisZ = tardis.exterior_position.getZ() - tardis.targetPosition.getZ();
+        /*tardisX = tardis.exterior_position.getX() % tardis.targetPosition.getX();
+        tardisY = tardis.exterior_position.getY() % tardis.targetPosition.getY();
+        tardisZ = tardis.exterior_position.getZ() % tardis.targetPosition.getZ();
         finalTardisX = abs(tardisX);
         finalTardisY = abs(tardisY);
         finalTardisZ = abs(tardisZ);
@@ -71,10 +71,14 @@ public class DematTransit {
         } else {
             finalTardisTicker = Math.min(((finalTardisX + finalTardisY + finalTardisZ) * 10) + 600, 2400);
         }
+        if(finalTardisTicker <= 0) {
+            finalTardisTicker += 2 * 12;
+        }*/
         //if (tardis.target_dimension != tardis.exterior_dimension) {
         //    finalTardisTicker = (int) Math.sqrt(tardis.targetPosition.getX() ^ 2 + tardis.targetPosition.getZ() ^ 2) * 100;
         //}
         //finalTardisTicker = (int) Math.sqrt(tardis.targetPosition.getX()^2+tardis.targetPosition.getZ()^2);
+        finalTardisTicker = 240;
         return finalTardisTicker;
     }
 
@@ -97,7 +101,7 @@ public class DematTransit {
             assert oldDimension != null;
             assert newDimension != null;
             if (!TardisConfig.cantLandOnBlockList.contains(newDimension.getBlockState(tardis.targetPosition.below(1)).getBlock())) { // Checks if the block below the tardis's target position is a valid block to land on
-                if (newDimension.getBlockState(tardis.targetPosition.above(1)).getBlock().equals(Blocks.AIR) /*|| newDimension.getBlockState(tardis.targetPosition.below(1)).getBlock().equals(Blocks.SNOW)*/) {
+                if (newDimension.getBlockState(tardis.targetPosition.above(1)).getBlock().equals(Blocks.AIR) || newDimension.getBlockState(tardis.targetPosition.below(1)).getBlock().equals(Blocks.SNOW)) {
                     landTardisPart1(tardis.targetPosition);
                 }
             } else {
@@ -168,19 +172,25 @@ public class DematTransit {
         this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
+        ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         assert newDimension != null;
+        assert tardisDim != null;
         ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landingPosition, newDimension.getChunk(landingPosition).getPos().x, newDimension.getChunk(landingPosition).getPos().z, true, true);
         newDimension.setBlockAndUpdate(landingPosition, newBlockState);
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(landingPosition);
+        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisDim.getBlockEntity(tardis.interior_door_position);
         assert newTardisTileEntity != null;
         newTardisTileEntity.setExterior(tardis.exteriorType);
+        if(basicInteriorDoorTile != null) {
+            basicInteriorDoorTile.setInteriorDoor(tardis.interiorDoorType);
+        }
         newTardisTileEntity.linked_tardis_id = tardis.tardisID;
         newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
         newTardisTileEntity.linked_tardis = tardis;
         newTardisTileEntity.setMatState(EnumMatState.REMAT);
         newTardisTileEntity.dematTransit = this;
-        newDimension.setBlockEntity(landingPosition, newTardisTileEntity);
         tardis.targetPosition = landingPosition;
+        newDimension.setBlockEntity(landingPosition, newTardisTileEntity);
         if (!newDimension.getBlockState(landingPosition.above(1)).getBlock().equals(Blocks.AIR)) {
             newDimension.removeBlock(landingPosition.above(1), false);
         }

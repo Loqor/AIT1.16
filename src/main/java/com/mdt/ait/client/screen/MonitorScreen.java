@@ -23,6 +23,16 @@ public class MonitorScreen extends Screen {
     private static final ResourceLocation EXTERIOR_SELECTION_TEST = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/exterior_screen_test.png");
     private static final ResourceLocation EXTERIOR_SELECTION_TEST2 = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/exterior_screen_test2.png");
     private static final ResourceLocation BASIC_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/basic_exterior_screen.png");
+    private static final ResourceLocation BAKER_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/baker_exterior_screen.png");
+    private static final ResourceLocation HELLBENT_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/hellbent_exterior_screen.png");
+    private static final ResourceLocation CUSHING_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/cushing_exterior_screen.png");
+    private static final ResourceLocation CLASSIC_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/classic_exterior_screen.png");
+    private static final ResourceLocation HARTNELL_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/hartnell_exterior_screen.png");
+    private static final ResourceLocation TARDIM_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/tardim_exterior_screen.png");
+    private static final ResourceLocation FALLOUT_SHELTER_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/fallout_shelter_exterior_screen.png");
+    private static final ResourceLocation RANI_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/rani_exterior_screen.png");
+    private static final ResourceLocation CLOCK_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/clock_exterior_screen.png");
+
     private int imageHeight;
     private int imageWidth;
     public UUID tardisID;
@@ -39,76 +49,78 @@ public class MonitorScreen extends Screen {
     }
 
     //@TODO I know this is confusing, it's basically getting the next exterior type.
-    /*public void switchScreenTexture() {
+    public void switchScreenTexture() {
         Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
         if (tardis != null) {
             if (tardis.getExteriorType() == EnumExteriorType.BASIC_BOX) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.MINT_BOX) {
-                this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
-            } else {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.CORAL_BOX) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.POSTER_BOX) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.BAKER_BOX) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = BAKER_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.TYPE_40_TT_CAPSULE) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.HELLBENT_TT_CAPSULE) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = HELLBENT_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.ARCADE_CABINET_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.CUSHING_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = CUSHING_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.CLASSIC_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = CLASSIC_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.HARTNELL_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = HARTNELL_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.HUDOLIN_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.TX3_EXTERIOR) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.TARDIM_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = TARDIM_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.SHALKA_EXTERIOR) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.BOOTH_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.STEVE_EXTERIOR) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
             if (tardis.getExteriorType() == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST2;
+                this.SelectedTardis = FALLOUT_SHELTER_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.RANI_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = RANI_EXTERIOR_SCREEN;
             }
-            System.out.println(tardis.getExteriorType());
+            if(tardis.getExteriorType() == EnumExteriorType.CLOCK_EXTERIOR) {
+                this.SelectedTardis = CLOCK_EXTERIOR_SCREEN;
+            }
+            //System.out.println(tardis.getExteriorType());
         }
-    }*/
+    }
 
     @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         this.renderBackground(matrixStack);
         this.renderTardisSelection(matrixStack);
         super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        switchScreenTexture();
     }
 
     @Override
@@ -137,7 +149,7 @@ public class MonitorScreen extends Screen {
     public void renderTardisSelection(MatrixStack matrixStack) {
         matrixStack.pushPose();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(SelectedTardis);
+        this.minecraft.getTextureManager().bind(this.SelectedTardis);
         int i = (this.width - 64);
         int j = (this.height - 64);
         matrixStack.scale(0.5f, 0.5f, 0.5f);

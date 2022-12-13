@@ -38,6 +38,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TardisCoralTile>> TARDIS_CORAL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_coral",
             () -> TileEntityType.Builder.of(TardisCoralTile::new, AITBlocks.TARDIS_CORAL_BLOCK.get()).build(null));
+
+
+    //Controls
     public static final RegistryObject<TileEntityType<TardisLeverTile>> TARDIS_LEVER_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_lever",
             () -> TileEntityType.Builder.of(TardisLeverTile::new, AITBlocks.TARDIS_LEVER_BLOCK.get()).build(null));
@@ -62,6 +65,16 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TennantMonitorTile>> TENNANT_MONITOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tennant_monitor",
             () -> TileEntityType.Builder.of(TennantMonitorTile::new, AITBlocks.TENNANT_MONITOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<DoorSwitchControlTile>> DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "door_switch_control",
+            () -> TileEntityType.Builder.of(DoorSwitchControlTile::new, AITBlocks.DOOR_SWITCH_CONTROL_BLOCK.get()).build(null));
+
+    //Temporary Ideas
+    public static final RegistryObject<TileEntityType<VortexTileTemp>> VORTEX_TILE_ENTITY_TYPE = TILE_ENTITIES.register("vortex_tile",
+            () ->
+            TileEntityType.Builder.of(VortexTileTemp::new, AITBlocks.VORTEX_BLOCK.get()).build(null));
+
+    //Misc. TARDIS things
     public static final RegistryObject<TileEntityType<TardisPowerAccessPointTile>> TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_power_access_point",
             () -> TileEntityType.Builder.of(TardisPowerAccessPointTile::new, AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get()).build(null));

@@ -32,6 +32,8 @@ public class AITEntities {
     public static final RegistryObject<EntityType<DeloreanEntity>> DELOREAN = ENTITIES.register(
             "delorean", () -> EntityType.Builder.of(DeloreanEntity::new, EntityClassification.MISC).sized(2.5f, 1.5f).build(
                     new ResourceLocation(AIT.MOD_ID, "delorean").toString()));
+
+    //Control Interaction entities
     public static final RegistryObject<EntityType<ControlInteractionEntity>> THROTTLE_INTERACTION_ENTITY = ENTITIES.register(
             "throttle_interaction_entity", () -> EntityType.Builder.of(ControlInteractionEntity::new, EntityClassification.AMBIENT)
                     .sized(0.1875f, 0.1875f).build(
@@ -64,6 +66,12 @@ public class AITEntities {
             "exterior_facing_interaction_entity", () -> EntityType.Builder.of(ControlInteractionEntity::new, EntityClassification.AMBIENT)
                     .sized(ControlInteractionEntity.xSize(), ControlInteractionEntity.ySize()).build(
                             new ResourceLocation(AIT.MOD_ID, "exterior_facing_interaction_entity").toString()));
+    public static final RegistryObject<EntityType<ControlInteractionEntity>> MONITOR_INTERACTION_ENTITY = ENTITIES.register(
+            "monitor_interaction_entity", () -> EntityType.Builder.of(ControlInteractionEntity::new, EntityClassification.AMBIENT)
+                    .sized(0.5f, 0.5f).build(
+                            new ResourceLocation(AIT.MOD_ID, "monitor_interaction_entity").toString()));
+
+    //Falling TARDIS
     public static final RegistryObject<EntityType<FallingTardisEntity>> FALLING_TARDIS_ENTITY = ENTITIES.register(
             "falling_tardis_entity", () -> EntityType.Builder.of(FallingTardisEntity::new, EntityClassification.AMBIENT).sized(0.125f, 0.125f).build(
                     new ResourceLocation(AIT.MOD_ID, "falling_tardis_entity").toString()));

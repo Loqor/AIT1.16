@@ -9,10 +9,7 @@ import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumLeverState;
-import com.mdt.ait.core.init.enums.EnumMatState;
+import com.mdt.ait.core.init.enums.*;
 import com.mdt.ait.tardis.Tardis;
 import com.qouteall.immersive_portals.api.PortalAPI;
 import com.qouteall.immersive_portals.portal.Portal;
@@ -53,9 +50,8 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.UUID;
 
-import static com.mdt.ait.common.blocks.BasicInteriorDoorBlock.FACING;
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
-import static com.mdt.ait.core.init.enums.EnumDoorState.BOTH;
+import static com.mdt.ait.core.init.enums.EnumDoorState.CLOSED;
 
 public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEntity {
 
@@ -66,8 +62,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     protected Portal portal;
     protected UUID portalUUID;
     public Tardis linked_tardis;
-    protected EnumDoorState currentstate = CLOSED;
-    public EnumDoorState previousstate = CLOSED;
+    protected EnumDoorState currentstate = EnumDoorState.CLOSED;
+    public EnumInteriorDoorType currentinteriordoor = EnumInteriorDoorType.DOOR_BASIC_BOX;
+    public EnumDoorState previousstate = EnumDoorState.CLOSED;
     public boolean lockedState = false;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
@@ -76,6 +73,118 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
 
     public EnumDoorState currentState() {
         return this.currentstate;
+    }
+
+    public EnumInteriorDoorType getNextInteriorDoor() {
+        switch (currentinteriordoor) {
+            case DOOR_BASIC_BOX:
+                return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;//EnumInteriorDoorType.MINT_BOX;
+            //case DOOR_MINT_BOX:
+            //    return EnumInteriorDoorType.CORAL_BOX;
+            //case DOOR_CORAL_BOX:
+            //    return EnumInteriorDoorType.POSTER_BOX;
+            //case DOOR_POSTER_BOX:
+            //    return EnumInteriorDoorType.BAKER_BOX;
+            //case DOOR_BAKER_BOX:
+            //    return EnumInteriorDoorType.TYPE_40_TT_CAPSULE;
+            //case DOOR_TYPE_40_TT_CAPSULE:
+            //    return EnumInteriorDoorType.HELLBENT_TT_CAPSULE;
+            //case DOOR_HELLBENT_TT_CAPSULE:
+            //    return EnumInteriorDoorType.NUKA_COLA_EXTERIOR;
+            //case DOOR_NUKA_COLA_EXTERIOR:
+            //    return EnumInteriorDoorType.ARCADE_CABINET_EXTERIOR;
+            //case DOOR_SIEGE_MODE:
+            //    return EnumInteriorDoorType.DOOR_BASIC_BOX;
+            //case DOOR_ARCADE_CABINET_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_CUSHING_EXTERIOR;
+            //case DOOR_CUSHING_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR;
+            //case DOOR_CLASSIC_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR;
+            //case DOOR_HARTNELL_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
+            case DOOR_HUDOLIN_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//EnumInteriorDoorType.TX3_EXTERIOR;
+            //case DOOR_TX3_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
+            //case DOOR_TARDIM_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR;
+            //case DOOR_SHALKA_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_BOOTH_EXTERIOR;
+            //case DOOR_BOOTH_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_STEVE_EXTERIOR;
+            //case DOOR_STEVE_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
+            case DOOR_FALLOUT_SHELTER_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_BASIC_BOX;//EnumInteriorDoorType.DOOR_RANI_EXTERIOR;
+            //case DOOR_RANI_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_CLOCK_EXTERIOR;
+            //case DOOR_CLOCK_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_BASIC_BOX;
+        }
+        return EnumInteriorDoorType.DOOR_BASIC_BOX;
+    }
+
+    public EnumInteriorDoorType getCurrentInteriorDoor() {
+        return currentinteriordoor;
+    }
+
+    public EnumInteriorDoorType getLastInteriorDoor() {
+        switch (currentinteriordoor) {
+            case DOOR_BASIC_BOX:
+                return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;//EnumInteriorDoorType.DOOR_CLOCK_EXTERIOR;
+            //case DOOR_MINT_BOX:
+            //    return EnumInteriorDoorType.DOOR_BASIC_BOX;
+            //case DOOR_CORAL_BOX:
+            //    return EnumInteriorDoorType.DOOR_MINT_BOX;
+            //case DOOR_POSTER_BOX:
+            //    return EnumInteriorDoorType.DOOR_CORAL_BOX;
+            //case DOOR_BAKER_BOX:
+            //    return EnumInteriorDoorType.DOOR_POSTER_BOX;
+            //case DOOR_TYPE_40_TT_CAPSULE:
+            //    return EnumInteriorDoorType.DOOR_BAKER_BOX;
+            //case DOOR_HELLBENT_TT_CAPSULE:
+            //    return EnumInteriorDoorType.DOOR_TYPE_40_TT_CAPSULE;
+            //case DOOR_NUKA_COLA_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_HELLBENT_TT_CAPSULE;
+            //case DOOR_SIEGE_MODE:
+            //    return EnumInteriorDoorType.DOOR_SIEGE_MODE;
+            //case DOOR_ARCADE_CABINET_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_NUKA_COLA_EXTERIOR;
+            //case DOOR_CUSHING_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_ARCADE_CABINET_EXTERIOR;
+            //case DOOR_CLASSIC_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_CUSHING_EXTERIOR;
+            //case DOOR_HARTNELL_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR;
+            case DOOR_HUDOLIN_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_BASIC_BOX;//EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR;
+            //case DOOR_TX3_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
+            //case DOOR_TARDIM_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_TX3_EXTERIOR;
+            //case DOOR_SHALKA_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
+            //case DOOR_BOOTH_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR;
+            //case DOOR_STEVE_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_BOOTH_EXTERIOR;
+            //case DOOR_FALLOUT_SHELTER_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_STEVE_EXTERIOR;
+            //case DOOR_RANI_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
+            //case DOOR_CLOCK_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_RANI_EXTERIOR;
+        }
+        return EnumInteriorDoorType.DOOR_BASIC_BOX;
+    }
+
+    public void setInteriorDoor(EnumInteriorDoorType interiordoor) {
+        this.currentinteriordoor = interiordoor;
+    }
+
+    public EnumInteriorDoorType getInteriorDoor() {
+        return this.currentinteriordoor;
     }
 
     public void setPortal(Portal portal) {
@@ -110,15 +219,15 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public EnumDoorState getNextDoorState() {
         switch (currentstate) {
             case CLOSED:
-                return FIRST;
+                return EnumDoorState.FIRST;
             case FIRST:
-                return BOTH;
+                return EnumDoorState.BOTH;
             case BOTH:
-                return CLOSED;
+                return EnumDoorState.CLOSED;
             case LOCKED:
-                return CLOSED;
+                return EnumDoorState.CLOSED;
         }
-        return CLOSED;
+        return EnumDoorState.CLOSED;
     }
 
     public Direction getFacing() {
@@ -157,7 +266,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                     doorTile.setLockedState(true, EnumDoorState.CLOSED);
                 }
             }*/
-                    this.currentstate = CLOSED;
+                    this.currentstate = EnumDoorState.CLOSED;
                     playerEntity.displayClientMessage(new TranslationTextComponent(
                             "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                     level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -221,11 +330,6 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         //AxisAlignedBB aabb = getTardisInteriorDoorCollider(getBlockState()).bounds();
         //aabb = aabb.inflate(0.8D/16D).move(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
         //this.level.getEntities(null, aabb).forEach(this::entityInside);
-
-        if (currentState() != previousstate) {
-            rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
-            leftDoorRotation = currentState() == FIRST ? 0.0f : (currentState() == BOTH ? 0.0f : 87.5f);
-        }
         if(linked_tardis != null) {
             if (linked_tardis.exterior_dimension != null) {
                 ServerWorld world = AIT.server.getLevel(linked_tardis.exterior_dimension);
@@ -253,7 +357,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                                 }
                             }
                         }
-                        if (this.currentstate == CLOSED) {
+                        if (this.currentstate == EnumDoorState.CLOSED) {
                             if (this.portal != null) {
                                 this.portal.remove();
                                 this.portal = null;
@@ -264,24 +368,27 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                 }
             }
         }
-
+        if (currentState() != previousstate) {
+            rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
+            leftDoorRotation = currentState() == FIRST ? 0.0f : (currentState() == BOTH ? 0.0f : 87.5f);
+        }
         if (currentState() != CLOSED) {
             if (rightDoorRotation < 87.5f) {
                 rightDoorRotation += 5.0f;
             } else {
                 rightDoorRotation = 87.5f;
             }
-            if (currentState() == BOTH) {
-                if (leftDoorRotation < 87.5f) {
-                    leftDoorRotation += 5.0f;
-                } else {
-                    leftDoorRotation = 87.5f;
-                }
-            }
         } else {
             if (leftDoorRotation > 0.0f && rightDoorRotation > 0.0f) {
                 leftDoorRotation -= 15.0f;
                 rightDoorRotation -= 15.0f;
+            }
+        }
+        if (currentState() == BOTH) {
+            if (leftDoorRotation < 87.5f) {
+                leftDoorRotation += 5.0f;
+            } else {
+                leftDoorRotation = 87.5f;
             }
         }
         if(currentState() == CLOSED) {
@@ -337,15 +444,15 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     private VoxelShape getTardisInteriorDoorCollider(BlockState blockstate) {
-        switch(blockstate.getValue(FACING)) {
+        switch(blockstate.getValue(BasicInteriorDoorBlock.FACING)) {
             case NORTH:
-                return TardisBlock.NORTH_AABB;
+                return BasicInteriorDoorBlock.NORTH_AABB;
             case EAST:
-                return TardisBlock.EAST_AABB;
+                return BasicInteriorDoorBlock.EAST_AABB;
             case SOUTH:
-                return TardisBlock.SOUTH_AABB;
+                return BasicInteriorDoorBlock.SOUTH_AABB;
             case WEST:
-                return TardisBlock.WEST_AABB;
+                return BasicInteriorDoorBlock.WEST_AABB;
             default:
                 throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
                         "//HOW THE HECK DID YOU GET HERE??");
@@ -363,12 +470,13 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
                 this.setDoorState(this.getNextDoorState());
                 linked_tardis.setExteriorDoorState(this.currentstate);
-                //setExteriorDoorState();
-                if (this.currentstate == CLOSED)
+                TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(linked_tardis.exterior_dimension).getBlockEntity(linked_tardis.exterior_position);
+                tardisTileEntity.syncToClient();
+                if (this.currentstate == EnumDoorState.CLOSED)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                if (this.currentstate == FIRST)
+                if (this.currentstate == EnumDoorState.FIRST)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                if (this.currentstate == BOTH)
+                if (this.currentstate == EnumDoorState.BOTH)
                     world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                 syncToClient();
             }
@@ -386,8 +494,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         if(nbt.contains("portalID")) {
             this.portalUUID = nbt.getUUID("portalID");
         }
-        System.out.println("Door load");
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentState")];
+        this.currentinteriordoor = EnumInteriorDoorType.values()[nbt.getInt("currentinteriordoor")];
+        this.lockedState = nbt.getBoolean("lockedState");
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
         if (nbt.contains("tardis_id")) {
@@ -399,11 +508,10 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         if(this.portal != null) {
             nbt.putUUID("portalID", this.portal.getUUID());
         }
-        System.out.println("Door save");
         nbt.putInt("currentState", this.currentstate.ordinal());
+        nbt.putInt("currentinteriordoor", this.currentinteriordoor.ordinal());
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
-        System.out.println(this.currentstate);
         if (linked_tardis != null) {
             nbt.putUUID("tardis_id", linked_tardis.tardisID);
         }

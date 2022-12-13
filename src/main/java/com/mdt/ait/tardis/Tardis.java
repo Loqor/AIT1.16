@@ -9,6 +9,7 @@ import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -39,6 +40,7 @@ public class Tardis implements IEnergyStorage {
     public Boolean landed = false;
 
     public EnumExteriorType exteriorType;
+    public EnumInteriorDoorType interiorDoorType;
     public TardisInterior currentInterior;
     public final Tuple<Integer, Integer> grid_position;
     public RegistryKey<World> exterior_dimension;
@@ -89,17 +91,31 @@ public class Tardis implements IEnergyStorage {
         ServerWorld world = AIT.server.getLevel(exterior_dimension);
         assert world != null;
         TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exterior_position);
-        assert tardisTileEntity != null;
-        tardisTileEntity.setDoorState(doorState);
+
+        if(tardisTileEntity != null) {
+            tardisTileEntity.setDoorState(doorState);
+        }
     }
 
     public void setInteriorDoorState(EnumDoorState doorState) {
         ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         assert world != null;
         BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interior_door_position);
-        assert interiorDoorTile != null;
-        interiorDoorTile.setDoorState(doorState);
-        interiorDoorTile.syncToClient();
+        if(interiorDoorTile != null) {
+            interiorDoorTile.setDoorState(doorState);
+            interiorDoorTile.syncToClient();
+        }
+    }
+
+    public void setInteriorDoorType(EnumInteriorDoorType interiorDoorType) {
+        this.interiorDoorType = interiorDoorType;
+        ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert world != null;
+        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interior_door_position);
+        if(basicInteriorDoorTile != null) {
+            basicInteriorDoorTile.setInteriorDoor(interiorDoorType);
+            basicInteriorDoorTile.syncToClient();
+        }
     }
 
     public void setExteriorType(EnumExteriorType exteriorType) {
@@ -113,6 +129,10 @@ public class Tardis implements IEnergyStorage {
 
     public EnumExteriorType getExteriorType() {
         return this.exteriorType;
+    }
+
+    public EnumInteriorDoorType getInteriorDoorType() {
+        return this.interiorDoorType;
     }
 
     public void lockTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
@@ -154,6 +174,7 @@ public class Tardis implements IEnergyStorage {
                 ((BasicInteriorDoorTile) interiorDoorTileEntity).tardisID = this.tardisID;
             }
         }
+        this.interiorDoorType = ((BasicInteriorDoorTile) Objects.requireNonNull(Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(interior_door_position))).getInteriorDoor();
     }
 
     public void __moveExterior(BlockPos newExteriorPosition, Direction newExteriorFacing, RegistryKey<World> newExteriorDimension) {
@@ -169,7 +190,7 @@ public class Tardis implements IEnergyStorage {
         this.target_facing_direction = newTargetFacing;
     }
 
-    public void teleportToInterior(PlayerEntity playerEntity) {
+    /*public void teleportToInterior(PlayerEntity playerEntity) {
         // @TODO: Something breaks here that'll teleport the player to the void only on a server and I have no idea why!!!!
         if (playerEntity instanceof ServerPlayerEntity) {
             ServerWorld target_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
@@ -274,12 +295,12 @@ public class Tardis implements IEnergyStorage {
         this.owner = tag.getUUID("owner");
         this.tardisID = tag.getUUID("tardis_id");
         this.exterior_position = BlockPos.of(tag.getLong("exterior_position"));
+        this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.exterior_dimension = RegistryKey.create(RegistryKey.createRegistryKey(new ResourceLocation(tag.getString("exterior_dimension_registry_name"))), new ResourceLocation(tag.getString("exterior_dimension_resource_location")));
         this.grid_position = new Tuple<Integer, Integer>(tag.getInt("grid_position_x"), tag.getInt("grid_position_z"));
         this.currentInterior = TardisInteriors.getInteriorFromName(tag.getString("tardis_interior"));
         this.center_position = BlockPos.of(tag.getLong("center_position")); // Before we'd use to calculate it, but now we just grab from data, so if someone changes the config it won't break older tardises
         this.exterior_facing = Direction.byName(tag.getString("exterior_facing"));
-        this.interior_door_position = BlockPos.of(tag.getLong("interior_door_position"));
         this.interior_door_facing = Direction.byName(tag.getString("interior_door_facing"));
         this.lockedTardis = tag.getBoolean("locked_tardis"); // Loqor is an idiot and fucked this up ~ Creativious
         if (tag.contains("target_dimension_registry_name") || tag.contains("target_position") || tag.contains("target_facing") || tag.contains("target_dimension_resource_location")) {
@@ -300,13 +321,13 @@ public class Tardis implements IEnergyStorage {
         tag.putUUID("owner", this.owner);
         tag.putUUID("tardis_id", this.tardisID);
         tag.putLong("exterior_position", this.exterior_position.asLong());
+        tag.putLong("interior_door_position", this.interior_door_position.asLong());
         tag.putString("exterior_dimension_registry_name", this.exterior_dimension.getRegistryName().toString());
         tag.putString("exterior_dimension_resource_location", this.exterior_dimension.location().toString());
         tag.putInt("grid_position_x", this.grid_position.getA());
         tag.putInt("grid_position_z", this.grid_position.getB());
         tag.putString("tardis_interior", this.currentInterior.toString());
         tag.putString("exterior_facing", this.exterior_facing.toString());
-        tag.putLong("interior_door_position", this.interior_door_position.asLong());
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());
         tag.putBoolean("locked_tardis", this.lockedTardis);

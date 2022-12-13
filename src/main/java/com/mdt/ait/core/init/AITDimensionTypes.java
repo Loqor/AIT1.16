@@ -5,6 +5,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.ColumnFuzzedBiomeMagnifier;
 
@@ -20,5 +21,7 @@ public class AITDimensionTypes {
             new ResourceLocation(AIT.MOD_ID, "gallifrey_dimension_type"));
     public static final RegistryKey<DimensionType> MONDAS_DIMENSION_TYPE = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
             new ResourceLocation(AIT.MOD_ID, "mondas_dimension_type"));
+    public static final RegistryKey<DimensionType> VORTEX_DIMENSION_TYPE = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
+            new ResourceLocation(AIT.MOD_ID, "vortex_dimension_type"));
 }
 

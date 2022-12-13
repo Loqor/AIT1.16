@@ -1,4 +1,4 @@
-package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.1
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.2
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -13,14 +13,17 @@ public class ClassicExterior extends BasicBox {
 	public final ModelRenderer box;
 	public final ModelRenderer base;
 	public final ModelRenderer left_door;
+	public final ModelRenderer cube_r1;
+	public final ModelRenderer cube_r2;
 	public final ModelRenderer right_door;
+	public final ModelRenderer cube_r3;
 
 	public ClassicExterior() {
 		texWidth = 512;
 		texHeight = 512;
 
 		box = new ModelRenderer(this);
-		box.setPos(0.0F, 24.0F, 0.0F);
+		box.setPos(0.0F, 23.75F, 0.0F);
 		
 
 		base = new ModelRenderer(this);
@@ -44,32 +47,58 @@ public class ClassicExterior extends BasicBox {
 		base.texOffs(131, 136).addBox(17.0F, -65.0F, -14.0F, 1.0F, 62.0F, 14.0F, 0.0F, false);
 		base.texOffs(162, 136).addBox(17.0F, -65.0F, 0.0F, 1.0F, 62.0F, 14.0F, 0.0F, false);
 		base.texOffs(0, 0).addBox(-4.5F, -79.0F, -4.5F, 9.0F, 2.0F, 9.0F, 0.0F, false);
-		base.texOffs(0, 12).addBox(-4.0F, -86.0F, -4.0F, 8.0F, 1.0F, 8.0F, 0.0F, false);
-		base.texOffs(25, 22).addBox(-2.0F, -85.0F, -2.0F, 4.0F, 6.0F, 4.0F, 0.0F, false);
-		base.texOffs(0, 22).addBox(-3.0F, -86.75F, -3.0F, 6.0F, 1.0F, 6.0F, 0.0F, false);
-		base.texOffs(6, 30).addBox(-3.25F, -85.0F, -3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
-		base.texOffs(28, 0).addBox(-3.25F, -85.0F, 2.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
-		base.texOffs(3, 30).addBox(2.25F, -85.0F, 3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
-		base.texOffs(25, 12).addBox(3.25F, -85.0F, -3.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
-		base.texOffs(5, 12).addBox(-3.25F, -85.0F, -3.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
-		base.texOffs(0, 30).addBox(-3.25F, -85.0F, 3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
-		base.texOffs(5, 0).addBox(3.25F, -85.0F, 2.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
-		base.texOffs(28, 12).addBox(2.25F, -85.0F, -3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
+		base.texOffs(0, 0).addBox(-4.5F, -80.0F, -4.5F, 9.0F, 1.0F, 9.0F, 0.0F, false);
+		base.texOffs(0, 12).addBox(-4.0F, -87.0F, -4.0F, 8.0F, 1.0F, 8.0F, 0.0F, false);
+		base.texOffs(25, 22).addBox(-2.0F, -86.0F, -2.0F, 4.0F, 6.0F, 4.0F, 0.0F, false);
+		base.texOffs(0, 22).addBox(-3.0F, -87.75F, -3.0F, 6.0F, 1.0F, 6.0F, 0.0F, false);
+		base.texOffs(85, 105).addBox(-2.5F, -88.05F, -2.5F, 5.0F, 1.0F, 5.0F, 0.0F, false);
+		base.texOffs(6, 30).addBox(-3.25F, -86.0F, -3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
+		base.texOffs(28, 0).addBox(-3.25F, -86.0F, 2.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
+		base.texOffs(3, 30).addBox(2.25F, -86.0F, 3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
+		base.texOffs(25, 12).addBox(3.25F, -86.0F, -3.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
+		base.texOffs(5, 12).addBox(-3.25F, -86.0F, -3.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
+		base.texOffs(0, 30).addBox(-3.25F, -86.0F, 3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
+		base.texOffs(5, 0).addBox(3.25F, -86.0F, 2.25F, 0.0F, 6.0F, 1.0F, 0.0F, false);
+		base.texOffs(28, 12).addBox(2.25F, -86.0F, -3.25F, 1.0F, 6.0F, 0.0F, 0.0F, false);
 		base.texOffs(193, 136).addBox(14.0F, -73.0F, -19.0F, 5.0F, 70.0F, 5.0F, 0.0F, false);
 		base.texOffs(138, 213).addBox(-19.0F, -73.0F, -19.0F, 5.0F, 70.0F, 5.0F, 0.0F, false);
 		base.texOffs(188, 212).addBox(-19.0F, -73.0F, 14.0F, 5.0F, 70.0F, 5.0F, 0.0F, false);
 		base.texOffs(209, 207).addBox(14.0F, -73.0F, 14.0F, 5.0F, 70.0F, 5.0F, 0.0F, false);
 
 		left_door = new ModelRenderer(this);
-		left_door.setPos(-14.0F, -8.0F, -17.0F);
+		left_door.setPos(-14.0F, -32.0F, -17.0F);
+		box.addChild(left_door);
 		left_door.texOffs(93, 215).addBox(0.0F, -33.0F, -1.0F, 14.0F, 62.0F, 1.0F, 0.0F, false);
-		left_door.texOffs(0, 12).addBox(10.0F, -12.0F, -2.0F, 1.0F, 4.0F, 1.0F, 0.0F, false);
+		left_door.texOffs(276, 125).addBox(12.8F, -6.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+		left_door.texOffs(248, 71).addBox(4.0F, -14.0F, 0.0F, 6.0F, 9.0F, 3.0F, 0.0F, false);
+		left_door.texOffs(0, 12).addBox(10.0F, -11.0F, -1.75F, 1.0F, 4.0F, 1.0F, 0.0F, false);
 		left_door.texOffs(174, 213).addBox(13.5F, -33.0F, -1.5F, 1.0F, 62.0F, 1.0F, 0.0F, false);
 
+		cube_r1 = new ModelRenderer(this);
+		cube_r1.setPos(12.1F, 27.9F, 0.5F);
+		left_door.addChild(cube_r1);
+		setRotationAngle(cube_r1, 0.0F, 0.0F, -1.5708F);
+		cube_r1.texOffs(276, 200).addBox(-0.1F, -0.1F, -0.5F, 3.0F, 2.0F, 1.0F, 0.0F, false);
+
+		cube_r2 = new ModelRenderer(this);
+		cube_r2.setPos(15.55F, -5.0F, 0.25F);
+		left_door.addChild(cube_r2);
+		setRotationAngle(cube_r2, 0.0F, 0.0F, -1.5708F);
+		cube_r2.texOffs(297, 211).addBox(-33.5F, -3.05F, -0.5F, 3.0F, 1.0F, 1.0F, 0.0F, false);
+
 		right_door = new ModelRenderer(this);
-		right_door.setPos(14.0F, -8.0F, -17.0F);
+		right_door.setPos(14.0F, -32.0F, -17.0F);
+		box.addChild(right_door);
 		right_door.texOffs(230, 200).addBox(-14.0F, -33.0F, -1.0F, 14.0F, 62.0F, 1.0F, 0.0F, false);
-		right_door.texOffs(0, 0).addBox(-13.0F, -13.0F, -2.0F, 1.0F, 6.0F, 1.0F, 0.0F, false);
+		right_door.texOffs(276, 200).addBox(-13.4F, -6.0F, 0.0F, 3.0F, 2.0F, 1.0F, 0.0F, false);
+		right_door.texOffs(297, 211).addBox(-13.95F, -5.5F, -0.25F, 3.0F, 1.0F, 1.0F, 0.0F, false);
+		right_door.texOffs(0, 0).addBox(-12.75F, -13.0F, -1.75F, 1.0F, 5.0F, 1.0F, 0.0F, false);
+
+		cube_r3 = new ModelRenderer(this);
+		cube_r3.setPos(-12.5F, -10.0F, -1.5F);
+		right_door.addChild(cube_r3);
+		setRotationAngle(cube_r3, 0.0F, 3.1416F, 0.0F);
+		cube_r3.texOffs(0, 0).addBox(-0.75F, -3.0F, -2.5F, 1.0F, 5.0F, 1.0F, 0.0F, false);
 	}
 
 	@Override
@@ -80,8 +109,6 @@ public class ClassicExterior extends BasicBox {
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		box.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		left_door.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		right_door.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

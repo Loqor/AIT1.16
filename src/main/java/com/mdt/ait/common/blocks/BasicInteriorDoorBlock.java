@@ -29,26 +29,34 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 import java.util.UUID;
+import java.util.function.ToIntFunction;
 
 public class BasicInteriorDoorBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
+    public ToIntFunction<BlockState> light = BlockState -> 0;
 
-    /*public static final VoxelShape NORTH_AABB = VoxelShapes.box(0, 0, -1, 2, 32, -0.1);
-    public static final VoxelShape EAST_AABB = VoxelShapes.box(16.1, 0, 0, 16, 32, 2);
-    public static final VoxelShape SOUTH_AABB = VoxelShapes.box(0, 0, 16.1, 2, 32, 16);
-    public static final VoxelShape WEST_AABB = VoxelShapes.box(-1, 0, 0, -0.1, 32, 2);*/
+    /*public static final VoxelShape NORTH_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
+    public static final VoxelShape EAST_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
+    public static final VoxelShape SOUTH_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
+    public static final VoxelShape WEST_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
 
     public static final VoxelShape SOUTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, -0.0625, 1, 2, -0.006249999999999978));
     public static final VoxelShape WEST_AABB = VoxelShapes.create(new AxisAlignedBB(1.00625, 0, 0, 1.0625, 2, 1));
     public static final VoxelShape NORTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 1.00625, 1, 2, 1.0625));
-    public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(-0.0625, 0, 0, -0.006249999999999978, 2, 1));
+    public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(-0.0625, 0, 0, -0.006249999999999978, 2, 1));*/
+
+    public static final VoxelShape SOUTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 1));
+    public static final VoxelShape WEST_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 1));
+    public static final VoxelShape NORTH_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 1));
+    public static final VoxelShape EAST_AABB = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 1));
 
     public BasicInteriorDoorBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission());;
+        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak().noCollission().lightLevel(BlockState -> 15));;
     }
 
     @Override
@@ -73,22 +81,7 @@ public class BasicInteriorDoorBlock extends Block {
         }
     }
 
-    /*@Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch(state.getValue(FACING)) {
-            case NORTH:
-                return NORTH_AABB;
-            case EAST:
-                return EAST_AABB;
-            case SOUTH:
-                return SOUTH_AABB;
-            case WEST:
-                return WEST_AABB;
-            default:
-                throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
-                        "//HOW THE HECK DID YOU GET HERE??");
-        }
-    }*/
+
 
     @Override
     public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
@@ -128,19 +121,6 @@ public class BasicInteriorDoorBlock extends Block {
             serverWorld.setBlockEntity(blockPos, basicInteriorDoorTile);
         }
     }
-
-    /*@Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-        ServerWorld serverWorld = ((ServerWorld) world);
-        if(tardis != null) {
-            TardisTileEntity tardisTileEntity = ((TardisTileEntity) serverWorld.getBlockEntity(tardis.exterior_position));
-            if (tardisTileEntity != null) {
-                return tardisTileEntity.getExteriorLightLevel();
-            }
-        }
-        return 0;
-    }*/
 
     @Nullable
     @Override
