@@ -173,6 +173,9 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TENNANT_MONITOR = ITEMS.register(
             "tennant_monitor", () -> new BlockItem(
                     AITBlocks.TENNANT_MONITOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> TOYOTA_MONITOR = ITEMS.register(
+            "toyota_monitor", () -> new BlockItem(
+                    AITBlocks.TOYOTA_MONITOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> DOOR_SWITCH_CONTROL_BLOCK = ITEMS.register(
             "door_switch_control", () -> new BlockItem(
                     AITBlocks.DOOR_SWITCH_CONTROL_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));

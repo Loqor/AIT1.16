@@ -121,6 +121,7 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE.get(), ExteriorFacingControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.HARTNELL_ROTOR_TILE_ENTITY_TYPE.get(), HartnellRotorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TENNANT_MONITOR_TILE_ENTITY_TYPE.get(), TennantMonitorRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.TOYOTA_MONITOR_TILE_ENTITY_TYPE.get(), ToyotaMonitorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE.get(), TardisPowerAccessPointRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DoorSwitchControlRenderer::new);
 

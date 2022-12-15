@@ -68,6 +68,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TennantMonitorTile>> TENNANT_MONITOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tennant_monitor",
             () -> TileEntityType.Builder.of(TennantMonitorTile::new, AITBlocks.TENNANT_MONITOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<ToyotaMonitorTile>> TOYOTA_MONITOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "toyota_monitor",
+            () -> TileEntityType.Builder.of(ToyotaMonitorTile::new, AITBlocks.TOYOTA_MONITOR_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<DoorSwitchControlTile>> DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "door_switch_control",
             () -> TileEntityType.Builder.of(DoorSwitchControlTile::new, AITBlocks.DOOR_SWITCH_CONTROL_BLOCK.get()).build(null));
