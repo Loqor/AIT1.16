@@ -264,7 +264,9 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public void changePositionFromControl() {
         newSetPosition = new BlockPos(xPos, yPos, zPos);
         if (this.tardisID != null) {
-            AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+            if(!level.isClientSide) {
+                AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+            }
         }
     }
 

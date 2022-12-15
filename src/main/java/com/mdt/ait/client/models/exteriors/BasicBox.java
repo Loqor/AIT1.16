@@ -1,4 +1,4 @@
-package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.2.4
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.2
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -13,52 +13,134 @@ import net.minecraft.entity.Entity;
 
 public class BasicBox<T extends Entity> extends EntityModel<T> {
 	public final ModelRenderer box;
+	public final ModelRenderer base;
+	public final ModelRenderer Posts;
+	public final ModelRenderer cube_r1;
+	public final ModelRenderer cube_r2;
+	public final ModelRenderer cube_r3;
+	public final ModelRenderer Walls;
+	public final ModelRenderer Wall_r1;
+	public final ModelRenderer Wall_r2;
+	public final ModelRenderer Roof;
+	public final ModelRenderer cube_r4;
+	public final ModelRenderer PCB;
+	public final ModelRenderer cube_r5;
+	public final ModelRenderer cube_r6;
+	public final ModelRenderer cube_r7;
 	public final ModelRenderer right_door;
 	public final ModelRenderer left_door;
-	public final ModelRenderer base;
 
 	public BasicBox() {
-		texWidth = 512;
-		texHeight = 512;
+		texWidth = 256;
+		texHeight = 256;
 
 		box = new ModelRenderer(this);
-		box.setPos(0.0F, -14.0F, 0.0F);
+		box.setPos(0.0F, 24.0F, 0.0F);
 
-		right_door = new ModelRenderer(this);
-		right_door.setPos(14.0F, 6.0F, -16.0F);
-		box.addChild(right_door);
-		right_door.texOffs(176, 174).addBox(-14.0F, -27.0F, -1.0F, 14.0F, 56.0F, 1.0F, 0.0F, false);
-		right_door.texOffs(0, 18).addBox(-13.0F, -8.5F, -2.0F, 1.0F, 5.0F, 1.0F, 0.0F, false);
-
-		left_door = new ModelRenderer(this);
-		left_door.setPos(-14.0F, 6.0F, -16.0F);
-		box.addChild(left_door);
-		left_door.texOffs(59, 126).addBox(0.0F, -27.0F, -1.0F, 14.0F, 56.0F, 1.0F, 0.0F, false);
-		left_door.texOffs(5, 18).addBox(10.0F, -8.0F, -2.0F, 1.0F, 4.0F, 1.0F, 0.0F, false);
-		left_door.texOffs(115, 201).addBox(13.5F, -27.0F, -1.5F, 1.0F, 56.0F, 1.0F, 0.0F, false);
 
 		base = new ModelRenderer(this);
-		base.setPos(19.0F, 38.0F, 19.0F);
+		base.setPos(0.0F, 0.0F, 0.0F);
 		box.addChild(base);
-		base.texOffs(0, 0).addBox(-38.0F, -3.0F, -38.0F, 38.0F, 3.0F, 38.0F, 0.0F, false);
-		base.texOffs(93, 195).addBox(-5.0F, -67.0F, -37.0F, 4.0F, 64.0F, 4.0F, 0.0F, false);
-		base.texOffs(76, 191).addBox(-37.0F, -67.0F, -37.0F, 4.0F, 64.0F, 4.0F, 0.0F, false);
-		base.texOffs(59, 184).addBox(-5.0F, -67.0F, -5.0F, 4.0F, 64.0F, 4.0F, 0.0F, false);
-		base.texOffs(90, 126).addBox(-37.0F, -67.0F, -5.0F, 4.0F, 64.0F, 4.0F, 0.0F, false);
-		base.texOffs(0, 86).addBox(-38.0F, -64.0F, -36.0F, 38.0F, 5.0F, 34.0F, 0.0F, false);
-		base.texOffs(0, 42).addBox(-36.0F, -64.0F, -38.0F, 34.0F, 5.0F, 38.0F, 0.0F, false);
-		base.texOffs(115, 0).addBox(-36.0F, -68.0F, -33.0F, 34.0F, 4.0F, 28.0F, 0.0F, false);
-		base.texOffs(111, 77).addBox(-33.0F, -68.0F, -36.0F, 28.0F, 4.0F, 34.0F, 0.0F, false);
-		base.texOffs(107, 42).addBox(-35.0F, -69.0F, -35.0F, 32.0F, 2.0F, 32.0F, 0.0F, false);
-		base.texOffs(13, 14).addBox(-21.0F, -70.0F, -21.0F, 4.0F, 1.0F, 4.0F, 0.0F, false);
-		base.texOffs(0, 0).addBox(-21.5F, -76.0F, -21.5F, 5.0F, 6.0F, 5.0F, 0.0F, false);
-		base.texOffs(0, 12).addBox(-21.0F, -77.0F, -21.0F, 4.0F, 1.0F, 4.0F, 0.0F, false);
-		base.texOffs(110, 184).addBox(-36.5F, -59.0F, -19.5F, 1.0F, 56.0F, 1.0F, 0.0F, false);
-		base.texOffs(0, 126).addBox(-36.0F, -59.0F, -33.0F, 1.0F, 56.0F, 28.0F, 0.0F, false);
-		base.texOffs(112, 126).addBox(-19.5F, -59.0F, -2.5F, 1.0F, 56.0F, 1.0F, 0.0F, false);
-		base.texOffs(176, 116).addBox(-33.0F, -59.0F, -3.0F, 28.0F, 56.0F, 1.0F, 0.0F, false);
-		base.texOffs(107, 126).addBox(-2.5F, -59.0F, -19.5F, 1.0F, 56.0F, 1.0F, 0.0F, false);
-		base.texOffs(117, 116).addBox(-3.0F, -59.0F, -33.0F, 1.0F, 56.0F, 28.0F, 0.0F, false);
+		base.texOffs(0, 0).addBox(-19.0F, -4.0F, -19.0F, 38.0F, 4.0F, 38.0F, 0.0F, false);
+
+		Posts = new ModelRenderer(this);
+		Posts.setPos(0.0F, 0.0F, 0.0F);
+		base.addChild(Posts);
+		Posts.texOffs(166, 169).addBox(-18.0F, -62.0F, -18.0F, 4.0F, 58.0F, 4.0F, 0.0F, false);
+
+		cube_r1 = new ModelRenderer(this);
+		cube_r1.setPos(0.0F, 0.0F, 0.0F);
+		Posts.addChild(cube_r1);
+		setRotationAngle(cube_r1, 0.0F, 1.5708F, 0.0F);
+		cube_r1.texOffs(86, 161).addBox(-18.0F, -62.0F, -18.0F, 4.0F, 58.0F, 4.0F, 0.0F, false);
+
+		cube_r2 = new ModelRenderer(this);
+		cube_r2.setPos(0.0F, 0.0F, 0.0F);
+		Posts.addChild(cube_r2);
+		setRotationAngle(cube_r2, 0.0F, 3.1416F, 0.0F);
+		cube_r2.texOffs(102, 161).addBox(-18.0F, -62.0F, -18.0F, 4.0F, 58.0F, 4.0F, 0.0F, false);
+
+		cube_r3 = new ModelRenderer(this);
+		cube_r3.setPos(0.0F, 0.0F, 0.0F);
+		Posts.addChild(cube_r3);
+		setRotationAngle(cube_r3, 0.0F, -1.5708F, 0.0F);
+		cube_r3.texOffs(118, 161).addBox(-18.0F, -62.0F, -18.0F, 4.0F, 58.0F, 4.0F, 0.0F, false);
+
+		Walls = new ModelRenderer(this);
+		Walls.setPos(0.0F, 0.0F, 0.0F);
+		base.addChild(Walls);
+		Walls.texOffs(128, 14).addBox(-16.0F, -56.0F, -14.0F, 1.0F, 52.0F, 28.0F, 0.0F, false);
+		Walls.texOffs(138, 161).addBox(-14.0F, -56.0F, -16.0F, 1.0F, 52.0F, 1.0F, 0.0F, false);
+		Walls.texOffs(134, 161).addBox(13.0F, -56.0F, -16.0F, 1.0F, 52.0F, 1.0F, 0.0F, false);
+		Walls.texOffs(30, 109).addBox(-13.0F, -56.0F, -16.0F, 26.0F, 1.0F, 1.0F, 0.0F, false);
+
+		Wall_r1 = new ModelRenderer(this);
+		Wall_r1.setPos(0.0F, 0.0F, 0.0F);
+		Walls.addChild(Wall_r1);
+		setRotationAngle(Wall_r1, 0.0F, 3.1416F, 0.0F);
+		Wall_r1.texOffs(84, 81).addBox(-16.0F, -56.0F, -14.0F, 1.0F, 52.0F, 28.0F, 0.0F, false);
+
+		Wall_r2 = new ModelRenderer(this);
+		Wall_r2.setPos(0.0F, 0.0F, 0.0F);
+		Walls.addChild(Wall_r2);
+		setRotationAngle(Wall_r2, 0.0F, 1.5708F, 0.0F);
+		Wall_r2.texOffs(0, 109).addBox(-16.0F, -56.0F, -14.0F, 1.0F, 52.0F, 28.0F, 0.0F, false);
+
+		Roof = new ModelRenderer(this);
+		Roof.setPos(0.0F, 0.0F, 0.0F);
+		base.addChild(Roof);
+		Roof.texOffs(0, 42).addBox(-16.0F, -65.0F, -16.0F, 32.0F, 4.0F, 32.0F, 0.0F, false);
+		Roof.texOffs(0, 23).addBox(-17.0F, -64.5F, -17.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
+		Roof.texOffs(0, 15).addBox(-17.0F, -64.5F, 13.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
+		Roof.texOffs(20, 4).addBox(13.0F, -64.5F, -17.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
+		Roof.texOffs(16, 15).addBox(13.0F, -64.5F, 13.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
+		Roof.texOffs(0, 78).addBox(-14.0F, -68.0F, -14.0F, 28.0F, 3.0F, 28.0F, 0.0F, false);
+		Roof.texOffs(0, 0).addBox(-3.0F, -70.0F, -3.0F, 6.0F, 2.0F, 6.0F, 0.0F, false);
+		Roof.texOffs(0, 42).addBox(-2.0F, -75.25F, -2.0F, 4.0F, 6.0F, 4.0F, 0.0F, false);
+		Roof.texOffs(0, 8).addBox(-3.0F, -75.5F, -3.0F, 6.0F, 1.0F, 6.0F, 0.0F, false);
+		Roof.texOffs(16, 23).addBox(-2.0F, -76.5F, -2.0F, 4.0F, 1.0F, 4.0F, 0.0F, false);
+
+		cube_r4 = new ModelRenderer(this);
+		cube_r4.setPos(0.0F, -4.0F, 0.0F);
+		Roof.addChild(cube_r4);
+		setRotationAngle(cube_r4, 0.0F, 0.7854F, 0.0F);
+		cube_r4.texOffs(0, 53).addBox(-4.5F, -70.75F, 0.0F, 9.0F, 5.0F, 0.0F, 0.0F, false);
+		cube_r4.texOffs(0, 53).addBox(0.0F, -70.75F, -4.5F, 0.0F, 5.0F, 9.0F, 0.0F, false);
+
+		PCB = new ModelRenderer(this);
+		PCB.setPos(0.0F, 0.0F, 0.0F);
+		base.addChild(PCB);
+		PCB.texOffs(142, 112).addBox(-17.0F, -61.0F, -19.0F, 34.0F, 5.0F, 4.0F, 0.0F, false);
+
+		cube_r5 = new ModelRenderer(this);
+		cube_r5.setPos(0.0F, 0.0F, 0.0F);
+		PCB.addChild(cube_r5);
+		setRotationAngle(cube_r5, 0.0F, 1.5708F, 0.0F);
+		cube_r5.texOffs(114, 0).addBox(-17.0F, -61.0F, -19.0F, 34.0F, 5.0F, 4.0F, 0.0F, false);
+
+		cube_r6 = new ModelRenderer(this);
+		cube_r6.setPos(0.0F, 0.0F, 0.0F);
+		PCB.addChild(cube_r6);
+		setRotationAngle(cube_r6, 0.0F, 3.1416F, 0.0F);
+		cube_r6.texOffs(114, 94).addBox(-17.0F, -61.0F, -19.0F, 34.0F, 5.0F, 4.0F, 0.0F, false);
+
+		cube_r7 = new ModelRenderer(this);
+		cube_r7.setPos(0.0F, 0.0F, 0.0F);
+		PCB.addChild(cube_r7);
+		setRotationAngle(cube_r7, 0.0F, -1.5708F, 0.0F);
+		cube_r7.texOffs(142, 103).addBox(-17.0F, -61.0F, -19.0F, 34.0F, 5.0F, 4.0F, 0.0F, false);
+
+		right_door = new ModelRenderer(this);
+		right_door.setPos(13.5F, -29.5F, -15.5F);
+		box.addChild(right_door);
+		right_door.texOffs(58, 161).addBox(-13.5F, -25.5F, -0.5F, 13.0F, 51.0F, 1.0F, 0.0F, false);
+		right_door.texOffs(0, 0).addBox(-12.5F, -6.5F, -1.5F, 1.0F, 3.0F, 1.0F, 0.0F, false);
+
+		left_door = new ModelRenderer(this);
+		left_door.setPos(-13.5F, -29.5F, -15.5F);
+		box.addChild(left_door);
+		left_door.texOffs(142, 121).addBox(0.5F, -25.5F, -0.5F, 13.0F, 51.0F, 1.0F, 0.0F, false);
+		left_door.texOffs(0, 8).addBox(9.5F, -6.5F, -1.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 	}
 
 	@Override

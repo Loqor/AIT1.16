@@ -93,6 +93,15 @@ public class DematTransit {
         return runTransitFormula(); // @TODO: LOQOR MAKE A FORMULA FOR THIS
     }
 
+    public void loadChunksOnDemat() {
+        if (this.tardisID != null) {
+            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
+            if(oldDimension != null)
+            ForgeChunkManager.forceChunk(oldDimension, AIT.MOD_ID, tardis.exterior_position, oldDimension.getChunk(tardis.exterior_position).getPos().x, oldDimension.getChunk(tardis.exterior_position).getPos().z, true, true);
+        }
+    }
+
     public void finishedDematAnimation() {
         if (this.tardisID != null) {
             Tardis tardis = AIT.tardisManager.getTardis(tardisID);

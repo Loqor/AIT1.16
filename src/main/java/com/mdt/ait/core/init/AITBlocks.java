@@ -25,6 +25,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
     public static final RegistryObject<Block> BASIC_ROTOR_BLOCK = BLOCKS.register("basic_rotor", BasicRotorBlock::new);
+    public static final RegistryObject<Block> HUDOLIN_ROTOR_BLOCK = BLOCKS.register("hudolin_rotor", HudolinRotorBlock::new);
     public static final RegistryObject<Block> HARTNELL_ROTOR_BLOCK = BLOCKS.register("hartnell_rotor", HartnellRotorBlock::new);
     public static final RegistryObject<Block> DOOR_SWITCH_CONTROL_BLOCK = BLOCKS.register("door_switch_control", DoorSwitchControlBlock::new);
     public static final RegistryObject<Block> EXTERIOR_FACING_CONTROL_BLOCK = BLOCKS.register("exterior_facing_control", ExteriorFacingControlBlock::new);

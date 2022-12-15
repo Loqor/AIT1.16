@@ -28,6 +28,7 @@ public class MonitorScreen extends Screen {
     private static final ResourceLocation CUSHING_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/cushing_exterior_screen.png");
     private static final ResourceLocation CLASSIC_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/classic_exterior_screen.png");
     private static final ResourceLocation HARTNELL_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/hartnell_exterior_screen.png");
+    private static final ResourceLocation HUDOLIN_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/hudolin_exterior_screen.png");
     private static final ResourceLocation TARDIM_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/tardim_exterior_screen.png");
     private static final ResourceLocation FALLOUT_SHELTER_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/fallout_shelter_exterior_screen.png");
     private static final ResourceLocation RANI_EXTERIOR_SCREEN = new ResourceLocation(AIT.MOD_ID, "textures/gui/exterior_selections/rani_exterior_screen.png");
@@ -73,6 +74,9 @@ public class MonitorScreen extends Screen {
             if (tardis.getExteriorType() == EnumExteriorType.HELLBENT_TT_CAPSULE) {
                 this.SelectedTardis = HELLBENT_EXTERIOR_SCREEN;
             }
+            if (tardis.getExteriorType() == EnumExteriorType.NUKA_COLA_EXTERIOR) {
+                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+            }
             if (tardis.getExteriorType() == EnumExteriorType.ARCADE_CABINET_EXTERIOR) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
             }
@@ -86,7 +90,7 @@ public class MonitorScreen extends Screen {
                 this.SelectedTardis = HARTNELL_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.HUDOLIN_EXTERIOR) {
-                this.SelectedTardis = EXTERIOR_SELECTION_TEST;
+                this.SelectedTardis = HUDOLIN_EXTERIOR_SCREEN;
             }
             if (tardis.getExteriorType() == EnumExteriorType.TX3_EXTERIOR) {
                 this.SelectedTardis = EXTERIOR_SELECTION_TEST;
@@ -112,7 +116,6 @@ public class MonitorScreen extends Screen {
             if(tardis.getExteriorType() == EnumExteriorType.CLOCK_EXTERIOR) {
                 this.SelectedTardis = CLOCK_EXTERIOR_SCREEN;
             }
-            //System.out.println(tardis.getExteriorType());
         }
     }
 
@@ -130,7 +133,6 @@ public class MonitorScreen extends Screen {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         this.blit(pMatrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        //System.out.println("HEIGHT: " + this.imageHeight + " || WIDTH: " + this.imageWidth);
     }
 
     @Override protected void init() {

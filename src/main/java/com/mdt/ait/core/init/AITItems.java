@@ -25,6 +25,10 @@ public class AITItems {
     public static final RegistryObject<Item> TARDIS_HEART = ITEMS.register(
             "tardis_heart", ()-> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
+    //Useful Items
+    public static final RegistryObject<Item> STATTENHEIM_REMOTE = ITEMS.register(
+            "stattenheim_remote", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
     //Manuals
     public static final RegistryObject<Item> GALLIFREYAN_MANUAL = ITEMS.register(
             "gallifreyan_manual", () -> new Item((new Item.Properties().tab(AITItemGroups.AITITEMS))));
@@ -144,12 +148,19 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TARDIS_LEVER = ITEMS.register(
             "tardis_lever", () -> new BlockItem(
                     AITBlocks.TARDIS_LEVER_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    //Rotors
     public static final RegistryObject<BlockItem> BASIC_ROTOR = ITEMS.register(
             "basic_rotor", () -> new BlockItem(
                     AITBlocks.BASIC_ROTOR_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<BlockItem> HARTNELL_ROTOR = ITEMS.register(
             "hartnell_rotor", () -> new BlockItem(
                     AITBlocks.HARTNELL_ROTOR_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> HUDOLIN_ROTOR = ITEMS.register(
+            "hudolin_rotor", () -> new BlockItem(
+                    AITBlocks.HUDOLIN_ROTOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
+
+    //Controls
     public static final RegistryObject<BlockItem> DIMENSION_SWITCH_CONTROL = ITEMS.register(
             "dimension_switch_control", () -> new BlockItem(
                     AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));

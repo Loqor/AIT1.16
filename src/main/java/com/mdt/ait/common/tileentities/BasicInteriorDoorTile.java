@@ -78,9 +78,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public EnumInteriorDoorType getNextInteriorDoor() {
         switch (currentinteriordoor) {
             case DOOR_BASIC_BOX:
-                return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;//EnumInteriorDoorType.MINT_BOX;
-            //case DOOR_MINT_BOX:
-            //    return EnumInteriorDoorType.CORAL_BOX;
+                return EnumInteriorDoorType.DOOR_MINT_BOX;
+            case DOOR_MINT_BOX:
+                return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;//return EnumInteriorDoorType.CORAL_BOX;
             //case DOOR_CORAL_BOX:
             //    return EnumInteriorDoorType.POSTER_BOX;
             //case DOOR_POSTER_BOX:
@@ -103,12 +103,12 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             //    return EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR;
             //case DOOR_HARTNELL_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
-            case DOOR_HUDOLIN_EXTERIOR:
-                return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//EnumInteriorDoorType.TX3_EXTERIOR;
+            //case DOOR_HUDOLIN_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//EnumInteriorDoorType.TX3_EXTERIOR;
             //case DOOR_TX3_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
-            //case DOOR_TARDIM_EXTERIOR:
-            //    return EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR;
+            case DOOR_TARDIM_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//return EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR;
             //case DOOR_SHALKA_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_BOOTH_EXTERIOR;
             //case DOOR_BOOTH_EXTERIOR:
@@ -132,9 +132,9 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public EnumInteriorDoorType getLastInteriorDoor() {
         switch (currentinteriordoor) {
             case DOOR_BASIC_BOX:
-                return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;//EnumInteriorDoorType.DOOR_CLOCK_EXTERIOR;
-            //case DOOR_MINT_BOX:
-            //    return EnumInteriorDoorType.DOOR_BASIC_BOX;
+                return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//EnumInteriorDoorType.DOOR_CLOCK_EXTERIOR;
+            case DOOR_MINT_BOX:
+                return EnumInteriorDoorType.DOOR_BASIC_BOX;
             //case DOOR_CORAL_BOX:
             //    return EnumInteriorDoorType.DOOR_MINT_BOX;
             //case DOOR_POSTER_BOX:
@@ -157,20 +157,20 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             //    return EnumInteriorDoorType.DOOR_CUSHING_EXTERIOR;
             //case DOOR_HARTNELL_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR;
-            case DOOR_HUDOLIN_EXTERIOR:
-                return EnumInteriorDoorType.DOOR_BASIC_BOX;//EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR;
+            //case DOOR_HUDOLIN_EXTERIOR:
+            //    return EnumInteriorDoorType.DOOR_BASIC_BOX;//EnumInteriorDoorType.DOOR_HARTNELL_EXTERIOR;
             //case DOOR_TX3_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
-            //case DOOR_TARDIM_EXTERIOR:
-            //    return EnumInteriorDoorType.DOOR_TX3_EXTERIOR;
+            case DOOR_TARDIM_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_MINT_BOX;//return EnumInteriorDoorType.DOOR_TX3_EXTERIOR;
             //case DOOR_SHALKA_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
             //case DOOR_BOOTH_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_SHALKA_EXTERIOR;
             //case DOOR_STEVE_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_BOOTH_EXTERIOR;
-            //case DOOR_FALLOUT_SHELTER_EXTERIOR:
-            //    return EnumInteriorDoorType.DOOR_STEVE_EXTERIOR;
+            case DOOR_FALLOUT_SHELTER_EXTERIOR:
+                return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
             //case DOOR_RANI_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
             //case DOOR_CLOCK_EXTERIOR:

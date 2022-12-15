@@ -61,54 +61,13 @@ public class TardisMonitorC2SExteriorChangePacket implements IPacket {
             BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) interiorWorld.getBlockEntity(tardis.interior_door_position);
             assert tardisTileEntity != null;
             if(this.WHICHSIDE) {
-                if(basicInteriorDoorTile != null) {
-                    if (basicInteriorDoorTile.currentState() == EnumDoorState.CLOSED || basicInteriorDoorTile.currentState() == EnumDoorState.LOCKED) {
-                        interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
-                        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
-                        tardis.setExteriorType(tardisTileEntity.getNextExterior());
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("hudolin_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR);
-                        }
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("classic_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR);
-                        }
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("fallout_shelter_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR);
-                        }
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("tardim_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR);
-                        }
-                        if (!tardisTileEntity.currentExterior().getSerializedName().equals("hudolin_exterior")
-                                && !tardisTileEntity.currentExterior().getSerializedName().equals("classic_exterior")
-                                && !tardisTileEntity.currentExterior().getSerializedName().equals("fallout_shelter_exterior")
-                                && !tardisTileEntity.currentExterior().getSerializedName().equals("tardim_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_BASIC_BOX);
-                        }
-                    } else {
-                        interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 0.25f);
-                        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 0.25f);
-                    }
-                }
+                interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
+                exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
+                tardis.setExteriorType(tardisTileEntity.getNextExterior());
             } else {
-                if(basicInteriorDoorTile != null) {
-                    if (basicInteriorDoorTile.currentState() == EnumDoorState.CLOSED || basicInteriorDoorTile.currentState() == EnumDoorState.LOCKED) {
-                        interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
-                        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
-                        tardis.setExteriorType(tardisTileEntity.getLastExterior());
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("hudolin_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR);
-                        }
-                        if (tardisTileEntity.currentExterior().getSerializedName().equals("classic_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_CLASSIC_EXTERIOR);
-                        }
-                        if (!tardisTileEntity.currentExterior().getSerializedName().equals("hudolin_exterior") && !tardisTileEntity.currentExterior().getSerializedName().equals("classic_exterior")) {
-                            tardis.setInteriorDoorType(basicInteriorDoorTile.currentinteriordoor = EnumInteriorDoorType.DOOR_BASIC_BOX);
-                        }
-                    } else {
-                        interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 0.25f);
-                        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 0.25f);
-                    }
-                }
+                interiorWorld.playSound(null, tardis.interior_door_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
+                exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
+                tardis.setExteriorType(tardisTileEntity.getLastExterior());
             }
             tardisTileEntity.syncToClient();
             if(basicInteriorDoorTile != null) {

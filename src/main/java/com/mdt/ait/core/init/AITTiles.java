@@ -50,6 +50,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<BasicRotorTile>> BASIC_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "basic_rotor",
             () -> TileEntityType.Builder.of(BasicRotorTile::new, AITBlocks.BASIC_ROTOR_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<HudolinRotorTile>> HUDOLIN_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "hudolin_rotor",
+            () -> TileEntityType.Builder.of(HudolinRotorTile::new, AITBlocks.HUDOLIN_ROTOR_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<HartnellRotorTile>> HARTNELL_ROTOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "hartnell_rotor",
             () -> TileEntityType.Builder.of(HartnellRotorTile::new, AITBlocks.HARTNELL_ROTOR_BLOCK.get()).build(null));

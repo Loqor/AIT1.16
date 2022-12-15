@@ -7,7 +7,6 @@ import com.mdt.ait.common.worldsaveddata.TardisWorldSavedData;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.special.DematTransit;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

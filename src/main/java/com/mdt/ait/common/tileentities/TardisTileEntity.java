@@ -107,49 +107,49 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumExteriorType getNextExterior() {
         switch (currentexterior) {
             case BASIC_BOX:
-                return EnumExteriorType.MINT_BOX;
+                return EnumExteriorType.MINT_BOX;//return EnumExteriorType.MINT_BOX;
             case MINT_BOX:
-                return EnumExteriorType.CORAL_BOX;
-            case CORAL_BOX:
-                return EnumExteriorType.POSTER_BOX;
-            case POSTER_BOX:
-                return EnumExteriorType.BAKER_BOX;
-            case BAKER_BOX:
-                return EnumExteriorType.TYPE_40_TT_CAPSULE;
-            case TYPE_40_TT_CAPSULE:
-                return EnumExteriorType.HELLBENT_TT_CAPSULE;
+                return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.CORAL_BOX;
+            //case CORAL_BOX:
+            //    return EnumExteriorType.POSTER_BOX;
+            //case POSTER_BOX:
+            //    return EnumExteriorType.BAKER_BOX;
+            //case BAKER_BOX:
+            //    return EnumExteriorType.TYPE_40_TT_CAPSULE;
+            //case TYPE_40_TT_CAPSULE:
+            //    return EnumExteriorType.HELLBENT_TT_CAPSULE;
             case HELLBENT_TT_CAPSULE:
-                return EnumExteriorType.NUKA_COLA_EXTERIOR;
-            case NUKA_COLA_EXTERIOR:
-                return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
-            case SIEGE_MODE:
-                return EnumExteriorType.BASIC_BOX;
-            case ARCADE_CABINET_EXTERIOR:
-                return EnumExteriorType.CUSHING_EXTERIOR;
-            case CUSHING_EXTERIOR:
-                return EnumExteriorType.CLASSIC_EXTERIOR;
-            case CLASSIC_EXTERIOR:
-                return EnumExteriorType.HARTNELL_EXTERIOR;
-            case HARTNELL_EXTERIOR:
-                return EnumExteriorType.HUDOLIN_EXTERIOR;
-            case HUDOLIN_EXTERIOR:
-                return EnumExteriorType.TX3_EXTERIOR;
-            case TX3_EXTERIOR:
-                return EnumExteriorType.TARDIM_EXTERIOR;
+                return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.NUKA_COLA_EXTERIOR;
+            //case NUKA_COLA_EXTERIOR:
+            //    return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
+            //case SIEGE_MODE:
+            //    return EnumExteriorType.BASIC_BOX;
+            //case ARCADE_CABINET_EXTERIOR:
+            //    return EnumExteriorType.CUSHING_EXTERIOR;
+            //case CUSHING_EXTERIOR:
+            //    return EnumExteriorType.CLASSIC_EXTERIOR;
+            //case CLASSIC_EXTERIOR:
+            //    return EnumExteriorType.HARTNELL_EXTERIOR;
+            //case HARTNELL_EXTERIOR:
+            //    return EnumExteriorType.HUDOLIN_EXTERIOR;
+            //case HUDOLIN_EXTERIOR:
+            //    return EnumExteriorType.TX3_EXTERIOR;
+            //case TX3_EXTERIOR:
+            //    return EnumExteriorType.TARDIM_EXTERIOR;
             case TARDIM_EXTERIOR:
-                return EnumExteriorType.SHALKA_EXTERIOR;
-            case SHALKA_EXTERIOR:
-                return EnumExteriorType.BOOTH_EXTERIOR;
-            case BOOTH_EXTERIOR:
-                return EnumExteriorType.STEVE_EXTERIOR;
-            case STEVE_EXTERIOR:
-                return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
+                return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.SHALKA_EXTERIOR;
+            //case SHALKA_EXTERIOR:
+            //    return EnumExteriorType.BOOTH_EXTERIOR;
+            //case BOOTH_EXTERIOR:
+            //    return EnumExteriorType.STEVE_EXTERIOR;
+            //case STEVE_EXTERIOR:
+            //    return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
             case FALLOUT_SHELTER_EXTERIOR:
-                return EnumExteriorType.RANI_EXTERIOR;
-            case RANI_EXTERIOR:
-                return EnumExteriorType.CLOCK_EXTERIOR;
-            case CLOCK_EXTERIOR:
-                return EnumExteriorType.BASIC_BOX;
+                return EnumExteriorType.BASIC_BOX;//return EnumExteriorType.RANI_EXTERIOR;
+            //case RANI_EXTERIOR:
+            //    return EnumExteriorType.CLOCK_EXTERIOR;
+            //case CLOCK_EXTERIOR:
+            //    return EnumExteriorType.BASIC_BOX;
         }
         return EnumExteriorType.BASIC_BOX;
     }
@@ -166,49 +166,49 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumExteriorType getLastExterior() {
         switch (currentexterior) {
             case BASIC_BOX:
-                return EnumExteriorType.CLOCK_EXTERIOR;
+                return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.CLOCK_EXTERIOR;
             case MINT_BOX:
                 return EnumExteriorType.BASIC_BOX;
-            case CORAL_BOX:
-                return EnumExteriorType.MINT_BOX;
-            case POSTER_BOX:
-                return EnumExteriorType.CORAL_BOX;
-            case BAKER_BOX:
-                return EnumExteriorType.POSTER_BOX;
-            case TYPE_40_TT_CAPSULE:
-                return EnumExteriorType.BAKER_BOX;
+            //case CORAL_BOX:
+            //    return EnumExteriorType.MINT_BOX;
+            //case POSTER_BOX:
+            //    return EnumExteriorType.CORAL_BOX;
+            //case BAKER_BOX:
+            //    return EnumExteriorType.POSTER_BOX;
+            //case TYPE_40_TT_CAPSULE:
+            //    return EnumExteriorType.BAKER_BOX;
             case HELLBENT_TT_CAPSULE:
-                return EnumExteriorType.TYPE_40_TT_CAPSULE;
-            case NUKA_COLA_EXTERIOR:
-                return EnumExteriorType.HELLBENT_TT_CAPSULE;
-            case SIEGE_MODE:
-                return EnumExteriorType.SIEGE_MODE;
-            case ARCADE_CABINET_EXTERIOR:
-                return EnumExteriorType.NUKA_COLA_EXTERIOR;
-            case CUSHING_EXTERIOR:
-                return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
-            case CLASSIC_EXTERIOR:
-                return EnumExteriorType.CUSHING_EXTERIOR;
-            case HARTNELL_EXTERIOR:
-                return EnumExteriorType.CLASSIC_EXTERIOR;
-            case HUDOLIN_EXTERIOR:
-                return EnumExteriorType.HARTNELL_EXTERIOR;
-            case TX3_EXTERIOR:
-                return EnumExteriorType.HUDOLIN_EXTERIOR;
+                return EnumExteriorType.MINT_BOX;//return EnumExteriorType.TYPE_40_TT_CAPSULE;
+            //case NUKA_COLA_EXTERIOR:
+            //    return EnumExteriorType.HELLBENT_TT_CAPSULE;
+            //case SIEGE_MODE:
+            //    return EnumExteriorType.SIEGE_MODE;
+            //case ARCADE_CABINET_EXTERIOR:
+            //    return EnumExteriorType.NUKA_COLA_EXTERIOR;
+            //case CUSHING_EXTERIOR:
+            //    return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
+            //case CLASSIC_EXTERIOR:
+            //    return EnumExteriorType.CUSHING_EXTERIOR;
+            //case HARTNELL_EXTERIOR:
+            //    return EnumExteriorType.CLASSIC_EXTERIOR;
+            //case HUDOLIN_EXTERIOR:
+            //    return EnumExteriorType.HARTNELL_EXTERIOR;
+            //case TX3_EXTERIOR:
+            //    return EnumExteriorType.HUDOLIN_EXTERIOR;
             case TARDIM_EXTERIOR:
-                return EnumExteriorType.TX3_EXTERIOR;
-            case SHALKA_EXTERIOR:
-                return EnumExteriorType.TARDIM_EXTERIOR;
-            case BOOTH_EXTERIOR:
-                return EnumExteriorType.SHALKA_EXTERIOR;
-            case STEVE_EXTERIOR:
-                return EnumExteriorType.BOOTH_EXTERIOR;
+                return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.TX3_EXTERIOR;
+            //case SHALKA_EXTERIOR:
+            //    return EnumExteriorType.TARDIM_EXTERIOR;
+            //case BOOTH_EXTERIOR:
+            //    return EnumExteriorType.SHALKA_EXTERIOR;
+            //case STEVE_EXTERIOR:
+            //    return EnumExteriorType.BOOTH_EXTERIOR;
             case FALLOUT_SHELTER_EXTERIOR:
-                return EnumExteriorType.STEVE_EXTERIOR;
-            case RANI_EXTERIOR:
-                return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
-            case CLOCK_EXTERIOR:
-                return EnumExteriorType.RANI_EXTERIOR;
+                return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.STEVE_EXTERIOR;
+            //case RANI_EXTERIOR:
+            //    return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
+            //case CLOCK_EXTERIOR:
+            //    return EnumExteriorType.RANI_EXTERIOR;
         }
         return EnumExteriorType.BASIC_BOX;
     }
@@ -291,11 +291,11 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     || this.currentexterior == EnumExteriorType.TYPE_40_TT_CAPSULE
                     || this.currentexterior == EnumExteriorType.HARTNELL_EXTERIOR
                     || this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR) {
-                this.portalWidth = 1.175D;
-                this.portalHeight = 2.3D;
+                this.portalWidth = 1.275D;
+                this.portalHeight = 2.5D;
                 this.portalPosX_Z = 0.5D;
-                this.portalPosY = 1.249D;
-                this.portalPosOldZ = 0.225D;
+                this.portalPosY = 1.269D;
+                this.portalPosOldZ = 0.22595D;
             }
             if (this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR) {
                 this.portalWidth = 1.175D;
@@ -346,23 +346,23 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.9D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH1PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.1D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST1PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.1D,
+                            this.linked_tardis.interior_door_position.getX() + 0.135D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST1PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.9D,
+                            this.linked_tardis.interior_door_position.getX() + 0.865D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                 }
@@ -372,23 +372,23 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.9D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH2PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.1D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST2PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.1D,
+                            this.linked_tardis.interior_door_position.getX() + 0.135D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST2PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.9D,
+                            this.linked_tardis.interior_door_position.getX() + 0.865D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                 }
@@ -398,17 +398,17 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.9D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH3PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.1D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST3PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.1D,
+                            this.linked_tardis.interior_door_position.getX() + 0.135D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                 }
@@ -416,7 +416,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.2D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.235D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                 }
             }
             if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) { /*WEST*/
@@ -424,23 +424,23 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.9D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH4PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
                             this.linked_tardis.interior_door_position.getX() + 0.5D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                            this.linked_tardis.interior_door_position.getZ() + 0.1D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                            this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST4PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.1D,
+                            this.linked_tardis.interior_door_position.getX() + 0.135D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                 }
                 if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST4PART*/
                     PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            this.linked_tardis.interior_door_position.getX() + 0.9D,
+                            this.linked_tardis.interior_door_position.getX() + 0.865D,
                             this.linked_tardis.interior_door_position.getY() + this.portalPosY,
                             this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                 }
@@ -482,6 +482,26 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void tick() {
         if(this.getLevel() != null) {
             if (!getLevel().isClientSide()) {
+                if(linked_tardis.interior_door_position != null) {
+                    BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linked_tardis.interior_door_position);
+                    if(this.currentexterior == EnumExteriorType.BASIC_BOX) {
+                        this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
+                    } else if(this.currentexterior == EnumExteriorType.MINT_BOX) {
+                        this.interiorDoorType = EnumInteriorDoorType.DOOR_MINT_BOX;
+                    } else if(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) {
+                        this.interiorDoorType = EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
+                    } else if(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
+                        this.interiorDoorType = EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
+                    } else if(!(this.currentexterior == EnumExteriorType.BASIC_BOX) ||
+                            !(this.currentexterior == EnumExteriorType.MINT_BOX) ||
+                            !(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) ||
+                            !(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR)) {
+                        this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
+                    }
+                    if(basicInteriorDoorTile != null) {
+                        basicInteriorDoorTile.currentinteriordoor = this.interiorDoorType;
+                    }
+                }
                 if (this.currentstate != CLOSED) {
                     if (portalUUID == null) {
                         if (portal == null) {
@@ -525,6 +545,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             this.currentstate = EnumDoorState.CLOSED;
             if(run_once == 0) {
                 iDontKnow();
+                this.dematTransit.loadChunksOnDemat();
                 run_once = 1;
             }
 
