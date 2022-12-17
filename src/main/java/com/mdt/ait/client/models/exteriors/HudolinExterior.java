@@ -1,15 +1,9 @@
-package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.2
+// Made with Blockbench 4.5.2
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.client.models.exteriors.BasicBox;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-
-public class HudolinExterior extends BasicBox {
+public class HudolinExterior extends EntityModel<Entity> {
 	private final ModelRenderer box;
 	private final ModelRenderer base;
 	private final ModelRenderer posts;
