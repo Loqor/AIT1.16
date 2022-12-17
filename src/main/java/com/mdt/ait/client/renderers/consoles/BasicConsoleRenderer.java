@@ -3,6 +3,7 @@ package com.mdt.ait.client.renderers.consoles;
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.consoles.BorealisConsole;
 import com.mdt.ait.client.models.consoles.DevConsole;
+import com.mdt.ait.client.models.consoles.HudolinConsole;
 import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mdt.ait.client.models.exteriors.CoralExterior;
 import com.mdt.ait.client.models.exteriors.MintExterior;
@@ -27,6 +28,7 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
     public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/dev_console.png");
     public static final ResourceLocation TEST_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/mint_tardis_exterior.png");
     public static final ResourceLocation BOREALIS_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/borealis_console.png");
+    public static final ResourceLocation HUDOLIN_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/hudolin_console.png");
 
     //public static final ResourceLocation BOREALIS_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/borealis_console_emission.png");
 
@@ -65,7 +67,18 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             //model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BOREALIS_LM_LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
-        if (console.getSerializedName().equals("dev_console") && consoletype == 1) {
+        if (console.getSerializedName().equals("hudolin_console") && consoletype == 1) {
+            this.model = new HudolinConsole();
+            this.texture = HUDOLIN_LOCATION;
+            MatrixStackIn.pushPose();
+            MatrixStackIn.translate(0.5, 0, 0.5);
+            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.translate(0, 1.5f, 0);
+            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));
+            MatrixStackIn.popPose();
+        }
+        if (console.getSerializedName().equals("dev_console") && consoletype == 2) {
             this.model = new DevConsole();
             this.texture = LOCATION;
             MatrixStackIn.pushPose();
@@ -77,7 +90,6 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             MatrixStackIn.popPose();
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
-        MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));

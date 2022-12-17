@@ -307,9 +307,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if (this.currentexterior == EnumExteriorType.HELLBENT_TT_CAPSULE
                     || this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
                 this.portalWidth = 0.8D;
-                this.portalHeight = 2.25D;
+                this.portalHeight = 2D;
                 this.portalPosOldZ = 0.1725D;
-                this.portalPosY = 1.169D;
+                this.portalPosY = 1.159D;
             }
             if (this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR
                     || this.currentexterior == EnumExteriorType.TX3_EXTERIOR) {

@@ -190,25 +190,6 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public void setPortal(Portal portal) {
         if (portal != null) {
             this.portal = PortalManipulation.completeBiWayPortal(portal, Portal.entityType);
-            //PortalAPI.spawnServerEntity(this.portal);
-            //if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH) {
-            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 0, true));
-            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 0, true);
-            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() - 1.1));
-            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH) {
-            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 0, true));
-            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 0, true);
-            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.1));
-            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST) {
-            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, 90, true));
-            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 90, true);
-            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - 1.1, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.5));
-            //} else if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) {
-            //    //PortalManipulation.rotatePortalBody(this.portal, new Quaternion(Vector3f.YP, -90, true));
-            //    //this.portal.rotation = new Quaternion(Vector3f.YP, 180, true);
-            //    this.portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.9, this.getBlockPos().getY() + 1.249, this.getBlockPos().getZ() + 0.5));
-            //}
-            //PortalManipulation.rotatePortalBody(this.portal, linked_tardis.exterior_facing.getRotation());
             this.portal.reloadAndSyncToClient();
             syncToClient();
         }

@@ -4,6 +4,7 @@ package com.mdt.ait.client;
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.consoles.BorealisConsole;
 import com.mdt.ait.client.models.consoles.DevConsole;
+import com.mdt.ait.client.models.consoles.HudolinConsole;
 import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
@@ -179,6 +180,7 @@ public class AITClientRegistry {
         //Console model registry
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.DEV_CONSOLE, DevConsole::new);
         TARDIS_CONSOLE_MAP.put(EnumConsoleType.BOREALIS_CONSOLE, BorealisConsole::new);
+        TARDIS_CONSOLE_MAP.put(EnumConsoleType.HUDOLIN_CONSOLE, HudolinConsole::new);
 
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.K9.get(), K9EntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AITEntities.CYBERCAVALRY.get(), CyberCavalryRenderer::new);
