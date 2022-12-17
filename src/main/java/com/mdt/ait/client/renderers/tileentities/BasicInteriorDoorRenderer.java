@@ -80,6 +80,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         if(interiordoor.getSerializedName().equals("door_tardim_exterior") && interiordoortype == 15) {
             this.model = new TARDIMInteriorDoor();
             this.texture = TARDIM;
+            MatrixStackIn.translate(0, -1.5, 0);
             MatrixStackIn.scale(1f, 1f, 1f);
             if(tile.currentState() != EnumDoorState.CLOSED) {
                 ((TARDIMInteriorDoor) this.model).door.visible = false;
@@ -91,7 +92,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
             this.model = new FalloutShelterInteriorDoor();
             this.texture = FALLOUT_SHELTER;
             MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.translate(0, -0.4, 0);
+            MatrixStackIn.translate(0, -1.5, 0);
             if(tile.currentState() != EnumDoorState.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
