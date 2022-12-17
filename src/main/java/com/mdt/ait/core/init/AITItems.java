@@ -4,6 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.AITArmorMaterials;
 import com.mdt.ait.common.items.*;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
+import net.minecraft.block.Block;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -30,8 +31,8 @@ public class AITItems {
             "stattenheim_remote", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     //Manuals
-    public static final RegistryObject<Item> GALLIFREYAN_MANUAL = ITEMS.register(
-            "gallifreyan_manual", () -> new Item((new Item.Properties().tab(AITItemGroups.AITITEMS))));
+    public static final RegistryObject<GallifreyanManualItem> GALLIFREYAN_MANUAL = ITEMS.register(
+            "gallifreyan_manual", () -> new GallifreyanManualItem((new Item.Properties().tab(AITItemGroups.AITITEMS))));
 
     //Fezzes
     public static final RegistryObject<FezArmorItem> WHITE_FEZ = ITEMS.register( //reciped
@@ -159,6 +160,12 @@ public class AITItems {
     public static final RegistryObject<BlockItem> HUDOLIN_ROTOR = ITEMS.register(
             "hudolin_rotor", () -> new BlockItem(
                     AITBlocks.HUDOLIN_ROTOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> TOYOTA_WHIRLAGIG = ITEMS.register(
+            "toyota_whirlagig", () -> new BlockItem(
+                    AITBlocks.TOYOTA_WHIRLAGIG_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<BlockItem> TOYOTA_ROTOR = ITEMS.register(
+            "toyota_rotor", () -> new BlockItem(
+                    AITBlocks.TOYOTA_ROTOR_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     //Controls
     public static final RegistryObject<BlockItem> DIMENSION_SWITCH_CONTROL = ITEMS.register(

@@ -116,6 +116,8 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.RECORD_PLAYER_TILE_ENTITY_TYPE.get(), RecordPlayerRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.BASIC_ROTOR_TILE_ENTITY_TYPE.get(), BasicRotorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.HUDOLIN_ROTOR_TILE_ENTITY_TYPE.get(), HudolinRotorRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.TOYOTA_WHIRLAGIG_TILE_ENTITY_TYPE.get(), ToyotaWhirlagigRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.TOYOTA_ROTOR_TILE_ENTITY_TYPE.get(), ToyotaRotorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.DIMENSION_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DimensionSwitchControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE.get(), TardisCoordinateControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE.get(), ExteriorFacingControlRenderer::new);

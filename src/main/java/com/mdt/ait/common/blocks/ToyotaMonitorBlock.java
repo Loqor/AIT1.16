@@ -2,6 +2,8 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.screen.MonitorScreen;
+import com.mdt.ait.common.items.SonicItem;
+import com.mdt.ait.common.tileentities.RecordPlayerTile;
 import com.mdt.ait.common.tileentities.ToyotaMonitorTile;
 import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.block.Block;
@@ -10,6 +12,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.inventory.container.StonecutterContainer;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -17,6 +22,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -105,16 +111,22 @@ public class ToyotaMonitorBlock extends Block {
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
                                 Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide()) {
+            ServerWorld serverWorld = ((ServerWorld) worldIn);
+            ToyotaMonitorTile toyotaMonitorTile = (ToyotaMonitorTile) serverWorld.getBlockEntity(pos);
+            assert toyotaMonitorTile != null;
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                ServerWorld serverWorld = ((ServerWorld) worldIn);
-                ToyotaMonitorTile toyotaMonitorTile = (ToyotaMonitorTile) serverWorld.getBlockEntity(pos);
-                this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
-                assert toyotaMonitorTile != null;
-                toyotaMonitorTile.tardisID = tardisID;
-                Block block = worldIn.getBlockState(pos).getBlock();
-                if (block instanceof ToyotaMonitorBlock) {
-                    Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID));
+                if (!player.isCrouching()) {
+                    this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                    toyotaMonitorTile.tardisID = tardisID;
                 }
+            }
+        }
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
+        if (tileEntity instanceof ToyotaMonitorTile) {
+            if(player.isCrouching()) {
+                ((ToyotaMonitorTile) tileEntity).doRotation(state, worldIn, pos, player, handIn, hit);
+            } else {
+                Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID));
             }
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

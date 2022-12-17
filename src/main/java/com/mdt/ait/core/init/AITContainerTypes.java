@@ -16,7 +16,7 @@ public class AITContainerTypes {
             .create(ForgeRegistries.CONTAINERS, AIT.MOD_ID);
 
     /*public static final RegistryObject<ContainerType<MonitorContainer>> MONITOR_CONTAINER_TYPE = CONTAINER_TYPES
-            .register("monitor_container", () -> IForgeContainerType.create(MonitorContainer::new));*/
+            .register("monitor_container", () -> IForgeContainerType.create(MonitorContainer::new));
 
     /*public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES =
             DeferredRegister.create(ForgeRegistries.CONTAINERS, AIT.MOD_ID);
