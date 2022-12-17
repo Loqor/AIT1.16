@@ -119,7 +119,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //case TYPE_40_TT_CAPSULE:
             //    return EnumExteriorType.HELLBENT_TT_CAPSULE;
             case HELLBENT_TT_CAPSULE:
-                return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.NUKA_COLA_EXTERIOR;
+                return EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.NUKA_COLA_EXTERIOR;
             //case NUKA_COLA_EXTERIOR:
             //    return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
             //case SIEGE_MODE:
@@ -132,8 +132,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.HARTNELL_EXTERIOR;
             //case HARTNELL_EXTERIOR:
             //    return EnumExteriorType.HUDOLIN_EXTERIOR;
-            //case HUDOLIN_EXTERIOR:
-            //    return EnumExteriorType.TX3_EXTERIOR;
+            case HUDOLIN_EXTERIOR:
+                  return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
             //case TX3_EXTERIOR:
             //    return EnumExteriorType.TARDIM_EXTERIOR;
             case TARDIM_EXTERIOR:
@@ -191,12 +191,12 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.CUSHING_EXTERIOR;
             //case HARTNELL_EXTERIOR:
             //    return EnumExteriorType.CLASSIC_EXTERIOR;
-            //case HUDOLIN_EXTERIOR:
-            //    return EnumExteriorType.HARTNELL_EXTERIOR;
+            case HUDOLIN_EXTERIOR:
+                  return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.HARTNELL_EXTERIOR;
             //case TX3_EXTERIOR:
             //    return EnumExteriorType.HUDOLIN_EXTERIOR;
             case TARDIM_EXTERIOR:
-                return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.TX3_EXTERIOR;
+                return EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
             //case SHALKA_EXTERIOR:
             //    return EnumExteriorType.TARDIM_EXTERIOR;
             //case BOOTH_EXTERIOR:
@@ -313,10 +313,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
             if (this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR
                     || this.currentexterior == EnumExteriorType.TX3_EXTERIOR) {
-                this.portalWidth = 0.975D;
-                this.portalHeight = 1.95D;
+                this.portalWidth = 1D;
+                this.portalHeight = 2D;
                 this.portalPosY = 1D;
-                this.portalPosOldZ = -0.015D;
+                this.portalPosOldZ = 0D;
             }
             if (this.currentexterior == EnumExteriorType.SHALKA_EXTERIOR
                     || this.currentexterior == EnumExteriorType.BOOTH_EXTERIOR) {
@@ -482,24 +482,29 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void tick() {
         if(this.getLevel() != null) {
             if (!getLevel().isClientSide()) {
-                if(linked_tardis.interior_door_position != null) {
-                    BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linked_tardis.interior_door_position);
-                    if(this.currentexterior == EnumExteriorType.BASIC_BOX) {
-                        this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
-                    } else if(this.currentexterior == EnumExteriorType.MINT_BOX) {
-                        this.interiorDoorType = EnumInteriorDoorType.DOOR_MINT_BOX;
-                    } else if(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) {
-                        this.interiorDoorType = EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
-                    } else if(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
-                        this.interiorDoorType = EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
-                    } else if(!(this.currentexterior == EnumExteriorType.BASIC_BOX) ||
-                            !(this.currentexterior == EnumExteriorType.MINT_BOX) ||
-                            !(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) ||
-                            !(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR)) {
-                        this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
-                    }
-                    if(basicInteriorDoorTile != null) {
-                        basicInteriorDoorTile.currentinteriordoor = this.interiorDoorType;
+                if(linked_tardis != null) {
+                    if (linked_tardis.interior_door_position != null) {
+                        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linked_tardis.interior_door_position);
+                        if (this.currentexterior == EnumExteriorType.BASIC_BOX) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
+                        } else if (this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
+                        } else if (this.currentexterior == EnumExteriorType.MINT_BOX) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_MINT_BOX;
+                        } else if (this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
+                        } else if (this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
+                        } else if (!(this.currentexterior == EnumExteriorType.BASIC_BOX) ||
+                                !(this.currentexterior == EnumExteriorType.MINT_BOX) ||
+                                !(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) ||
+                                !(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) ||
+                                !(this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR)) {
+                            this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
+                        }
+                        if (basicInteriorDoorTile != null) {
+                            basicInteriorDoorTile.currentinteriordoor = this.interiorDoorType;
+                        }
                     }
                 }
                 if (this.currentstate != CLOSED) {
@@ -571,7 +576,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if (ticks >= 257) {
                 this.dematTransit.finishedDematAnimation();
                 // Finish
-                // @TODO FIX THIS SHIT BECAUSE WHEN SOMEONE'S NOT IN THE TARDIS IT CRASHES THE GAME
             }*/
         }
         if(materialState == EnumMatState.REMAT) {

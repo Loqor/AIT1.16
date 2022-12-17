@@ -1,26 +1,31 @@
-// Made with Blockbench 4.5.2
+package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.2
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-public class HudolinExterior extends EntityModel<Entity> {
-	private final ModelRenderer box;
-	private final ModelRenderer base;
-	private final ModelRenderer posts;
-	private final ModelRenderer small_front_left_r1;
-	private final ModelRenderer small_front_right_r1;
-	private final ModelRenderer small_front_left_r2;
-	private final ModelRenderer walls_and_pillars;
-	private final ModelRenderer left_door;
-	private final ModelRenderer right_door;
-	private final ModelRenderer ppcb;
-	private final ModelRenderer ppcb_back_r1;
-	private final ModelRenderer ppcb_right_r1;
-	private final ModelRenderer roof_tiers;
-	private final ModelRenderer cube_r1;
-	private final ModelRenderer cube_r2;
-	private final ModelRenderer lamp;
-	private final ModelRenderer lamp_struts_two_r1;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class HudolinExterior extends BasicBox {
+	public final ModelRenderer box;
+	public final ModelRenderer base;
+	public final ModelRenderer posts;
+	public final ModelRenderer small_front_left_r1;
+	public final ModelRenderer small_front_right_r1;
+	public final ModelRenderer small_front_left_r2;
+	public final ModelRenderer walls_and_pillars;
+	public final ModelRenderer left_door;
+	public final ModelRenderer right_door;
+	public final ModelRenderer ppcb;
+	public final ModelRenderer ppcb_back_r1;
+	public final ModelRenderer ppcb_right_r1;
+	public final ModelRenderer roof_tiers;
+	public final ModelRenderer cube_r1;
+	public final ModelRenderer cube_r2;
+	public final ModelRenderer lamp;
+	public final ModelRenderer lamp_struts_two_r1;
 
 	public HudolinExterior() {
 		texWidth = 512;

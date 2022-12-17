@@ -40,7 +40,6 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 0, 0.5);
         //MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
-        MatrixStackIn.translate(0, 1.085f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));
@@ -51,6 +50,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
             this.texture = BASIC;
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
         }
         if(interiordoor.getSerializedName().equals("door_mint_exterior") && interiordoortype == 1) {
@@ -58,11 +58,13 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
             this.texture = MINT;
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+            MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
         }
         if(interiordoor.getSerializedName().equals("door_classic_exterior") && interiordoortype == 11) {
             this.model = new ClassicInteriorDoors();
             this.texture = CLASSIC;
+            MatrixStackIn.translate(0, 1.085f, 0);
             MatrixStackIn.scale(0.9f, 0.85f, 0.9f);
             ((ClassicInteriorDoors)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             ((ClassicInteriorDoors)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
@@ -70,7 +72,8 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         if(interiordoor.getSerializedName().equals("door_hudolin_exterior") && interiordoortype == 13) {
             this.model = new HudolinInteriorDoors();
             this.texture = HUDOLIN;
-            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
+            MatrixStackIn.translate(0, -1.5, 0.1);
             ((HudolinInteriorDoors)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             ((HudolinInteriorDoors)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
         }
@@ -78,7 +81,6 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
             this.model = new TARDIMInteriorDoor();
             this.texture = TARDIM;
             MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.translate(0, -0.5, 0);
             if(tile.currentState() != EnumDoorState.CLOSED) {
                 ((TARDIMInteriorDoor) this.model).door.visible = false;
             } else {
@@ -88,8 +90,8 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         if(interiordoor.getSerializedName().equals("door_fallout_shelter_exterior") && interiordoortype == 19) {
             this.model = new FalloutShelterInteriorDoor();
             this.texture = FALLOUT_SHELTER;
-            MatrixStackIn.scale(1.65f, 1.65f, 1.65f);
-            MatrixStackIn.translate(0, -0.6, 0);
+            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.translate(0, -0.4, 0);
             if(tile.currentState() != EnumDoorState.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
