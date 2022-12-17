@@ -110,6 +110,7 @@ public class TARDISKey extends Item {
         } else {
             pTooltip.add(new TranslationTextComponent("Link to TARDIS by clicking on the rotor!")
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.YELLOW)));
+            // i tricked you!
         }
     }
 }
