@@ -100,6 +100,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_ROOF_LIGHT.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_PILLAR.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.INVIS_BLOCK.get(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(AITBlocks.RICK_PORTAL_BLOCK.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(AITBlocks.GALLIFREY_STONE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.GALLIFREY_SAND.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.INTERIOR_CENTER_BLOCK.get(), RenderType.cutoutMipped());

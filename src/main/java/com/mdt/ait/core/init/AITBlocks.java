@@ -39,6 +39,8 @@ public class AITBlocks {
     public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console_block", ConsoleBlock::new);
     public static final RegistryObject<Block> TARDIS_CORAL_BLOCK = BLOCKS.register("tardis_coral", TardisCoralBlock::new);
     public static final RegistryObject<Block> TSV_BLOCK = BLOCKS.register("tsv", TSVBlock::new);
+
+    public static final RegistryObject<Block> RICK_PORTAL_BLOCK = BLOCKS.register("ricks_portal", RickPortalBlock::new);
     public static final RegistryObject<Block> TYPEWRITER_BLOCK = BLOCKS.register("typewriter", TypewriterBlock::new);
     public static final RegistryObject<Block> RAMP_BLOCK = BLOCKS.register("ramp", RampBlock::new);
     public static final RegistryObject<Block> INTERIOR_DOOR_BLOCK = BLOCKS.register("basic_interior_door_block", BasicInteriorDoorBlock::new);

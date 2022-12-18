@@ -29,6 +29,8 @@ public class AITItems {
     //Useful Items
     public static final RegistryObject<Item> STATTENHEIM_REMOTE = ITEMS.register(
             "stattenheim_remote", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<Item> RICKS_PORTAL_GUN = ITEMS.register(
+            "ricks_portal_gun", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<SlingRingItem> SLING_RING = ITEMS.register(
             "sling_ring", () -> new SlingRingItem((new Item.Properties())));
 
