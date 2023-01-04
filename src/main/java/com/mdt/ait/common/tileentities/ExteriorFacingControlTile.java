@@ -41,7 +41,7 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     if (tardis.landed != false) {
                         newFacingDirection = tardis.exterior_facing;
                         //currentExteriorFacingSetting = exteriorFacingSetting();
@@ -93,9 +93,12 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
             this.newFacingDirection = Direction.WEST;
         }
         if (this.tardisID != null) {
-            AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+            if (this.getLevel() != null) {
+                if (!this.getLevel().isClientSide()) {
+                    AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+                }
+            }
         }
-
     }
 
     public ActionResultType useOn(World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {

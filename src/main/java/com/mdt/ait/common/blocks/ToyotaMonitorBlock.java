@@ -95,7 +95,6 @@ public class ToyotaMonitorBlock extends Block {
     public void tick(BlockState pState, ServerWorld world, BlockPos blockPos, Random pRand) {
         super.tick(pState, world, blockPos, pRand);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION && tardisID == null) {
-            ServerWorld serverWorld = world;
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
         }
     }
@@ -110,23 +109,24 @@ public class ToyotaMonitorBlock extends Block {
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
                                 Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isClientSide()) {
-            ServerWorld serverWorld = ((ServerWorld) worldIn);
-            ToyotaMonitorTile toyotaMonitorTile = (ToyotaMonitorTile) serverWorld.getBlockEntity(pos);
+        //if (!worldIn.isClientSide()) {
+            ToyotaMonitorTile toyotaMonitorTile = (ToyotaMonitorTile) worldIn.getBlockEntity(pos);
             assert toyotaMonitorTile != null;
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
                 if (!player.isCrouching()) {
-                    this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
-                    toyotaMonitorTile.tardisID = tardisID;
+                    if (!worldIn.isClientSide) {
+                        this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                        toyotaMonitorTile.tardisID = tardisID;
+                    }
                 }
             }
-        }
+        //}
         TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof ToyotaMonitorTile) {
             if(player.isCrouching()) {
                 ((ToyotaMonitorTile) tileEntity).doRotation(state, worldIn, pos, player, handIn, hit);
             } else {
-                Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID));
+                Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID, worldIn));
             }
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

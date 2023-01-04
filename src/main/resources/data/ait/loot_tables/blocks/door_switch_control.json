@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:door_switch_control",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:door_switch_control"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

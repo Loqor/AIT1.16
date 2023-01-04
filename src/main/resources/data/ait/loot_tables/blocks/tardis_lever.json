@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:tardis_lever",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:tardis_lever"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

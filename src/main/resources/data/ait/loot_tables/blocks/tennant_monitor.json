@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:tennant_monitor",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:tennant_monitor"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

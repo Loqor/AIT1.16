@@ -160,7 +160,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                 this.Zx = 0.0625;
                 this.Zz = 0.6875;
                 this.IncrementX = 0.375;
-                this.IncrementZ = 1;
+                this.IncrementZ = 0;
                 this.width = 0.25;
                 this.height = 0.25;
                 this.incrementWidth = 0.125;
@@ -251,7 +251,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if(!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
                 if(playerEntity.isCrouching()) {
                     this.currentPosNegState = getNextPosNegState();
-                    System.out.println(this.currentPosNegState);
+                    //System.out.println(this.currentPosNegState);
                 }
             }
             changePositionFromControl();

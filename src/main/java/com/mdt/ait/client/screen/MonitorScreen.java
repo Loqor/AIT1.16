@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,18 +41,20 @@ public class MonitorScreen extends Screen {
     public ResourceLocation SelectedTardis;
     public Tardis tardis;
 
-    public MonitorScreen(ITextComponent label, UUID tardisid) {
+    public MonitorScreen(ITextComponent label, UUID tardisid, World world) {
         super(label);
         ++this.imageHeight;
         this.imageWidth = 231;
         this.imageHeight = 150;
         this.tardisID = tardisid;
         this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
+        if(!world.isClientSide) {
+            tardis = AIT.tardisManager.getTardis(this.tardisID);
+        }
     }
 
     //@TODO I know this is confusing, it's basically getting the next exterior type.
     public void switchScreenTexture() {
-        Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
         if (tardis != null) {
             if (tardis.getExteriorType() == EnumExteriorType.BASIC_BOX) {
                 this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
@@ -165,5 +168,10 @@ public class MonitorScreen extends Screen {
 
     private void onPressLeftButton() {
         NetworkHandler.CHANNEL.sendToServer(new TardisMonitorC2SExteriorChangePacket(this.tardisID, false));
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

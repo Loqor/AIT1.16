@@ -60,6 +60,10 @@ public class AITBlocks {
     public static final RegistryObject<GallifreySandBlock> GALLIFREY_SAND = BLOCKS.register(
             "gallifrey_sand", () -> new GallifreySandBlock(AbstractBlock.Properties.of(Material.SAND, MaterialColor.COLOR_RED).strength(0.5F).sound(SoundType.SAND)));
 
+    //Ores
+    public static final RegistryObject<Block> SONIC_CRYSTAL_ORE = BLOCKS.register(
+            "sonic_crystal_ore", () -> new Block(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+
     //Steel Grating
     public static final RegistryObject<Block> STEEL_GRATE = BLOCKS.register(
             "steel_grate", () -> new Block(TransparentGrateBlock.Properties.of(
@@ -214,5 +218,9 @@ public class AITBlocks {
             Material.GLASS, MaterialColor.COLOR_PURPLE).harvestLevel(-1).sound(SoundType.GLASS).lightLevel((p_235464_0_) -> 10)));
     public static final RegistryObject<RotatedPillarBlock> LIGHT_BLOCK_GREEN = BLOCKS.register("light_block_green", () -> new RotatedPillarBlock(Block.Properties.of(
             Material.GLASS, MaterialColor.COLOR_LIGHT_GREEN).harvestLevel(-1).sound(SoundType.GLASS).lightLevel((p_235464_0_) -> 10)));
+
+    //Custom blocks
+    public static final RegistryObject<Block> DARKSTONE = BLOCKS.register(
+            "darkstone", () -> new Block(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
 
 }

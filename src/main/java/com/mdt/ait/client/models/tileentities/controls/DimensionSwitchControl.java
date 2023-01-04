@@ -1,9 +1,8 @@
-package com.mdt.ait.client.models.tileentities.controls;// Made with Blockbench 4.4.2
+package com.mdt.ait.client.models.tileentities.controls;// Made with Blockbench 4.5.2
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.common.tileentities.BasicRotorTile;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -15,19 +14,22 @@ public class DimensionSwitchControl extends EntityModel<Entity> {
 	public final ModelRenderer box;
 	public final ModelRenderer planet;
 	public final ModelRenderer cube_r1;
-	public final ModelRenderer screen;
-	public final ModelRenderer base;
 
 	public DimensionSwitchControl() {
 		texWidth = 128;
 		texHeight = 128;
 
 		box = new ModelRenderer(this);
-		box.setPos(0.0F, 23.5F, 0.0F);
-		
+		box.setPos(8.0F, 24.0F, -8.0F);
+		box.texOffs(0, 0).addBox(-16.0F, -16.0F, 0.0F, 16.0F, 16.0F, 16.0F, 0.0F, false);
+		box.texOffs(48, 0).addBox(-15.0F, -15.0F, 15.0F, 14.0F, 14.0F, 0.0F, 0.0F, false);
+		box.texOffs(28, 32).addBox(-15.0F, -1.0F, 0.0F, 14.0F, 0.0F, 15.0F, 0.0F, false);
+		box.texOffs(0, 32).addBox(-15.0F, -15.0F, 0.0F, 14.0F, 0.0F, 15.0F, 0.0F, false);
+		box.texOffs(0, 32).addBox(-15.0F, -15.0F, 0.0F, 0.0F, 14.0F, 15.0F, 0.0F, false);
+		box.texOffs(30, 32).addBox(-1.0F, -15.0F, 0.0F, 0.0F, 14.0F, 15.0F, 0.0F, false);
 
 		planet = new ModelRenderer(this);
-		planet.setPos(0.0F, -9.0F, 0.0F);
+		planet.setPos(-8.0F, -9.5F, 8.0F);
 		box.addChild(planet);
 		
 
@@ -35,21 +37,7 @@ public class DimensionSwitchControl extends EntityModel<Entity> {
 		cube_r1.setPos(0.0F, 0.0F, 0.0F);
 		planet.addChild(cube_r1);
 		setRotationAngle(cube_r1, 0.1684F, -0.5306F, -0.4988F);
-		cube_r1.texOffs(49, 19).addBox(-2.5F, -2.5F, -2.5F, 5.0F, 5.0F, 5.0F, 0.0F, false);
-
-		screen = new ModelRenderer(this);
-		screen.setPos(0.0F, 0.5F, 0.0F);
-		box.addChild(screen);
-		screen.texOffs(49, 0).addBox(-6.0F, -14.0F, -8.0F, 12.0F, 12.0F, 1.0F, 0.0F, false);
-
-		base = new ModelRenderer(this);
-		base.setPos(0.0F, 0.5F, 0.0F);
-		box.addChild(base);
-		base.texOffs(0, 19).addBox(-8.0F, -2.0F, -8.0F, 16.0F, 2.0F, 16.0F, 0.0F, false);
-		base.texOffs(37, 38).addBox(6.0F, -14.0F, -8.0F, 2.0F, 12.0F, 16.0F, 0.0F, false);
-		base.texOffs(21, 38).addBox(-6.0F, -14.0F, 6.0F, 12.0F, 12.0F, 2.0F, 0.0F, false);
-		base.texOffs(0, 38).addBox(-8.0F, -14.0F, -8.0F, 2.0F, 12.0F, 16.0F, 0.0F, false);
-		base.texOffs(0, 0).addBox(-8.0F, -16.0F, -8.0F, 16.0F, 2.0F, 16.0F, 0.0F, false);
+		cube_r1.texOffs(64, 22).addBox(-2.5F, -2.5F, -2.5F, 5.0F, 5.0F, 5.0F, 0.0F, false);
 	}
 
 	@Override
@@ -59,8 +47,7 @@ public class DimensionSwitchControl extends EntityModel<Entity> {
 
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		screen.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		base.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		box.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

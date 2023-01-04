@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:3_doctors_roundel_b",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:3_doctors_roundel_b"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:exterior_facing_control",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:exterior_facing_control"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

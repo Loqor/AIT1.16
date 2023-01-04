@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:tbaker_roundel_a",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:tbaker_roundel_a"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

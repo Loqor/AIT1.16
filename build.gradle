@@ -19,7 +19,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'loainktesting' //@TODO L0A DO THIS FIX IT BACK TO BIGFIXXY
+version = 'you-want-it-take-it'
 group = 'com.mdt.ait' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ait'
 

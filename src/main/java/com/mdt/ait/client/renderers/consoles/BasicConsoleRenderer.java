@@ -30,6 +30,8 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
     public static final ResourceLocation BOREALIS_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/borealis_console.png");
     public static final ResourceLocation HUDOLIN_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/hudolin_console.png");
 
+    public static final ResourceLocation LM_HUDOLIN = new ResourceLocation(AIT.MOD_ID, "textures/consoles/hudolin_console_emission.png");
+
     //public static final ResourceLocation BOREALIS_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/consoles/borealis_console_emission.png");
 
     public final int MaxLight = 15728880;
@@ -72,10 +74,14 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             this.texture = HUDOLIN_LOCATION;
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.scale(0.8f, 0.8f, 0.8f);
             MatrixStackIn.translate(0, 1.5f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));
+            MatrixStackIn.pushPose();
+            MatrixStackIn.scale(1.001F, 1.001F, 1.001F);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LM_HUDOLIN, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            MatrixStackIn.popPose();
             MatrixStackIn.popPose();
         }
         if (console.getSerializedName().equals("dev_console") && consoletype == 2) {

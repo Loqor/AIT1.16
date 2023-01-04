@@ -21,6 +21,8 @@ public class AITItems {
     //Crafting stuff
     public static final RegistryObject<Item> SONIC_CRYSTAL = ITEMS.register(
             "sonic_crystal", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+    public static final RegistryObject<Item> SONIC_CRYSTAL_SHARD = ITEMS.register(
+            "sonic_crystal_shard", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<Item> PLASMIC_SHELL = ITEMS.register(
             "plasmic_shell", ()-> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<Item> TARDIS_HEART = ITEMS.register(
@@ -200,7 +202,7 @@ public class AITItems {
                     AITBlocks.ROUNDEL_FACE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> CONSOLE_BLOCK = ITEMS.register(
             "console_block", () -> new BlockItem(
-                    AITBlocks.CONSOLE_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+                    AITBlocks.CONSOLE_BLOCK.get(),new Item.Properties()/*.tab(AITItemGroups.AITITEMS)*/));
     public static final RegistryObject<BlockItem> TSV = ITEMS.register(
             "tsv", () -> new BlockItem(
                     AITBlocks.TSV_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
@@ -321,6 +323,8 @@ public class AITItems {
             "toyota_pillar", () -> new BlockItem(AITBlocks.TOYOTA_PILLAR.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> INTERIOR_CENTER_BLOCK = ITEMS.register(
             "interior_center_block", () -> new BlockItem(AITBlocks.INTERIOR_CENTER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> DARKSTONE = ITEMS.register(
+            "darkstone", () -> new BlockItem(AITBlocks.DARKSTONE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
    /* public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
             "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
@@ -329,6 +333,10 @@ public class AITItems {
             "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
             "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));*/
+
+    //Ores
+    public static final RegistryObject<BlockItem> SONIC_CRYSTAL_ORE = ITEMS.register(
+            "sonic_crystal_ore", () -> new BlockItem(AITBlocks.SONIC_CRYSTAL_ORE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
 
     //Entities
     public static final RegistryObject<AITSpawnEgg> K9_SPAWN_EGG = ITEMS.register

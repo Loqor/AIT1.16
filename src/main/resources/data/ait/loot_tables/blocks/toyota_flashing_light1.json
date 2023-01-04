@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:toyota_flashing_light1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:toyota_flashing_light1"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

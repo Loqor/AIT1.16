@@ -8,9 +8,9 @@ modId="ait"
 version="${file.jarVersion}"
 displayName="Adventures In Time"
 logoFile="logo.png"
-credits="Thanks for this example mod goes to Java"
-authors="Loqor, TheVale, L0A Ink"
-description='''Ur mother.'''
+credits="Loqor - spending several literal hundred sleepless nights to code this mod."
+authors="MDTeam"
+description='''Tick tock, Mr. Karma... Tick. Tock.'''
 
 [[dependencies.examplemod]]
     modId="examplemod"

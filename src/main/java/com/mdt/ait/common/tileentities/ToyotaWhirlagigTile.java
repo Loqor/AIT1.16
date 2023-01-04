@@ -2,6 +2,8 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITTiles;
+import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
+import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.BlockState;
@@ -11,6 +13,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -25,9 +28,12 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
     public boolean isInFlight;
     public EnumRotorState currentstate = EnumRotorState.STATIC;
     public float spinny = 0;
+    public boolean atCurrentCoordinates;
+    public boolean uselessThing;
+    public float thing;
 
     public EnumRotorState currentState() {
-        return currentstate;
+        return this.currentstate;
     }
 
     public ToyotaWhirlagigTile() {
@@ -36,18 +42,28 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
 
     @Override
     public void tick() {
+        ++thing;
         if(this.tardisID != null) {
-            if (this.getLevel() != null) {
+            if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if(!tardis.landed) {
-                        isInFlight = true;
-                    } else {
-                        isInFlight = false;
+                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    if (!atCurrentCoordinates) {
+                        addToRotorSpin(thing);
+                        if(ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
+                            addToRotorSpin(spinny);
+                        }
+                    }
+                    if(ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                        atCurrentCoordinates = false;
                     }
                 }
             }
         }
+    }
+
+    public void addToRotorSpin(float number) {
+        spinny = number;
     }
 
     @Override
@@ -60,6 +76,7 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
         if (nbt.contains("tardisID")) {
             this.tardisID = nbt.getUUID("tardisID");
         }
+        this.currentstate = EnumRotorState.values()[nbt.getInt("currentstate")];
         super.load(pState, nbt);
     }
 
@@ -68,6 +85,7 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
         if (this.tardisID != null) {
             nbt.putUUID("tardisID", this.tardisID);
         }
+        nbt.putInt("currentstate", this.currentstate.ordinal());
         return super.save(nbt);
     }
 

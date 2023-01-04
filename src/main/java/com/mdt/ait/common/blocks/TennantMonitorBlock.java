@@ -95,7 +95,6 @@ public class TennantMonitorBlock extends Block {
     public void tick(BlockState pState, ServerWorld world, BlockPos blockPos, Random pRand) {
         super.tick(pState, world, blockPos, pRand);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION && tardisID == null) {
-            ServerWorld serverWorld = world;
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
         }
     }
@@ -110,19 +109,20 @@ public class TennantMonitorBlock extends Block {
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
                                 Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isClientSide()) {
+        //if (!worldIn.isClientSide()) {
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                ServerWorld serverWorld = ((ServerWorld) worldIn);
-                TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) serverWorld.getBlockEntity(pos);
-                this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
+                if (!worldIn.isClientSide) {
+                    this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                }
                 assert tennantMonitorTile != null;
                 tennantMonitorTile.tardisID = tardisID;
                 Block block = worldIn.getBlockState(pos).getBlock();
                 if (block instanceof TennantMonitorBlock) {
-                    Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID));
+                    Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID, worldIn));
                 }
             }
-        }
+        //}
         return super.use(state, worldIn, pos, player, handIn, hit);
     }
 }

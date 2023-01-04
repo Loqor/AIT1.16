@@ -5,7 +5,10 @@ import com.mdt.ait.client.models.tileentities.ToyotaWhirlagig;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.ToyotaWhirlagigBlock;
 import com.mdt.ait.common.tileentities.ToyotaWhirlagigTile;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
+import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -29,7 +32,6 @@ public class ToyotaWhirlagigRenderer extends TileEntityRenderer<ToyotaWhirlagigT
 
     @Override
     public void render(ToyotaWhirlagigTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
-        //tile.rotorTick = tile.currentState() == EnumRotorState.MOVING ? 0.0f : 0.8f;
         ++tile.spinny;
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 1.5, 0.5);

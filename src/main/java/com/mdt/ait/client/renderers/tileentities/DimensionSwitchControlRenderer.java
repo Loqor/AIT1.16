@@ -98,13 +98,13 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
         ++tile.spinny;
         MatrixStackIn.pushPose();
         this.whatDimensionText(MatrixStackIn, Buffer, CombinedLight);
-        MatrixStackIn.translate(0.5, 0.025, 0.5);
+        MatrixStackIn.translate(0.5, 1.5, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisLeverBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         model.planet.yRot = (float) Math.toRadians(tile.spinny / 32);
-        model.planet.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        //model.planet.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();

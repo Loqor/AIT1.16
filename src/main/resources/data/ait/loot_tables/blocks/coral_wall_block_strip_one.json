@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:coral_wall_block_strip_one",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:coral_wall_block_strip_one"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

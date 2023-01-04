@@ -34,10 +34,16 @@ import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.server.ServerWorld;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 
 public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
 
@@ -92,6 +98,17 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     public static final ResourceLocation FALLOUT_SHELTER_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/fallout_shelter_exterior_emission.png");
     public static final ResourceLocation RANI_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/rani_exterior_emission.png");
 
+    //Holiday stuff :)
+    public static final ResourceLocation CHRISTMAS_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/holidays/basic_exterior_christmas.png");
+    public static final ResourceLocation CHRISTMAS_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/holidays/mint_exterior_christmas.png");
+
+    //Snow Biome Specific
+    public static final ResourceLocation SNOW_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/biomes/snow/basic_exterior_snow.png");
+    public static final ResourceLocation SNOW_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/biomes/snow/mint_exterior_snow.png");
+
+    //Sand Biome Specific
+    public static final ResourceLocation SAND_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/biomes/sand/basic_exterior_sand.png");
+    public static final ResourceLocation SAND_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/biomes/sand/mint_exterior_sand.png");
     /*//Outlines
     public static final ResourceLocation TX3_OUTLINE_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tx3_outline.png");*/
 
@@ -151,7 +168,24 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         if (exterior.getSerializedName().equals("basic_box") && exteriortype == 0) {
             this.model = new BasicBox();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = LOCATION;
+            LocalDate localdate = LocalDate.now();
+            int i = localdate.get(ChronoField.DAY_OF_MONTH);
+            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            if (j == 12 && (i == 24 || i == 25)) {
+                this.texture = CHRISTMAS_LOCATION;
+                this.model.christmas_stuff.visible = true;
+            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.SNOW) {
+                this.texture = SNOW_LOCATION;
+                this.model.christmas_stuff.visible = false;
+            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
+                if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
+                    this.texture = SAND_LOCATION;
+                    this.model.christmas_stuff.visible = false;
+                }
+            } else {
+                this.texture = LOCATION;
+                this.model.christmas_stuff.visible = false;
+            }
             if(!door.equals(EnumDoorState.CLOSED)) {
                 //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
                 //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
@@ -174,7 +208,24 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         if (exterior.getSerializedName().equals("mint_box") && exteriortype == 1) {
             this.model = new BasicBox();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = MINT_LOCATION;
+            LocalDate localdate = LocalDate.now();
+            int i = localdate.get(ChronoField.DAY_OF_MONTH);
+            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            if (j == 12 && (i == 24 || i == 25)) {
+                this.texture = CHRISTMAS_MINT_LOCATION;
+                this.model.christmas_stuff.visible = true;
+            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.SNOW) {
+                this.texture = SNOW_MINT_LOCATION;
+                this.model.christmas_stuff.visible = false;
+            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
+                if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
+                    this.texture = SAND_MINT_LOCATION;
+                    this.model.christmas_stuff.visible = false;
+                }
+            } else {
+                this.texture = MINT_LOCATION;
+                this.model.christmas_stuff.visible = false;
+            }
             if(!door.equals(EnumDoorState.CLOSED)) {
                 //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
                 //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);

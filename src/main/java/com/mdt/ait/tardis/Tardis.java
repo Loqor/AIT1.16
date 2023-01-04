@@ -37,7 +37,7 @@ public class Tardis implements IEnergyStorage {
     public Direction exterior_facing;
     public Direction interior_door_facing;
     public final BlockPos center_position;
-    public Boolean landed = false;
+    public Boolean landed;
 
     public EnumExteriorType exteriorType;
     public EnumInteriorDoorType interiorDoorType;
@@ -61,17 +61,18 @@ public class Tardis implements IEnergyStorage {
     public BlockPos targetPosition;
     public Direction target_facing_direction;
 
-    public Tardis(UUID player, BlockPos exterior_position, RegistryKey<World> exterior_dimension, UUID tardisID, Tuple<Integer, Integer> grid_position, boolean lockedTardis) {
+    public Tardis(UUID player, BlockPos exterior_position, RegistryKey<World> exterior_dimension, UUID tardisID, Tuple<Integer, Integer> grid_position, boolean lockedTardis, TardisInterior current_interior) {
         System.out.println("Creating new tardis");
         this.owner = player;
         this.lockedTardis = lockedTardis;
+        this.landed = true;
         this.exterior_dimension = exterior_dimension;
         this.target_dimension = this.exterior_dimension;
         this.exterior_position = exterior_position;
         this.targetPosition = exterior_position;
         this.grid_position = grid_position;
         this.tardisID = tardisID;
-        this.currentInterior = TardisInteriors.devInterior;
+        this.currentInterior = current_interior;
         this.max_energy_storage = TardisConfig.tardis_default_base_energy_storage;
         this.energy_recharge_rate = TardisConfig.tardis_default_energy_recharge_rate;
         this.current_energy = this.max_energy_storage;
@@ -84,14 +85,11 @@ public class Tardis implements IEnergyStorage {
         this.target_facing_direction = this.exterior_facing;
         this.generateInterior();
 //        this.interiorTeleportPos = this.interior_door_position.relative(interior_door_facing.getOpposite(), 1);
-
     }
 
     public void setExteriorDoorState(EnumDoorState doorState) {
         ServerWorld world = AIT.server.getLevel(exterior_dimension);
-        assert world != null;
         TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exterior_position);
-
         if(tardisTileEntity != null) {
             tardisTileEntity.setDoorState(doorState);
         }
@@ -326,7 +324,9 @@ public class Tardis implements IEnergyStorage {
         tag.putString("exterior_dimension_resource_location", this.exterior_dimension.location().toString());
         tag.putInt("grid_position_x", this.grid_position.getA());
         tag.putInt("grid_position_z", this.grid_position.getB());
-        tag.putString("tardis_interior", this.currentInterior.toString());
+        //if (this.currentInterior != null) {
+            tag.putString("tardis_interior", this.currentInterior.toString());
+        //}
         tag.putString("exterior_facing", this.exterior_facing.toString());
         tag.putLong("center_position", this.center_position.asLong());
         tag.putString("interior_door_facing", this.interior_door_facing.toString());

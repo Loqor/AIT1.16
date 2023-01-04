@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:hartnell_mint_b",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:hartnell_mint_b"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

@@ -55,7 +55,7 @@ public class TardisManager {
             UUID tardisID = UUID.randomUUID();
             tardisWorldSavedData.setDirty(true);
             latestTardisNumber += 1;
-            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false, TardisInteriors.devInterior);
             tardis_list.put(tardisID, tardis);
             integerMapToUUID.put(latestTardisNumber, tardis.tardisID);
             loaded = true;
@@ -64,7 +64,7 @@ public class TardisManager {
             UUID tardisID = UUID.randomUUID();
             tardisWorldSavedData.setDirty(true);
             latestTardisNumber += 1;
-            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false);
+            Tardis tardis = new Tardis(owner, exterior_position, exterior_dimension, tardisID, new Tuple<Integer, Integer>(latestTardisNumber, latestTardisNumber), false, TardisInteriors.devInterior);
             tardis_list.put(tardisID, tardis);
             integerMapToUUID.put(latestTardisNumber, tardis.tardisID);
             return tardis;
@@ -179,7 +179,6 @@ public class TardisManager {
         DematTransit dematTransit = new DematTransit(tardisID);
         oldTardisTileEntity.dematTardis(dematTransit);
         return dematTransit;
-
     }
 
     public boolean doesTardisHaveATargetLocation(UUID tardisID) {

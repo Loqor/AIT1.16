@@ -66,6 +66,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public EnumInteriorDoorType currentinteriordoor = EnumInteriorDoorType.DOOR_BASIC_BOX;
     public EnumDoorState previousstate = EnumDoorState.CLOSED;
     public boolean lockedState = false;
+    public boolean isItSnowing = false;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);
@@ -445,28 +446,32 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerentity, BlockPos blockpos, Hand hand) {
-        if(lockedState != true) {
-            BlockState blockstate = world.getBlockState(blockpos);
-            Block block = blockstate.getBlock();
-            if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
-                this.setDoorState(this.getNextDoorState());
-                linked_tardis.setExteriorDoorState(this.currentstate);
-                TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(linked_tardis.exterior_dimension).getBlockEntity(linked_tardis.exterior_position);
-                tardisTileEntity.syncToClient();
-                if (this.currentstate == EnumDoorState.CLOSED)
-                    world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                if (this.currentstate == EnumDoorState.FIRST)
-                    world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                if (this.currentstate == EnumDoorState.BOTH)
-                    world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (!world.isClientSide) {
+            this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis.tardisID);
+            if (lockedState != true) {
+                BlockState blockstate = world.getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if (block instanceof BasicInteriorDoorBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                    this.setDoorState(this.getNextDoorState());
+                    linked_tardis.setExteriorDoorState(this.currentstate);
+                    TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(linked_tardis.exterior_dimension).getBlockEntity(linked_tardis.exterior_position);
+                    tardisTileEntity.syncToClient();
+                    System.out.println(tardisTileEntity.currentState());
+                    if (this.currentstate == EnumDoorState.CLOSED)
+                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    if (this.currentstate == EnumDoorState.FIRST)
+                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    if (this.currentstate == EnumDoorState.BOTH)
+                        world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    syncToClient();
+                }
+            } else {
+                this.currentstate = EnumDoorState.CLOSED;
+                playerentity.displayClientMessage(new TranslationTextComponent(
+                        "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
+                world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                 syncToClient();
             }
-        } else {
-            this.currentstate = EnumDoorState.CLOSED;
-            playerentity.displayClientMessage(new TranslationTextComponent(
-                    "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
-            world.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            syncToClient();
         }
         return ActionResultType.SUCCESS;
     }
@@ -476,6 +481,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             this.portalUUID = nbt.getUUID("portalID");
         }
         this.currentstate = EnumDoorState.values()[nbt.getInt("currentState")];
+        this.isItSnowing = nbt.getBoolean("isItSnowing");
         this.currentinteriordoor = EnumInteriorDoorType.values()[nbt.getInt("currentinteriordoor")];
         this.lockedState = nbt.getBoolean("lockedState");
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
@@ -490,11 +496,12 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             nbt.putUUID("portalID", this.portal.getUUID());
         }
         nbt.putInt("currentState", this.currentstate.ordinal());
+        nbt.putBoolean("isItSnowing", this.isItSnowing);
         nbt.putInt("currentinteriordoor", this.currentinteriordoor.ordinal());
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
-        if (linked_tardis != null) {
-            nbt.putUUID("tardis_id", linked_tardis.tardisID);
+        if (this.linked_tardis != null) {
+            nbt.putUUID("tardis_id", this.linked_tardis.tardisID);
         }
         return super.save(nbt);
     }

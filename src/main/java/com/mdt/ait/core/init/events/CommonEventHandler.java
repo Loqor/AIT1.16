@@ -13,6 +13,7 @@ import com.mdt.ait.core.init.AITDimensionTypes;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
+import com.mdt.ait.core.init.world.AITOreGeneration;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.Keyboard;
@@ -49,9 +50,11 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -61,6 +64,7 @@ import javax.swing.text.JTextComponent;
 import java.util.UUID;
 import java.util.logging.Level;
 
+@Mod.EventBusSubscriber(modid = AIT.MOD_ID)
 public class CommonEventHandler {
 
     public int run_once = 1;
@@ -69,11 +73,18 @@ public class CommonEventHandler {
     public int z_number;
 
     @SubscribeEvent
+    public static void biomeLoadingEvent(final BiomeLoadingEvent event) {
+        AITOreGeneration.generateOres(event);
+    }
+
+    @SubscribeEvent
     public void onPlayerMine(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock() instanceof ICantBreak && AIT.server.getLevel(event.getPlayer().level.dimension()) != event.getWorld()) {
             event.setCanceled(true);
         }
     }
+
+
 
     //@SubscribeEvent
     //public void onBlockBreak(BlockEvent.BreakEvent event) {
@@ -95,7 +106,6 @@ public class CommonEventHandler {
             ServerWorld world = (ServerWorld) event.getWorld();
             assert world != null;
             if (world.dimension().equals(ServerWorld.OVERWORLD)) {
-
                 AIT.server = ServerLifecycleHooks.getCurrentServer();
                 AIT.dimensionSavedDataManager = AIT.server.overworld().getDataStorage();
             }

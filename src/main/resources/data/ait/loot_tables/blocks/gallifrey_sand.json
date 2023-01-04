@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:gallifrey_sand",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:gallifrey_sand"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

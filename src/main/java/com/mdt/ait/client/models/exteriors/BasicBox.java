@@ -29,6 +29,15 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 	public final ModelRenderer cube_r7;
 	public final ModelRenderer right_door;
 	public final ModelRenderer left_door;
+	public final ModelRenderer christmas_stuff;
+	public final ModelRenderer cube_r8;
+	public final ModelRenderer cube_r9;
+	public final ModelRenderer cube_r10;
+	public final ModelRenderer cube_r11;
+	public final ModelRenderer cube_r12;
+	public final ModelRenderer cube_r13;
+	public final ModelRenderer cube_r14;
+	public final ModelRenderer cube_r15;
 
 	public BasicBox() {
 		texWidth = 256;
@@ -36,7 +45,7 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 
 		box = new ModelRenderer(this);
 		box.setPos(0.0F, 24.0F, 0.0F);
-
+		
 
 		base = new ModelRenderer(this);
 		base.setPos(0.0F, 0.0F, 0.0F);
@@ -141,6 +150,66 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 		box.addChild(left_door);
 		left_door.texOffs(142, 121).addBox(0.5F, -25.5F, -0.5F, 13.0F, 51.0F, 1.0F, 0.0F, false);
 		left_door.texOffs(0, 8).addBox(9.5F, -6.5F, -1.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+
+		christmas_stuff = new ModelRenderer(this);
+		christmas_stuff.setPos(0.0F, 24.0F, 0.0F);
+		christmas_stuff.texOffs(252, 195).addBox(-1.0F, -61.0F, -19.0F, 2.0F, 61.0F, 0.0F, 0.001F, false);
+		christmas_stuff.texOffs(252, 193).addBox(19.0F, -61.0F, -1.0F, 0.0F, 61.0F, 2.0F, 0.001F, false);
+		christmas_stuff.texOffs(252, 193).addBox(-1.0F, -61.0F, 19.0F, 2.0F, 61.0F, 0.0F, 0.001F, false);
+		christmas_stuff.texOffs(252, 193).addBox(-19.0F, -61.0F, -1.0F, 0.0F, 61.0F, 2.0F, 0.001F, false);
+		christmas_stuff.texOffs(204, 239).addBox(-12.0F, -38.5F, -19.25F, 24.0F, 16.0F, 0.0F, 0.0F, false);
+		christmas_stuff.texOffs(180, 144).addBox(-19.0F, -32.0F, -19.0F, 38.0F, 2.0F, 0.0F, 0.001F, false);
+		christmas_stuff.texOffs(180, 106).addBox(19.0F, -32.0F, -19.0F, 0.0F, 2.0F, 38.0F, 0.001F, false);
+		christmas_stuff.texOffs(180, 144).addBox(-19.0F, -32.0F, 19.0F, 38.0F, 2.0F, 0.0F, 0.001F, false);
+		christmas_stuff.texOffs(180, 106).addBox(-19.0F, -32.0F, -19.0F, 0.0F, 2.0F, 38.0F, 0.001F, false);
+
+		cube_r8 = new ModelRenderer(this);
+		cube_r8.setPos(0.0F, -23.144F, -35.064F);
+		christmas_stuff.addChild(cube_r8);
+		setRotationAngle(cube_r8, 0.6109F, 0.0F, 0.0F);
+		cube_r8.texOffs(248, 194).addBox(-1.0F, -9.0F, 66.0F, 2.0F, 9.0F, 0.0F, 0.001F, false);
+
+		cube_r9 = new ModelRenderer(this);
+		cube_r9.setPos(0.0F, -11.2147F, -19.1622F);
+		christmas_stuff.addChild(cube_r9);
+		setRotationAngle(cube_r9, 1.0472F, 0.0F, 0.0F);
+		cube_r9.texOffs(248, 203).addBox(-1.0F, -13.0F, 66.0F, 2.0F, 13.0F, 0.0F, 0.001F, false);
+
+		cube_r10 = new ModelRenderer(this);
+		cube_r10.setPos(19.1622F, -11.2147F, 0.0F);
+		christmas_stuff.addChild(cube_r10);
+		setRotationAngle(cube_r10, 0.0F, 0.0F, 1.0472F);
+		cube_r10.texOffs(248, 201).addBox(-66.0F, -13.0F, -1.0F, 0.0F, 13.0F, 2.0F, 0.001F, false);
+
+		cube_r11 = new ModelRenderer(this);
+		cube_r11.setPos(35.064F, -23.144F, 0.0F);
+		christmas_stuff.addChild(cube_r11);
+		setRotationAngle(cube_r11, 0.0F, 0.0F, 0.6109F);
+		cube_r11.texOffs(248, 192).addBox(-66.0F, -9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 0.001F, false);
+
+		cube_r12 = new ModelRenderer(this);
+		cube_r12.setPos(-35.064F, -23.144F, 0.0F);
+		christmas_stuff.addChild(cube_r12);
+		setRotationAngle(cube_r12, 0.0F, 0.0F, -0.6109F);
+		cube_r12.texOffs(248, 192).addBox(66.0F, -9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 0.001F, false);
+
+		cube_r13 = new ModelRenderer(this);
+		cube_r13.setPos(-19.1622F, -11.2147F, 0.0F);
+		christmas_stuff.addChild(cube_r13);
+		setRotationAngle(cube_r13, 0.0F, 0.0F, -1.0472F);
+		cube_r13.texOffs(248, 201).addBox(66.0F, -13.0F, -1.0F, 0.0F, 13.0F, 2.0F, 0.001F, false);
+
+		cube_r14 = new ModelRenderer(this);
+		cube_r14.setPos(0.0F, -11.2147F, 19.1622F);
+		christmas_stuff.addChild(cube_r14);
+		setRotationAngle(cube_r14, -1.0472F, 0.0F, 0.0F);
+		cube_r14.texOffs(248, 203).addBox(-1.0F, -13.0F, -66.0F, 2.0F, 13.0F, 0.0F, 0.001F, false);
+
+		cube_r15 = new ModelRenderer(this);
+		cube_r15.setPos(0.0F, -23.144F, 35.064F);
+		christmas_stuff.addChild(cube_r15);
+		setRotationAngle(cube_r15, -0.6109F, 0.0F, 0.0F);
+		cube_r15.texOffs(248, 194).addBox(-1.0F, -9.0F, -66.0F, 2.0F, 9.0F, 0.0F, 0.001F, false);
 	}
 
 	@Override
@@ -151,6 +220,7 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 	@Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		box.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		christmas_stuff.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

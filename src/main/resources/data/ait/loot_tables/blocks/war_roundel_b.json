@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:war_roundel_b",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:war_roundel_b"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

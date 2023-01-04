@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:tbaker_solid",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:tbaker_solid"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

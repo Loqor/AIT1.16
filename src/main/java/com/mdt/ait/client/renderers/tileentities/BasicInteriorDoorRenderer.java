@@ -16,6 +16,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.biome.Biome;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 
 public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorDoorTile> {
     public static final ResourceLocation BASIC = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/basic_interior_doors.png");
@@ -24,6 +28,11 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
     public static final ResourceLocation CLASSIC = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/classic_interior_doors.png");
     public static final ResourceLocation FALLOUT_SHELTER = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/fallout_shelter_interior_door.png");
     public static final ResourceLocation TARDIM = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tardim_exterior.png");
+
+    //Snowing/Holidays
+    public static final ResourceLocation SNOW_BASIC_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/basic_interior_doors_snow.png");
+    public static final ResourceLocation SNOW_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/mint_interior_doors_snow.png");
+
     public BasicInteriorDoor model;
     private final TileEntityRendererDispatcher rendererDispatcher;
     public ResourceLocation texture;
@@ -45,9 +54,19 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));
         EnumInteriorDoorType interiordoor = EnumInteriorDoorType.values()[tile.serializeNBT().getInt("currentinteriordoor")];
         int interiordoortype = tile.serializeNBT().getInt("currentinteriordoor");
+        boolean isitsnowing = tile.serializeNBT().getBoolean("isItSnowing");
         if(interiordoor.getSerializedName().equals("door_basic_exterior") && interiordoortype == 0) {
             this.model = new BasicInteriorDoor();
-            this.texture = BASIC;
+            LocalDate localdate = LocalDate.now();
+            int i = localdate.get(ChronoField.DAY_OF_MONTH);
+            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            if (j == 12 && (i == 24 || i == 25)) {
+                this.texture = SNOW_BASIC_LOCATION;
+            } else if (isitsnowing) {
+                this.texture = SNOW_BASIC_LOCATION;
+            } else {
+                this.texture = BASIC;
+            }
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.translate(0, -1.085f, 0);
@@ -55,7 +74,16 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
         }
         if(interiordoor.getSerializedName().equals("door_mint_exterior") && interiordoortype == 1) {
             this.model = new BasicInteriorDoor();
-            this.texture = MINT;
+            LocalDate localdate = LocalDate.now();
+            int i = localdate.get(ChronoField.DAY_OF_MONTH);
+            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            if (j == 12 && (i == 24 || i == 25)) {
+                this.texture = SNOW_MINT_LOCATION;
+            } else if (isitsnowing) {
+                this.texture = SNOW_MINT_LOCATION;
+            } else {
+                this.texture = MINT;
+            }
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.translate(0, -1.085f, 0);

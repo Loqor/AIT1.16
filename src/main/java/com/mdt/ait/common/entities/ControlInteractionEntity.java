@@ -350,7 +350,7 @@ public class ControlInteractionEntity extends AmbientEntity {
             changeDirectionFromControl();
         }
         if(this.getCustomName().getContents().equals("Monitor") && this.tardisID != null) {
-            Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), this.tardisID));
+            Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), this.tardisID, pSource.getCommandSenderWorld()));
         }
         if(!this.hurtMarked) {
             this.hurtMarked = true;

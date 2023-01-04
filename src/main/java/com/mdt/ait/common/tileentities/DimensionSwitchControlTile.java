@@ -34,6 +34,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     public float spinny = 0;
     public EnumDimensionControlState currentdimensionstate = EnumDimensionControlState.EARTH;
     private RegistryKey<World> newDimension;
+    public boolean canChangeDim = false;
 
     public DimensionSwitchControlTile() {
         super(AITTiles.DIMENSION_SWITCH_CONTROL_TILE_ENTITY_TYPE.get());
@@ -42,36 +43,49 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     @Override
     public void tick() {
         if(this.tardisID != null) {
-            if(this.getLevel() != null) {
+            if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if (tardis.landed != false) {
-                        newDimension = tardis.exterior_dimension;
-                        if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
-                            currentdimensionstate = EnumDimensionControlState.EARTH;
-                            syncToClient();
-                        }
-                        if (tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
-                            currentdimensionstate = EnumDimensionControlState.NETHER;
-                            syncToClient();
-                        }
-                        if (tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
-                            currentdimensionstate = EnumDimensionControlState.END;
-                            syncToClient();
-                        }
-                        if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
-                            currentdimensionstate = EnumDimensionControlState.GALLIFREY;
-                            syncToClient();
-                        }
-                        if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
-                            currentdimensionstate = EnumDimensionControlState.MONDAS;
-                            syncToClient();
+                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    if (!canChangeDim) {
+                        if (newDimension == null) {
+                            newDimension = tardis.target_dimension;
+                            if (ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
+                                if(tardis.exterior_dimension != tardis.target_dimension) {
+                                    newDimension = tardis.exterior_dimension;
+                                } else {
+                                    if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
+                                        currentdimensionstate = EnumDimensionControlState.EARTH;
+                                        syncToClient();
+                                    }
+                                    if (tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+                                        currentdimensionstate = EnumDimensionControlState.NETHER;
+                                        syncToClient();
+                                    }
+                                    if (tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+                                        currentdimensionstate = EnumDimensionControlState.END;
+                                        syncToClient();
+                                    }
+                                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+                                        currentdimensionstate = EnumDimensionControlState.GALLIFREY;
+                                        syncToClient();
+                                    }
+                                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+                                        currentdimensionstate = EnumDimensionControlState.MONDAS;
+                                        syncToClient();
+                                    }
+                                }
+                            }
                         }
                     }
-                    syncToClient();
+                    if (ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                        canChangeDim = false;
+                    }
                 }
             }
         }
+        syncToClient();
+        //System.out.println(currentdimensionstate + "  |  " + newDimension);
     }
 
     public EnumDimensionControlState currentDimensionState() {
@@ -120,6 +134,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
+        canChangeDim  = true;
 //        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
 //        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);

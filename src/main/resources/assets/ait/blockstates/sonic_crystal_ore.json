@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "" : [
+      {"model" : "ait:block/sonic_crystal_ore"}
+    ]
+  }
+}
