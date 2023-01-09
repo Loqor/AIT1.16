@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "" : [
+      {"model" : "ait:block/3_doctors_solid"}
+    ]
+  }
+}

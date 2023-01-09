@@ -5,6 +5,7 @@ import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mdt.ait.client.models.exteriors.MintExterior;
 import com.mdt.ait.client.models.tileentities.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
+import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -68,6 +69,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
                 this.texture = BASIC;
             }
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            System.out.println(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);

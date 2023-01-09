@@ -179,8 +179,10 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
                 if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
-                    this.texture = SAND_LOCATION;
-                    this.model.christmas_stuff.visible = false;
+                    if (tile.getLevel().dimension() != AITDimensions.GALLIFREY) {
+                        this.texture = SAND_LOCATION;
+                        this.model.christmas_stuff.visible = false;
+                    }
                 }
             } else {
                 this.texture = LOCATION;
@@ -219,8 +221,10 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
                 if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
-                    this.texture = SAND_MINT_LOCATION;
-                    this.model.christmas_stuff.visible = false;
+                    if (tile.getLevel().dimension() != AITDimensions.GALLIFREY) {
+                        this.texture = SAND_MINT_LOCATION;
+                        this.model.christmas_stuff.visible = false;
+                    }
                 }
             } else {
                 this.texture = MINT_LOCATION;

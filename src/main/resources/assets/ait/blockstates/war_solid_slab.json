@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "type=bottom": { "model": "ait:block/war_solid_slab" },
-    "type=top": { "model": "ait:block/war_solid_slab_top" },
-    "type=double": { "model": "ait:block/war_solid" }
-  }
-}

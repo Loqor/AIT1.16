@@ -2,8 +2,8 @@
   "credit": "Made with Blockbench",
   "parent" : "block/cube_all",
   "textures": {
-    "0": "ait:block/master_solid",
-    "particle" : "ait:block/master_solid"
+    "0": "ait:block/3_doctors_solid",
+    "particle" : "ait:block/3_doctors_solid"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

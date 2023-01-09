@@ -61,8 +61,6 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.HARTNELL_MINT_B.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.TBAKER_ROUNDEL_A.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.TBAKER_ROUNDEL_B.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.MASTER_ROUNDEL_A.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.MASTER_ROUNDEL_B.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.HARTNELL_BLOWUP_A.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.HARTNELL_BLOWUP_B.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.CORAL_WALL_BLOCK.get(), RenderType.cutoutMipped());
@@ -71,8 +69,6 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_FLASHING_LIGHT1.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_FLASHING_LIGHTA.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.TOYOTA_FLASHING_LIGHT1A.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.TBAKER_SOLID.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.MASTER_SOLID.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.MINT_SOLID.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.HARTNELL_BLOWUP_SOLID.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.STEEL_GRATE_BLOCK.get(), RenderType.translucent());
@@ -84,10 +80,9 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.ARMILLARYSPHERE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_A.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.WAR_ROUNDEL_B.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.WAR_SOLID.get(), RenderType.cutoutMipped());
-            RenderTypeLookup.setRenderLayer(AITBlocks.WAR_SOLID_SLAB.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.THREE_DOCTORS_ROUNDEL_A.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.THREE_DOCTORS_ROUNDEL_B.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.THREE_DOCTORS_SOLID.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.SMALL_CORAL_ROUNDEL.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.CORAL_WALL_BLOCK_STRIP.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.CORAL_WALL_BLOCK_STRIP_ONE.get(), RenderType.cutoutMipped());
@@ -129,6 +124,7 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.TOYOTA_MONITOR_TILE_ENTITY_TYPE.get(), ToyotaMonitorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE.get(), TardisPowerAccessPointRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DoorSwitchControlRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.ROUNDEL_DOORS_TILE_ENTITY_TYPE.get(), RoundelDoorsRenderer::new);
 
         //Temporary
         ClientRegistry.bindTileEntityRenderer(AITTiles.VORTEX_TILE_ENTITY_TYPE.get(), VortexRenderer::new);

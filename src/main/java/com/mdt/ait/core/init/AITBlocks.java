@@ -39,6 +39,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> CONSOLE_BLOCK = BLOCKS.register("console_block", ConsoleBlock::new);
     public static final RegistryObject<Block> TARDIS_CORAL_BLOCK = BLOCKS.register("tardis_coral", TardisCoralBlock::new);
     public static final RegistryObject<Block> TSV_BLOCK = BLOCKS.register("tsv", TSVBlock::new);
+    public static final RegistryObject<Block> ROUNDEL_DOORS_BLOCK = BLOCKS.register("roundel_doors", RoundelDoorsBlock::new);
 
     public static final RegistryObject<Block> RICK_PORTAL_BLOCK = BLOCKS.register("ricks_portal", RickPortalBlock::new);
     public static final RegistryObject<Block> TYPEWRITER_BLOCK = BLOCKS.register("typewriter", TypewriterBlock::new);
@@ -110,22 +111,6 @@ public class AITBlocks {
     public static final RegistryObject<Block> TBAKER_ROUNDEL_B = BLOCKS.register(
             "tbaker_roundel_b", () -> new Block(Block.Properties.of(
                     Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> TBAKER_SOLID = BLOCKS.register(
-            "tbaker_solid", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_YELLOW).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-
-
-    //Master Blocks
-    public static final RegistryObject<Block> MASTER_ROUNDEL_A = BLOCKS.register(
-            "master_roundel_a", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> MASTER_ROUNDEL_B = BLOCKS.register(
-            "master_roundel_b", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> MASTER_SOLID = BLOCKS.register(
-            "master_solid", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-
 
     //Coral Blocks
     public static final RegistryObject<Block> CORAL_WALL_BLOCK = BLOCKS.register(
@@ -193,12 +178,6 @@ public class AITBlocks {
     public static final RegistryObject<Block> WAR_ROUNDEL_B = BLOCKS.register(
             "war_roundel_b", () -> new Block(Block.Properties.of(
                     Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> WAR_SOLID = BLOCKS.register(
-            "war_solid", () -> new Block(Block.Properties.of(
-                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.STONE)));
-    public static final RegistryObject<Block> WAR_SOLID_SLAB = BLOCKS.register(
-            "war_solid_slab", () -> new SlabBlock(ModSlabBlock.Properties.of(
-                    Material.METAL, MaterialColor.COLOR_BROWN).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
 
     //Random Roundels
@@ -207,6 +186,9 @@ public class AITBlocks {
                     Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> THREE_DOCTORS_ROUNDEL_B = BLOCKS.register(
             "3_doctors_roundel_b", () -> new Block(Block.Properties.of(
+                    Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> THREE_DOCTORS_SOLID = BLOCKS.register(
+            "3_doctors_solid", () -> new Block(Block.Properties.of(
                     Material.STONE, MaterialColor.COLOR_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(-1).strength(3.0F, 6.0F).sound(SoundType.METAL)));
 
     //Light Blocks

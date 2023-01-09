@@ -67,6 +67,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     public EnumDoorState previousstate = EnumDoorState.CLOSED;
     public boolean lockedState = false;
     public boolean isItSnowing = false;
+    public int exteriorSkyLight;
 
     public BasicInteriorDoorTile(TileEntityType<TileEntity> entity) {
         super(entity);
@@ -196,8 +197,6 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         }
     }
 
-
-
     public EnumDoorState getNextDoorState() {
         switch (currentstate) {
             case CLOSED:
@@ -306,6 +305,15 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     @Override public void tick() {
+        if(linked_tardis != null) {
+            if(linked_tardis.exterior_dimension != null && linked_tardis.exterior_position != null) {
+                ServerWorld tardisexteriordim = AIT.server.getLevel(linked_tardis.exterior_dimension);
+                TardisTileEntity tardisTileEntity = (TardisTileEntity) tardisexteriordim.getBlockEntity(linked_tardis.exterior_position);
+                if(tardisTileEntity != null) {
+                    exteriorSkyLight = (int) tardisexteriordim.getBrightness(linked_tardis.exterior_position);
+                }
+            }
+        }
         if(this.isRemoved()) {
             this.portal.remove();
         }
@@ -486,6 +494,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         this.lockedState = nbt.getBoolean("lockedState");
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
         this.rightDoorRotation = nbt.getFloat("rightDoorRotation");
+        this.exteriorSkyLight = nbt.getInt("exteriorSkyLight");
         if (nbt.contains("tardis_id")) {
             this.linked_tardis = AIT.tardisManager.getTardis(nbt.getUUID("tardis_id"));
         }
@@ -500,6 +509,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         nbt.putInt("currentinteriordoor", this.currentinteriordoor.ordinal());
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);
+        nbt.putInt("exteriorSkyLight", this.exteriorSkyLight);
         if (this.linked_tardis != null) {
             nbt.putUUID("tardis_id", this.linked_tardis.tardisID);
         }

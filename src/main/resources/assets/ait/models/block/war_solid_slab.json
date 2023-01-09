@@ -1,8 +1,0 @@
-{
-  "parent": "block/slab",
-  "textures": {
-    "bottom": "ait:block/war_solid",
-    "top": "ait:block/war_solid",
-    "side": "ait:block/war_solid"
-  }
-}

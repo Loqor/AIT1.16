@@ -15,24 +15,20 @@ import net.minecraftforge.common.util.Constants;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TardisInterior {
-    public static Template interior_template;
 
-    public static String name;
+    public Template interior_template;
+    public String name;
+    public ResourceLocation interiorLocation;
+    public ServerWorld tardisWorld;
+    private BlockPos center_position;
+    private BlockPos interior_door_position;
 
-    public static ResourceLocation interiorLocation;
-
-    public static ServerWorld tardisWorld;
-
-    private static BlockPos center_position;
-
-    private static BlockPos interior_door_position;
     public TardisInterior(ResourceLocation interiorLocation, ServerWorld tardisWorld, String interiorName) {
-        TardisInterior.interiorLocation = interiorLocation;
-        TardisInterior.tardisWorld = tardisWorld;
-        TardisInterior.name = interiorName;
+        this.interiorLocation = interiorLocation;
+        this.tardisWorld = tardisWorld;
+        this.name = interiorName;
         interior_template = tardisWorld.getStructureManager().get(interiorLocation);
         calcPositions();
-
     }
 
     public Template getTemplate() {

@@ -13,6 +13,7 @@ import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mdt.ait.tardis.interiors.TardisInterior;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -54,6 +55,7 @@ public class Tardis implements IEnergyStorage {
     public int energy_recharge_rate; // Energy per second
     public final UUID owner;
     public boolean lockedTardis;
+    public boolean hasGenerated;
 
     public final UUID tardisID;
 
@@ -155,7 +157,7 @@ public class Tardis implements IEnergyStorage {
         System.out.println(this.lockedTardis);
     }
 
-    private void generateInterior() {
+    public void generateInterior() {
         ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
         BlockPos interiorCenterBlockPos = this.currentInterior.getCenterPosition();
         BlockPos interiorDoorBlockPos = this.currentInterior.getInteriorDoorPosition();
@@ -173,6 +175,15 @@ public class Tardis implements IEnergyStorage {
             }
         }
         this.interiorDoorType = ((BasicInteriorDoorTile) Objects.requireNonNull(Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(interior_door_position))).getInteriorDoor();
+    }
+
+    public void clearInterior() {
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        BlockPos interiorCenterBlockPos = this.currentInterior.getCenterPosition();
+        tardisWorld.setBlockAndUpdate(this.interior_door_position, Blocks.AIR.defaultBlockState());
+        BlockPos generateFromBlockPos = new BlockPos(this.center_position.getX() - interiorCenterBlockPos.getX(), this.center_position.getY() - interiorCenterBlockPos.getY(), this.center_position.getZ() - interiorCenterBlockPos.getZ());
+        this.currentInterior.placeInterior(tardisWorld, generateFromBlockPos);
+        System.out.println(this.currentInterior);
     }
 
     public void __moveExterior(BlockPos newExteriorPosition, Direction newExteriorFacing, RegistryKey<World> newExteriorDimension) {

@@ -5,10 +5,8 @@ import com.mdt.ait.common.blocks.ExteriorFacingControlBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
+import com.mdt.ait.core.init.enums.*;
 import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
-import com.mdt.ait.core.init.enums.DoorSwitchStates;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -91,11 +89,11 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
     }
 
     public DoorSwitchStates getLeverState() {
-        return this.leverState;
+        return leverState;
     }
 
     public void setLeverState(DoorSwitchStates state) {
-        this.leverState = state;
+        leverState = state;
     }
 
     public void setNextDoorState() {
@@ -111,7 +109,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                             tardisTileEntity.syncToClient();
                             syncToClient();
                             if (basicInteriorDoorTile != null) {
-                                if (this.leverState == DoorSwitchStates.FIRST) {
+                                if (leverState == DoorSwitchStates.FIRST) {
                                     level.playSound(null, worldPosition, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.MASTER, 7, 1);
                                     basicInteriorDoorTile.setDoorState(EnumDoorState.CLOSED);
                                     basicInteriorDoorTile.syncToClient();
@@ -141,10 +139,10 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                         TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(tardis.exterior_dimension).getBlockEntity(tardis.exterior_position);
                         if(basicInteriorDoorTile != null) {
                             if (basicInteriorDoorTile.lockedState) {
-                                this.leverState = DoorSwitchStates.FIRST;
+                                leverState = DoorSwitchStates.FIRST;
                                 basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
                             } else {
-                                this.leverState = DoorSwitchStates.FIRST;
+                                leverState = DoorSwitchStates.FIRST;
                                 basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
                             }
                             if (tardisTileEntity != null) {
@@ -166,12 +164,12 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
         if(pHandIn == Hand.MAIN_HAND) {
             if (pPlayer.isCrouching()) {
                 toggleDoorsLocked();
-                this.leverState = getNextLeverState();
+                leverState = getNextLeverState();
                 syncToClient();
                 level.playSound(null, worldPosition, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
             } else {
                 setNextDoorState();
-                this.leverState = getNextLeverState();
+                leverState = getNextLeverState();
                 syncToClient();
             }
         }
@@ -189,6 +187,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                 }
             }
         }
+        leverState = DoorSwitchStates.FIRST;
     }
 
     @Override

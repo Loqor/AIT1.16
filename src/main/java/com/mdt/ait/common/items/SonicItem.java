@@ -3,6 +3,7 @@ package com.mdt.ait.common.items;
 import com.mdt.ait.client.models.tileentities.Typewriter;
 import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
+import com.mdt.ait.common.tileentities.RoundelDoorsTile;
 import com.mdt.ait.common.tileentities.RoundelFaceTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITItems;
@@ -111,6 +112,16 @@ public class SonicItem extends Item {
                     ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
                 }
 
+            }
+            return ActionResultType.sidedSuccess(world.isClientSide());
+        }
+
+        if (block instanceof RoundelDoorsBlock) {
+            TileEntity tileEntity = world.getBlockEntity(blockpos);
+            if(tileEntity instanceof RoundelDoorsTile) {
+                if (!world.isClientSide) {
+                    ((RoundelDoorsTile) tileEntity).useOnRoundelDoors(context, blockpos, blockstate, block);
+                }
             }
             return ActionResultType.sidedSuccess(world.isClientSide());
         }

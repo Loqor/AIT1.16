@@ -206,6 +206,9 @@ public class AITItems {
     public static final RegistryObject<BlockItem> TSV = ITEMS.register(
             "tsv", () -> new BlockItem(
                     AITBlocks.TSV_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+    public static final RegistryObject<BlockItem> ROUNDEL_DOORS = ITEMS.register(
+            "roundel_doors", () -> new BlockItem(
+                    AITBlocks.ROUNDEL_DOORS_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> RAMP = ITEMS.register(
             "ramp", () -> new BlockItem(
                     AITBlocks.RAMP_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
@@ -247,10 +250,6 @@ public class AITItems {
             "coral_wall_block_strip", () -> new BlockItem(AITBlocks.CORAL_WALL_BLOCK_STRIP.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> CORAL_WALL_BLOCK_STRIP_ONE = ITEMS.register(
             "coral_wall_block_strip_one", () -> new BlockItem(AITBlocks.CORAL_WALL_BLOCK_STRIP_ONE.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-    public static final RegistryObject<BlockItem> TBAKER_SOLID = ITEMS.register(
-            "tbaker_solid", () -> new BlockItem(AITBlocks.TBAKER_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-    public static final RegistryObject<BlockItem> MASTER_SOLID = ITEMS.register(
-            "master_solid", () -> new BlockItem(AITBlocks.MASTER_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> MINT_SOLID = ITEMS.register(
             "mint_solid", () -> new BlockItem(AITBlocks.MINT_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> HARTNELL_BLOWUP_SOLID = ITEMS.register(
@@ -267,10 +266,6 @@ public class AITItems {
             "armillarysphere", () -> new BlockItem(AITBlocks.ARMILLARYSPHERE.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> COW_SKULL = ITEMS.register(
             "cow_skull", () -> new BlockItem(AITBlocks.COW_SKULL.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-    public static final RegistryObject<BlockItem> WAR_SOLID = ITEMS.register(
-            "war_solid", () -> new BlockItem(AITBlocks.WAR_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-    public static final RegistryObject<BlockItem> WAR_SOLID_SLAB = ITEMS.register(
-            "war_solid_slab", () -> new BlockItem(AITBlocks.WAR_SOLID_SLAB.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final  RegistryObject<BlockItem> HARTNELL_MINT_A = ITEMS.register(
             "hartnell_mint_a", () -> new BlockItem(AITBlocks.HARTNELL_MINT_A.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final  RegistryObject<BlockItem> HARTNELL_MINT_B = ITEMS.register(
@@ -279,10 +274,6 @@ public class AITItems {
             "tbaker_roundel_a", () -> new BlockItem(AITBlocks.TBAKER_ROUNDEL_A.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final  RegistryObject<BlockItem> TBAKER_ROUNDEL_B = ITEMS.register(
             "tbaker_roundel_b", () -> new BlockItem(AITBlocks.TBAKER_ROUNDEL_B.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
-    public static final  RegistryObject<BlockItem> MASTER_ROUNDEL_A = ITEMS.register(
-            "master_roundel_a", () -> new BlockItem(AITBlocks.MASTER_ROUNDEL_A.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
-    public static final  RegistryObject<BlockItem> MASTER_ROUNDEL_B = ITEMS.register(
-            "master_roundel_b", () -> new BlockItem(AITBlocks.MASTER_ROUNDEL_B.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final  RegistryObject<BlockItem> HARTNELL_BLOWUP_A = ITEMS.register(
             "hartnell_blowup_a", () -> new BlockItem(AITBlocks.HARTNELL_BLOWUP_A.get(), new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final  RegistryObject<BlockItem> HARTNELL_BLOWUP_B = ITEMS.register(
@@ -305,6 +296,8 @@ public class AITItems {
             "3_doctors_roundel_a", () -> new BlockItem(AITBlocks.THREE_DOCTORS_ROUNDEL_A.get(),new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final RegistryObject<BlockItem> THREE_DOCTORS_ROUNDEL_B = ITEMS.register(
             "3_doctors_roundel_b", () -> new BlockItem(AITBlocks.THREE_DOCTORS_ROUNDEL_B.get(),new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
+    public static final RegistryObject<BlockItem> THREE_DOCTORS_SOLID= ITEMS.register(
+            "3_doctors_solid", () -> new BlockItem(AITBlocks.THREE_DOCTORS_SOLID.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> SMALL_CORAL_ROUNDEL = ITEMS.register(
             "small_coral_roundel", () -> new BlockItem(AITBlocks.SMALL_CORAL_ROUNDEL.get(),new Item.Properties().tab(AITItemGroups.AITROUNDELS)));
     public static final RegistryObject<BlockItem> LIGHT_BLOCK_ORANGE = ITEMS.register(

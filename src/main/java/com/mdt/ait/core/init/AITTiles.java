@@ -20,6 +20,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TSVTile>> TSV_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tsv",
             () -> TileEntityType.Builder.of(TSVTile::new, AITBlocks.TSV_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<RoundelDoorsTile>> ROUNDEL_DOORS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "roundel_doors",
+            () -> TileEntityType.Builder.of(RoundelDoorsTile::new, AITBlocks.ROUNDEL_DOORS_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<RecordPlayerTile>> RECORD_PLAYER_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "record_player",
             () -> TileEntityType.Builder.of(RecordPlayerTile::new, AITBlocks.RECORD_PLAYER_BLOCK.get()).build(null));

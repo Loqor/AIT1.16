@@ -38,6 +38,8 @@ public class BasicBox<T extends Entity> extends EntityModel<T> {
 	public final ModelRenderer cube_r13;
 	public final ModelRenderer cube_r14;
 	public final ModelRenderer cube_r15;
+	public int lightIn;
+	public int overlayIn;
 
 	public BasicBox() {
 		texWidth = 256;
