@@ -19,7 +19,7 @@ public class AITBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, AIT.MOD_ID);
 
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
-
+    // public static final RegistryObject<Block> AMONGUS_BLOCK = BLOCKS.register("amongus_block", () -> new Block(Block.Properties.of(Material.STONE))); when does this get added????
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
     public static final RegistryObject<Block> RECORD_PLAYER_BLOCK = BLOCKS.register("record_player", RecordPlayerBlock::new);
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
@@ -205,4 +205,5 @@ public class AITBlocks {
     public static final RegistryObject<Block> DARKSTONE = BLOCKS.register(
             "darkstone", () -> new Block(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
 
+    public static final RegistryObject<Block> DARKSTONE_STAIRS = BLOCKS.register("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)));
 }
