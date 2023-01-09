@@ -4,14 +4,20 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.ModSlabBlock;
 import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.blocks.DirectionalBlock;
+import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class AITBlocks {
 
@@ -205,5 +211,17 @@ public class AITBlocks {
     public static final RegistryObject<Block> DARKSTONE = BLOCKS.register(
             "darkstone", () -> new Block(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
 
-    public static final RegistryObject<Block> DARKSTONE_STAIRS = BLOCKS.register("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)));
+    public static final RegistryObject<Block> DARKSTONE_STAIRS = registerBlock("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(1).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
+    public static final RegistryObject<Block> DARKSTONE_SLAB = registerBlock("darkstone_slab", () -> new SlabBlock(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
+
+    // I'd recommend you use this to save the hassle of adding it in AITItems too, but its up to you. I will be using this for all the blocks I add, though. - Duzo
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, ItemGroup tab) {
+        RegistryObject<T> toReturn = BLOCKS.register(name, block);
+        registerBlockItem(name,toReturn, tab);
+        return toReturn;
+    }
+
+    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block, ItemGroup tab) {
+        AITItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
+    }
 }

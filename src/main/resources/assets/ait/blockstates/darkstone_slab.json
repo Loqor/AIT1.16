@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "ait:block/darkstone_slab"
+    },
+    "type=double": {
+      "model": "ait:block/darkstone"
+    },
+    "type=top": {
+      "model": "ait:block/darkstone_slab_top"
+    }
+  }
+}

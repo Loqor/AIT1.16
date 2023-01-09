@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:darkstone_stairs",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:darkstone_stairs"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

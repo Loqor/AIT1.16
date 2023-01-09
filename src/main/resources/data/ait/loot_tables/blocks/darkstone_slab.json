@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:darkstone_slab",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:darkstone_slab"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

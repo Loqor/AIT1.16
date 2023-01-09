@@ -318,7 +318,7 @@ public class AITItems {
             "interior_center_block", () -> new BlockItem(AITBlocks.INTERIOR_CENTER_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> DARKSTONE = ITEMS.register(
             "darkstone", () -> new BlockItem(AITBlocks.DARKSTONE.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
-    public static final RegistryObject<BlockItem> DARKSTONE_STAIRS = ITEMS.register("darkstone_stairs", () -> new BlockItem(AITBlocks.DARKSTONE_STAIRS.get(),new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
+
    /* public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
             "toyota_roof", () -> new BlockItem(AITBlocks.TOYOTA_ROOF.get(), new Item.Properties().tab(AITItemGroups.AITBLOCKS)));
     public static final RegistryObject<BlockItem> TOYOTA_ROOF = ITEMS.register(
