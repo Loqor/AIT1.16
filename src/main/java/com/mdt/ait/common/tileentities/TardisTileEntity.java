@@ -1031,7 +1031,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public void keyUsedOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        System.out.println(lockedState);
+        //System.out.println(lockedState);
         PlayerEntity playerEntity = context.getPlayer();
         ItemStack itemStack = playerEntity.getMainHandItem();
         Item item = playerEntity.getMainHandItem().getItem();

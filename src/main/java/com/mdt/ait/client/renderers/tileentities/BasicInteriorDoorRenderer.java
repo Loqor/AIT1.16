@@ -69,7 +69,6 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
                 this.texture = BASIC;
             }
             this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-            System.out.println(tile.rightDoorRotation);
             this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
             MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);

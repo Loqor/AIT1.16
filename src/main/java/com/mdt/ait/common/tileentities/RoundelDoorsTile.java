@@ -3,6 +3,7 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.common.blocks.RoundelDoorsBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.AITItems;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
@@ -67,7 +69,7 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
             }
         } else {
             if (doorRotation > 0.0f) {
-                doorRotation -= 10.0f;
+                doorRotation -= 2.5f;
             }
         }
         if(currentState() == CLOSED) {
@@ -137,7 +139,9 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
                         }
                         syncToClient();
                     }
-                } else if (pPlayer.isCrouching()) {
+                    world.playSound(null, worldPosition, AITSounds.ROUNDEL_DOORS.get(), SoundCategory.MASTER, 5, 1);
+                    System.out.println("hello");
+                } else {
                     clickedOnWithBlock = pPlayer.getMainHandItem().getItem().toString();
                     syncToClient();
                 }

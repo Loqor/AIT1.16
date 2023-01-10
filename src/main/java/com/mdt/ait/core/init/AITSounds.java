@@ -61,4 +61,6 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "dalek_gunfire")));
     public static final RegistryObject<SoundEvent> DALEK_HIT = SOUNDS.register("dalek_hit", () -> new SoundEvent (
             new ResourceLocation(AIT.MOD_ID, "dalek_hit")));
+    public static final RegistryObject<SoundEvent> ROUNDEL_DOORS = SOUNDS.register("roundel_doors", () -> new SoundEvent (
+            new ResourceLocation(AIT.MOD_ID, "roundel_doors")));
 }

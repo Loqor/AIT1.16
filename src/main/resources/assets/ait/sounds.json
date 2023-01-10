@@ -29,6 +29,16 @@
       }
     ]
   },
+  "roundel_doors": {
+    "category": "ambient",
+    "subtitle": "Roundel doors open",
+    "sounds": [
+      {
+        "name": "ait:boxes/roundel_doors_open",
+        "stream": false
+      }
+    ]
+  },
   "police_box_close": {
     "category": "ambient",
     "subtitle": "TARDIS doors close",

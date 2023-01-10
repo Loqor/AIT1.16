@@ -12,11 +12,13 @@ import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -110,6 +112,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
+                        //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
                             Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
                             TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
@@ -156,6 +159,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
+                        //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
                             Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
                             TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);

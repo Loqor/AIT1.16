@@ -221,7 +221,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
     }
 
     public void keyUsedOnTardisDoor(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        System.out.println(lockedState);
+        //System.out.println(lockedState);
         PlayerEntity playerEntity = context.getPlayer();
         ItemStack itemStack = playerEntity.getMainHandItem();
         Item item = playerEntity.getMainHandItem().getItem();
@@ -232,7 +232,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
         if(block instanceof BasicInteriorDoorBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
             TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorDimension.getBlockEntity(linked_tardis.exterior_position);
             TARDISKey tardisKey1 = (TARDISKey) item;
-            System.out.println(TARDISKey.getTardisId(itemStack) + " || " + linked_tardis.tardisID);
+            //System.out.println(TARDISKey.getTardisId(itemStack) + " || " + linked_tardis.tardisID);
             if(tardisTileEntity != null) {
                 if (TARDISKey.getTardisId(itemStack).equals(linked_tardis.tardisID)) {
                     lockedState = true;
@@ -464,7 +464,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
                     linked_tardis.setExteriorDoorState(this.currentstate);
                     TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(linked_tardis.exterior_dimension).getBlockEntity(linked_tardis.exterior_position);
                     tardisTileEntity.syncToClient();
-                    System.out.println(tardisTileEntity.currentState());
+                    //System.out.println(tardisTileEntity.currentState());
                     if (this.currentstate == EnumDoorState.CLOSED)
                         world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                     if (this.currentstate == EnumDoorState.FIRST)
