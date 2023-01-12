@@ -7,15 +7,24 @@ import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChange
 import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.gui.ScrollPanel;
+import net.minecraftforge.fml.client.gui.widget.Slider;
 
+import java.awt.*;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
@@ -40,6 +49,7 @@ public class MonitorScreen extends Screen {
     public UUID tardisID;
     public ResourceLocation SelectedTardis;
     public Tardis tardis;
+    private Screen nestedScreen;
 
     public MonitorScreen(ITextComponent label, UUID tardisid, World world) {
         super(label);
@@ -123,9 +133,12 @@ public class MonitorScreen extends Screen {
     }
 
     @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         this.renderBackground(matrixStack);
         this.renderTardisSelection(matrixStack);
         super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+        createText(matrixStack,"to Nested Screen",i+10,j+110,0x59d7e3);
         switchScreenTexture();
     }
 
@@ -149,7 +162,58 @@ public class MonitorScreen extends Screen {
                 new Button (i + 5, j + 60, 20, 20,
                         new StringTextComponent("<"),
                         (button) -> onPressLeftButton()));
+        this.addWidget(
+                new Widget(i+10,j+110,getStringWidth("to Nested Screen"),30, new StringTextComponent("type here maybe?")) {
+                    @Override
+                    public void onClick(double pMouseX, double pMouseY) {
+                        super.onClick(pMouseX, pMouseY);
+                        openNestedScreen(onBackClick());
+                    }
+                }
+        );
+//        Slider slider;
+//        this.addButton(
+//                slider = createSlider(this,i+5,j+60,20,128,new StringTextComponent("Slider 1: "),StringTextComponent.EMPTY,0d,128d,0d,false,true,(button) -> System.out.println())
+//        );
+//        slider.updateSlider();
     }
+
+    public Screen onBackClick() {
+        return this;
+    }
+
+    // use this to create sliders you fucking bitch ass btich boy loqor fuck you its 3ami  have school at 8 you know FUCK YOU WORK slave
+    /*
+    EXAMPLE USAGE:
+    Slider slider;
+    this.addButton(
+        slider = createSlider(paramsHere)
+    );
+    slider.updateSlider();
+    inside of a Screen class such as this one.
+    */
+    public static Slider createSlider(Screen screen, int xPos, int yPos, int width, int height, ITextComponent prefix, ITextComponent suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr, Button.IPressable handler) {
+        Slider slider;
+        slider = new Slider(xPos,yPos,width,height,prefix,suf,minVal,maxVal,currentVal,showDec,drawStr,handler);
+        return slider;
+    }
+
+    // does basically nothing you could just do the whole Minecraft.getinstance blah blah but this is easier to type
+    public static void createText(MatrixStack matrixStack, String label, int xPos, int yPos, int colour) {
+        FontRenderer font = Minecraft.getInstance().font;
+        font.draw(matrixStack,label,xPos,yPos,colour);
+    }
+    // gets the width of a text
+    // example uses - for turning texts into buttons via widgets, where you need to get the length of the text.
+    private int getStringWidth(String label) {
+        FontRenderer font = Minecraft.getInstance().font;
+        return font.width(label);
+    }
+
+
+//    private void handleSlider(Slider slider, Button button) {
+//        slider.updateSlider();
+//    }
 
     public void renderTardisSelection(MatrixStack matrixStack) {
         matrixStack.pushPose();
@@ -168,6 +232,11 @@ public class MonitorScreen extends Screen {
 
     private void onPressLeftButton() {
         NetworkHandler.CHANNEL.sendToServer(new TardisMonitorC2SExteriorChangePacket(this.tardisID, false));
+    }
+
+    private void openNestedScreen(Screen currentScreen) {
+        Screen nextScreen = new NestedScreenEXAMPLE(new TranslationTextComponent("Nested Monitor"),currentScreen);
+        Minecraft.getInstance().setScreen(nextScreen);
     }
 
     @Override

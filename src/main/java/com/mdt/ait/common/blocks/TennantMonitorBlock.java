@@ -111,9 +111,9 @@ public class TennantMonitorBlock extends Block {
                                 Hand handIn, BlockRayTraceResult hit) {
         //if (!worldIn.isClientSide()) {
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
-                if (!worldIn.isClientSide) {
-                    this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                        TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
+                        if (!worldIn.isClientSide) {
+                            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
                 }
                 assert tennantMonitorTile != null;
                 tennantMonitorTile.tardisID = tardisID;
