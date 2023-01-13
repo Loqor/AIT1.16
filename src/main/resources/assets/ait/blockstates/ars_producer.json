@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model": "ait:block/ars_producer"}
+  }
+}
