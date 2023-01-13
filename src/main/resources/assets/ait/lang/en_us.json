@@ -138,5 +138,7 @@
   "block.ait.mint_solid_slab" : "Solid Brachacki Slab",
   "block.ait.coral_wall_block_strip": "Coral Wall Strip (Straight)",
   "block.ait.coral_wall_block_strip_one": "Coral Wall Strip (Diagonal)",
-  "block.ait.small_coral_roundel": "Small Coral Roundel"
+  "block.ait.small_coral_roundel": "Small Coral Roundel",
+  "block.ait.dw2012_block": "Dw2012 Roundel A",
+  "block.ait.dw2012_block_b": "Dw2012 Roundel B"
 }
