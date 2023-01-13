@@ -213,7 +213,7 @@ public class AITBlocks {
 
     public static final RegistryObject<Block> DARKSTONE_STAIRS = registerBlock("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(1).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> DARKSTONE_SLAB = registerBlock("darkstone_slab", () -> new SlabBlock(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
-
+    public static final RegistryObject<Block> ARS_PRODUCER = registerBlock("ars_producer", () -> new ARSProducerBlock(AbstractBlock.Properties.of(Material.EGG)),AITItemGroups.AITBLOCKS);
     // I'd recommend you use this to save the hassle of adding it in AITItems too, but its up to you. I will be using this for all the blocks I add, though. - Duzo
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, ItemGroup tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
