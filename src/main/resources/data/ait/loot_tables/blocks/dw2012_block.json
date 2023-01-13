@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "ait":"ait:dw2012_block",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ait:dw2012_block"
+        }
+      ],
+      "conditions": []
+    }
+  ]
+}

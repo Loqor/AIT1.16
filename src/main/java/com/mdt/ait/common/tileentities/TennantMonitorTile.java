@@ -58,6 +58,7 @@ public class TennantMonitorTile extends TileEntity implements ITickableTileEntit
         }
     }
 
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
