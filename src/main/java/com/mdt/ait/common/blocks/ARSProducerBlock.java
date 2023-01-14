@@ -6,6 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Timer;
@@ -21,11 +22,15 @@ import java.util.Random;
 
 public class ARSProducerBlock extends Block {
     private int freeBelow;
-    private Block fillerBlock;
-    private Block bottomBlock;
+    public static Block fillerBlock;
+    public static Block bottomBlock;
+    public static boolean isGrowing;
 
-    public ARSProducerBlock(Properties properties) {
+    public ARSProducerBlock(Properties properties,Block fillerBlock,Block bottomBlock,boolean isGrowing) {
         super(properties);
+        this.fillerBlock = fillerBlock;
+        this.bottomBlock = bottomBlock;
+        this.isGrowing = isGrowing;
     }
 
 
@@ -33,13 +38,15 @@ public class ARSProducerBlock extends Block {
     public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
         if (!pLevel.isClientSide()) {
             if (checkHeldItem(pPlayer, Items.LIGHT_BLUE_DYE)) {
-                fillerBlock = Blocks.CHAIN;
-                bottomBlock = Blocks.SOUL_LANTERN;
+                this.fillerBlock = Blocks.CHAIN;
+                this.bottomBlock = Blocks.SOUL_LANTERN;
+                this.isGrowing = true;
                 pLevel.getBlockTicks().scheduleTick(pPos, this, 100);
             }
             if (checkHeldItem(pPlayer, Items.ORANGE_DYE)) { // check what player is holding
-                fillerBlock = Blocks.CHAIN;
-                bottomBlock = Blocks.LANTERN;
+                this.fillerBlock = Blocks.CHAIN;
+                this.bottomBlock = Blocks.LANTERN;
+                this.isGrowing = true;
                 pLevel.getBlockTicks().scheduleTick(pPos, this, 100);
             }
         }
@@ -48,10 +55,12 @@ public class ARSProducerBlock extends Block {
 
     @Override
     public void tick(BlockState pState, ServerWorld pLevel, BlockPos pPos, Random pRand) {
-        Random random = new Random();
-        freeBelow = random.nextInt(5);
-        freeBelow++;
-        placeBelowBlocks(pPos,pLevel,freeBelow,fillerBlock,bottomBlock); // executes when ScheduleTick is complete, only way i can think of doing this rn icl
+        if (this.isGrowing == true) {
+            Random random = new Random();
+            freeBelow = random.nextInt(5);
+            freeBelow++;
+            placeBelowBlocks(pPos, pLevel, freeBelow, this.fillerBlock, this.bottomBlock); // executes when ScheduleTick is complete, only way i can think of doing this rn icl
+        }
         super.tick(pState, pLevel, pPos, pRand);
     }
 

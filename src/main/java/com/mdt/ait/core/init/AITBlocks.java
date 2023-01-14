@@ -213,7 +213,7 @@ public class AITBlocks {
 
     public static final RegistryObject<Block> DARKSTONE_STAIRS = registerBlock("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(1).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> DARKSTONE_SLAB = registerBlock("darkstone_slab", () -> new SlabBlock(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
-    public static final RegistryObject<Block> ARS_PRODUCER = registerBlock("ars_producer", () -> new ARSProducerBlock(AbstractBlock.Properties.of(Material.EGG)),AITItemGroups.AITBLOCKS);
+    public static final RegistryObject<Block> ARS_PRODUCER = registerBlock("ars_producer", () -> new ARSProducerBlock(AbstractBlock.Properties.of(Material.EGG),null,null,false),AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> DW2012_BLOCK = registerBlock("dw2012_block", () -> new Block(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3f,3f)),AITItemGroups.AITROUNDELS);
     public static final RegistryObject<Block> DW2012_BLOCK_B = registerBlock("dw2012_block_b", () -> new Block(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3f,3f)),AITItemGroups.AITROUNDELS);
     public static final RegistryObject<Block> LOQOR_BLOCK = registerBlock("loqor_block", () -> new Block(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3f,3f)),null);
