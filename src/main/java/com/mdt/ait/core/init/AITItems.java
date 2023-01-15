@@ -96,6 +96,8 @@ public class AITItems {
     //Foodstuffs
     public static final RegistryObject<Item> NUKA_COLA = ITEMS.register(
             "nuka_cola", () -> new Item(new Item.Properties().stacksTo(16).tab(AITItemGroups.AITFOODSTUFFS).food(CustomFood.NUKA_COLA)));
+    public static final RegistryObject<Item> DR_PEPPER = ITEMS.register(
+            "dr_pepper", () -> new Item(new Item.Properties().stacksTo(16).tab(AITItemGroups.AITFOODSTUFFS).food(CustomFood.NUKA_COLA)));
 
     //Cosmetics
     public static final RegistryObject<MessengerArmorItem> MESSENGER_BAG = ITEMS.register(
