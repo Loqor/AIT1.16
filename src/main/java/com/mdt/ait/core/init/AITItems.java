@@ -35,6 +35,7 @@ public class AITItems {
             "ricks_portal_gun", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<SlingRingItem> SLING_RING = ITEMS.register(
             "sling_ring", () -> new SlingRingItem((new Item.Properties())));
+    public static final RegistryObject<ArsEggItem> ARS_EGG = ITEMS.register("ars_egg", () -> new ArsEggItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     //Manuals
     public static final RegistryObject<GallifreyanManualItem> GALLIFREYAN_MANUAL = ITEMS.register(

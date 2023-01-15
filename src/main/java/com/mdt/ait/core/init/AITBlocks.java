@@ -28,6 +28,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
     // public static final RegistryObject<Block> AMONGUS_BLOCK = BLOCKS.register("amongus_block", () -> new Block(Block.Properties.of(Material.STONE))); when does this get added????
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
+    public static final RegistryObject<Block> ARS_EGG_BLOCK = BLOCKS.register("ars_egg", ArsEggBlock::new);
     public static final RegistryObject<Block> RECORD_PLAYER_BLOCK = BLOCKS.register("record_player", RecordPlayerBlock::new);
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);
@@ -213,7 +214,7 @@ public class AITBlocks {
 
     public static final RegistryObject<Block> DARKSTONE_STAIRS = registerBlock("darkstone_stairs", () -> new StairsBlock(() -> DARKSTONE.get().defaultBlockState(), Block.Properties.of(Material.STONE).harvestLevel(1).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> DARKSTONE_SLAB = registerBlock("darkstone_slab", () -> new SlabBlock(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f,3f)),AITItemGroups.AITBLOCKS);
-    public static final RegistryObject<Block> ARS_PRODUCER = registerBlock("ars_producer", () -> new ARSProducerBlock(AbstractBlock.Properties.of(Material.EGG)),AITItemGroups.AITBLOCKS);
+    public static final RegistryObject<Block> ARS_PRODUCER = registerBlock("ars_root_block", () -> new ARSProducerBlock(AbstractBlock.Properties.of(Material.EGG)),AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> TARDIM_ROUNDEL_A = registerBlock("tardim_roundel_a", () -> new Block(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3f,3f)),AITItemGroups.AITROUNDELS);
     public static final RegistryObject<Block> LOQOR_BLOCK = registerBlock("loqor_block", () -> new Block(Block.Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3f,3f)),null);
 

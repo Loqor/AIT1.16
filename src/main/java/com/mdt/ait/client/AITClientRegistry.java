@@ -101,6 +101,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.INTERIOR_CENTER_BLOCK.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.DARKSTONE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.DARKSTONE_STAIRS.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.ARS_PRODUCER.get(), RenderType.cutoutMipped());
         });
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_TILE_ENTITY_TYPE.get(), BasicBoxRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TSV_TILE_ENTITY_TYPE.get(), TSVRenderer::new);
@@ -126,6 +127,7 @@ public class AITClientRegistry {
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_POWER_ACCESS_POINT_TILE_ENTITY_TYPE.get(), TardisPowerAccessPointRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.DOOR_SWITCH_CONTROL_TILE_ENTITY_TYPE.get(), DoorSwitchControlRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.ROUNDEL_DOORS_TILE_ENTITY_TYPE.get(), RoundelDoorsRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.ARS_EGG_TILE_ENTITY_TYPE.get(), ArsEggRenderer::new);
 
         //Temporary
         ClientRegistry.bindTileEntityRenderer(AITTiles.VORTEX_TILE_ENTITY_TYPE.get(), VortexRenderer::new);

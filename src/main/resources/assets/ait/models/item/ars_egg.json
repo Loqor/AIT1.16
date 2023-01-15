@@ -1,0 +1,81 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "ait:item/ars_egg",
+		"particle": "ait:item/ars_egg"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 5],
+			"to": [11, 8, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 0, 5]},
+			"faces": {
+				"north": {"uv": [3, 3, 6, 7], "texture": "#0"},
+				"east": {"uv": [0, 3, 3, 7], "texture": "#0"},
+				"south": {"uv": [9, 3, 12, 7], "texture": "#0"},
+				"west": {"uv": [6, 3, 9, 7], "texture": "#0"},
+				"up": {"uv": [6, 3, 3, 0], "texture": "#0"},
+				"down": {"uv": [9, 0, 6, 3], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5.25, 0.25, 5.25],
+			"to": [10.75, 1.75, 10.75],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 0, 5]},
+			"faces": {
+				"north": {"uv": [3, 10.5, 6, 11.5], "texture": "#0"},
+				"east": {"uv": [0, 10.5, 3, 11.5], "texture": "#0"},
+				"south": {"uv": [9, 10.5, 12, 11.5], "texture": "#0"},
+				"west": {"uv": [6, 10.5, 9, 11.5], "texture": "#0"},
+				"up": {"uv": [6, 10.5, 3, 7.5], "texture": "#0"},
+				"down": {"uv": [9, 7.5, 6, 10.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5.25, 6.25, 5.25],
+			"to": [10.75, 7.75, 10.75],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 0, 5]},
+			"faces": {
+				"north": {"uv": [3, 14.5, 6, 15.5], "texture": "#0"},
+				"east": {"uv": [0, 14.5, 3, 15.5], "texture": "#0"},
+				"south": {"uv": [9, 14.5, 12, 15.5], "texture": "#0"},
+				"west": {"uv": [6, 14.5, 9, 15.5], "texture": "#0"},
+				"up": {"uv": [6, 14.5, 3, 11.5], "texture": "#0"},
+				"down": {"uv": [9, 11.5, 6, 14.5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 62, 30],
+			"translation": [-2.5, 3.75, 2.25],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 62, 30],
+			"translation": [-2.5, 3.75, 2.25],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 23.25, 0],
+			"translation": [0, 5.5, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 23.25, 0],
+			"translation": [0, 5.5, 0]
+		},
+		"ground": {
+			"translation": [0, 5, 0]
+		},
+		"gui": {
+			"rotation": [-180, 60.5, -180]
+		},
+		"head": {
+			"translation": [0, 16.5, 0]
+		},
+		"fixed": {
+			"translation": [0, 4, 0]
+		}
+	}
+}

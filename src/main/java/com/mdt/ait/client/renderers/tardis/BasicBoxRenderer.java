@@ -963,4 +963,9 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         fontRenderer.drawInBatch(irp, -5, 5, 0, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
     }
+
+    @Override
+    public boolean shouldRenderOffScreen(TardisTileEntity pTe) {
+        return true;
+    }
 }

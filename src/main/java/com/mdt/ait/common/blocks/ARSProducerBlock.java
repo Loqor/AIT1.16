@@ -1,5 +1,6 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.core.init.AITBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -8,6 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
@@ -30,7 +33,7 @@ public class ARSProducerBlock extends Block {
                 Random random = new Random();
                 freeBelow = random.nextInt(5);
                 freeBelow++;
-                placeBelowBlocks(pPos,pLevel,freeBelow,Blocks.CHAIN,Blocks.SOUL_LANTERN);
+                placeBelowBlocks(pPos, pLevel, freeBelow ,Blocks.CHAIN, AITBlocks.ARS_EGG_BLOCK.get());
             }
             if (checkHeldItem(pPlayer, Items.ORANGE_DYE)) { // check what player is holding
                 Random random = new Random();
@@ -66,9 +69,11 @@ public class ARSProducerBlock extends Block {
         for (int i = 1;i <= checkLimit;i++) {
             if (i == checkLimit) {
                 world.setBlock(blockPos.below(i), bottomBlock.defaultBlockState(), Constants.BlockFlags.DEFAULT);
+                world.playSound(null, blockPos, SoundEvents.BEACON_ACTIVATE, SoundCategory.MASTER, 4, 1);
             }
             else {
                 world.setBlock(blockPos.below(i), fillerBlock.defaultBlockState(), Constants.BlockFlags.DEFAULT);
+                world.playSound(null, blockPos, SoundEvents.BEACON_ACTIVATE, SoundCategory.MASTER, 4, 1);
             }
         }
         return true;

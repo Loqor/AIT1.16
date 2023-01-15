@@ -201,7 +201,6 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         if (tardisID != null ) {
             nbt.putUUID("tardisID", tardisID);
         }
-
         return super.save(nbt);
     }
 
