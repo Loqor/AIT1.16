@@ -89,6 +89,16 @@
       }
     ]
   },
+  "tardis_fail_landing": {
+    "category": "ambient",
+    "subtitle": "TARDIS landing fail",
+    "sounds": [
+      {
+        "name": "ait:boxes/tardis_fail_landing",
+        "stream": false
+      }
+    ]
+  },
   "tardis_lock": {
     "category": "ambient",
     "subtitle": "TARDIS lock",

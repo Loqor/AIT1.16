@@ -6,13 +6,10 @@ import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
-import com.mdt.ait.core.init.AITBlocks;
-import com.mdt.ait.core.init.enums.EnumLockState;
 import com.mdt.ait.tardis.TardisConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +17,6 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -29,20 +25,15 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-
-import static com.mdt.ait.core.init.enums.EnumDoorState.BOTH;
-import static com.mdt.ait.core.init.enums.EnumDoorState.FIRST;
 
 public class TARDISKey extends Item {
 
     public TARDISKey(Properties p_i48487_1_) {
         super(p_i48487_1_);
     }
+
 
     public static UUID getTardisId(ItemStack stack) {
         CompoundNBT nbt = stack.getOrCreateTag();
@@ -105,7 +96,7 @@ public class TARDISKey extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable World pWorldIn, List<ITextComponent> pTooltip, ITooltipFlag pFlagIn) {
         super.appendHoverText(pStack, pWorldIn, pTooltip, pFlagIn);
         if(this.getTardisId(pStack) != null) {
-            pTooltip.add(new TranslationTextComponent(this.getGreekCharacters(pStack) + "\n" + this.getTardisId(pStack))
+            pTooltip.add(new TranslationTextComponent(this.getGreekCharacters(pStack) + "\u0085" + this.getTardisId(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.YELLOW)));
         } else {
             pTooltip.add(new TranslationTextComponent("Link to TARDIS by clicking on the rotor!")

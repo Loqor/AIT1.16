@@ -7,6 +7,7 @@ import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisConfig;
@@ -158,6 +159,7 @@ public class DematTransit {
         TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(landingPosition);
         BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisDim.getBlockEntity(tardis.interior_door_position);
         assert newTardisTileEntity != null;
+        assert tardis.exteriorType != null;
         newTardisTileEntity.setExterior(tardis.exteriorType);
         if(basicInteriorDoorTile != null) {
             basicInteriorDoorTile.setInteriorDoor(tardis.interiorDoorType);
