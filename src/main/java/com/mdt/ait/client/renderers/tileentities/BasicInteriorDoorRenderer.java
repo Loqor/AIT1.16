@@ -28,6 +28,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
     public static final ResourceLocation HUDOLIN = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/hudolin_interior_doors.png");
     public static final ResourceLocation CLASSIC = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/classic_interior_doors.png");
     public static final ResourceLocation FALLOUT_SHELTER = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/fallout_shelter_interior_door.png");
+    public static final ResourceLocation HELLBENT_CAPSULE = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/tt_capsule_interior_door.png");
     public static final ResourceLocation TARDIM = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tardim_exterior.png");
 
     //Snowing/Holidays
@@ -117,6 +118,14 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
                 ((TARDIMInteriorDoor) this.model).door.visible = true;
             }
         }
+        if(interiordoor.getSerializedName().equals("door_hellbent_tt_capsule") && interiordoortype == 6) {
+            this.model = new TTCapsuleInteriorDoor();
+            this.texture = HELLBENT_CAPSULE;
+            MatrixStackIn.scale(1f, 1f, 1f);
+            MatrixStackIn.translate(0, -1.5, 0);
+            ((TTCapsuleInteriorDoor)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
+            ((TTCapsuleInteriorDoor)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
+        }
         if(interiordoor.getSerializedName().equals("door_fallout_shelter_exterior") && interiordoortype == 19) {
             this.model = new FalloutShelterInteriorDoor();
             this.texture = FALLOUT_SHELTER;
@@ -128,6 +137,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;
             }
         }
+        System.out.println(interiordoor.getSerializedName() + interiordoortype);
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

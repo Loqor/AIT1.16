@@ -5,13 +5,12 @@ package com.mdt.ait.client.models.tileentities;// Made with Blockbench 4.5.2
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class TTCapsuleInteriorDoor extends EntityModel<Entity> {
-	private final ModelRenderer right_door;
-	private final ModelRenderer left_door;
+public class TTCapsuleInteriorDoor extends BasicInteriorDoor {
+	public final ModelRenderer right_door;
+	public final ModelRenderer left_door;
 	private final ModelRenderer bb_main;
 
 	public TTCapsuleInteriorDoor() {

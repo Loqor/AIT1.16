@@ -82,7 +82,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             case DOOR_BASIC_BOX:
                 return EnumInteriorDoorType.DOOR_MINT_BOX;
             case DOOR_MINT_BOX:
-                return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;//return EnumInteriorDoorType.CORAL_BOX;
+                return EnumInteriorDoorType.DOOR_HELLBENT_TT_CAPSULE;//return EnumInteriorDoorType.CORAL_BOX;
             //case DOOR_CORAL_BOX:
             //    return EnumInteriorDoorType.POSTER_BOX;
             //case DOOR_POSTER_BOX:
@@ -91,8 +91,8 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             //    return EnumInteriorDoorType.TYPE_40_TT_CAPSULE;
             //case DOOR_TYPE_40_TT_CAPSULE:
             //    return EnumInteriorDoorType.HELLBENT_TT_CAPSULE;
-            //case DOOR_HELLBENT_TT_CAPSULE:
-            //    return EnumInteriorDoorType.NUKA_COLA_EXTERIOR;
+            case DOOR_HELLBENT_TT_CAPSULE:
+                return EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;//return EnumInteriorDoorType.NUKA_COLA_EXTERIOR;
             //case DOOR_NUKA_COLA_EXTERIOR:
             //    return EnumInteriorDoorType.ARCADE_CABINET_EXTERIOR;
             //case DOOR_SIEGE_MODE:
@@ -145,8 +145,8 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             //    return EnumInteriorDoorType.DOOR_POSTER_BOX;
             //case DOOR_TYPE_40_TT_CAPSULE:
             //    return EnumInteriorDoorType.DOOR_BAKER_BOX;
-            //case DOOR_HELLBENT_TT_CAPSULE:
-            //    return EnumInteriorDoorType.DOOR_TYPE_40_TT_CAPSULE;
+            case DOOR_HELLBENT_TT_CAPSULE:
+                return EnumInteriorDoorType.DOOR_MINT_BOX;//return EnumInteriorDoorType.DOOR_TYPE_40_TT_CAPSULE;
             //case DOOR_NUKA_COLA_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_HELLBENT_TT_CAPSULE;
             //case DOOR_SIEGE_MODE:
@@ -164,7 +164,7 @@ public class BasicInteriorDoorTile extends TileEntity implements ITickableTileEn
             //case DOOR_TX3_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_HUDOLIN_EXTERIOR;
             case DOOR_TARDIM_EXTERIOR:
-                return EnumInteriorDoorType.DOOR_MINT_BOX;//return EnumInteriorDoorType.DOOR_TX3_EXTERIOR;
+                return EnumInteriorDoorType.DOOR_HELLBENT_TT_CAPSULE;//return EnumInteriorDoorType.DOOR_TX3_EXTERIOR;
             //case DOOR_SHALKA_EXTERIOR:
             //    return EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
             //case DOOR_BOOTH_EXTERIOR:

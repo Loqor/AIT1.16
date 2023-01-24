@@ -19,7 +19,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'tardis-beta-0.2'
+version = 'coralstuffcauseclassiccansuckit'
 group = 'com.mdt.ait' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ait'
 

@@ -1,8 +1,11 @@
 package com.mdt.ait.common.blocks;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ArsEggTile;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.common.tileentities.ArsEggTile;
+import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,17 +24,33 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class ArsEggBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public UUID tardisID;
 
     public static VoxelShape YES_SHAPE = Block.box(5, 0.5, 5, 11, 16, 11);
 
     public ArsEggBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().lightLevel((p_235464_0_) -> 5).instabreak());
+    }
+
+    @Override
+    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
+        super.onPlace(blockState1, world, blockPos, blockState2, bool);
+        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            ServerWorld serverWorld = ((ServerWorld) world);
+            ArsEggTile arsEggTile = (ArsEggTile) serverWorld.getBlockEntity(blockPos);
+            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            assert arsEggTile != null;
+            arsEggTile.tardisID = tardisID;
+            serverWorld.setBlockEntity(blockPos, arsEggTile);
+        }
     }
 
     @Override
