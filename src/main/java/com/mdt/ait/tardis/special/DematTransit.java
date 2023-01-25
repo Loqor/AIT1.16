@@ -6,6 +6,7 @@ import com.mdt.ait.common.entities.ControlInteractionEntity;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
@@ -13,13 +14,20 @@ import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.mdt.ait.common.items.RemoteItem.flipDirection;
+import static com.mdt.ait.common.items.RemoteItem.lockTardis;
 import static java.lang.Math.abs;
 
 public class DematTransit {
@@ -154,11 +162,24 @@ public class DematTransit {
         // pass or something idk
     }
 
-    public void failLandTardis() {
-        // yoink, taken from right above you fool.
+
+    // Function that lands the tardis somewhere, makes it do a funky fade and sends it back where it came from
+    // @TODO fix fading not working suddenly
+    public void failLandTardis(Tardis tardis, DematTransit dematTransit, BlockPos blockpos, World world, PlayerEntity playerentity, BlockPos oldPos, RegistryKey oldDimension, Direction oldDirection) {
+        tardis.setInteriorDoorState(EnumDoorState.CLOSED);
+        tardis.setExteriorDoorState(EnumDoorState.CLOSED);
+        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+        ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        interiorWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
+        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
+        lockTardis(tardis,true);
+        BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
+        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, targetPosition);
+        tardis.target_dimension = world.dimension();
+        tardis.target_facing_direction = flipDirection(playerentity);
+        // yoink, all below is taken from landTardisPart2, fool.
         // (aaaaaaaaaaaaaa)
         this.readyForDemat = false;
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         tardis.landed = false;
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
         ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
@@ -185,6 +206,10 @@ public class DematTransit {
             newDimension.removeBlock(landingPosition.above(1), false);
         }
         tardis.__moveExterior(landingPosition, tardis.target_facing_direction, tardis.target_dimension);
+        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, oldPos);
+        tardis.target_dimension = oldDimension;
+        tardis.target_facing_direction = oldDirection;
+
     }
 
     public void landTardisPart2() {
