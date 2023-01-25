@@ -4,5 +4,7 @@ public enum EnumMatState {
 
     SOLID,
     DEMAT,
-    REMAT
+    REMAT,
+    FAIL_REMAT,
+    FAIL_DEMAT
 }

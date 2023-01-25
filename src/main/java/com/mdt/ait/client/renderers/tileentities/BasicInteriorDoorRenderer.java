@@ -137,7 +137,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<BasicInteriorD
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;
             }
         }
-        System.out.println(interiordoor.getSerializedName() + interiordoortype);
+        //System.out.println(interiordoor.getSerializedName() + interiordoortype);
         model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }

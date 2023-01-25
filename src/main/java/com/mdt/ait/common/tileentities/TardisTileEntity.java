@@ -105,6 +105,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public DematTransit dematTransit;
     private int run_once = 0;
+    private int run_once_fail_remat = 0;
     private int run_once_remat = 0;
     public TARDISKey tardisKey;
     public boolean lockedState = false;
@@ -593,6 +594,35 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 this.dematTransit.finishedDematAnimation();
                 // Finish
             }*/
+        }
+        if(materialState == EnumMatState.FAIL_REMAT) {
+            if (this.alpha == 1 || this.alpha < 0) {
+                this.alpha = 0;
+            }
+            if(this.alpha <= 0.75 && run_once_fail_remat == 0) {
+                this.alpha += 0.005;
+            }
+            if (this.alpha > 0.75 && run_once_fail_remat == 0) {
+                run_once_fail_remat = 1;
+                this.alpha = 0.74F;
+            }
+            if (this.alpha < 0.75 && run_once_fail_remat == 1) {
+                this.alpha -= 0.005; // this doesnt appear to work? @TODO
+            }
+//            System.out.println(run_once_fail_remat + " + " + this.alpha + " = ");
+//            System.out.println(this.alpha == 0 && run_once_fail_remat == 1);
+            if (this.alpha <= 0 && run_once_fail_remat == 1) {
+                run_once_fail_remat++;
+                // Simple check to make sure this only runs once as otherwise the game crashes and thats such poo
+                if (run_once_fail_remat == 2) {
+                    this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.linked_tardis_id);
+                    this.dematTransit.finishedDematAnimation();
+                    this.dematTransit.landTardisPart2();
+                    run_once_fail_remat = 0;
+                } else {
+                    run_once_fail_remat = 0;
+                }
+            }
         }
         if(materialState == EnumMatState.REMAT) {
             /*if (ticks % 60 < 30) {

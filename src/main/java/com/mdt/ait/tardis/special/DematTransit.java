@@ -146,6 +146,39 @@ public class DematTransit {
         // pass or something idk
     }
 
+    public void failLandTardis() {
+        // yoink, taken from right above you fool.
+        // (aaaaaaaaaaaaaa)
+        this.readyForDemat = false;
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        tardis.landed = false;
+        ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
+        ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert newDimension != null;
+        assert tardisDim != null;
+        ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landingPosition, newDimension.getChunk(landingPosition).getPos().x, newDimension.getChunk(landingPosition).getPos().z, true, true);
+        newDimension.setBlockAndUpdate(landingPosition, newBlockState);
+        TardisTileEntity newTardisTileEntity = (TardisTileEntity) newDimension.getBlockEntity(landingPosition);
+        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisDim.getBlockEntity(tardis.interior_door_position);
+        assert newTardisTileEntity != null;
+        assert tardis.exteriorType != null;
+        newTardisTileEntity.setExterior(tardis.exteriorType);
+        if(basicInteriorDoorTile != null) {
+            basicInteriorDoorTile.setInteriorDoor(tardis.interiorDoorType);
+        }
+        newTardisTileEntity.linked_tardis_id = tardis.tardisID;
+        newTardisTileEntity.setDoorState(EnumDoorState.CLOSED);
+        newTardisTileEntity.linked_tardis = tardis;
+        newTardisTileEntity.setMatState(EnumMatState.FAIL_REMAT);
+        newTardisTileEntity.dematTransit = this;
+        tardis.targetPosition = landingPosition;
+        newDimension.setBlockEntity(landingPosition, newTardisTileEntity);
+        if (!newDimension.getBlockState(landingPosition.above(1)).getBlock().equals(Blocks.AIR)) {
+            newDimension.removeBlock(landingPosition.above(1), false);
+        }
+        tardis.__moveExterior(landingPosition, tardis.target_facing_direction, tardis.target_dimension);
+    }
+
     public void landTardisPart2() {
         this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);

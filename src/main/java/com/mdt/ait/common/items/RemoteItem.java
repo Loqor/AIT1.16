@@ -6,6 +6,7 @@ import com.mdt.ait.common.blocks.BasicRotorBlock;
 import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -24,12 +25,14 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -41,7 +44,7 @@ public class RemoteItem extends Item {
     public RemoteItem(Item.Properties p_i48487_1_) {
         super(p_i48487_1_);
     }
-    private int ticks,landingTicks;
+    private int ticks;
     private boolean isDematerialising,isFailing, isRematerialising = false;
     private Tardis tardis;
 
@@ -63,14 +66,30 @@ public class RemoteItem extends Item {
                 if(!world.isClientSide) {
                     playerentity.getCooldowns().addCooldown(this, 440); // 11 seconds in ticks
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+                        RegistryKey oldDimension = tardis.exterior_dimension;
+                        BlockPos oldPos = tardis.exterior_position;
+                        Direction oldDirection = tardis.exterior_facing;
+
                         tardis.setInteriorDoorState(EnumDoorState.CLOSED);
                         tardis.setExteriorDoorState(EnumDoorState.CLOSED);
+
                         ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
                         ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                        interiorWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 4f, 1f);
+                        interiorWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
                         exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
-                        lockTardis(true);
-                        isFailing = true;
+
+                        lockTardis(false);
+                        BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
+                        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, targetPosition);
+                        tardis.target_dimension = world.dimension();
+                        tardis.target_facing_direction = flipDirection(playerentity);
+                        dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardis.tardisID);
+                        dematTransit.finishedDematAnimation();
+                        //failLandTardis();
+                        dematTransit.failLandTardis();
+                        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, oldPos);
+                        tardis.target_dimension = oldDimension;
+                        tardis.target_facing_direction = oldDirection;
                     } else {
                         BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                         AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, targetPosition);
@@ -127,38 +146,23 @@ public class RemoteItem extends Item {
         // @TODO fix remote demat
 //        if (isDematerialising) {
 //            ticks++;
-//            if (ticks <= 320) {
+//            if (ticks >= 320) {
 //                if (dematTransit != null) {
 //                    ticks = 0;
 //                    isDematerialising = false;
-//                    isRematerialising = true;
+//                    dematTransit.finishedDematAnimation();
+//                    dematTransit.landTardisPart2();
 //                }
 //            }
 //        }
-//        if (isRematerialising) {
-//            if (dematTransit != null) {
-//                dematTransit.finishedDematAnimation();
-//                dematTransit.landTardisPart2();
-//            }
-//            isRematerialising = false;
-//        }
-//        if (isDematerialising) {
+//        if (isFailing) {
 //            ticks++;
-//            if(ticks >= 180) {
-//                if (this.dematTransit != null) {
-//                    landTardis();
-//                }
+//            if (ticks >= 220) {
+//                lockTardis(false);
 //                ticks = 0;
+//                isFailing = false;
 //            }
 //        }
-        if (isFailing) {
-            ticks++;
-            if (ticks >= 220) {
-                lockTardis(false);
-                ticks = 0;
-                isFailing = false;
-            }
-        }
         super.inventoryTick(pStack, pLevel, pEntity, pItemSlot, pIsSelected);
     }
 
@@ -172,6 +176,11 @@ public class RemoteItem extends Item {
                 interiorDoorTile.setLockedState(locked, EnumDoorState.CLOSED);
             }
         }
+    }
+
+    private void failLandTardis() {
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(tardis.exterior_dimension).getBlockEntity(tardis.exterior_position);
+        tardisTileEntity.setMatState(EnumMatState.FAIL_REMAT);
     }
 
 //    private void landTardis() {
