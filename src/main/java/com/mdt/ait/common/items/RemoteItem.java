@@ -3,14 +3,12 @@ package com.mdt.ait.common.items;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisConfig;
 import com.mdt.ait.tardis.special.DematTransit;
@@ -41,10 +39,10 @@ import java.util.Objects;
 
 public class RemoteItem extends Item {
     public RemoteItem(Item.Properties p_i48487_1_) {
-        super(p_i48487_1_);
+        super(p_i48487_1_.stacksTo(1));
     }
-    private int ticks,landingTicks;
-    private boolean isDematerialising,isFailing, isRematerialising = false;
+    private int ticks;
+    private boolean isFailing;
     private Tardis tardis;
 
     // (mostly) COPIED FROM TARDISKey file
@@ -63,11 +61,12 @@ public class RemoteItem extends Item {
             if (TARDISKey.getTardisId(itemInHand) != null) {
                 this.tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
                 if(!world.isClientSide) {
-                    playerentity.getCooldowns().addCooldown(this, 100); // 11 seconds in ticks
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
                         RegistryKey oldDimension = tardis.exterior_dimension;
                         BlockPos oldPos = tardis.exterior_position;
                         Direction oldDirection = tardis.exterior_facing;
+                        playerentity.getCooldowns().addCooldown(this, 200); // 10 seconds in ticks
+
                         this.tardis.setInteriorDoorState(EnumDoorState.CLOSED);
                         this.tardis.setExteriorDoorState(EnumDoorState.CLOSED);
                         ServerWorld exteriorWorld = AIT.server.getLevel(this.tardis.exterior_dimension);
@@ -87,6 +86,8 @@ public class RemoteItem extends Item {
                         this.tardis.target_dimension = oldDimension;
                         this.tardis.target_facing_direction = oldDirection;
                     } else {
+                        playerentity.getCooldowns().addCooldown(this, 100); // 5 seconds in ticks
+
                         BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                         AIT.tardisManager.setTardisTargetBlockPos(this.tardis.tardisID, targetPosition);
                         this.tardis.target_dimension = world.dimension();
