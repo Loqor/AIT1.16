@@ -71,19 +71,10 @@ public class TARDISKey extends Item {
                 ((BasicInteriorDoorTile) tileEntity).keyUsedOnTardisDoor(context, blockpos, blockstate, block);
             }
         }
-        if (block instanceof BasicRotorBlock) {
-            if(getTardisId(itemInHand) == null) {
-                BasicRotorBlock basicRotorBlock = (BasicRotorBlock) block;
-                tag.putUUID("tardisIdentification", basicRotorBlock.tardisID);
-                tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
-                        + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
-                        TardisConfig.tardisNamesList.get(random.nextInt(23)));
-            }
-        }
-        if (block instanceof HartnellRotorBlock) {
-            if(getTardisId(itemInHand) == null) {
-                HartnellRotorBlock hartnellRotorBlock = (HartnellRotorBlock) block;
-                tag.putUUID("tardisIdentification", hartnellRotorBlock.tardisID);
+        if (block instanceof TardisBlock) {
+            if(TARDISKey.getTardisId(itemInHand) == null) {
+                TardisBlock tardisBlock = (TardisBlock) block;
+                tag.putUUID("tardisIdentification", tardisBlock.tardisID);
                 tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
                         + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
                         TardisConfig.tardisNamesList.get(random.nextInt(23)));
@@ -96,11 +87,13 @@ public class TARDISKey extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable World pWorldIn, List<ITextComponent> pTooltip, ITooltipFlag pFlagIn) {
         super.appendHoverText(pStack, pWorldIn, pTooltip, pFlagIn);
         if(this.getTardisId(pStack) != null) {
-            pTooltip.add(new TranslationTextComponent(this.getGreekCharacters(pStack) + "\u0085" + this.getTardisId(pStack))
-                    .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.YELLOW)));
+            pTooltip.add(new TranslationTextComponent("Key ID: " + TARDISKey.getGreekCharacters(pStack))
+                    .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
+            pTooltip.add(new TranslationTextComponent(String.valueOf("Linked TARDIS: " + TARDISKey.getTardisId(pStack)))
+                    .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.DARK_AQUA)));
         } else {
-            pTooltip.add(new TranslationTextComponent("Link to TARDIS by clicking on the rotor!")
-                    .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.YELLOW)));
+            pTooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
+                    .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
             // i tricked you!
             // you got me mzsty - Duzo
         }

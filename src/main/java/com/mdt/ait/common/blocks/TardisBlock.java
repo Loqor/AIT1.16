@@ -72,6 +72,15 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
     }
 
     @Override
+    public void onPlace(BlockState pState, World pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) pLevel.getBlockEntity(pPos);
+        if(tardisTileEntity != null) {
+            tardisID = tardisTileEntity.linked_tardis_id;
+        }
+        super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
+    }
+
+    @Override
     public void tick(BlockState pState, ServerWorld pLevel, BlockPos pPos, Random pRand) {
         if(AIT.tardisManager.canFall) {
             if (pLevel.isEmptyBlock(pPos.below()) || isFree(pLevel.getBlockState(pPos.below())) && pPos.getY() >= 0) {

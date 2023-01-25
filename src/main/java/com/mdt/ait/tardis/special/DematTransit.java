@@ -58,8 +58,16 @@ public class DematTransit {
 
     public int runTransitFormula() {
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        tardisX = tardis.exterior_position.getX() % tardis.targetPosition.getX();
-        tardisZ = tardis.exterior_position.getZ() % tardis.targetPosition.getZ();
+        if(tardis.exterior_position.getX() != 0) {
+            tardisX = tardis.exterior_position.getX() % tardis.targetPosition.getX();
+        } else {
+            tardisX = tardis.exterior_position.getX() + tardis.targetPosition.getX();
+        }
+        if(tardis.exterior_position.getZ() != 0) {
+            tardisZ = tardis.exterior_position.getZ() % tardis.targetPosition.getZ();
+        } else {
+            tardisZ = tardis.exterior_position.getZ() + tardis.targetPosition.getZ();
+        }
         finalTardisX = abs(tardisX);
         finalTardisZ = abs(tardisZ);
         finalTardisTicker = (int) Math.sqrt(tardis.targetPosition.getX() ^ 2 + tardis.targetPosition.getZ() ^ 2);
