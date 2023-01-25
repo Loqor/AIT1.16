@@ -63,7 +63,7 @@ public class RemoteItem extends Item {
             if (TARDISKey.getTardisId(itemInHand) != null) {
                 this.tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
                 if(!world.isClientSide) {
-                    playerentity.getCooldowns().addCooldown(this, 440); // 11 seconds in ticks
+                    playerentity.getCooldowns().addCooldown(this, 100); // 11 seconds in ticks
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
                         RegistryKey oldDimension = tardis.exterior_dimension;
                         BlockPos oldPos = tardis.exterior_position;

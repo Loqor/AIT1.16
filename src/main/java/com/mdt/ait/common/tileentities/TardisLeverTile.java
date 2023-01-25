@@ -84,15 +84,15 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         if(tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
                     ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                     assert world != null;
                     assert tardisWorld != null;
                     if (leverState == EnumLeverState.ACTIVE) {
-                        if (AIT.tardisManager.doesTardisHaveATargetLocation(tardisID)) {
+                        if (AIT.tardisManager.doesTardisHaveATargetLocation(this.tardisID)) {
                             tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
-                            this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardisID);
+                            this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.tardisID);
                             if (this.dematTransit.leverPos != this.worldPosition) {
                                 this.dematTransit.leverPos = getBlockPos();
                             }
@@ -130,7 +130,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                             assert serverWorld != null;
                             PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
                             this.dematTransit.finished = false;
-                            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                            Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                             tardis.landed = true;
                             this.dematTransit = null;
                             this.leverState = EnumLeverState.DEACTIVE;
@@ -190,7 +190,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     public void load(BlockState pState, CompoundNBT nbt) {
         this.leverState = EnumLeverState.values()[nbt.getInt("leverState")];
         if (nbt.contains("tardisID")) {
-            tardisID = nbt.getUUID("tardisID");
+            this.tardisID = nbt.getUUID("tardisID");
         }
         super.load(pState, nbt);
     }
@@ -198,8 +198,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putInt("leverState", this.leverState.ordinal());
-        if (tardisID != null ) {
-            nbt.putUUID("tardisID", tardisID);
+        if (this.tardisID != null ) {
+            nbt.putUUID("tardisID", this.tardisID);
         }
         return super.save(nbt);
     }
@@ -217,7 +217,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
             ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
             BlockState blockstate = world.getBlockState(blockpos);
             Block block = blockstate.getBlock();
