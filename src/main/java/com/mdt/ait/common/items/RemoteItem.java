@@ -25,6 +25,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -64,14 +65,27 @@ public class RemoteItem extends Item {
                 if(!world.isClientSide) {
                     playerentity.getCooldowns().addCooldown(this, 440); // 11 seconds in ticks
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+                        RegistryKey oldDimension = tardis.exterior_dimension;
+                        BlockPos oldPos = tardis.exterior_position;
+                        Direction oldDirection = tardis.exterior_facing;
                         this.tardis.setInteriorDoorState(EnumDoorState.CLOSED);
                         this.tardis.setExteriorDoorState(EnumDoorState.CLOSED);
                         ServerWorld exteriorWorld = AIT.server.getLevel(this.tardis.exterior_dimension);
                         ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                        interiorWorld.playSound(null, this.tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 4f, 1f);
+                        interiorWorld.playSound(null, this.tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
                         exteriorWorld.playSound(null, this.tardis.exterior_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
                         lockTardis(true);
-                        isFailing = true;
+                        BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
+                        AIT.tardisManager.setTardisTargetBlockPos(this.tardis.tardisID, targetPosition);
+                        this.tardis.target_dimension = world.dimension();
+                        this.tardis.target_facing_direction = flipDirection(playerentity);
+                        this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.tardis.tardisID);
+                        this.dematTransit.finishedDematAnimation();
+                        //failLandTardis();
+                        this.dematTransit.failLandTardis();
+                        AIT.tardisManager.setTardisTargetBlockPos(this.tardis.tardisID, oldPos);
+                        this.tardis.target_dimension = oldDimension;
+                        this.tardis.target_facing_direction = oldDirection;
                     } else {
                         BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
                         AIT.tardisManager.setTardisTargetBlockPos(this.tardis.tardisID, targetPosition);
