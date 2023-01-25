@@ -73,8 +73,9 @@ public class TARDISKey extends Item {
         }
         if (block instanceof TardisBlock) {
             if(TARDISKey.getTardisId(itemInHand) == null) {
-                TardisBlock tardisBlock = (TardisBlock) block;
-                tag.putUUID("tardisIdentification", tardisBlock.tardisID);
+                TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
+                assert tardisTileEntity != null;
+                tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
                 tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
                         + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
                         TardisConfig.tardisNamesList.get(random.nextInt(23)));
@@ -89,7 +90,7 @@ public class TARDISKey extends Item {
         if(this.getTardisId(pStack) != null) {
             pTooltip.add(new TranslationTextComponent("Key ID: " + TARDISKey.getGreekCharacters(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
-            pTooltip.add(new TranslationTextComponent(String.valueOf("Linked TARDIS: " + TARDISKey.getTardisId(pStack)))
+            pTooltip.add(new TranslationTextComponent("Linked TARDIS: " + TARDISKey.getTardisId(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.DARK_AQUA)));
         } else {
             pTooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
@@ -98,4 +99,6 @@ public class TARDISKey extends Item {
             // you got me mzsty - Duzo
         }
     }
+
+
 }

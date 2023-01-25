@@ -6,6 +6,7 @@ import com.mdt.ait.common.blocks.BasicRotorBlock;
 import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -59,34 +60,37 @@ public class RemoteItem extends Item {
         Block block = blockstate.getBlock();
         if (!(block instanceof TardisBlock) && !(block instanceof BasicInteriorDoorBlock) && !(block instanceof BasicRotorBlock)) {
             if (TARDISKey.getTardisId(itemInHand) != null) {
-                tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
+                this.tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
                 if(!world.isClientSide) {
                     playerentity.getCooldowns().addCooldown(this, 440); // 11 seconds in ticks
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                        tardis.setInteriorDoorState(EnumDoorState.CLOSED);
-                        tardis.setExteriorDoorState(EnumDoorState.CLOSED);
-                        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                        this.tardis.setInteriorDoorState(EnumDoorState.CLOSED);
+                        this.tardis.setExteriorDoorState(EnumDoorState.CLOSED);
+                        ServerWorld exteriorWorld = AIT.server.getLevel(this.tardis.exterior_dimension);
                         ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                        interiorWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 4f, 1f);
-                        exteriorWorld.playSound(null, tardis.exterior_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
+                        interiorWorld.playSound(null, this.tardis.center_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 4f, 1f);
+                        exteriorWorld.playSound(null, this.tardis.exterior_position, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
                         lockTardis(true);
                         isFailing = true;
                     } else {
                         BlockPos targetPosition = new BlockPos(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
-                        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, targetPosition);
-                        tardis.target_dimension = world.dimension();
-                        tardis.target_facing_direction = flipDirection(playerentity);
-                        dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardis.tardisID);
-                        dematTransit.finishedDematAnimation();
-                        dematTransit.landTardisPart2();
+                        AIT.tardisManager.setTardisTargetBlockPos(this.tardis.tardisID, targetPosition);
+                        this.tardis.target_dimension = world.dimension();
+                        this.tardis.target_facing_direction = flipDirection(playerentity);
+                        this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.tardis.tardisID);
+                        this.dematTransit.finishedDematAnimation();
+                        this.dematTransit.landTardisPart2();
                     }
                 }
             }
+
         }
+
         if (block instanceof TardisBlock) {
             if(TARDISKey.getTardisId(itemInHand) == null) {
-                TardisBlock tardisBlock = (TardisBlock) block;
-                tag.putUUID("tardisIdentification", tardisBlock.tardisID);
+                TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
+                assert tardisTileEntity != null;
+                tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
                 tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
                         + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
                         TardisConfig.tardisNamesList.get(random.nextInt(23)));
@@ -158,6 +162,7 @@ public class RemoteItem extends Item {
         // cheeky copy from DematTransit:189 cus it was causing crashes previously
         if (tardis.interior_door_position != null) {
             if (Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
+                assert tardisWorld != null;
                 BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(tardis.interior_door_position);
                 assert interiorDoorTile != null;
                 interiorDoorTile.setLockedState(locked, EnumDoorState.CLOSED);
@@ -190,7 +195,7 @@ public class RemoteItem extends Item {
         if(TARDISKey.getTardisId(pStack) != null) {
             pTooltip.add(new TranslationTextComponent("Remote ID: " + TARDISKey.getGreekCharacters(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
-            pTooltip.add(new TranslationTextComponent(String.valueOf("Linked TARDIS: " + TARDISKey.getTardisId(pStack)))
+            pTooltip.add(new TranslationTextComponent("Linked TARDIS: " + TARDISKey.getTardisId(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.DARK_AQUA)));
         } else {
             pTooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
