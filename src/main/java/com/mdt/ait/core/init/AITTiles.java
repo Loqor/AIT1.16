@@ -78,6 +78,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TardisCoordinateControlTile>> TARDIS_COORDINATE_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_coordinate_control",
             () -> TileEntityType.Builder.of(TardisCoordinateControlTile::new, AITBlocks.TARDIS_COORDINATE_CONTROL_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<FastReturnControlTile>> TARDIS_FAST_RETURN_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "tardis_fast_return",
+            () -> TileEntityType.Builder.of(FastReturnControlTile::new, AITBlocks.TARDIS_FAST_RETURN_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<ExteriorFacingControlTile>> EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "exterior_facing_control",
             () -> TileEntityType.Builder.of(ExteriorFacingControlTile::new, AITBlocks.EXTERIOR_FACING_CONTROL_BLOCK.get()).build(null));

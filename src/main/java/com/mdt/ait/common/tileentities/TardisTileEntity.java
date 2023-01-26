@@ -609,8 +609,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if (this.alpha < 0.75 && run_once_fail_remat == 1) {
                 this.alpha -= 0.005; // this doesnt appear to work? @TODO
             }
-//            System.out.println(run_once_fail_remat + " + " + this.alpha + " = ");
-//            System.out.println(this.alpha == 0 && run_once_fail_remat == 1);
+//            System.out.println(this.alpha);
+//            System.out.println("POS: " + this.linked_tardis.exterior_position + "DIMENSION: " + this.linked_tardis.exterior_dimension);
             if (this.alpha <= 0 && run_once_fail_remat == 1) {
                 run_once_fail_remat++;
                 // Simple check to make sure this only runs once as otherwise the game crashes and thats such poo

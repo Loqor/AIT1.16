@@ -41,6 +41,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> EXTERIOR_FACING_CONTROL_BLOCK = BLOCKS.register("exterior_facing_control", ExteriorFacingControlBlock::new);
     public static final RegistryObject<Block> DIMENSION_SWITCH_CONTROL_BLOCK = BLOCKS.register("dimension_switch_control", DimensionSwitchControlBlock::new);
     public static final RegistryObject<Block> TARDIS_COORDINATE_CONTROL_BLOCK = BLOCKS.register("tardis_coordinate_control", TardisCoordinateControlBlock::new);
+    public static final RegistryObject<Block> TARDIS_FAST_RETURN_BLOCK = registerBlock("tardis_fast_return", () -> new FastReturnControlBlock(AbstractBlock.Properties.of(Material.METAL)), AITItemGroups.AITBLOCKS);
     public static final RegistryObject<Block> TENNANT_MONITOR_BLOCK = BLOCKS.register("tennant_monitor", TennantMonitorBlock::new);
     public static final RegistryObject<Block> TOYOTA_MONITOR_BLOCK = BLOCKS.register("toyota_monitor", ToyotaMonitorBlock::new);
     public static final RegistryObject<Block> ROUNDEL_FACE_BLOCK = BLOCKS.register("roundel_face", RoundelFaceBlock::new);

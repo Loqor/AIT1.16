@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+import static com.mdt.ait.tardis.special.DematTransit.failLandTardis;
+
 public class RemoteItem extends Item {
     public RemoteItem(Item.Properties p_i48487_1_) {
         super(p_i48487_1_.stacksTo(1));
@@ -67,9 +69,7 @@ public class RemoteItem extends Item {
                         BlockPos oldPos = tardis.exterior_position;
                         Direction oldDirection = tardis.exterior_facing;
                         playerentity.getCooldowns().addCooldown(this, 200); // 10 seconds in ticks
-                        this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.tardis.tardisID);
-                        this.dematTransit.finishedDematAnimation();
-                        this.dematTransit.failLandTardis(this.tardis, this.dematTransit, blockpos,world,playerentity,oldPos,oldDimension,oldDirection);
+                        failLandTardis(this.tardis, blockpos,world,playerentity,oldPos,oldDimension,oldDirection);
 
                     } else {
                         playerentity.getCooldowns().addCooldown(this, 100); // 5 seconds in ticks

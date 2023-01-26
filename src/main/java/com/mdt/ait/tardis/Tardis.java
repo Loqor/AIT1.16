@@ -35,7 +35,8 @@ public class Tardis implements IEnergyStorage {
 
     public BlockPos exterior_position;
     public BlockPos interior_door_position;
-    public Direction exterior_facing;
+    public BlockPos previous_exterior_pos;
+    public Direction exterior_facing, previous_direction;
     public Direction interior_door_facing;
     public final BlockPos center_position;
     public Boolean landed;
@@ -44,7 +45,7 @@ public class Tardis implements IEnergyStorage {
     public EnumInteriorDoorType interiorDoorType;
     public TardisInterior currentInterior;
     public final Tuple<Integer, Integer> grid_position;
-    public RegistryKey<World> exterior_dimension;
+    public RegistryKey<World> exterior_dimension,previous_dimension;
 
     public BlockPos console_position;
 
@@ -72,6 +73,7 @@ public class Tardis implements IEnergyStorage {
         this.target_dimension = this.exterior_dimension;
         this.exterior_position = exterior_position;
         this.targetPosition = exterior_position;
+        this.previous_exterior_pos = exterior_position;
         this.grid_position = grid_position;
         this.tardisID = tardisID;
         this.currentInterior = current_interior;

@@ -165,7 +165,7 @@ public class DematTransit {
 
     // Function that lands the tardis somewhere, makes it do a funky fade and sends it back where it came from
     // @TODO fix fading not working suddenly
-    public void failLandTardis(Tardis tardis, DematTransit dematTransit, BlockPos blockpos, World world, PlayerEntity playerentity, BlockPos oldPos, RegistryKey oldDimension, Direction oldDirection) {
+    public static void failLandTardis(Tardis tardis, BlockPos blockpos, World world, PlayerEntity playerentity, BlockPos oldPos, RegistryKey oldDimension, Direction oldDirection) {
         tardis.setInteriorDoorState(EnumDoorState.CLOSED);
         tardis.setExteriorDoorState(EnumDoorState.CLOSED);
         ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
@@ -177,9 +177,19 @@ public class DematTransit {
         AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, targetPosition);
         tardis.target_dimension = world.dimension();
         tardis.target_facing_direction = flipDirection(playerentity);
-        // yoink, all below is taken from landTardisPart2, fool.
+        DematTransit dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardis.tardisID);
+        dematTransit.finishedDematAnimation();
+        dematTransit.failLandTardisPart2();
+        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, oldPos);
+        tardis.target_dimension = oldDimension;
+        tardis.target_facing_direction = oldDirection;
+    }
+
+    public void failLandTardisPart2() {
+        // yoink, taken from landTardisPart2 you fool.
         // (aaaaaaaaaaaaaa)
         this.readyForDemat = false;
+        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         tardis.landed = false;
         ServerWorld newDimension = AIT.server.getLevel(tardis.target_dimension);
         ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
@@ -206,10 +216,6 @@ public class DematTransit {
             newDimension.removeBlock(landingPosition.above(1), false);
         }
         tardis.__moveExterior(landingPosition, tardis.target_facing_direction, tardis.target_dimension);
-        AIT.tardisManager.setTardisTargetBlockPos(tardis.tardisID, oldPos);
-        tardis.target_dimension = oldDimension;
-        tardis.target_facing_direction = oldDirection;
-
     }
 
     public void landTardisPart2() {

@@ -173,6 +173,9 @@ public class TardisManager {
 
     public DematTransit moveTardisToTargetLocation(UUID tardisID) {
         Tardis tardis = getTardis(tardisID);
+        tardis.previous_exterior_pos = tardis.exterior_position;
+        tardis.previous_direction = tardis.exterior_facing;
+        tardis.previous_dimension = tardis.exterior_dimension;
         tardis.setInteriorDoorState(EnumDoorState.CLOSED);
         tardis.setExteriorDoorState(EnumDoorState.CLOSED);
         ServerWorld oldDimension = server.getLevel(tardis.exterior_dimension);
