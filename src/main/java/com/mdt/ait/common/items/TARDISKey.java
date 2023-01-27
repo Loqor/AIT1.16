@@ -75,7 +75,9 @@ public class TARDISKey extends Item {
             if(TARDISKey.getTardisId(itemInHand) == null) {
                 TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
                 assert tardisTileEntity != null;
-                tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
+                if(tardisTileEntity.linked_tardis_id != null) {
+                    tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
+                }
                 tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
                         + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
                         TardisConfig.tardisNamesList.get(random.nextInt(23)));

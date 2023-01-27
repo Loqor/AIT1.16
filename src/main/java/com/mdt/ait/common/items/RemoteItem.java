@@ -21,10 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -62,6 +59,7 @@ public class RemoteItem extends Item {
         Block block = blockstate.getBlock();
         if (!(block instanceof TardisBlock) && !(block instanceof BasicInteriorDoorBlock) && !(block instanceof BasicRotorBlock)) {
             if (TARDISKey.getTardisId(itemInHand) != null) {
+                context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.NOTE_BLOCK_BIT, SoundCategory.MASTER, 1, 0.5f);
                 this.tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
                 if(!world.isClientSide) {
                     if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
@@ -91,7 +89,9 @@ public class RemoteItem extends Item {
             if(TARDISKey.getTardisId(itemInHand) == null) {
                 TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
                 assert tardisTileEntity != null;
-                tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
+                if(tardisTileEntity.linked_tardis_id != null) {
+                    tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
+                }
                 tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
                         + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
                         TardisConfig.tardisNamesList.get(random.nextInt(23)));

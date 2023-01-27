@@ -102,6 +102,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.DARKSTONE.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.DARKSTONE_STAIRS.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(AITBlocks.ARS_PRODUCER.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(AITBlocks.ARS_GENERATE_BLOCK.get(), RenderType.cutoutMipped());
         });
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_TILE_ENTITY_TYPE.get(), BasicBoxRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TSV_TILE_ENTITY_TYPE.get(), TSVRenderer::new);
