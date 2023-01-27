@@ -84,9 +84,10 @@ public class StructureSelectScreen extends Screen {
     public void renderBackground(MatrixStack pMatrixStack) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bind(GUI);
-        int i = (this.width - this.imageWidth) / 2;
-        int j = (this.height - this.imageHeight) / 2;
-        this.blit(pMatrixStack, (this.width/2)-(this.imageWidth/2), (this.height/2)-(this.imageHeight/2), 0, 0, this.imageWidth, this.imageHeight);
+        pMatrixStack.pushPose();
+        pMatrixStack.scale(2f,2f,2f);
+        this.blit(pMatrixStack, (this.width)-this.imageWidth/2, (this.height)-this.imageHeight, 0, 0, this.imageWidth, this.imageHeight);
+        pMatrixStack.popPose();
     }
     @Override
     public boolean isPauseScreen() {

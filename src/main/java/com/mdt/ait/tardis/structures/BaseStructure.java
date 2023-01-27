@@ -22,9 +22,8 @@ public class BaseStructure {
     private final ServerWorld tardisWorld;
     private final String name;
     private List<ResourceLocation> structureList = new ArrayList<>();
-    public static String[] structureArrayString = {"baker_corridor_straight","baker_corridor_fourway"}; // add the name of the .nbt file here
+    public static String[] structureArrayString = {"baker_corridor_straight","baker_corridor_fourway"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
     private final Template structure_template;
-
     public BaseStructure(ServerWorld tardisWorld, String structureName) {
         this.tardisWorld = tardisWorld;
         this.name = structureName;
@@ -195,7 +194,7 @@ public class BaseStructure {
 
     private void generateStructureList() {
         for (String i : structureArrayString) {
-            structureList.add(new ResourceLocation(AIT.MOD_ID, i));
+            structureList.add(new ResourceLocation(AIT.MOD_ID,i));
         }
     }
     public Template getTemplate() {

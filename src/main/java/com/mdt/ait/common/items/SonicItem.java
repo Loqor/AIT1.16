@@ -8,6 +8,7 @@ import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.RoundelDoorsTile;
 import com.mdt.ait.common.tileentities.RoundelFaceTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
@@ -183,9 +184,11 @@ public class SonicItem extends Item {
             playerentity.getCooldowns().addCooldown(this, COOLDOWN_TIME);
         }
         if (playerentity.isCrouching()) {
-            Minecraft.getInstance().setScreen(new StructureSelectScreen(new TranslationTextComponent("Room Select Screen"),this));
-            world.playSound(null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), AITSounds.SONIC_SOUND.get(), SoundCategory.PLAYERS, 0.25F, 1.0F);
-            playerentity.getCooldowns().addCooldown(this, COOLDOWN_TIME);
+            if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
+                Minecraft.getInstance().setScreen(new StructureSelectScreen(new TranslationTextComponent("Room Select Screen"), this));
+                world.playSound(null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), AITSounds.SONIC_SOUND.get(), SoundCategory.PLAYERS, 0.25F, 1.0F);
+                playerentity.getCooldowns().addCooldown(this, COOLDOWN_TIME);
+            }
         }
 
         return ActionResultType.SUCCESS;
