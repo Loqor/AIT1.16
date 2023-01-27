@@ -71,11 +71,11 @@ public class BaseStructure {
     // ALSO ENCASE YOUR ENTIRE STRUCTURE WITH STRUCTURE VOID BLOCKS, OR IT DELETES STUFF. ONLY INTERIOR SHOULD BE AIR.
     /*
     key: [] - any block :: - ars generator
-    [][][][][]
-    [][][][][]
-    [][][][][]
-    [][]::[][]
-    [][][][][]
+    [] [] [] [] []
+    [] [] [] [] []
+    [] [] [] [] []
+    [] [] :: [] []
+    [] [] [] [] []
     UNDERSTAND? OTHERWISE IT GENERATES FUNKY
      */
     private BlockPos getCornerWallPos(BlockPos pos,Direction direction) {
