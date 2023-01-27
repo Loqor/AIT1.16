@@ -45,7 +45,6 @@ public class FastReturnControlBlock extends Block {
             FastReturnControlTile fastReturnControlTile = (FastReturnControlTile) serverWorld.getBlockEntity(blockPos);
             this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert fastReturnControlTile != null;
-            System.out.println(fastReturnControlTile);
             fastReturnControlTile.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, fastReturnControlTile);
         }

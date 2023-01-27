@@ -1,6 +1,8 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.client.models.tileentities.Typewriter;
+import com.mdt.ait.client.screen.MonitorScreen;
+import com.mdt.ait.client.screen.StructureSelectScreen;
 import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.RoundelDoorsTile;
@@ -13,8 +15,10 @@ import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import com.mdt.ait.tardis.TardisInteriors;
 import com.mdt.ait.tardis.interiors.TardisInterior;
+import com.mdt.ait.tardis.structures.BaseStructure;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.TNTEntity;
@@ -31,6 +35,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
@@ -48,6 +53,7 @@ public class SonicItem extends Item {
     private static final Integer COOLDOWN_TIME = 20;
     private static final Integer REDSTONE_COOLDOWN_TIME = 10;
     public EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
+    public String structure_name = "baker_corridor_straight";
 
     public EnumExteriorType getNextExterior() {
         switch (currentexterior) {
@@ -78,10 +84,12 @@ public class SonicItem extends Item {
         pTooltip.add(new TranslationTextComponent("Sonic Screwdriver"));
     }
 
+
     @Override
     public void onUseTick(World pWorldIn, LivingEntity pLivingEntityIn, ItemStack pStack, int pCount) {
 
     }
+
 
     public ActionResultType useOn(ItemUseContext context) {
         PlayerEntity playerentity = context.getPlayer();
@@ -166,6 +174,7 @@ public class SonicItem extends Item {
             }
         }
 
+
         world.playSound(null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), AITSounds.SONIC_SOUND.get(), SoundCategory.PLAYERS, 0.25F, 1.0F);
         if (block instanceof RedstoneWireBlock) {
             playerentity.getCooldowns().addCooldown(this, REDSTONE_COOLDOWN_TIME);
@@ -174,6 +183,7 @@ public class SonicItem extends Item {
             playerentity.getCooldowns().addCooldown(this, COOLDOWN_TIME);
         }
         if (playerentity.isCrouching()) {
+            Minecraft.getInstance().setScreen(new StructureSelectScreen(new TranslationTextComponent("Room Select Screen"),this));
             world.playSound(null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), AITSounds.SONIC_SOUND.get(), SoundCategory.PLAYERS, 0.25F, 1.0F);
             playerentity.getCooldowns().addCooldown(this, COOLDOWN_TIME);
         }

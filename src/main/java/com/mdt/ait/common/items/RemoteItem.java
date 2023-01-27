@@ -101,20 +101,12 @@ public class RemoteItem extends Item {
     }
 
     // Flips the direction so that the tardis faces the player when it lands
+    // Useless function, use player.getDirection().getOpposite() instead! @TODO replace all instances
     public static Direction flipDirection(PlayerEntity player) {
-        if (player.getDirection() == Direction.EAST) {
-            return Direction.WEST;
-        }
-        if (player.getDirection() == Direction.WEST) {
-            return Direction.EAST;
-        }
-        if (player.getDirection() == Direction.NORTH) {
-            return Direction.SOUTH;
-        }
-        if (player.getDirection() == Direction.SOUTH) {
+        if (player.getDirection().getOpposite() == null) {
             return Direction.NORTH;
         }
-        return Direction.NORTH; // if all else fails, just face to the north
+        return player.getDirection().getOpposite();
     }
 
     @Override

@@ -79,7 +79,7 @@ public class ARSProducerBlock extends Block {
         return true;
     }
 
-    private boolean checkHeldItem(PlayerEntity player, Item item) {
+    public static boolean checkHeldItem(PlayerEntity player, Item item) {
         if (player.getMainHandItem().getItem() == item) {
             return true;
         }
