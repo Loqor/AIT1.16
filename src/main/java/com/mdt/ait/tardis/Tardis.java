@@ -3,6 +3,7 @@ package com.mdt.ait.tardis;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
@@ -10,7 +11,9 @@ import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
+import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.tardis.interiors.TardisInterior;
+import com.mdt.ait.tardis.special.DematTransit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,6 +25,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -40,6 +47,7 @@ public class Tardis implements IEnergyStorage {
     public Direction interior_door_facing;
     public final BlockPos center_position;
     public Boolean landed;
+    public DematTransit dematTransit;
 
     public EnumExteriorType exteriorType;
     public EnumInteriorDoorType interiorDoorType;
@@ -119,6 +127,8 @@ public class Tardis implements IEnergyStorage {
             basicInteriorDoorTile.syncToClient();
         }
     }
+
+
 
     public void setExteriorType(EnumExteriorType exteriorType) {
         this.exteriorType = exteriorType;
