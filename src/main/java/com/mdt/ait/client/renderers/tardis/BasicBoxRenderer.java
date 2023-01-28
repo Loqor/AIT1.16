@@ -223,7 +223,9 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
                 if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
-                    if (tile.getLevel().dimension() != AITDimensions.GALLIFREY) {
+                    if (tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
+                            tile.getLevel().dimension() != tile.getLevel().END ||
+                            tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION) {
                         this.texture = SAND_MINT_LOCATION;
                         this.model.christmas_stuff.visible = false;
                     }
