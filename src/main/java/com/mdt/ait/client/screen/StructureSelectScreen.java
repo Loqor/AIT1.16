@@ -37,7 +37,7 @@ public class StructureSelectScreen extends Screen {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         current_selection_id = 0;
-        current_selection = BaseStructure.structureArrayString[current_selection_id];
+        current_selection = BaseStructure.structureNameList[current_selection_id];
         this.addButton(
                 new Button((this.width/2) + 96, this.height/2, 20, 20,
                         new StringTextComponent(">"),
@@ -60,17 +60,17 @@ public class StructureSelectScreen extends Screen {
     private void onPressLeftButton() {
         current_selection_id--;
         if (current_selection_id == -1) {
-            current_selection_id = BaseStructure.structureArrayString.length - 1;
+            current_selection_id = BaseStructure.structureNameList.length - 1;
         }
-        current_selection = BaseStructure.structureArrayString[current_selection_id];
+        current_selection = BaseStructure.structureNameList[current_selection_id];
     }
 
     private void onPressRightButton() {
         current_selection_id++;
-        if (current_selection_id == BaseStructure.structureArrayString.length) {
+        if (current_selection_id == BaseStructure.structureNameList.length) {
             current_selection_id = 0;
         }
-        current_selection = BaseStructure.structureArrayString[current_selection_id];
+        current_selection = BaseStructure.structureNameList[current_selection_id];
     }
 
     @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
