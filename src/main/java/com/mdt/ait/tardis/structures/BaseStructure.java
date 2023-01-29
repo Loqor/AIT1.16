@@ -29,7 +29,7 @@ public class BaseStructure {
     private final String fileName;
     private List<ResourceLocation> structureList = new ArrayList<>();
 //    public ArrayList<String> structureNameList = new ArrayList<>();
-    public static String[] structureNameList = {"baker_corridor_straight","baker_corridor_fourway","baker_left_bend","baker_right_bend","baker_bedroom","ars_tree_room"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
+    public static String[] structureNameList = {"baker_corridor_straight","baker_corridor_fourway","baker_left_bend","baker_right_bend","baker_bedroom","ars_tree_room","downstairs_corridor","gardening_room","left_corridor_bend","long_corridor","medium_corridor","right_corridor_bend","short_corridor","upstairs_corridor"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
     private Block[] blockIgnoreList = {AITBlocks.ARS_GENERATE_BLOCK.get(),AITBlocks.ARS_CENTRE_BLOCK.get()}; // blocks that will be ignored if found in the check
 
     private final String filePrefix = "rooms/";
@@ -125,40 +125,75 @@ public class BaseStructure {
         return Rotation.NONE; // just return NONE if fail.
     }
 
+
+    // get where the entrance is expected to be : expected_y
+    // remainder_y = size_y - expected_y
+    // output_y -= remainder_y
+
+    // @TODO FIX Y POS PROBLEMS :/
     private BlockPos getCornerPos(BlockPos pos,Direction direction,boolean excludeFirstRow) {
-        int size_x = structure_template.getSize(directionToRotation(direction)).getX()/2 + 4;
-        int size_z = structure_template.getSize(directionToRotation(direction)).getZ()/2 + 4;
+        BlockPos structure_size = structure_template.getSize(directionToRotation(direction));
+        int size_x = structure_size.getX();
+        int size_y = structure_size.getY();
+        int size_z = structure_size.getZ();
+        int centre_y = findTargetBlockPosInTemplate(pos,direction, AITBlocks.ARS_CENTRE_BLOCK.get()).getY();
+        size_y -= centre_y;
+        int remainder_y = pos.getY()-(pos.getY()-size_y);
+        int output_y = 0;
+        int update_y_count = 0;
+        int new_pos_y = pos.getY();
         int new_pos_x = pos.getX();
         int new_pos_z = pos.getZ();
+
+//        for (int i =0;pos.getY()-size_y == pos.getY();i++) {
+//            if (pos.getY()-size_y > pos.getY()) {
+//                size_y -= 1;
+//                update_y_count -= 1;
+//            }
+//            if (pos.getY()-size_y < pos.getY()) {
+//                size_y += 1;
+//                update_y_count += 1;
+//            }
+//            System.out.println(update_y_count);
+//            System.out.println(size_y);
+//            System.out.println(pos.getY()-size_y);
+//            System.out.println(pos.getY());
+//        }
+//        output_y += pos.getY() - remainder_y - 103;
+//        System.out.println(remainder_y);
+//        System.out.println(output_y);
+
+        output_y = new_pos_y - 4;
+
         if (direction == Direction.NORTH) {
-            new_pos_x += size_x;
+            new_pos_x += size_x + 1;
             if (excludeFirstRow) {
                 new_pos_z += 1;
             }
         }
         if (direction == Direction.SOUTH) {
-            new_pos_x -= size_x;
+            new_pos_x -= size_x - 1;
             if (excludeFirstRow) {
                 new_pos_z -= 1;
             }
 
         }
         if (direction == Direction.EAST) {
-            new_pos_x -= 1;
+            new_pos_z += size_z + 1;
             if (excludeFirstRow) {
-                new_pos_z += size_z;
+                new_pos_x -= 1;
             }
         };
         if (direction == Direction.WEST) {
-            new_pos_x += 1;
+            new_pos_z -= size_z - 1;
             if (excludeFirstRow) {
-                new_pos_z -= size_z;
+                new_pos_x += 1;
             }
         }
         if (direction == Direction.UP || direction == Direction.DOWN) {
             return null;
         }
-        BlockPos new_pos = new BlockPos(new_pos_x, pos.getY()-4,new_pos_z);
+        BlockPos new_pos = new BlockPos(new_pos_x, output_y,new_pos_z);
         return new_pos;
     }
 
@@ -185,8 +220,6 @@ public class BaseStructure {
                     z = pos.getZ() + 1;
                     checkPos = new BlockPos(x, y, z);
                     Block block = world.getBlockState(checkPos).getBlock();
-                    System.out.println(checkPos);
-                    System.out.println(block);
                     if (block == target_block) {
                         return checkPos;
                     }
@@ -200,8 +233,6 @@ public class BaseStructure {
                     z = pos.getZ() - 1;
                     checkPos = new BlockPos(x, y,z);
                     Block block = world.getBlockState(checkPos).getBlock();
-                    System.out.println(checkPos);
-                    System.out.println(block);
                     if (block == target_block) {
                         return checkPos;
                     }
