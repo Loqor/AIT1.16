@@ -197,7 +197,7 @@ public class BaseStructure {
                 }
             }
         }
-        else if (direction == Direction.WEST){
+        else if (direction == Direction.EAST) {
             x = pos.getX()+2;
             for (x=x; x <= pos.getX() + size_x; x++) {
                 y = pos.getY();
@@ -216,13 +216,13 @@ public class BaseStructure {
                 }
             }
         }
-        else if (direction == Direction.EAST){
+        else if (direction == Direction.WEST) {
             x = pos.getX()-2;
-            for (x=x; x <= pos.getX() + size_x; x++) {
+            for (x=x; x >= pos.getX() - size_x; x--) {
                 y = pos.getY();
                 for (y=y; y <= pos.getY() + size_y; y++) {
-                    z = pos.getZ()+2;
-                    for (z=z; z >= pos.getZ() - size_z; z--) {
+                    z = pos.getZ()-2;
+                    for (z=z; z <= pos.getZ() + size_z; z++) {
                         checkPos = new BlockPos(x, y, z);
                         Block block = world.getBlockState(checkPos).getBlock();
                         if (!(block instanceof AirBlock)) {
@@ -235,6 +235,7 @@ public class BaseStructure {
                 }
             }
         }
+
 
         else {
             return false;

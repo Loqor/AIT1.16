@@ -178,13 +178,13 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
                 this.texture = SNOW_LOCATION;
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
-                if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
-                  if (tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
-                            tile.getLevel().dimension() != tile.getLevel().END ||
-                            tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION) {
+                if(tile.getLevel().dimension() != tile.getLevel().NETHER ||
+                tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
+                        tile.getLevel().dimension() != tile.getLevel().END ||
+                tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION ||
+                tile.getLevel().dimension() != AITDimensions.VORTEX_DIMENSION) {
                         this.texture = SAND_LOCATION;
                         this.model.christmas_stuff.visible = false;
-                    }
                 }
             } else {
                 this.texture = LOCATION;
@@ -222,13 +222,13 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
                 this.texture = SNOW_MINT_LOCATION;
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
-                if(tile.getLevel().dimension() != tile.getLevel().NETHER) {
-                    if (tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
-                            tile.getLevel().dimension() != tile.getLevel().END ||
-                            tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION) {
-                        this.texture = SAND_MINT_LOCATION;
-                        this.model.christmas_stuff.visible = false;
-                    }
+                if(tile.getLevel().dimension() != tile.getLevel().NETHER ||
+                    tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
+                    tile.getLevel().dimension() != tile.getLevel().END ||
+                    tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION ||
+                    tile.getLevel().dimension() != AITDimensions.VORTEX_DIMENSION) {
+                    this.texture = SAND_MINT_LOCATION;
+                    this.model.christmas_stuff.visible = false;
                 }
             } else {
                 this.texture = MINT_LOCATION;
