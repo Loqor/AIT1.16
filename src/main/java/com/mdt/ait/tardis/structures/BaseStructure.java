@@ -293,22 +293,22 @@ public class BaseStructure {
         return new_name;
     }
 
-//    private void addFilesToStructureNameList(String directory) {
-//        URL resource = AIT.class.getResource("/rooms");
-//        File fileDirectory;
-//        try {
-//            fileDirectory = new File(new File(resource.toURI()).getAbsolutePath());
-//        } catch (Exception e) {
-//            System.out.println("EXCEPTION WITH ADDING FILES TO BaseStructure: " + e);
-//            return;
-//        }
-//        System.out.println(fileDirectory.listFiles());
-//        File filesList[] = fileDirectory.listFiles();
-//        for (File file : filesList) {
-//            System.out.println(file.getName().substring(0,file.getName().length()-4));
-//            structureNameList.add(file.getName().substring(0,file.getName().length()-4));
-//        }
-//    }
+    /*private void addFilesToStructureNameList(String directory) {
+        URL resource = AIT.class.getResource("/rooms");
+        File fileDirectory;
+        try {
+            fileDirectory = new File(new File(resource.toURI()).getAbsolutePath());
+        } catch (Exception e) {
+            System.out.println("EXCEPTION WITH ADDING FILES TO BaseStructure: " + e);
+            return;
+        }
+        System.out.println(fileDirectory.listFiles());
+        File filesList[] = fileDirectory.listFiles();
+        for (File file : filesList) {
+            System.out.println(file.getName().substring(0,file.getName().length()-4));
+            structureNameList.add(file.getName().substring(0,file.getName().length()-4));
+        }
+    }*/
 
     private void populateStructureList() {
         for (String i : structureNameList) {
@@ -348,10 +348,17 @@ public class BaseStructure {
 
     /*
     Removes Underscores from the NBT file name
-    Capitalises the first letter of every word @TODO
+    Capitalises the first letter of every word
     Returns the new, more understandable, string.
      */
     public static String toStructureName(String name) {
-        return name.replace("_", " ");
+        String spaced = name.replace("_", " ");
+        String[] words = spaced.split(" ");
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            output.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1)).append(" ");
+        }
+        String capitalized = output.toString();
+        return capitalized;
     }
 }
