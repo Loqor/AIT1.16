@@ -29,8 +29,8 @@ public class AITSounds {
             new ResourceLocation(AIT.MOD_ID, "tardis_landing")));
     public static final RegistryObject<SoundEvent> TARDIS_FAIL_LANDING = SOUNDS.register("tardis_fail_landing", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_fail_landing")));
-    public static final RegistryObject<SoundEvent> TARDIS_CLOSITER = SOUNDS.register("tardis_cloister", () -> new SoundEvent(
-            new ResourceLocation(AIT.MOD_ID, "tardis_cloister")));
+    public static final RegistryObject<SoundEvent> CLOISTER_BELL = SOUNDS.register("cloister_bell", () -> new SoundEvent(
+            new ResourceLocation(AIT.MOD_ID, "cloister_bell")));
     public static final RegistryObject<SoundEvent> TARDIS_LOCK = SOUNDS.register("tardis_lock", () -> new SoundEvent(
             new ResourceLocation(AIT.MOD_ID, "tardis_lock")));
     public static final RegistryObject<SoundEvent> KNINE_GROWL = SOUNDS.register("knine_growl", () -> new SoundEvent(

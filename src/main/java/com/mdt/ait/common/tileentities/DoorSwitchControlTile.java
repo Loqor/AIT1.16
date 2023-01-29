@@ -105,6 +105,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                         BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) level.getBlockEntity(tardis.interior_door_position);
                         TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(tardis.exterior_dimension).getBlockEntity(tardis.exterior_position);
                         if (tardisTileEntity != null) {
+                            assert basicInteriorDoorTile != null;
                             tardisTileEntity.setDoorState(basicInteriorDoorTile.currentstate);
                             tardisTileEntity.syncToClient();
                             syncToClient();
@@ -112,14 +113,12 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                                 if (leverState == DoorSwitchStates.FIRST) {
                                     level.playSound(null, worldPosition, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.MASTER, 7, 1);
                                     basicInteriorDoorTile.setDoorState(EnumDoorState.CLOSED);
-                                    basicInteriorDoorTile.syncToClient();
-                                    syncToClient();
                                 } else {
                                     level.playSound(null, worldPosition, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.MASTER, 7, 1);
                                     basicInteriorDoorTile.setDoorState(EnumDoorState.BOTH);
-                                    basicInteriorDoorTile.syncToClient();
-                                    syncToClient();
                                 }
+                                basicInteriorDoorTile.syncToClient();
+                                syncToClient();
                             }
                         }
                     }

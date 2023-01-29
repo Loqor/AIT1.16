@@ -98,6 +98,15 @@
         "stream": false
       }
     ]
+  },  "cloister_bell": {
+    "category": "ambient",
+    "subtitle": "Cloister Ring",
+    "sounds": [
+      {
+        "name": "ait:boxes/cloister_bell",
+        "stream": false
+      }
+    ]
   },
   "tardis_lock": {
     "category": "ambient",
