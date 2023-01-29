@@ -29,7 +29,7 @@ public class BaseStructure {
     private final String fileName;
     private List<ResourceLocation> structureList = new ArrayList<>();
 //    public ArrayList<String> structureNameList = new ArrayList<>();
-    public static String[] structureNameList = {"baker_corridor_straight","baker_corridor_fourway","baker_left_bend","baker_right_bend","baker_bedroom"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
+    public static String[] structureNameList = {"baker_corridor_straight","baker_corridor_fourway","baker_left_bend","baker_right_bend","baker_bedroom","ars_tree_room"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
     private Block[] blockIgnoreList = {AITBlocks.ARS_GENERATE_BLOCK.get(),AITBlocks.ARS_CENTRE_BLOCK.get()}; // blocks that will be ignored if found in the check
 
     private final String filePrefix = "rooms/";
