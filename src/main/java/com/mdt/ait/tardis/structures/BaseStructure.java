@@ -2,6 +2,7 @@ package com.mdt.ait.tardis.structures;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITBlocks;
+import com.mdt.ait.core.init.AITItems;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.TargetBlock;
@@ -29,13 +30,13 @@ public class BaseStructure {
     private final String fileName;
     private List<ResourceLocation> structureList = new ArrayList<>();
 //    public ArrayList<String> structureNameList = new ArrayList<>();
-    public static String[] structureNameList = {"baker_corridor_straight","baker_corridor_fourway","baker_left_bend","baker_right_bend","baker_bedroom","ars_tree_room","downstairs_corridor","gardening_room","left_corridor_bend","long_corridor","medium_corridor","right_corridor_bend","short_corridor","upstairs_corridor"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
+    public static String[] structureNameList = {"ars_tree_room","downstairs_corridor","gardening_room","left_corridor_bend","long_corridor","medium_corridor","right_corridor_bend","short_corridor","upstairs_corridor"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
     private Block[] blockIgnoreList = {AITBlocks.ARS_GENERATE_BLOCK.get(),AITBlocks.ARS_CENTRE_BLOCK.get()}; // blocks that will be ignored if found in the check
 
     private final String filePrefix = "rooms/";
     private final String directoryToFiles = "resources/data/ait/structures/rooms";
     private final Template structure_template;
-    private final String fallback_structure = "baker_corridor_straight";
+    private final String fallback_structure = "short_corridor";
 
     /*
     ** READ ME **
@@ -85,8 +86,8 @@ public class BaseStructure {
         }
 
         structure_template.placeInWorld(destinationWorld, placePos, new PlacementSettings().setRotation(directionToRotation(destinationDirection)), destinationWorld.getRandom());
-        destinationWorld.destroyBlock(findTargetBlockInPlacedStructure(getEntrancePos(destinationBlockPos, destinationDirection),destinationDirection,destinationWorld,AITBlocks.ARS_CENTRE_BLOCK.get()),false);
-        destinationWorld.destroyBlock(findTargetBlockInPlacedStructure(getEntrancePos(destinationBlockPos, destinationDirection),destinationDirection,destinationWorld,AITBlocks.ARS_CORNER_BLOCK.get()),false);
+        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos,destinationDirection, AITBlocks.ARS_CENTRE_BLOCK.get()),false);
+        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos,destinationDirection, AITBlocks.ARS_CORNER_BLOCK.get()),false);
         sendPlayerChat(true,player,null);
     }
 
@@ -109,8 +110,8 @@ public class BaseStructure {
 
 
     private BlockPos getEntrancePos(BlockPos pos, Direction direction) {
-        BlockPos centre_block_pos = findTargetBlockPosInTemplate(pos,direction,AITBlocks.ARS_CENTRE_BLOCK.get());
-        BlockPos corner_block_pos = findTargetBlockPosInTemplate(pos,direction,AITBlocks.ARS_CORNER_BLOCK.get());
+        BlockPos centre_block_pos = findTargetBlockPos(pos,direction,AITBlocks.ARS_CENTRE_BLOCK.get());
+        BlockPos corner_block_pos = findTargetBlockPos(pos,direction,AITBlocks.ARS_CORNER_BLOCK.get());
 
         // Work out the difference between these two positions
         BlockPos remainder_block_pos = new BlockPos(centre_block_pos.getX()-corner_block_pos.getX(),centre_block_pos.getY()-corner_block_pos.getY(),centre_block_pos.getZ()-corner_block_pos.getZ());
@@ -121,94 +122,29 @@ public class BaseStructure {
         int placement_block_x = placement_block_pos.getX();
         int placement_block_y = placement_block_pos.getY();
         int placement_block_z = placement_block_pos.getZ();
-        if (direction == Direction.NORTH) {
-            placement_block_z += 1;
-        }
-        if (direction == Direction.SOUTH) {
-            placement_block_z -= 1;
-        }
-        if (direction == Direction.EAST) {
-            placement_block_x -= 1;
-        };
-        if (direction == Direction.WEST) {
-            placement_block_x += 1;
-        }
-        if (direction == Direction.UP || direction == Direction.DOWN) {
-            return null;
-        }
+//        if (direction == Direction.NORTH) {
+//            placement_block_z += 1;
+//        }
+//        if (direction == Direction.SOUTH) {
+//            placement_block_z -= 1;
+//        }
+//        if (direction == Direction.EAST) {
+//            placement_block_x -= 1;
+//        };
+//        if (direction == Direction.WEST) {
+//            placement_block_x += 1;
+//        }
+//        if (direction == Direction.UP || direction == Direction.DOWN) {
+//            return null;
+//        }
 
         placement_block_pos = new BlockPos(placement_block_x,placement_block_y,placement_block_z);
         return placement_block_pos;
     }
 
-    private BlockPos findTargetBlockPosInTemplate(BlockPos pos, Direction direction, Block targetBlock) {
+    private BlockPos findTargetBlockPos(BlockPos pos, Direction direction, Block targetBlock) {
         List<Template.BlockInfo> list = structure_template.filterBlocks(pos,new PlacementSettings().setRotation(directionToRotation(direction)),targetBlock);
         return list.get(0).pos;
-    }
-
-    private BlockPos findTargetBlockInPlacedStructure(BlockPos pos, Direction direction, World world, Block target_block) {
-        BlockPos structure_size = structure_template.getSize(directionToRotation(direction));
-        int size_x = structure_size.getX();
-        int size_y = structure_size.getY();
-        int size_z = structure_size.getZ();
-        int x = pos.getX();
-        int z = pos.getZ();
-        int y = pos.getY();
-        BlockPos checkPos = pos;
-
-
-        if (direction == Direction.NORTH) {
-            for (x=x; x >= pos.getX() - size_x; x--) {
-                y = pos.getY();
-                for (y=y; y <= pos.getY() + size_y; y++) {
-                    z = pos.getZ() + 1;
-                    checkPos = new BlockPos(x, y, z);
-                    Block block = world.getBlockState(checkPos).getBlock();
-                    if (block == target_block) {
-                        return checkPos;
-                    }
-                }
-            }
-        }
-        else if (direction == Direction.SOUTH){
-            for (x=x; x <= pos.getX() + size_x; x++) {
-                y = pos.getY();
-                for (y=y; y <= pos.getY() + size_y; y++) {
-                    z = pos.getZ() - 1;
-                    checkPos = new BlockPos(x, y,z);
-                    Block block = world.getBlockState(checkPos).getBlock();
-                    if (block == target_block) {
-                        return checkPos;
-                    }
-                }
-            }
-        }
-        else if (direction == Direction.EAST) {
-            for (z=z; z <= pos.getZ() + size_z - 1; z++) {
-                y = pos.getY();
-                for (y=y; y <= pos.getY() + size_y; y++) {
-                    checkPos = new BlockPos(x, y, z);
-                    Block block = world.getBlockState(checkPos).getBlock();
-                    if (block == target_block) {
-                        return checkPos;
-                    }
-                }
-            }
-        }
-        else if (direction == Direction.WEST) {
-            for (z=z; z >= pos.getZ() - size_z - 1; z--) {
-                y = pos.getY();
-                for (y=y; y <= pos.getY() + size_y; y++) {
-                    checkPos = new BlockPos(x, y, z);
-                    Block block = world.getBlockState(checkPos).getBlock();
-                    if (block == target_block) {
-                        return checkPos;
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 
    private boolean safeToPlace(BlockPos pos, Direction direction, World world) {

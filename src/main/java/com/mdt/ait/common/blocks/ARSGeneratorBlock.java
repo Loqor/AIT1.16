@@ -22,7 +22,7 @@ import static com.mdt.ait.common.blocks.ARSProducerBlock.checkHeldItem;
 
 public class ARSGeneratorBlock extends Block {
     public UUID tardisID;
-    public String structure_name = "baker_corridor_fourway";
+    public String structure_name = "short_corridor";
 
     public ARSGeneratorBlock(Properties p_i48440_1_) {
         super(p_i48440_1_);
