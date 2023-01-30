@@ -6,11 +6,13 @@ import com.mdt.ait.client.models.consoles.BorealisConsole;
 import com.mdt.ait.client.models.consoles.DevConsole;
 import com.mdt.ait.client.models.consoles.HudolinConsole;
 import com.mdt.ait.client.models.exteriors.*;
+import com.mdt.ait.client.models.phonebooths.PhoneBooth;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.consoles.BasicConsoleRenderer;
 import com.mdt.ait.client.renderers.entity.*;
 import com.mdt.ait.client.renderers.layers.*;
 import com.mdt.ait.client.renderers.machines.DeloreanRenderer;
+import com.mdt.ait.client.renderers.machines.PhoneBoothRenderer;
 import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
 import com.mdt.ait.client.renderers.tardis.FallingTardisRenderer;
 import com.mdt.ait.client.renderers.tileentities.*;
@@ -23,6 +25,7 @@ import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
+import com.mdt.ait.core.init.enums.EnumPhoneBoothType;
 import com.mdt.ait.tardis.Tardis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelRenderer;
@@ -51,6 +54,9 @@ public class AITClientRegistry {
     public static final EnumMap<EnumExteriorType, Supplier<EntityModel<Entity>>> TARDIS_EXTERIOR_MAP = new EnumMap<>(EnumExteriorType.class);
     public static final EnumMap<EnumConsoleType, Supplier<EntityModel<Entity>>> TARDIS_CONSOLE_MAP = new EnumMap<>(EnumConsoleType.class);
     public static final EnumMap<EnumInteriorDoorType, Supplier<EntityModel<Entity>>> TARDIS_DOOR_MAP = new EnumMap<>(EnumInteriorDoorType.class);
+
+    //Phone Booths :D
+    public static final EnumMap<EnumPhoneBoothType, Supplier<EntityModel<Entity>>> PHONE_BOOTH_MAP = new EnumMap<>(EnumPhoneBoothType.class);
 
     @SubscribeEvent
     public static void register(FMLClientSetupEvent event) {
@@ -105,6 +111,7 @@ public class AITClientRegistry {
             RenderTypeLookup.setRenderLayer(AITBlocks.ARS_GENERATE_BLOCK.get(), RenderType.cutoutMipped());
         });
         ClientRegistry.bindTileEntityRenderer(AITTiles.TARDIS_TILE_ENTITY_TYPE.get(), BasicBoxRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AITTiles.PHONE_BOOTH_TILE_ENTITY_TYPE.get(), PhoneBoothRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.TSV_TILE_ENTITY_TYPE.get(), TSVRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE.get(), BasicInteriorDoorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(AITTiles.RAMP_TILE_ENTITY_TYPE.get(), RampRenderer::new);
@@ -132,6 +139,9 @@ public class AITClientRegistry {
 
         //Temporary
         ClientRegistry.bindTileEntityRenderer(AITTiles.VORTEX_TILE_ENTITY_TYPE.get(), VortexRenderer::new);
+
+        //Phone booth model registry
+        PHONE_BOOTH_MAP.put(EnumPhoneBoothType.PHONE_BOOTH, PhoneBooth::new);
 
         //Exterior model registry
         TARDIS_EXTERIOR_MAP.put(EnumExteriorType.BASIC_BOX, BasicBox::new);

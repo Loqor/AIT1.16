@@ -14,6 +14,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<TardisTileEntity>> TARDIS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis",
             () -> TileEntityType.Builder.of(TardisTileEntity::new, AITBlocks.TARDIS_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<PhoneBoothTile>> PHONE_BOOTH_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "phone_booth",
+            () -> TileEntityType.Builder.of(PhoneBoothTile::new, AITBlocks.PHONE_BOOTH_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<ConsoleTileEntity>> CONSOLE_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "console_tileentity",
             () -> TileEntityType.Builder.of(ConsoleTileEntity::new, AITBlocks.CONSOLE_BLOCK.get()).build(null));
