@@ -26,6 +26,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<ArsEggTile>> ARS_EGG_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "ars_egg",
             () -> TileEntityType.Builder.of(ArsEggTile::new, AITBlocks.ARS_EGG_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<ARSRemoverTile>> ARS_REMOVER_TILE = TILE_ENTITIES.register(
+            "ars_remover",
+            () -> TileEntityType.Builder.of(ARSRemoverTile::new, AITBlocks.ARS_REMOVER_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<RoundelDoorsTile>> ROUNDEL_DOORS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "roundel_doors",
             () -> TileEntityType.Builder.of(RoundelDoorsTile::new, AITBlocks.ROUNDEL_DOORS_BLOCK.get()).build(null));

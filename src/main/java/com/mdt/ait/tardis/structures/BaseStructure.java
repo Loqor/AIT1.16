@@ -29,12 +29,11 @@ public class BaseStructure {
     private final String name;
     private final String fileName;
     private List<ResourceLocation> structureList = new ArrayList<>();
-//    public ArrayList<String> structureNameList = new ArrayList<>();
-    public static String[] structureNameList = {"ars_tree_room","downstairs_corridor","gardening_room","left_corridor_bend","long_corridor","medium_corridor","right_corridor_bend","short_corridor","upstairs_corridor"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
-    private Block[] blockIgnoreList = {AITBlocks.ARS_GENERATE_BLOCK.get(),AITBlocks.ARS_CENTRE_BLOCK.get()}; // blocks that will be ignored if found in the check
+    //    public ArrayList<String> structureNameList = new ArrayList<>();
+    public static String[] structureNameList = {"ars_tree_room", "downstairs_corridor", "gardening_room", "left_corridor_bend", "long_corridor", "medium_corridor", "right_corridor_bend", "short_corridor", "upstairs_corridor"}; // TO ADD A NEW STRUCTURE, PUT ITS FILE NAME HERE PLEASE
+    private Block[] blockIgnoreList = {AITBlocks.ARS_GENERATE_BLOCK.get(), AITBlocks.ARS_CENTRE_BLOCK.get()}; // blocks that will be ignored if found in the check
 
     private final String filePrefix = "rooms/";
-    private final String directoryToFiles = "resources/data/ait/structures/rooms";
     private final Template structure_template;
     private final String fallback_structure = "short_corridor";
 
@@ -79,16 +78,107 @@ public class BaseStructure {
     }
 
     public void placeStructure(ServerWorld destinationWorld, BlockPos destinationBlockPos, Direction destinationDirection, PlayerEntity player) {
-        BlockPos placePos = getEntrancePos(destinationBlockPos,destinationDirection);
+        BlockPos placePos = getEntrancePos(destinationBlockPos, destinationDirection);
         if (placePos == null || !safeToPlace(placePos, destinationDirection, destinationWorld)) { // checks if the blockpos is broken or if the safe to place check returned false
-            sendPlayerChat(false,player,null);
+            sendPlaceChat(false, player, null);
             return;
         }
 
         structure_template.placeInWorld(destinationWorld, placePos, new PlacementSettings().setRotation(directionToRotation(destinationDirection)), destinationWorld.getRandom());
-        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos,destinationDirection, AITBlocks.ARS_CENTRE_BLOCK.get()),false);
-        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos,destinationDirection, AITBlocks.ARS_CORNER_BLOCK.get()),false);
-        sendPlayerChat(true,player,null);
+        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos, destinationDirection, AITBlocks.ARS_CENTRE_BLOCK.get()), false);
+        destinationWorld.destroyBlock(findTargetBlockPos(destinationBlockPos, destinationDirection, AITBlocks.ARS_CORNER_BLOCK.get()), false);
+        sendPlaceChat(true, player, null);
+    }
+
+    // @TODO FINISH THIS
+    public void deleteStructure(ServerWorld world, BlockPos pos, Direction direction, PlayerEntity player) {
+        // So, the player needs to place this ARS Remover where the ARS Generator used to be.
+        // Then we get the position of where the corner block is, so we know where to begin iterating from
+        BlockPos corner_block_pos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CORNER_BLOCK.get());
+        int x = corner_block_pos.getX();
+        int y = corner_block_pos.getY();
+        int z = corner_block_pos.getZ();
+
+        // Get the x,y,z lengths of the structure so we know how long to iterate for
+        BlockPos structure_size = structure_template.getSize(directionToRotation(direction));
+        int size_x = structure_size.getX();
+        int size_y = structure_size.getY();
+        int size_z = structure_size.getZ();
+
+        // Begin iterating, checking if the block was there in the template, and then deleting it if it was, and ignoring it if it wasnt.
+        // *mostly copy pasted from the safe to place method*
+        BlockPos checkPos;
+
+        if (direction == Direction.NORTH) {
+            for (x=x; x >= pos.getX() - size_x; x--) {
+                y = pos.getY();
+                for (y=y; y <= pos.getY() + size_y; y++) {
+                    z = pos.getZ()-2;
+                    for (z=z; z >= pos.getZ() - size_z; z--) {
+                        checkPos = new BlockPos(x, y, z);
+                        Block block = world.getBlockState(checkPos).getBlock();
+                        if (!(block instanceof AirBlock)) {
+                            if (!isInIgnoreBlockList(block)) {
+                                world.destroyBlock(checkPos,false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (direction == Direction.SOUTH){
+            for (x=x; x <= pos.getX() + size_x; x++) {
+                y = pos.getY();
+                for (y=y; y <= pos.getY() + size_y; y++) {
+                    z = pos.getZ()+2;
+                    for (z=z; z <= pos.getZ() + size_z; z++) {
+                        checkPos = new BlockPos(x, y, z);
+                        Block block = world.getBlockState(checkPos).getBlock();
+                        if (!(block instanceof AirBlock)) {
+                            if (!isInIgnoreBlockList(block)) {
+                                world.destroyBlock(checkPos,false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (direction == Direction.EAST) {
+            x = pos.getX()+2;
+            for (x=x; x <= pos.getX() + size_x; x++) {
+                y = pos.getY();
+                for (y=y; y <= pos.getY() + size_y; y++) {
+                    z = pos.getZ()-2;
+                    for (z=z; z >= pos.getZ() - size_z; z--) {
+                        checkPos = new BlockPos(x, y, z);
+                        Block block = world.getBlockState(checkPos).getBlock();
+                        if (!(block instanceof AirBlock)) {
+                            if (!isInIgnoreBlockList(block)) {
+                                world.destroyBlock(checkPos,false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (direction == Direction.WEST) {
+            x = pos.getX()-2;
+            for (x=x; x >= pos.getX() - size_x; x--) {
+                y = pos.getY();
+                for (y=y; y <= pos.getY() + size_y; y++) {
+                    z = pos.getZ()-2;
+                    for (z=z; z <= pos.getZ() + size_z; z++) {
+                        checkPos = new BlockPos(x, y, z);
+                        Block block = world.getBlockState(checkPos).getBlock();
+                        if (!(block instanceof AirBlock)) {
+                            if (!isInIgnoreBlockList(block)) {
+                                world.destroyBlock(checkPos,false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -110,44 +200,30 @@ public class BaseStructure {
 
 
     private BlockPos getEntrancePos(BlockPos pos, Direction direction) {
-        BlockPos centre_block_pos = findTargetBlockPos(pos,direction,AITBlocks.ARS_CENTRE_BLOCK.get());
-        BlockPos corner_block_pos = findTargetBlockPos(pos,direction,AITBlocks.ARS_CORNER_BLOCK.get());
+        BlockPos centre_block_pos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CENTRE_BLOCK.get());
+        BlockPos corner_block_pos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CORNER_BLOCK.get());
 
         // Work out the difference between these two positions
-        BlockPos remainder_block_pos = new BlockPos(centre_block_pos.getX()-corner_block_pos.getX(),centre_block_pos.getY()-corner_block_pos.getY(),centre_block_pos.getZ()-corner_block_pos.getZ());
+        BlockPos remainder_block_pos = new BlockPos(centre_block_pos.getX() - corner_block_pos.getX(), centre_block_pos.getY() - corner_block_pos.getY(), centre_block_pos.getZ() - corner_block_pos.getZ());
         // Now work out where to place the structure
-        BlockPos placement_block_pos = new BlockPos(pos.getX()-remainder_block_pos.getX(),pos.getY()-remainder_block_pos.getY(),pos.getZ()-remainder_block_pos.getZ());
+        BlockPos placement_block_pos = new BlockPos(pos.getX() - remainder_block_pos.getX(), pos.getY() - remainder_block_pos.getY(), pos.getZ() - remainder_block_pos.getZ());
 
-        // Adjust accordingly for direction
+        // set variables again
         int placement_block_x = placement_block_pos.getX();
         int placement_block_y = placement_block_pos.getY();
         int placement_block_z = placement_block_pos.getZ();
-//        if (direction == Direction.NORTH) {
-//            placement_block_z += 1;
-//        }
-//        if (direction == Direction.SOUTH) {
-//            placement_block_z -= 1;
-//        }
-//        if (direction == Direction.EAST) {
-//            placement_block_x -= 1;
-//        };
-//        if (direction == Direction.WEST) {
-//            placement_block_x += 1;
-//        }
-//        if (direction == Direction.UP || direction == Direction.DOWN) {
-//            return null;
-//        }
 
-        placement_block_pos = new BlockPos(placement_block_x,placement_block_y,placement_block_z);
+
+        placement_block_pos = new BlockPos(placement_block_x, placement_block_y, placement_block_z);
         return placement_block_pos;
     }
 
     private BlockPos findTargetBlockPos(BlockPos pos, Direction direction, Block targetBlock) {
-        List<Template.BlockInfo> list = structure_template.filterBlocks(pos,new PlacementSettings().setRotation(directionToRotation(direction)),targetBlock);
+        List<Template.BlockInfo> list = structure_template.filterBlocks(pos, new PlacementSettings().setRotation(directionToRotation(direction)), targetBlock);
         return list.get(0).pos;
     }
 
-   private boolean safeToPlace(BlockPos pos, Direction direction, World world) {
+    private boolean safeToPlace(BlockPos pos, Direction direction, World world) {
         BlockPos structure_size = structure_template.getSize(directionToRotation(direction));
         int size_x = structure_size.getX();
         int size_y = structure_size.getY();
@@ -156,7 +232,6 @@ public class BaseStructure {
         int z = pos.getZ();
         int y = pos.getY();
         BlockPos checkPos = pos;
-
 
         // Long, lengthy check for directions as each direction needs to check a different way.
         // only way i know of doing this currently, if you know a better one PLEASE, let me know! :)
@@ -239,10 +314,8 @@ public class BaseStructure {
         else {
             return false;
         }
-
         return true;
     }
-
     private boolean isInIgnoreBlockList(Block block) {
         for (Block check_block : blockIgnoreList) {
             if (check_block == block) {
@@ -317,7 +390,7 @@ public class BaseStructure {
     }
 
 
-    private void sendPlayerChat(boolean isSuccess, PlayerEntity player, String extra_information) {
+    private void sendPlaceChat(boolean isSuccess, PlayerEntity player, String extra_information) {
         if (player != null) {
             if (isSuccess == false) {
                 player.sendMessage(new TranslationTextComponent("FAILED to place structure: " + toStructureName(name)).setStyle(Style.EMPTY.withColor(TextFormatting.RED).withItalic(true)), UUID.randomUUID());
@@ -333,6 +406,8 @@ public class BaseStructure {
             }
         }
     }
+
+
 
     public Template getTemplate() {
         return structure_template;
