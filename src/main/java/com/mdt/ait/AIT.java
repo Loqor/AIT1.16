@@ -2,16 +2,13 @@ package com.mdt.ait;
 
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
+
 import com.mdt.ait.common.entities.DeloreanEntity;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.events.CommonEventHandler;
 import com.mdt.ait.core.init.events.TardisEventHandler;
 import com.mdt.ait.network.NetworkHandler;
 import com.mdt.ait.network.depreciated.Network;
-import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
-import com.mdt.ait.tardis.TardisConfig;
-import com.mdt.ait.tardis.TardisManager;
-import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,8 +32,6 @@ public class AIT {
     //public static KeyBinding KEY_OPEN_BAG_GUI;
 
     public static MinecraftServer server;
-
-    public static TardisManager tardisManager;
     public static DimensionSavedDataManager dimensionSavedDataManager;
 
     public AIT() throws ClassNotFoundException {
@@ -67,7 +62,6 @@ public class AIT {
         Network.init();
         AITDimensions.init();
         NetworkHandler.init();
-        TardisConfig.init();
         //KEY_OPEN_BAG_GUI = new KeyBinding("key.open_bag_gui", GLFW.GLFW_KEY_CAPS_LOCK, "key.categories.ait");
         //ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
     }

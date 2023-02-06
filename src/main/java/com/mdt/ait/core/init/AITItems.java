@@ -141,7 +141,7 @@ public class AITItems {
     //Time Machines
     public static final RegistryObject<BlockItem> TARDIS = ITEMS.register(
             "tardis", () -> new BlockItem(
-                    AITBlocks.TARDIS_BLOCK.get(),new Item.Properties().tab(AITItemGroups.AITITEMS)));
+                    AITBlocks.TARDIS_BLOCK.get(), new Item.Properties().tab(AITItemGroups.AITITEMS)));
 
     //Misc.
     public static final RegistryObject<BlockItem> RECORD_PLAYER = ITEMS.register(

@@ -2,10 +2,8 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.ExteriorFacingControlBlock;
-import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumExteriorFacingState;
-import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,11 +39,11 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     if (tardis.landed != false) {
-                        newFacingDirection = tardis.exterior_facing;
+                        newFacingDirection = tardis.exteriorFacing;
                         //currentExteriorFacingSetting = exteriorFacingSetting();
-                    }
+                    }*/
                 }
             }
         }
@@ -95,7 +93,7 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+                    //AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
                 }
             }
         }
@@ -116,22 +114,22 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    newFacingDirection = tardis.exterior_facing;
-                    if (tardis.exterior_facing == Direction.NORTH) {
+                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    newFacingDirection = tardis.exteriorFacing;
+                    if (tardis.exteriorFacing == Direction.NORTH) {
                         currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
                     }
-                    if (tardis.exterior_facing == Direction.EAST) {
+                    if (tardis.exteriorFacing == Direction.EAST) {
                         currentExteriorFacingSetting = EnumExteriorFacingState.EAST;
                     }
-                    if (tardis.exterior_facing == Direction.SOUTH) {
+                    if (tardis.exteriorFacing == Direction.SOUTH) {
                         currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH;
                     }
-                    if (tardis.exterior_facing == Direction.WEST) {
+                    if (tardis.exteriorFacing == Direction.WEST) {
                         currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
                     }
                     changeDirectionFromControl();
-                    syncToClient();
+                    syncToClient();*/
                 }
             }
         }

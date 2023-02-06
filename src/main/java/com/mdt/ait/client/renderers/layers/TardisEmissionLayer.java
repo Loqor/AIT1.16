@@ -3,10 +3,10 @@
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mdt.ait.client.renderers.entity.AITAbstractEyesLayer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.model.SpiderModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.model.RenderType;
+import net.minecraft.client.model.entity.IEntityRenderer;
+import net.minecraft.client.model.entity.model.SpiderModel;
+import net.minecraft.client.model.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

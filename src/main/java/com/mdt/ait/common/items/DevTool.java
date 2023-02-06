@@ -3,8 +3,6 @@ package com.mdt.ait.common.items;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TestBlock;
 import com.mdt.ait.core.init.enums.EnumDevToolModes;
-import com.mdt.ait.tardis.TardisInteriors;
-import com.mdt.ait.tardis.TardisManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -19,11 +17,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class DevTool extends Item {
 
@@ -57,7 +50,7 @@ public class DevTool extends Item {
 //                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
 //                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
 
-                System.out.println(AIT.tardisManager.getTardisFromPosition(playerentity.blockPosition()).tardisID);
+                //System.out.println(AIT.tardisManager.getTardisFromPosition(playerentity.blockPosition()).tardisId);
 
             }
         }

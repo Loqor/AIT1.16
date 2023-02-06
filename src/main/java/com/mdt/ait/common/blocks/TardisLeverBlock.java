@@ -1,12 +1,8 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.tardis.Tardis;
-import com.mdt.ait.tardis.TardisManager;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -82,7 +78,7 @@ public class TardisLeverBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             TardisLeverTile tardisLeverTile = (TardisLeverTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            this.tardisID = TARDISManager.findUUID(blockPos);
             assert tardisLeverTile != null;
             tardisLeverTile.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, tardisLeverTile);

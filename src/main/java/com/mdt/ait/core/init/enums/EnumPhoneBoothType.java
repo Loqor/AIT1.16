@@ -1,7 +1,6 @@
 package com.mdt.ait.core.init.enums;
 
 import com.mdt.ait.common.tileentities.PhoneBoothTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import net.minecraft.util.IStringSerializable;
 
 import java.util.function.Supplier;

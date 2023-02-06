@@ -1,11 +1,7 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
-import com.mdt.ait.common.tileentities.TSVTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.tardis.Tardis;
+import io.mdt.ait.tardis.TARDISInteriorDoorTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -29,16 +25,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 import java.util.UUID;
-import java.util.function.ToIntFunction;
 
 public class BasicInteriorDoorBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
-    public ToIntFunction<BlockState> light = BlockState -> 0;
 
     /*public static final VoxelShape NORTH_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
     public static final VoxelShape EAST_AABB = VoxelShapes.box(0, 0, 0, 16, 32, 16);
@@ -66,28 +59,32 @@ public class BasicInteriorDoorBlock extends Block {
 
     @Override
     public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
-        switch(pState.getValue(FACING)) {
+        switch (pState.getValue(FACING)) {
             case NORTH:
                 return NORTH_AABB;
+
             case EAST:
                 return EAST_AABB;
+
             case SOUTH:
                 return SOUTH_AABB;
+
             case WEST:
                 return WEST_AABB;
+
             default:
                 throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
                         "//HOW THE HECK DID YOU GET HERE??");
         }
     }
 
-
-
     @Override
     public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-        if(tileEntity instanceof BasicInteriorDoorTile) {
-            ((BasicInteriorDoorTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn);
+        if(tileEntity instanceof TARDISInteriorDoorTile) {
+            if (pHandIn == Hand.MAIN_HAND) {
+                ((TARDISInteriorDoorTile) tileEntity).useOn(pWorldIn, pPlayer, pPos);
+            }
         }
         return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
@@ -108,16 +105,11 @@ public class BasicInteriorDoorBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
-        super.onPlace(blockState1, world, blockPos, blockState2, bool);
+    public void onPlace(BlockState state, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
+        super.onPlace(state, world, blockPos, blockState2, bool);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-//            BlockPos tempBlockPos = AIT.tardisManager.getTardis(this.tardisID).interior_door_position;
             ServerWorld serverWorld = ((ServerWorld) world);
-            BasicInteriorDoorTile basicInteriorDoorTile = ((BasicInteriorDoorTile) serverWorld.getBlockEntity(blockPos));
-            assert basicInteriorDoorTile != null;
-            basicInteriorDoorTile.tardisID = this.tardisID;
-            basicInteriorDoorTile.linked_tardis = AIT.tardisManager.getTardis(this.tardisID);
+            TARDISInteriorDoorTile basicInteriorDoorTile = ((TARDISInteriorDoorTile) serverWorld.getBlockEntity(blockPos));
             serverWorld.setBlockEntity(blockPos, basicInteriorDoorTile);
         }
     }
@@ -125,6 +117,6 @@ public class BasicInteriorDoorBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new BasicInteriorDoorTile();
+        return new TARDISInteriorDoorTile();
     }
 }

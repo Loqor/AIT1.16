@@ -6,7 +6,6 @@ import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.*;
-import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,9 +18,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -45,13 +41,13 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
                     if (!canChangeDim) {
                         if (newDimension == null) {
-                            newDimension = tardis.target_dimension;
-                            if (ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
-                                if(tardis.exterior_dimension != tardis.target_dimension) {
+                            newDimension = tardis.targetDimension;
+                            if (ExteriorWorld.getBlockEntity(tardis.exteriorPosition) != null) {
+                                if(tardis.exterior_dimension != tardis.targetDimension) {
                                     newDimension = tardis.exterior_dimension;
                                 } else {
                                     if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
@@ -78,9 +74,9 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
                             }
                         }
                     }
-                    if (ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                    if (ExteriorWorld.getBlockEntity(tardis.exteriorPosition) == null) {
                         canChangeDim = false;
-                    }
+                    }*/
                 }
             }
         }
@@ -127,7 +123,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
                     if (currentdimensionstate == EnumDimensionControlState.MONDAS) {
                         newDimension = AITDimensions.MONDAS;
                     }
-                    AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
+                    //AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
                 }
             }
         }
@@ -158,7 +154,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     }
 
     public void onPlace() {
-        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         newDimension = tardis.exterior_dimension;
         if(tardis.exterior_dimension == AIT.server.overworld().dimension()) {
             currentdimensionstate = EnumDimensionControlState.EARTH;
@@ -176,7 +172,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
             currentdimensionstate = EnumDimensionControlState.MONDAS;
         }
         changeDimensionFromControl();
-        syncToClient();
+        syncToClient();*/
     }
 
     @Override

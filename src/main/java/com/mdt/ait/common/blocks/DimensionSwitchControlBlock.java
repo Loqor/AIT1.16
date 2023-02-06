@@ -82,7 +82,7 @@ public class DimensionSwitchControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             DimensionSwitchControlTile dimensionSwitchControlTile = (DimensionSwitchControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert dimensionSwitchControlTile != null;
             dimensionSwitchControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, dimensionSwitchControlTile);

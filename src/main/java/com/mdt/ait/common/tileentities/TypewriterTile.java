@@ -4,6 +4,7 @@ import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.network.depreciated.Network;
 import com.mdt.ait.network.depreciated.packets.MonitorExteriorChangePacket;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -43,7 +44,7 @@ public class TypewriterTile extends TileEntity {
         Block tardisBlock = world.getBlockState(bpos).getBlock();
         if(tardisBlock instanceof TardisBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
-            ((TardisTileEntity) tileEntity).lastExteriorFromMonitor();
+            //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }
         Network.sendToServer(new MonitorExteriorChangePacket(11));
     }
@@ -55,7 +56,7 @@ public class TypewriterTile extends TileEntity {
         Block tardisBlock = world.getBlockState(bpos).getBlock();
         if(tardisBlock instanceof TardisBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
-            ((TardisTileEntity) tileEntity).lastExteriorFromMonitor();
+            //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }
         Network.sendToServer(new MonitorExteriorChangePacket(11));
     }

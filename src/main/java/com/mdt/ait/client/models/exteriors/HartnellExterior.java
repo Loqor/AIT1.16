@@ -1,13 +1,13 @@
 package com.mdt.ait.client.models.exteriors;
 
 
-import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class HartnellExterior extends BasicBox {
+public class HartnellExterior extends BasicBoxModel {
 	public final ModelRenderer box;
 	public final ModelRenderer right_door;
 	public final ModelRenderer left_door;

@@ -1,23 +1,12 @@
 package com.mdt.ait.client.screen;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.network.NetworkHandler;
-import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
-import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ReadBookScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class GallifreyanManualBookScreen extends ReadBookScreen {

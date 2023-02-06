@@ -1,39 +1,29 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.ConsoleBlock;
 import com.mdt.ait.common.entities.ControlInteractionEntity;
 import com.mdt.ait.core.init.AITEntities;
+import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.tardis.Tardis;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import com.mdt.ait.common.blocks.ConsoleBlock;
-import com.mdt.ait.core.init.AITItems;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
 
 import javax.annotation.Nonnull;
-import javax.naming.ldap.Control;
-import java.util.*;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity {
 

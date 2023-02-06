@@ -2,9 +2,7 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
-import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -12,7 +10,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -58,12 +55,12 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     if(!tardis.landed) {
                         isInFlight = true;
                     } else {
                         isInFlight = false;
-                    }
+                    }*/
                 }
             }
         }

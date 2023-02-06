@@ -2,10 +2,9 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
-import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
-import com.mdt.ait.tardis.Tardis;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -46,15 +45,15 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    TARDIS tardis = TARDISManager.findTARDIS(this.tardisID);
+                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.getDimension());
                     if (!atCurrentCoordinates) {
                         addToRotorSpin(thing);
-                        if(ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
+                        if(ExteriorWorld.getBlockEntity(tardis.getPosition()) != null) {
                             addToRotorSpin(spinny);
                         }
                     }
-                    if(ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                    if(ExteriorWorld.getBlockEntity(tardis.getPosition()) == null) {
                         atCurrentCoordinates = false;
                     }
                 }

@@ -67,7 +67,7 @@ public class ToyotaRotorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ToyotaRotorTile toyotaRotorTile = (ToyotaRotorTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert toyotaRotorTile != null;
             toyotaRotorTile.tardisID = tardisID;

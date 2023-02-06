@@ -1,30 +1,17 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlockStates;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITEntities;
-import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumMatState;
-import com.mdt.ait.core.init.interfaces.ICantBreak;
 import com.mdt.ait.core.init.interfaces.ITardisBlock;
-import com.mdt.ait.tardis.Tardis;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
@@ -32,7 +19,6 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,17 +26,12 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
-
-import java.util.Random;
 import java.util.UUID;
-
-import static net.minecraft.state.properties.BlockStateProperties.WATERLOGGED;
 
 public class TardisBlock extends FallingBlock implements ITardisBlock { // ITardisBlock has some of the same functionality as interface ICantBreak
 
@@ -73,41 +54,19 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
 
     @Override
     public void onPlace(BlockState pState, World pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
-        TardisTileEntity tardisTileEntity = (TardisTileEntity) pLevel.getBlockEntity(pPos);
-        if(tardisTileEntity != null) {
-            tardisID = tardisTileEntity.linked_tardis_id;
+        TARDISTileEntity tardisTileEntity = (TARDISTileEntity) pLevel.getBlockEntity(pPos);
+        if(tardisTileEntity != null && pLevel instanceof ServerWorld) {
+            tardisTileEntity.link(TARDISManager.create(pPos, pLevel.dimension()));
         }
-        super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
-    }
 
-    @Override
-    public void tick(BlockState pState, ServerWorld pLevel, BlockPos pPos, Random pRand) {
-        if(AIT.tardisManager.canFall) {
-            if (pLevel.isEmptyBlock(pPos.below()) || isFree(pLevel.getBlockState(pPos.below())) && pPos.getY() >= 0) {
-                Tardis tardis = AIT.tardisManager.getTardisFromPosition(pPos);
-                TardisTileEntity tardisTileEntity = (TardisTileEntity) pLevel.getBlockEntity(pPos);
-                FallingTardisEntity fallingblockentity = new FallingTardisEntity(AITEntities.FALLING_TARDIS_ENTITY.get(), pLevel);
-                fallingblockentity.setLevel(pLevel);
-                fallingblockentity.tardisID = tardisID;
-                fallingblockentity.tardisTileEntity = tardisTileEntity;
-                fallingblockentity.xo = pPos.getX();
-                fallingblockentity.yo = pPos.getY();
-                fallingblockentity.zo = pPos.getZ();
-                fallingblockentity.setDeltaMovement(Vector3d.ZERO);
-                fallingblockentity.blockState = pState;
-                pLevel.addFreshEntity(fallingblockentity);
-                BlockPos entityPos = new BlockPos(fallingblockentity.getX(), fallingblockentity.getY(), fallingblockentity.getZ());
-                pLevel.removeBlock(pPos, false);
-                pLevel.removeBlockEntity(pPos);
-            }
-        }
+        super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
     }
 
     @Override
     public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-        if (tileEntity instanceof TardisTileEntity) {
-            ((TardisTileEntity) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn);
+        if (tileEntity instanceof TARDISTileEntity) {
+            //((TARDISTileEntity) tileEntity).use(pWorldIn, pPlayer, pPos, pHandIn); FIXME: this
         }
         return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
@@ -120,11 +79,11 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         TileEntity tileEntity = worldIn.getBlockEntity(pos);
-        if (tileEntity instanceof TardisTileEntity) {
-            EnumExteriorType exteriorType = ((TardisTileEntity) tileEntity).currentExterior();
-            if (exteriorType == EnumExteriorType.SIEGE_MODE) {
-                return SIEGE;
-            }
+        if (tileEntity instanceof TARDISTileEntity) {
+            //EnumExteriorType exteriorType = ((TARDISTileEntity) tileEntity).currentExterior();
+            //if (exteriorType == EnumExteriorType.SIEGE_MODE) {
+            //    return SIEGE;
+            //}
         }
         switch (state.getValue(FACING)) {
             case NORTH:
@@ -146,17 +105,6 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
         return true;
     }
 
-    //@Override
-    //public void entityInside(BlockState blockstate, World world, BlockPos bpos, Entity entity) {
-    //    TileEntity tileEntity = world.getBlockEntity(bpos);
-    //    if (tileEntity instanceof TardisTileEntity) {
-    //        ((TardisTileEntity) tileEntity).entityInside(entity);
-    //        super.entityInside(blockstate, world, bpos, entity);
-    //    }
-    //}
-
-
-
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING).add(EXTERIOR_TYPE).add(isExistingTardis);
@@ -170,18 +118,9 @@ public class TardisBlock extends FallingBlock implements ITardisBlock { // ITard
         return blockState;
     }
 
-    public BlockState getStateIfMoved(Direction facing) {
-        BlockState blockState = this.defaultBlockState().setValue(FACING, facing);
-        blockState = blockState.setValue(isExistingTardis, true);
-
-        return blockState;
-    }
-
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return state.getValue(EXTERIOR_TYPE).tileEntity.get();
+        return new TARDISTileEntity();
     }
-
-
 }

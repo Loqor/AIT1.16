@@ -4,27 +4,24 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.network.NetworkHandler;
 import com.mdt.ait.network.packets.tardis_monitor.TardisMonitorC2SExteriorChangePacket;
-import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.ImageButton;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.ScrollPanel;
 import net.minecraftforge.fml.client.gui.widget.Slider;
 
-import java.awt.*;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
@@ -48,7 +45,7 @@ public class MonitorScreen extends Screen {
     private int imageWidth;
     public UUID tardisID;
     public ResourceLocation SelectedTardis;
-    public Tardis tardis;
+    public TARDIS tardis;
     private Screen nestedScreen;
 
     public MonitorScreen(ITextComponent label, UUID tardisid, World world) {
@@ -59,13 +56,14 @@ public class MonitorScreen extends Screen {
         this.tardisID = tardisid;
         this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
         if(!world.isClientSide) {
-            tardis = AIT.tardisManager.getTardis(this.tardisID);
+            tardis = TARDISManager.findTARDIS(this.tardisID);
         }
     }
 
     //@TODO I know this is confusing, it's basically getting the next exterior type.
     public void switchScreenTexture() {
-        if (tardis != null) {
+        this.SelectedTardis = BASIC_EXTERIOR_SCREEN; // Fixme: this
+        /*if (tardis != null) {
             if (tardis.getExteriorType() == EnumExteriorType.BASIC_BOX) {
                 this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
             }
@@ -129,7 +127,7 @@ public class MonitorScreen extends Screen {
             if(tardis.getExteriorType() == EnumExteriorType.CLOCK_EXTERIOR) {
                 this.SelectedTardis = CLOCK_EXTERIOR_SCREEN;
             }
-        }
+        }*/
     }
 
     @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {

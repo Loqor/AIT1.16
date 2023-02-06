@@ -1,0 +1,270 @@
+package com.mdt.ait.tardis;
+
+import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
+import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
+import com.mdt.ait.common.tileentities.TardisTileEntity;
+import com.mdt.ait.core.init.AITDimensions;
+import com.mdt.ait.core.init.enums.EnumDoorState;
+import com.mdt.ait.core.init.enums.EnumExteriorType;
+import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
+import com.mdt.ait.tardis.interiors.TardisInterior;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.energy.IEnergyStorage;
+
+import java.util.Objects;
+import java.util.UUID;
+
+public class Tardis implements IEnergyStorage {
+
+    public BlockPos exteriorPosition;
+    public BlockPos interiorDoorPosition;
+    public BlockPos previousExteriorPos;
+    public Direction exteriorFacing;
+    public Direction previousDirection;
+    public Direction interiorDoorFacing;
+    public final BlockPos centerPosition;
+    public boolean landed;
+
+    public EnumExteriorType exteriorType;
+    public EnumInteriorDoorType interiorDoorType;
+    public TardisInterior currentInterior;
+    public final Tuple<Integer, Integer> grid_position;
+    public RegistryKey<World> exterior_dimension,previous_dimension;
+
+    public int max_energy_storage;
+
+    public int current_energy;
+
+    public int energy_recharge_rate; // Energy per second
+    public final UUID owner;
+    public boolean lockedTardis;
+
+    public final TardisId tardisId;
+
+    public RegistryKey<World> targetDimension;
+    public BlockPos targetPosition;
+    public Direction targetFacingDirection;
+
+    public Tardis(UUID player, BlockPos exteriorPosition, RegistryKey<World> exterior_dimension, TardisId tardisId, Tuple<Integer, Integer> grid_position, boolean lockedTardis, TardisInterior current_interior) {
+        System.out.println("Creating new tardis");
+        this.owner = player;
+        this.lockedTardis = lockedTardis;
+        this.landed = true;
+        this.exterior_dimension = exterior_dimension;
+        this.targetDimension = this.exterior_dimension;
+        this.exteriorPosition = exteriorPosition;
+        this.targetPosition = exteriorPosition;
+        this.previousExteriorPos = exteriorPosition;
+        this.grid_position = grid_position;
+        this.tardisId = tardisId;
+        this.currentInterior = current_interior;
+        this.max_energy_storage = TardisConfig.tardis_default_base_energy_storage;
+        this.energy_recharge_rate = TardisConfig.tardis_default_energy_recharge_rate;
+        this.current_energy = this.max_energy_storage;
+        this.exteriorType = ((TardisTileEntity) Objects.requireNonNull(Objects.requireNonNull(AIT.server.getLevel(exterior_dimension)).getBlockEntity(exteriorPosition))).currentExterior();
+        this.centerPosition = new BlockPos(TardisConfig.tardis_dimension_start_x-(TardisConfig.tardis_area_x * grid_position.getA()) + ((TardisConfig.tardis_area_x - 1)/2) + 1,TardisConfig.tardis_center_y,TardisConfig.tardis_dimension_start_z-(TardisConfig.tardis_area_z * grid_position.getB()) + ((TardisConfig.tardis_area_z - 1)/2) + 1);
+        BlockState exteriorBlockState = Objects.requireNonNull(AIT.server.getLevel(exterior_dimension)).getBlockState(exteriorPosition);
+        if (exteriorBlockState.getBlock() instanceof TardisBlock) {
+            this.exteriorFacing = exteriorBlockState.getValue(TardisBlock.FACING);
+        }
+        this.targetFacingDirection = this.exteriorFacing;
+        this.generateInterior();
+    }
+
+    public void setExteriorDoorState(EnumDoorState doorState) {
+        ServerWorld world = AIT.server.getLevel(exterior_dimension);
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPosition);
+        if(tardisTileEntity != null) {
+            tardisTileEntity.setDoorState(doorState);
+        }
+    }
+
+    public void setInteriorDoorState(EnumDoorState doorState) {
+        ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert world != null;
+        BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interiorDoorPosition);
+        if(interiorDoorTile != null) {
+            interiorDoorTile.setDoorState(doorState);
+            interiorDoorTile.syncToClient();
+        }
+    }
+
+    public void setInteriorDoorType(EnumInteriorDoorType interiorDoorType) {
+        this.interiorDoorType = interiorDoorType;
+        ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        assert world != null;
+        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(interiorDoorPosition);
+        if(basicInteriorDoorTile != null) {
+            basicInteriorDoorTile.setInteriorDoor(interiorDoorType);
+            basicInteriorDoorTile.syncToClient();
+        }
+    }
+
+    public void setExteriorType(EnumExteriorType exteriorType) {
+        this.exteriorType = exteriorType;
+        ServerWorld exteriorWorld = AIT.server.getLevel(exterior_dimension);
+        assert exteriorWorld != null;
+        TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(this.exteriorPosition);
+        assert tardisTileEntity != null;
+        tardisTileEntity.setExterior(exteriorType);
+    }
+
+    public EnumExteriorType getExteriorType() {
+        return this.exteriorType;
+    }
+
+    public void generateInterior() {
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        BlockPos interiorCenterBlockPos = this.currentInterior.getCenterPosition();
+        BlockPos interiorDoorBlockPos = this.currentInterior.getInteriorDoorPosition();
+        BlockPos generateFromBlockPos = new BlockPos(this.centerPosition.getX() - interiorCenterBlockPos.getX(), this.centerPosition.getY() - interiorCenterBlockPos.getY(), this.centerPosition.getZ() - interiorCenterBlockPos.getZ());
+        this.currentInterior.placeInterior(tardisWorld, generateFromBlockPos);
+        this.interiorDoorPosition = new BlockPos(generateFromBlockPos.getX() + interiorDoorBlockPos.getX(), generateFromBlockPos.getY() + interiorDoorBlockPos.getY(), generateFromBlockPos.getZ() + interiorDoorBlockPos.getZ());
+        BlockState interiorDoorBlockState = Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockState(interiorDoorPosition);
+        if (interiorDoorBlockState.getBlock() instanceof BasicInteriorDoorBlock) {
+            this.interiorDoorFacing = interiorDoorBlockState.getValue(BasicInteriorDoorBlock.FACING);
+            assert tardisWorld != null;
+            TileEntity interiorDoorTileEntity = tardisWorld.getBlockEntity(this.interiorDoorPosition);
+            if (interiorDoorTileEntity instanceof BasicInteriorDoorTile) {
+                ((BasicInteriorDoorTile) interiorDoorTileEntity).linkedTardis = this;
+                ((BasicInteriorDoorTile) interiorDoorTileEntity).tardisID = this.tardisId;
+            }
+        }
+        this.interiorDoorType = ((BasicInteriorDoorTile) Objects.requireNonNull(Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(interiorDoorPosition))).getInteriorDoor();
+    }
+
+    public void clearInterior() {
+        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        BlockPos interiorCenterBlockPos = this.currentInterior.getCenterPosition();
+        tardisWorld.setBlockAndUpdate(this.interiorDoorPosition, Blocks.AIR.defaultBlockState());
+        BlockPos generateFromBlockPos = new BlockPos(this.centerPosition.getX() - interiorCenterBlockPos.getX(), this.centerPosition.getY() - interiorCenterBlockPos.getY(), this.centerPosition.getZ() - interiorCenterBlockPos.getZ());
+        this.currentInterior.placeInterior(tardisWorld, generateFromBlockPos);
+        System.out.println(this.currentInterior);
+    }
+
+    public void __moveExterior(BlockPos newExteriorPosition, Direction newExteriorFacing, RegistryKey<World> newExteriorDimension) {
+        this.exteriorPosition = newExteriorPosition;
+        this.exteriorFacing = newExteriorFacing;
+        this.exterior_dimension = newExteriorDimension;
+
+    }
+
+    public Tardis(CompoundNBT tag) { // Loading
+        this.owner = tag.getUUID("owner");
+        this.tardisId = tag.getUUID("tardis_id");
+        this.exteriorPosition = BlockPos.of(tag.getLong("exterior_position"));
+        this.interiorDoorPosition = BlockPos.of(tag.getLong("interior_door_position"));
+        this.exterior_dimension = RegistryKey.create(RegistryKey.createRegistryKey(new ResourceLocation(tag.getString("exterior_dimension_registry_name"))), new ResourceLocation(tag.getString("exterior_dimension_resource_location")));
+        this.grid_position = new Tuple<Integer, Integer>(tag.getInt("grid_position_x"), tag.getInt("grid_position_z"));
+        this.currentInterior = TardisInteriors.getInteriorFromName(tag.getString("tardis_interior"));
+        this.centerPosition = BlockPos.of(tag.getLong("center_position")); // Before we'd use to calculate it, but now we just grab from data, so if someone changes the config it won't break older tardises
+        this.exteriorFacing = Direction.byName(tag.getString("exterior_facing"));
+        this.interiorDoorFacing = Direction.byName(tag.getString("interior_door_facing"));
+        this.lockedTardis = tag.getBoolean("locked_tardis"); // Loqor is an idiot and fucked this up ~ Creativious
+        if (tag.contains("target_dimension_registry_name") || tag.contains("target_position") || tag.contains("target_facing") || tag.contains("target_dimension_resource_location")) {
+            this.targetPosition = BlockPos.of(tag.getLong("target_position"));
+            this.targetDimension = RegistryKey.create(RegistryKey.createRegistryKey(new ResourceLocation(tag.getString("target_dimension_registry_name"))), new ResourceLocation(tag.getString("target_dimension_resource_location")));
+            this.targetFacingDirection = Direction.byName(tag.getString("target_facing"));
+        }
+        this.max_energy_storage = tag.getInt("max_energy_storage");
+        this.current_energy = tag.getInt("current_energy");
+        this.energy_recharge_rate = tag.getInt("energy_recharge_rate");
+        this.exteriorType = EnumExteriorType.valueOf(tag.getString("exterior_type"));
+        this.landed = Boolean.getBoolean("isLanded");
+
+    }
+
+    public CompoundNBT save() {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putUUID("owner", this.owner);
+        tag.putUUID("tardis_id", this.tardisId);
+        tag.putLong("exterior_position", this.exteriorPosition.asLong());
+        tag.putLong("interior_door_position", this.interiorDoorPosition.asLong());
+        tag.putString("exterior_dimension_registry_name", this.exterior_dimension.getRegistryName().toString());
+        tag.putString("exterior_dimension_resource_location", this.exterior_dimension.location().toString());
+        tag.putInt("grid_position_x", this.grid_position.getA());
+        tag.putInt("grid_position_z", this.grid_position.getB());
+        //if (this.currentInterior != null) {
+            tag.putString("tardis_interior", this.currentInterior.toString());
+        //}
+        tag.putString("exterior_facing", this.exteriorFacing.toString());
+        tag.putLong("center_position", this.centerPosition.asLong());
+        tag.putString("interior_door_facing", this.interiorDoorFacing.toString());
+        tag.putBoolean("locked_tardis", this.lockedTardis);
+        if (targetDimension != null && targetPosition != null && targetFacingDirection != null) {
+            tag.putString("target_dimension_registry_name", this.targetDimension.getRegistryName().toString()); // IT IS NOT NULL YOU IDIOT I ALREADY CHECKED FOR IT
+            tag.putString("target_dimension_resource_location", this.targetDimension.location().toString()); // @todo FIX THIS SHIT CREATIVIOUS
+            tag.putLong("target_position", this.targetPosition.asLong());
+            tag.putString("target_facing", this.targetFacingDirection.toString());
+        }
+        tag.putInt("max_energy_storage", this.max_energy_storage);
+        tag.putInt("current_energy", this.current_energy);
+        tag.putInt("energy_recharge_rate", this.energy_recharge_rate);
+        tag.putString("exterior_type", this.exteriorType.toString());
+        tag.putBoolean("isLanded", this.landed);
+        return tag;
+    }
+
+    @Override
+    public int receiveEnergy(int receiveAmount, boolean simulate) {
+        if (current_energy + receiveAmount > max_energy_storage) {
+            if (!simulate) {
+                current_energy += (receiveAmount - ((current_energy + receiveAmount) -max_energy_storage));
+            }
+            return (receiveAmount - ((current_energy + receiveAmount) -max_energy_storage));
+        } else {
+            if (!simulate) {
+                current_energy += receiveAmount;
+            }
+            return receiveAmount;
+        }
+    }
+
+    @Override
+    public int extractEnergy(int extractAmount, boolean simulate) {
+        // Ignore boolean
+        if (extractAmount > current_energy) {
+            if (!simulate) {
+                current_energy -= current_energy;
+            }
+            return current_energy;
+        } else {
+            if (!simulate) {
+                current_energy -= extractAmount;
+            }
+            return extractAmount;
+        }
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return current_energy;
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return max_energy_storage;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return true;
+    }
+
+    @Override
+    public boolean canReceive() {
+        return true;
+    }
+}

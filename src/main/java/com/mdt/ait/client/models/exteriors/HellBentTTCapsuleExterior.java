@@ -3,13 +3,13 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.1
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.client.models.exteriors.BasicBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class HellBentTTCapsuleExterior extends BasicBox {
+public class HellBentTTCapsuleExterior extends BasicBoxModel {
 	public final ModelRenderer box;
 	public final ModelRenderer boti;
 	public final ModelRenderer frame;

@@ -1,0 +1,11 @@
+# Bugs:
+ - `Door Switch Control` is bugging out the door when trying to open the door via using it.
+ - Seems like `Door Switch Control`'s and TARDIS door logic is generally broken
+ - How does exactly `Exterior Facing Control` work...?
+ - `Toyota Monitor`'s renderer is broken
+ - When changing exteriors, the portal doesn't change its sizes, so you can see the back of the door
+ - `Coordinate Control`'s renderer is also broken
+ - When closing TARDIS' door, the portal disappears right before the animation ends, the player can see the back of the door
+ - `Coordinate Control` beeps regarding of where you click
+ - I have managed to open the door right after the landing, and the portal wasn't created
+ - TARDIS has travelled into blocks

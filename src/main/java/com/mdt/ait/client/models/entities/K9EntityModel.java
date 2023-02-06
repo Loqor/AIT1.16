@@ -4,15 +4,10 @@ package com.mdt.ait.client.models.entities;// Made with Blockbench 3.9.2
 
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.renderers.AITRenderTypes;
-import com.mdt.ait.common.entities.K9Entity;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;

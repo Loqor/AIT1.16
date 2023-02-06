@@ -3,7 +3,6 @@ package com.mdt.ait.client.models.tileentities;// Made with Blockbench 4.5.2
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;

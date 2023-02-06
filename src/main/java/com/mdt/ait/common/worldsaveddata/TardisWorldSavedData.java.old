@@ -9,11 +9,6 @@ import java.util.function.Supplier;
 
 public class TardisWorldSavedData extends WorldSavedData{
 
-    /*
-    WorldSavedData doesn't exist in later versions, once updated to later versions this won't work
-
-
-     */
     public static final String TARDIS_WORLD_SAVED_DATA = AIT.MOD_ID + "_DATA";
 
     public static TardisManager tardisManager;

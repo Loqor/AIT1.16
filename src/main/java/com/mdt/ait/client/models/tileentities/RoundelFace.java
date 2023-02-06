@@ -4,7 +4,6 @@ package com.mdt.ait.client.models.tileentities;// Made with Blockbench 4.3.1
 
 
 import com.mdt.ait.common.tileentities.RoundelFaceTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
