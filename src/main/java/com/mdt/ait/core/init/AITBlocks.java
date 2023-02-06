@@ -28,9 +28,12 @@ public class AITBlocks {
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
     // public static final RegistryObject<Block> AMONGUS_BLOCK = BLOCKS.register("amongus_block", () -> new Block(Block.Properties.of(Material.STONE))); when does this get added????
     public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
+    public static final RegistryObject<Block> PHONE_BOOTH_BLOCK = registerBlock("phone_booth", () -> new PhoneBoothBlock(), AITItemGroups.AITITEMS);
     public static final RegistryObject<Block> ARS_EGG_BLOCK = BLOCKS.register("ars_egg", ArsEggBlock::new);
     public static final RegistryObject<Block> ARS_GENERATE_BLOCK = registerBlock("ars_generator", () -> new ARSGeneratorBlock(Block.Properties.of(Material.WOOL)), AITItemGroups.AITITEMS);
+    public static final RegistryObject<Block> ARS_REMOVER_BLOCK = registerBlock("ars_remover", () -> new ARSRemoverBlock(Block.Properties.of(Material.WOOL)), AITItemGroups.AITITEMS);
     public static final RegistryObject<Block> ARS_CENTRE_BLOCK = registerBlock("ars_centre", () -> new Block(Block.Properties.of(Material.WOOL)), null);
+    public static final RegistryObject<Block> ARS_CORNER_BLOCK = registerBlock("ars_corner", () -> new Block(Block.Properties.of(Material.WOOL)), null);
     public static final RegistryObject<Block> RECORD_PLAYER_BLOCK = BLOCKS.register("record_player", RecordPlayerBlock::new);
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK = BLOCKS.register("tardis_lever", TardisLeverBlock::new);

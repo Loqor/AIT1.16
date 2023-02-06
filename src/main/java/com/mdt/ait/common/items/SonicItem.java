@@ -1,22 +1,15 @@
 package com.mdt.ait.common.items;
 
-import com.mdt.ait.client.models.tileentities.Typewriter;
-import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.client.screen.StructureSelectScreen;
 import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.RoundelDoorsTile;
 import com.mdt.ait.common.tileentities.RoundelFaceTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
-import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
-import com.mdt.ait.tardis.TardisInteriors;
-import com.mdt.ait.tardis.interiors.TardisInterior;
-import com.mdt.ait.tardis.structures.BaseStructure;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -27,25 +20,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraft.world.gen.feature.template.Template;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.mdt.ait.core.init.enums.EnumDoorState.*;
 import static net.minecraft.block.DoorBlock.OPEN;
 import static net.minecraft.block.RedstoneLampBlock.LIT;
 import static net.minecraft.block.RedstoneWireBlock.POWER;
@@ -116,9 +103,9 @@ public class SonicItem extends Item {
         }
         if (block instanceof TardisBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if(tileEntity instanceof TardisTileEntity) {
+            if(tileEntity instanceof TARDISTileEntity) {
                 if (!world.isClientSide) {
-                    ((TardisTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block);
+                    //((TARDISTileEntity) tileEntity).useOnTardis(context, blockpos, blockstate, block); FIXME: dis
                 }
 
             }

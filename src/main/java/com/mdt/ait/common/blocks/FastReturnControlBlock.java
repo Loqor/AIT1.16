@@ -43,7 +43,7 @@ public class FastReturnControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             FastReturnControlTile fastReturnControlTile = (FastReturnControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert fastReturnControlTile != null;
             fastReturnControlTile.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, fastReturnControlTile);

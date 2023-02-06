@@ -1,33 +1,15 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.tileentities.controls.BasicRotor;
-import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.TardisLeverBlock;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumLeverState;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
-import com.mdt.ait.tardis.Tardis;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -56,12 +38,12 @@ public class BasicRotorTile extends TileEntity implements ITickableTileEntity {
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     if(!tardis.landed) {
                         isInFlight = true;
                     } else {
                         isInFlight = false;
-                    }
+                    }*/
                 }
             }
         }

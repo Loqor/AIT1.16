@@ -80,7 +80,7 @@ public class ExteriorFacingControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ExteriorFacingControlTile exteriorFacingControlTile = (ExteriorFacingControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert exteriorFacingControlTile != null;
             exteriorFacingControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, exteriorFacingControlTile);

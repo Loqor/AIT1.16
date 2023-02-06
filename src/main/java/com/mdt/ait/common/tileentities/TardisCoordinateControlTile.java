@@ -1,19 +1,15 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.common.blocks.DimensionSwitchControlBlock;
 import com.mdt.ait.common.blocks.TardisCoordinateControlBlock;
-import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumCoordinateDirectionState;
 import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
 import com.mdt.ait.core.init.enums.EnumCoordinateState;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
-import com.mdt.ait.tardis.Tardis;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -21,7 +17,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -80,12 +75,12 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     currentCoordinateDirectionState = coordinateBlockDirectionState();
                     this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
                     setListedPosition(tardis.targetPosition);
-                    AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exterior_position);
-                    syncToClient();
+                    AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exteriorPosition);
+                    syncToClient();*/
                 }
             }
         }
@@ -265,7 +260,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         newSetPosition = new BlockPos(xPos, yPos, zPos);
         if (this.tardisID != null) {
             if(!level.isClientSide) {
-                AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+                //AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
             }
         }
     }
@@ -275,17 +270,17 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
                     if (!canChangePos) {
                         setListedPosition(tardis.targetPosition);
-                        if(ExteriorWorld.getBlockEntity(tardis.exterior_position) != null) {
-                            setListedPosition(tardis.exterior_position);
+                        if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) != null) {
+                            setListedPosition(tardis.exteriorPosition);
                         }
                     }
-                    if(ExteriorWorld.getBlockEntity(tardis.exterior_position) == null) {
+                    if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) == null) {
                         canChangePos = false;
-                    }
+                    }*/
                 }
             }
         }

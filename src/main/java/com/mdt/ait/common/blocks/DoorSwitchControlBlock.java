@@ -94,7 +94,7 @@ public class DoorSwitchControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             DoorSwitchControlTile DoorSwitchControlTile = (DoorSwitchControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert DoorSwitchControlTile != null;
             DoorSwitchControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, DoorSwitchControlTile);

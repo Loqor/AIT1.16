@@ -1,11 +1,7 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.exteriors.BasicBox;
-import com.mdt.ait.client.renderers.tardis.BasicBoxRenderer;
-import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.entities.K9Entity;
 import com.mdt.ait.common.items.TARDISKey;
 import com.mdt.ait.core.init.*;
 import com.mdt.ait.core.init.enums.*;
@@ -13,24 +9,15 @@ import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.TardisInteriors;
 import com.mdt.ait.tardis.special.DematTransit;
 import com.qouteall.immersive_portals.api.PortalAPI;
-import com.qouteall.immersive_portals.commands.PortalCommand;
-import com.qouteall.immersive_portals.my_util.DQuaternion;
 import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
-import com.qouteall.immersive_portals.render.OverlayRendering;
-import com.qouteall.immersive_portals.render.PortalEntityRenderer;
-import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.dispenser.IPosition;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
@@ -54,21 +41,15 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.ToIntFunction;
 
 import static com.mdt.ait.common.blocks.TardisBlock.FACING;
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
 
 public class TardisTileEntity extends TileEntity implements ITickableTileEntity {
-
-    /*
-    Updated for Tardis Rewrite
-     */
 
     public float leftDoorRotation = 0;
     public float rightDoorRotation = 0;
@@ -84,10 +65,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public int alphaForLightMap = 15728880;
     public EnumRotorState currentfloatstate = EnumRotorState.MOVING;
     public float floatTick;
-    protected EnumDoorState currentstate = CLOSED;
-    public EnumDoorState previousstate = CLOSED;
-    public UUID linked_tardis_id;
-    public Tardis linked_tardis;
+    protected EnumDoorState doorState = CLOSED;
+    public EnumDoorState previousDoorState = CLOSED;
+    public UUID linkedTardisId;
+    public Tardis linkedTardis;
     protected EnumMatState matState = EnumMatState.SOLID;
     protected EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
     private float alpha = 1;
@@ -112,11 +93,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     // aaaa
 
     public EnumExteriorType getNextExterior() {
-        switch (currentexterior) {
-            case BASIC_BOX:
-                return EnumExteriorType.MINT_BOX;//return EnumExteriorType.MINT_BOX;
-            case MINT_BOX:
-                return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.CORAL_BOX;
+        return switch (currentexterior) {
+            case BASIC_BOX -> EnumExteriorType.MINT_BOX;//return EnumExteriorType.MINT_BOX;
+            case MINT_BOX -> EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.CORAL_BOX;
             //case CORAL_BOX:
             //    return EnumExteriorType.POSTER_BOX;
             //case POSTER_BOX:
@@ -125,8 +104,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.TYPE_40_TT_CAPSULE;
             //case TYPE_40_TT_CAPSULE:
             //    return EnumExteriorType.HELLBENT_TT_CAPSULE;
-            case HELLBENT_TT_CAPSULE:
-                return EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.NUKA_COLA_EXTERIOR;
+            case HELLBENT_TT_CAPSULE -> EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.NUKA_COLA_EXTERIOR;
             //case NUKA_COLA_EXTERIOR:
             //    return EnumExteriorType.ARCADE_CABINET_EXTERIOR;
             //case SIEGE_MODE:
@@ -139,8 +117,8 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.HARTNELL_EXTERIOR;
             //case HARTNELL_EXTERIOR:
             //    return EnumExteriorType.HUDOLIN_EXTERIOR;
-            case HUDOLIN_EXTERIOR:
-                  return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
+            case HUDOLIN_EXTERIOR ->
+                    EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
             //case TX3_EXTERIOR:
             //    return EnumExteriorType.TARDIM_EXTERIOR;
             /*case TARDIM_EXTERIOR:
@@ -151,14 +129,14 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.STEVE_EXTERIOR;
             //case STEVE_EXTERIOR:
             //    return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
-            case FALLOUT_SHELTER_EXTERIOR:
-                return EnumExteriorType.BASIC_BOX;//return EnumExteriorType.RANI_EXTERIOR;
-            //case RANI_EXTERIOR:
-            //    return EnumExteriorType.CLOCK_EXTERIOR;
-            //case CLOCK_EXTERIOR:
-            //    return EnumExteriorType.BASIC_BOX;
-        }
-        return EnumExteriorType.BASIC_BOX;
+            case FALLOUT_SHELTER_EXTERIOR -> EnumExteriorType.BASIC_BOX;
+            default ->//return EnumExteriorType.RANI_EXTERIOR;
+                //case RANI_EXTERIOR:
+                //    return EnumExteriorType.CLOCK_EXTERIOR;
+                //case CLOCK_EXTERIOR:
+                //    return EnumExteriorType.BASIC_BOX;
+                    EnumExteriorType.BASIC_BOX;
+        };
     }
 
     public EnumExteriorType getCurrentExterior() {
@@ -167,15 +145,13 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public void setLockedState(Boolean lockedState, EnumDoorState doorstate) {
         this.lockedState = lockedState;
-        this.currentstate = doorstate;
+        this.doorState = doorstate;
     }
 
     public EnumExteriorType getLastExterior() {
-        switch (currentexterior) {
-            case BASIC_BOX:
-                return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.CLOCK_EXTERIOR;
-            case MINT_BOX:
-                return EnumExteriorType.BASIC_BOX;
+        return switch (currentexterior) {
+            case BASIC_BOX -> EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;//return EnumExteriorType.CLOCK_EXTERIOR;
+            case MINT_BOX -> EnumExteriorType.BASIC_BOX;
             //case CORAL_BOX:
             //    return EnumExteriorType.MINT_BOX;
             //case POSTER_BOX:
@@ -184,8 +160,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.POSTER_BOX;
             //case TYPE_40_TT_CAPSULE:
             //    return EnumExteriorType.BAKER_BOX;
-            case HELLBENT_TT_CAPSULE:
-                return EnumExteriorType.MINT_BOX;//return EnumExteriorType.TYPE_40_TT_CAPSULE;
+            case HELLBENT_TT_CAPSULE -> EnumExteriorType.MINT_BOX;//return EnumExteriorType.TYPE_40_TT_CAPSULE;
             //case NUKA_COLA_EXTERIOR:
             //    return EnumExteriorType.HELLBENT_TT_CAPSULE;
             //case SIEGE_MODE:
@@ -198,26 +173,24 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             //    return EnumExteriorType.CUSHING_EXTERIOR;
             //case HARTNELL_EXTERIOR:
             //    return EnumExteriorType.CLASSIC_EXTERIOR;
-            case HUDOLIN_EXTERIOR:
-                  return EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.HARTNELL_EXTERIOR;
+            case HUDOLIN_EXTERIOR -> EnumExteriorType.HELLBENT_TT_CAPSULE;//return EnumExteriorType.HARTNELL_EXTERIOR;
             //case TX3_EXTERIOR:
             //    return EnumExteriorType.HUDOLIN_EXTERIOR;
-            case TARDIM_EXTERIOR:
-                return EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
+            case TARDIM_EXTERIOR -> EnumExteriorType.HUDOLIN_EXTERIOR;//return EnumExteriorType.TX3_EXTERIOR;
             //case SHALKA_EXTERIOR:
             //    return EnumExteriorType.TARDIM_EXTERIOR;
             //case BOOTH_EXTERIOR:
             //    return EnumExteriorType.SHALKA_EXTERIOR;
             //case STEVE_EXTERIOR:
             //    return EnumExteriorType.BOOTH_EXTERIOR;
-            case FALLOUT_SHELTER_EXTERIOR:
-                return EnumExteriorType.TARDIM_EXTERIOR;//return EnumExteriorType.STEVE_EXTERIOR;
-            //case RANI_EXTERIOR:
-            //    return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
-            //case CLOCK_EXTERIOR:
-            //    return EnumExteriorType.RANI_EXTERIOR;
-        }
-        return EnumExteriorType.BASIC_BOX;
+            case FALLOUT_SHELTER_EXTERIOR -> EnumExteriorType.TARDIM_EXTERIOR;
+            default ->//return EnumExteriorType.STEVE_EXTERIOR;
+                //case RANI_EXTERIOR:
+                //    return EnumExteriorType.FALLOUT_SHELTER_EXTERIOR;
+                //case CLOCK_EXTERIOR:
+                //    return EnumExteriorType.RANI_EXTERIOR;
+                    EnumExteriorType.BASIC_BOX;
+        };
     }
 
     public EnumMatState getNextMatState() {
@@ -274,21 +247,21 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public void spawnPortal() {
-        if(this.linked_tardis != null) {
+        if(this.linkedTardis != null) {
             if (this.getLevel() != null &&
                     !this.getLevel().isClientSide) {
                 ServerWorld tardisexteriordim = AIT.server.getLevel(this.getLevel().dimension());
                 ServerWorld tardisinteriordim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
                 ForgeChunkManager.forceChunk(tardisexteriordim, "ait", this.getBlockPos(), chunkPos.x, chunkPos.z, true, true);
-                if (this.linked_tardis.interior_door_position != null) {
-                    ForgeChunkManager.forceChunk(tardisinteriordim, "ait", this.linked_tardis.interior_door_position, chunkPos.x, chunkPos.z, true, true);
+                if (this.linkedTardis.interiorDoorPosition != null) {
+                    ForgeChunkManager.forceChunk(tardisinteriordim, "ait", this.linkedTardis.interiorDoorPosition, chunkPos.x, chunkPos.z, true, true);
                 }
             }
             syncToClient();
             ServerWorld world = ServerLifecycleHooks.getCurrentServer().getLevel(AITDimensions.TARDIS_DIMENSION);
-            if (world.getBlockEntity(this.linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
-                BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position);
+            if (world.getBlockEntity(this.linkedTardis.interiorDoorPosition) instanceof BasicInteriorDoorTile) {
+                BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(this.linkedTardis.interiorDoorPosition);
                 Portal portal = Portal.entityType.create(this.getLevel());
                 portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY(), (this.getBlockPos().getZ() + 1)));
                 if (this.currentexterior == EnumExteriorType.BASIC_BOX
@@ -353,105 +326,105 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH) { /*NORTH*/
                         if (basicInteriorDoorTile.getFacing() == Direction.NORTH) { /*NORTH1PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.865D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH1PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.135D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST1PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.135D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.135D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST1PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.865D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.865D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                         }
                     }
                     if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH) { /*SOUTH*/
                         if (basicInteriorDoorTile.getFacing() == Direction.NORTH) { /*NORTH2PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.865D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH2PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.135D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST2PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.135D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.135D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST2PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.865D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.865D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                         }
                     }
                     if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST) { /*EAST*/
                         if (basicInteriorDoorTile.getFacing() == Direction.NORTH) { /*NORTH3PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.865D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH3PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.135D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST3PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.135D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.135D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST3PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.235D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.235D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                         }
                     }
                     if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) { /*WEST*/
                         if (basicInteriorDoorTile.getFacing() == Direction.NORTH) { /*NORTH4PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.865D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.865D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) { /*SOUTH4PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.5D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.135D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.5D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.135D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.EAST) { /*EAST4PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.135D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.135D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
                         }
                         if (basicInteriorDoorTile.getFacing() == Direction.WEST) { /*WEST4PART*/
                             PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                                    this.linked_tardis.interior_door_position.getX() + 0.865D,
-                                    this.linked_tardis.interior_door_position.getY() + this.portalPosY,
-                                    this.linked_tardis.interior_door_position.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
+                                    this.linkedTardis.interiorDoorPosition.getX() + 0.865D,
+                                    this.linkedTardis.interiorDoorPosition.getY() + this.portalPosY,
+                                    this.linkedTardis.interiorDoorPosition.getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
                         }
                     }
                 }
@@ -497,10 +470,9 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public void tick() {
         if(this.getLevel() != null) {
             if (!getLevel().isClientSide()) {
-                if (linked_tardis != null) {
-                    if (linked_tardis.interior_door_position != null) {
-                        if (AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linked_tardis.interior_door_position) instanceof BasicInteriorDoorTile) {
-                            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linked_tardis.interior_door_position);
+                if (linkedTardis != null) {
+                    if (linkedTardis.interiorDoorPosition != null) {
+                        if (AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION).getBlockEntity(linkedTardis.interiorDoorPosition) instanceof BasicInteriorDoorTile basicInteriorDoorTile) {
                             if (this.currentexterior == EnumExteriorType.BASIC_BOX) {
                                 this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
                             } else if (this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR) {
@@ -511,19 +483,13 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                                 this.interiorDoorType = EnumInteriorDoorType.DOOR_TARDIM_EXTERIOR;
                             } else if (this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) {
                                 this.interiorDoorType = EnumInteriorDoorType.DOOR_FALLOUT_SHELTER_EXTERIOR;
-                            } else if (!(this.currentexterior == EnumExteriorType.BASIC_BOX) ||
-                                    !(this.currentexterior == EnumExteriorType.MINT_BOX) ||
-                                    !(this.currentexterior == EnumExteriorType.TARDIM_EXTERIOR) ||
-                                    !(this.currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR) ||
-                                    !(this.currentexterior == EnumExteriorType.HUDOLIN_EXTERIOR)) {
+                            } else {
                                 this.interiorDoorType = EnumInteriorDoorType.DOOR_BASIC_BOX;
                             }
-                            if (basicInteriorDoorTile != null) {
-                                basicInteriorDoorTile.currentinteriordoor = this.interiorDoorType;
-                            }
+                            basicInteriorDoorTile.currentinteriordoor = this.interiorDoorType;
                         }
                     }
-                    if (this.currentstate != CLOSED) {
+                    if (this.doorState != CLOSED) {
                         if (portalUUID == null) {
                             if (portal == null) {
                                 spawnPortal();
@@ -539,13 +505,13 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                                 this.portal.remove();
                                 this.portal = null;
                                 this.portalUUID = null;
-                                if (this.linked_tardis != null) {
-                                    ServerWorld tardisexteriordim = AIT.server.getLevel(this.linked_tardis.exterior_dimension);
+                                if (this.linkedTardis != null) {
+                                    ServerWorld tardisexteriordim = AIT.server.getLevel(this.linkedTardis.exterior_dimension);
                                     ServerWorld tardisinteriordim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
 
                                     ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
-                                    ForgeChunkManager.forceChunk(tardisexteriordim, AIT.MOD_ID, this.linked_tardis.exterior_position, chunkPos.x, chunkPos.z, false, false);
-                                    ForgeChunkManager.forceChunk(tardisinteriordim, AIT.MOD_ID, this.linked_tardis.interior_door_position, chunkPos.x, chunkPos.z, false, false);
+                                    ForgeChunkManager.forceChunk(tardisexteriordim, AIT.MOD_ID, this.linkedTardis.exteriorPosition, chunkPos.x, chunkPos.z, false, false);
+                                    ForgeChunkManager.forceChunk(tardisinteriordim, AIT.MOD_ID, this.linkedTardis.interiorDoorPosition, chunkPos.x, chunkPos.z, false, false);
                                     syncToClient();
                                 }
                                 syncToClient();
@@ -563,7 +529,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         EnumMatState materialState = EnumMatState.values()[this.serializeNBT().getInt("matState")];
         int mattype = this.serializeNBT().getInt("matState");
         if(materialState == EnumMatState.DEMAT) {
-            this.currentstate = EnumDoorState.CLOSED;
+            this.doorState = EnumDoorState.CLOSED;
             if(run_once == 0) {
                 iDontKnow();
                 run_once = 1;
@@ -614,14 +580,10 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             if (this.alpha <= 0 && run_once_fail_remat == 1) {
                 run_once_fail_remat++;
                 // Simple check to make sure this only runs once as otherwise the game crashes and thats such poo
-                if (run_once_fail_remat == 2) {
-                    this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.linked_tardis_id);
-                    this.dematTransit.finishedDematAnimation();
-                    this.dematTransit.landTardisPart2();
-                    run_once_fail_remat = 0;
-                } else {
-                    run_once_fail_remat = 0;
-                }
+                this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.linkedTardisId);
+                this.dematTransit.finishedDematAnimation();
+                this.dematTransit.landTardisPart2();
+                run_once_fail_remat = 0;
             }
         }
         if(materialState == EnumMatState.REMAT) {
@@ -668,7 +630,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             pulses = 0;
             run_once_remat = 0;
         }
-        if (currentState() != previousstate) {
+        if (currentState() != previousDoorState) {
             rightDoorRotation = currentState() == FIRST ? 0.0f : 87.5f;
             nukaDoorRotation = currentState() == FIRST ? 0.0f : 44.25f;
             falloutDoorRotation = currentState() == FIRST ? 0.0f : 35f;
@@ -725,7 +687,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     || currentexterior == EnumExteriorType.STEVE_EXTERIOR
                     || currentexterior == EnumExteriorType.FALLOUT_SHELTER_EXTERIOR
                     || currentexterior == EnumExteriorType.RANI_EXTERIOR) {
-                currentstate = CLOSED;
+                doorState = CLOSED;
             }
         }
         tardimDoorRotation = 90;
@@ -747,64 +709,18 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             }
             tardimDoorRotation = 0;
         }
-        //System.out.println("Right Door Rotation: "+ rightDoorRotation + " || " + "Left Door Rotation: " + leftDoorRotation);
-        previousstate = currentState();
-        /*BlockPos belowTardis = this.getBlockPos().below(1);
-            if (this.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
-                if (currentfloatstate == EnumRotorState.MOVING) {
-                    if (upDown < 0.55f) {
-                        upDown += 0.00390625f;
-                    } else {
-                        upDown = 0.55f;
-                        currentfloatstate = EnumRotorState.STATIC;
-                    }
-                }
-                if (this.currentfloatstate == EnumRotorState.STATIC) {
-                    if (upDown > 0.0f) {
-                        upDown -= 0.00390625f;
-                    } else {
-                        upDown = 0.0f;
-                        currentfloatstate = EnumRotorState.MOVING;
-                    }
-                }
-        } else {
-                upDown = 0.0f;
-            }
-        if (this.portal != null) {
-            double portalPosition = this.portal.getY();
-            if (this.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
-                if (currentfloatstate == EnumRotorState.MOVING) {
-                    if (upDown < 0.55f) {
-                        portalPosition += 0.00390625f;
-                    } else {
-                        portalPosition = (this.getBlockPos().getY() + 1.799D);
-                        currentfloatstate = EnumRotorState.STATIC;
-                    }
-                }
-                if (this.currentfloatstate == EnumRotorState.STATIC) {
-                    if (upDown > 0.0f) {
-                        portalPosition -= 0.00390625f;
-                    } else {
-                        portalPosition = (this.getBlockPos().getY() + 1.249D);
-                        currentfloatstate = EnumRotorState.STATIC;
-                    }
-                }
-                this.portal.moveTo(this.portal.getX(), portalPosition, this.portal.getZ());
-            } else {
-                this.portal.moveTo(this.portal.getX(), this.portal.getY(), this.portal.getZ());
-            }
-            System.out.println(upDown + " | | " + portalPosition);
-        }*/
+
+        previousDoorState = currentState();
         if(!level.isClientSide()) {
             ServerWorld world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-            if (this.linked_tardis != null) {
-                if (this.linked_tardis.interior_door_position != null) {
+            if (this.linkedTardis != null) {
+                if (this.linkedTardis.interiorDoorPosition != null) {
                     assert world != null;
-                    BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(this.linked_tardis.interior_door_position);
+                    BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) world.getBlockEntity(this.linkedTardis.interiorDoorPosition);
                     if (basicInteriorDoorTile != null) {
                         if (interiorDoorType != basicInteriorDoorTile.getCurrentInteriorDoor()) {
                             interiorDoorType = basicInteriorDoorTile.getInteriorDoor();
-                            this.linked_tardis.setInteriorDoorType(interiorDoorType);
+                            this.linkedTardis.setInteriorDoorType(interiorDoorType);
                         }
                         if (this.getLevel().getBiome(this.getBlockPos()).getPrecipitation() == Biome.RainType.SNOW) {
                             basicInteriorDoorTile.isItSnowing = true;
@@ -826,7 +742,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public void setDoorState(EnumDoorState state) {
-        this.currentstate = state;
+        this.doorState = state;
     }
 
     private VoxelShape getTardisCollider(BlockState blockstate) {
@@ -846,7 +762,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public EnumDoorState currentState() {
-        return this.currentstate;
+        return this.doorState;
     }
 
     public EnumExteriorType currentExterior() {
@@ -854,7 +770,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     }
 
     public EnumDoorState getNextDoorState() {
-        switch (currentstate) {
+        switch (doorState) {
             case CLOSED:
                 return FIRST;
             case FIRST:
@@ -875,25 +791,24 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public ActionResultType useOn(World world, PlayerEntity playerentity, BlockPos blockpos, Hand hand) {
         if(!world.isClientSide) {
-            this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
+            this.linkedTardis = AIT.tardisManager.getTardis(linkedTardisId);
             BlockState blockstate = world.getBlockState(blockpos);
             Block block = blockstate.getBlock();
-            ItemStack key = playerentity.getMainHandItem();
             if (this.matState == EnumMatState.SOLID) {
-                if (lockedState != true) {
-                    if (this.linked_tardis.currentInterior != TardisInteriors.airInterior) {
-                        if (block instanceof TardisBlock && hand == Hand.MAIN_HAND && !world.isClientSide) {
+                if (!lockedState) {
+                    if (this.linkedTardis.currentInterior != TardisInteriors.airInterior) {
+                        if (block instanceof TardisBlock && hand == Hand.MAIN_HAND) {
                             ServerWorld tardisDimension = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                             this.setDoorState(this.getNextDoorState());
-                            if (this.linked_tardis.interior_door_position != null) {
-                                this.linked_tardis.setInteriorDoorState(this.currentstate);
+                            if (this.linkedTardis.interiorDoorPosition != null) {
+                                this.linkedTardis.setInteriorDoorState(this.doorState);
                             }
-                            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisDimension.getBlockEntity(this.linked_tardis.interior_door_position);
+                            BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisDimension.getBlockEntity(this.linkedTardis.interiorDoorPosition);
                             if (basicInteriorDoorTile != null) {
                                 basicInteriorDoorTile.syncToClient();
                             }
-                            if (this.linked_tardis == null) {
-                                this.linked_tardis = AIT.tardisManager.getTardis(this.linked_tardis_id);
+                            if (this.linkedTardis == null) {
+                                this.linkedTardis = AIT.tardisManager.getTardis(this.linkedTardisId);
                             }
                             //ForgeChunkManager.forceChunk(tardisDimension, AIT.MOD_ID, linked_tardis.interior_door_position, tardisDimension.getChunk(linked_tardis.interior_door_position).getPos().x, tardisDimension.getChunk(linked_tardis.interior_door_position).getPos().z, true, true);
                             if (currentexterior != EnumExteriorType.RANI_EXTERIOR) {
@@ -904,11 +819,11 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                                                 if (currentexterior != EnumExteriorType.TX3_EXTERIOR) {
                                                     if (currentexterior != EnumExteriorType.TARDIM_EXTERIOR) {
                                                         if (currentexterior != EnumExteriorType.BOOTH_EXTERIOR) {
-                                                            if (this.currentstate == CLOSED)
+                                                            if (this.doorState == CLOSED)
                                                                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                                                            if (this.currentstate == FIRST)
+                                                            if (this.doorState == FIRST)
                                                                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                                                            if (this.currentstate == BOTH)
+                                                            if (this.doorState == BOTH)
                                                                 world.playSound(null, blockpos, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                                                             syncToClient();
                                                         } else {
@@ -969,14 +884,14 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                             }
                         }
                     } else {
-                        this.currentstate = EnumDoorState.CLOSED;
+                        this.doorState = EnumDoorState.CLOSED;
                         playerentity.displayClientMessage(new TranslationTextComponent(
                                 "Interior does not exist!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                         level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                         syncToClient();
                     }
                 } else {
-                    this.currentstate = EnumDoorState.CLOSED;
+                    this.doorState = EnumDoorState.CLOSED;
                     playerentity.displayClientMessage(new TranslationTextComponent(
                             "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                     level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -990,36 +905,6 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
     public EnumMatState getMatState() {
         return this.matState;
     }
-
-    //public void entityInside(Entity entity) {
-    //    World world = entity.level;
-    //    if (linked_tardis == null) {
-    //        if (!world.isClientSide) { // Server side only
-    //            this.linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
-    //            System.out.println(this.linked_tardis);
-    //        }
-    //    }
-    //    if (!world.isClientSide()) {
-    //        if ((matState == EnumMatState.REMAT && entity instanceof ServerPlayerEntity) || (currentstate != CLOSED && entity instanceof ServerPlayerEntity)) {
-    //            if (linked_tardis == null) {
-    //                System.out.println("MMMMM BALL IN THE BAG AND THIS IS NULL"); // HOLY SHIT I FIXED IT
-    //                syncToClient();
-    //                return;
-    //            }
-//
-    //            ServerWorld tardis_world = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-    //            if (tardis_world != null && entity.canChangeDimensions()) {
-    //                ForgeChunkManager.forceChunk(tardis_world, AIT.MOD_ID, linked_tardis.center_position, 0, 0, true, true);
-    //                if (linked_tardis == null) {
-    //                    linked_tardis = AIT.tardisManager.getTardis(linked_tardis_id);
-    //                    syncToClient();
-    //                }
-    //                linked_tardis.teleportToInterior((PlayerEntity) entity);
-    //                syncToClient();
-    //            }
-    //        }
-    //    }
-    //}
 
     @Override public void setRemoved() {
         super.setRemoved();
@@ -1038,55 +923,47 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         syncToClient();
     }
 
-
-
     public void useOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
         Item item = playerentity.getMainHandItem().getItem();
 
-        if (block instanceof TardisBlock && (item == AITItems.TENNANT_SONIC.get() /*|| item == AITItems.WHITTAKER_SONIC.get()*/) && playerentity.isCrouching()) {
-            //currentexterior = getNextExterior();
-            //AIT.tardisManager.getTardis(this.linked_tardis_id).setExteriorType(currentExterior());
-            this.linked_tardis.currentInterior = TardisInteriors.getInteriorFromName("Air Interior");
-            this.linked_tardis.clearInterior();
+        if (block instanceof TardisBlock && (item == AITItems.TENNANT_SONIC.get()) && playerentity.isCrouching()) {
+            this.linkedTardis.currentInterior = TardisInteriors.getInteriorFromName("Air Interior");
+            this.linkedTardis.clearInterior();
             syncToClient();
-        } else //@TODO fix interior generation system
-        if (block instanceof TardisBlock && item == AITItems.WHITTAKER_SONIC.get() && playerentity.isCrouching()) {
-            //currentexterior = getNextExterior();
-            //AIT.tardisManager.getTardis(this.linked_tardis_id).setExteriorType(currentExterior());
-            this.linked_tardis.currentInterior = TardisInteriors.getInteriorFromName("Pristine Interior");
-            this.linked_tardis.generateInterior();
+        } else if (block instanceof TardisBlock && item == AITItems.WHITTAKER_SONIC.get() && playerentity.isCrouching()) {
+            this.linkedTardis.currentInterior = TardisInteriors.getInteriorFromName("Pristine Interior");
+            this.linkedTardis.generateInterior();
             syncToClient();
         }
     }
 
     public void keyUsedOnTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        //System.out.println(lockedState);
         PlayerEntity playerEntity = context.getPlayer();
         ItemStack itemStack = playerEntity.getMainHandItem();
         Item item = playerEntity.getMainHandItem().getItem();
         if(this.getLevel() != null) {
             if (!this.getLevel().isClientSide) {
-                Tardis tardis = AIT.tardisManager.getTardis(this.linked_tardis_id);
+                Tardis tardis = AIT.tardisManager.getTardis(this.linkedTardisId);
                 ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                BlockPos interiorDoorPos = tardis.interior_door_position;
+                BlockPos interiorDoorPos = tardis.interiorDoorPosition;
 
                 if (block instanceof TardisBlock && item == AITItems.GOLDEN_TARDIS_KEY.get()) {
                     BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
                     TARDISKey tardisKey1 = (TARDISKey) item;
                     if (TARDISKey.getTardisId(itemStack) != null) {
-                        if (TARDISKey.getTardisId(itemStack).equals(this.linked_tardis_id)) {
+                        if (TARDISKey.getTardisId(itemStack).equals(this.linkedTardisId)) {
                             lockedState = true;
                             if (basicInteriorDoorTile != null) {
                                 basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
                                 tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
                                 syncToClient();
                             }
-                            this.currentstate = CLOSED;
+                            this.doorState = CLOSED;
                             playerEntity.displayClientMessage(new TranslationTextComponent(
                                     "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                             level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            tardisWorld.playSound(null, tardis.interiorDoorPosition, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                             syncToClient();
                         } else {
                             playerEntity.displayClientMessage(new TranslationTextComponent(
@@ -1102,7 +979,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                     BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
                     TARDISKey tardisKey1 = (TARDISKey) item;
                     if (TARDISKey.getTardisId(itemStack) != null) {
-                        if (TARDISKey.getTardisId(itemStack).equals(this.linked_tardis_id)) {
+                        if (TARDISKey.getTardisId(itemStack).equals(this.linkedTardisId)) {
                             lockedState = false;
                             if (basicInteriorDoorTile != null) {
                                 basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
@@ -1112,7 +989,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                             playerEntity.displayClientMessage(new TranslationTextComponent(
                                     "Door is unlocked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
                             level.playSound(null, blockpos, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                            tardisWorld.playSound(null, tardis.interior_door_position, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            tardisWorld.playSound(null, tardis.interiorDoorPosition, AITSounds.TARDIS_LOCK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                             syncToClient();
                         } else {
                             playerEntity.displayClientMessage(new TranslationTextComponent(
@@ -1133,7 +1010,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
         }
     }
 
-    public void DematTardis(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
+    public void demat(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
         Item item = playerentity.getMainHandItem().getItem();
 
@@ -1150,7 +1027,7 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public void nextExteriorFromMonitor() {
         currentexterior = getNextExterior();
-        AIT.tardisManager.getTardis(this.linked_tardis_id).setExteriorType(currentExterior());
+        AIT.tardisManager.getTardis(this.linkedTardisId).setExteriorType(currentExterior());
         syncToClient();
     }
 
@@ -1160,18 +1037,18 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             this.portalUUID = nbt.getUUID("portalID");
         }
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
-        this.currentstate = EnumDoorState.values()[nbt.getInt("currentstate")];
+        this.doorState = EnumDoorState.values()[nbt.getInt("currentstate")];
         this.matState = EnumMatState.values()[nbt.getInt("matState")];
         this.currentfloatstate = EnumRotorState.values()[nbt.getInt("currentFloatingState")];
-        this.linked_tardis_id = nbt.getUUID("tardisUUID");
+        this.linkedTardisId = nbt.getUUID("tardisUUID");
         if (level != null) {
             if (!level.isClientSide()) { // Server Side Only
                 if (nbt.contains("tardisUUID")) {
-                    this.linked_tardis = AIT.tardisManager.getTardis(nbt.getUUID("tardisUUID"));
+                    this.linkedTardis = AIT.tardisManager.getTardis(nbt.getUUID("tardisUUID"));
                 }
             }
         }
-        if (this.linked_tardis_id == null) {
+        if (this.linkedTardisId == null) {
             System.out.println("Linked Tardis ID is null");
         }
         this.leftDoorRotation = nbt.getFloat("leftDoorRotation");
@@ -1195,11 +1072,11 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
             nbt.putUUID("portalID", this.portal.getUUID());
         }
         nbt.putInt("currentexterior", this.currentexterior.ordinal());
-        nbt.putInt("currentstate", this.currentstate.ordinal());
+        nbt.putInt("currentstate", this.doorState.ordinal());
         nbt.putInt("matState", this.matState.ordinal());
         nbt.putInt("currentFloatingState", this.currentfloatstate.ordinal());
-        if (this.linked_tardis_id != null) {
-            nbt.putUUID("tardisUUID", this.linked_tardis_id);
+        if (this.linkedTardisId != null) {
+            nbt.putUUID("tardisUUID", this.linkedTardisId);
         }
         nbt.putFloat("leftDoorRotation", this.leftDoorRotation);
         nbt.putFloat("rightDoorRotation", this.rightDoorRotation);

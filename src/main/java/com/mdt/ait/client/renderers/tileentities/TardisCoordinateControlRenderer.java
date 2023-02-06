@@ -5,14 +5,10 @@ import com.mdt.ait.client.models.tileentities.controls.TardisCoordinateControl;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisCoordinateControlBlock;
 import com.mdt.ait.common.tileentities.TardisCoordinateControlTile;
-import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumCoordinateDirectionState;
 import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
-import com.mdt.ait.core.init.enums.EnumCoordinateState;
-import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -20,11 +16,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.StringTextComponent;
-
-import java.util.Objects;
 
 
 public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCoordinateControlTile> {

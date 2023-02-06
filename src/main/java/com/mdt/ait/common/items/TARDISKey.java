@@ -1,12 +1,9 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
-import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.HartnellRotorBlock;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
-import com.mdt.ait.tardis.TardisConfig;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.TARDISInteriorDoorTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -30,77 +27,65 @@ import java.util.UUID;
 
 public class TARDISKey extends Item {
 
-    public TARDISKey(Properties p_i48487_1_) {
-        super(p_i48487_1_);
+    public TARDISKey(Properties properties) {
+        super(properties);
     }
-
 
     public static UUID getTardisId(ItemStack stack) {
-        CompoundNBT nbt = stack.getOrCreateTag();
-        if(nbt.contains("tardisIdentification")) {
-            return stack.getOrCreateTag().getUUID("tardisIdentification");
-        }
-        return null;
+        return stack.getOrCreateTag().getUUID("uuid");
     }
+
     public static String getGreekCharacters(ItemStack stack) {
-        CompoundNBT nbt = stack.getOrCreateTag();
-        if(nbt.contains("tardisIdentification")) {
-            return stack.getOrCreateTag().getString("greekCharacters");
-        }
-        return null;
+        return stack.getOrCreateTag().getString("greekCharacters");
     }
 
     @Override
     public ActionResultType useOn(ItemUseContext context) {
         CompoundNBT tag = context.getItemInHand().getOrCreateTag();
         ItemStack itemInHand = context.getItemInHand();
-        PlayerEntity playerentity = context.getPlayer();
-        World world = playerentity.level;
+        PlayerEntity player = context.getPlayer();
+        World world = player.level;
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof TardisBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if (tileEntity instanceof TardisTileEntity) {
-                ((TardisTileEntity) tileEntity).keyUsedOnTardis(context, blockpos, blockstate, block);
+            if (tileEntity instanceof TARDISTileEntity) {
+                //((TARDISTileEntity) tileEntity).keyUsedOnTardis(context, blockpos, blockstate, block); fixme
             }
         }
         if (block instanceof BasicInteriorDoorBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if (tileEntity instanceof BasicInteriorDoorTile) {
-                ((BasicInteriorDoorTile) tileEntity).keyUsedOnTardisDoor(context, blockpos, blockstate, block);
+            if (tileEntity instanceof TARDISInteriorDoorTile) {
+                ((TARDISInteriorDoorTile) tileEntity).onKey(context, blockpos);
             }
         }
         if (block instanceof TardisBlock) {
-            if(TARDISKey.getTardisId(itemInHand) == null) {
-                TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
-                assert tardisTileEntity != null;
-                if(tardisTileEntity.linked_tardis_id != null) {
-                    tag.putUUID("tardisIdentification", tardisTileEntity.linked_tardis_id);
-                }
-                tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
-                        + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
-                        TardisConfig.tardisNamesList.get(random.nextInt(23)));
+            TARDISKey.getTardisId(itemInHand);
+            TARDISTileEntity tardisTileEntity = (TARDISTileEntity) world.getBlockEntity(context.getClickedPos());
+            /*if(tardisTileEntity.tard != null) {
+                tag.putUUID("tardisIdentification", tardisTileEntity.linkedTardisId);
             }
+            tag.putString("greekCharacters", TardisConfig.tardisNamesList.get(random.nextInt(23)) + " "
+                    + TardisConfig.tardisNamesList.get(random.nextInt(23)) + " " +
+                    TardisConfig.tardisNamesList.get(random.nextInt(23)));*/
         }
         return ActionResultType.sidedSuccess(world.isClientSide());
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable World pWorldIn, List<ITextComponent> pTooltip, ITooltipFlag pFlagIn) {
-        super.appendHoverText(pStack, pWorldIn, pTooltip, pFlagIn);
-        if(this.getTardisId(pStack) != null) {
-            pTooltip.add(new TranslationTextComponent("Key ID: " + TARDISKey.getGreekCharacters(pStack))
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        super.appendHoverText(stack, world, tooltip, flag);
+        /*if(TARDISKey.getTardisId(stack).needsInitialization()) {
+            tooltip.add(new TranslationTextComponent("Key ID: " + TARDISKey.getGreekCharacters(stack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
-            pTooltip.add(new TranslationTextComponent("Linked TARDIS: " + TARDISKey.getTardisId(pStack))
+            tooltip.add(new TranslationTextComponent("Linked TARDIS: " + TARDISKey.getTardisId(stack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.DARK_AQUA)));
         } else {
-            pTooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
+            tooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
             // i tricked you!
             // you got me mzsty - Duzo
-        }
+        }*/
     }
-
-
 }

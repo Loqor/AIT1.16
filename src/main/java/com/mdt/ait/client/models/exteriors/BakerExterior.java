@@ -1,13 +1,13 @@
 package com.mdt.ait.client.models.exteriors;
 
-
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class BakerExterior extends BasicBox {
+public class BakerExterior extends BasicBoxModel {
 	public final ModelRenderer box;
 	public final ModelRenderer lamp;
 	public final ModelRenderer right_door;
@@ -72,7 +72,7 @@ public class BakerExterior extends BasicBox {
 		modelRenderer.zRot = z;
 	}
 
-	public void render(TardisTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
-		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, tile.getAlpha());
+	public void render(TARDISTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
+		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1); //fixme
 	}
 }

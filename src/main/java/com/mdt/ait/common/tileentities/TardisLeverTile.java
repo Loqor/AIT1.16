@@ -3,22 +3,19 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.*;
-import com.mdt.ait.tardis.Tardis;
-import com.mdt.ait.tardis.TardisManager;
+import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.tardis.special.DematTransit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -27,14 +24,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.world.ForgeChunkManager;
-import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 import java.util.UUID;
-
-import static com.mdt.ait.core.init.enums.EnumDoorState.CLOSED;
 
 public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
@@ -84,14 +76,14 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
         if(tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
                     ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
                     ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                     assert world != null;
                     assert tardisWorld != null;
                     if (leverState == EnumLeverState.ACTIVE) {
                         if (AIT.tardisManager.doesTardisHaveATargetLocation(this.tardisID)) {
-                            tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
+                            tardisWorld.playSound(null, tardis.centerPosition, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
                             this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.tardisID);
                             if (this.dematTransit.leverPos != this.worldPosition) {
                                 this.dematTransit.leverPos = getBlockPos();
@@ -99,7 +91,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         } else {
                             leverState = EnumLeverState.DEACTIVE;
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -130,13 +122,13 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                             assert serverWorld != null;
                             PlayerEntity playerEntity = serverWorld.getNearestPlayer(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 60, false);
                             this.dematTransit.finished = false;
-                            Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                            tardis.landed = true;
+                            //Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+                            //tardis.landed = true;
                             this.dematTransit = null;
                             this.leverState = EnumLeverState.DEACTIVE;
-                            if (tardis.landed != false) {
-                                tardis.landed = false;
-                            }
+                            //if (tardis.landed != false) {
+                            //    tardis.landed = false;
+                            //}
                             //System.out.println(tardis.landed);
                             syncToClient();
                         }
@@ -217,11 +209,11 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
+            //Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
             ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
             BlockState blockstate = world.getBlockState(blockpos);
             Block block = blockstate.getBlock();
-            BlockPos interiorDoorPos = tardis.interior_door_position;
+            //BlockPos interiorDoorPos = tardis.interiorDoorPosition;
             if (block instanceof TardisLeverBlock && hand == Hand.MAIN_HAND) {
                 if(canPull) {
                     leverState = getNextLeverState();
@@ -229,7 +221,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                 //System.out.println(this.leverState);
                 syncToClient();
                 if (leverState == EnumLeverState.ACTIVE) {
-                    tardis.landed = false;
+                    //tardis.landed = false;
                     if (flightTicks <= 5) {
                         if (this.dematTransit == null) {
                             changeMatStateFromLever();
@@ -238,26 +230,26 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         }
                     }
                     syncToClient();
-                    if (interiorDoorPos != null) {
+                    //if (interiorDoorPos != null) {
                         assert tardisWorld != null;
-                        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
+                        /*BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
                         if (basicInteriorDoorTile != null) {
                             basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
                             tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
                             syncToClient();
-                        }
-                    }
+                        }*/
+                    //}
                     if (this.dematTransit != null) {
                         if (flightTicks >= this.dematTransit.getFlightTicks()) {
                             if (leverState == EnumLeverState.ACTIVE) {
                                 this.leverState = getNextLeverState();
                                 syncToClient();
-                                AIT.tardisManager.rematerialize = true;
-                                BlockPos exteriorPos = tardis.exterior_position;
+                                /*AIT.tardisManager.rematerialize = true;
+                                BlockPos exteriorPos = tardis.exteriorPosition;
                                 assert tardisWorld != null;
                                 TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(exteriorPos);
                                 assert tardisTileEntity != null;
-                                tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
+                                tardisWorld.playSound(null, tardis.centerPosition, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
                                 if (interiorDoorPos != null) {
                                     BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(interiorDoorPos);
                                     if (basicInteriorDoorTile != null) {
@@ -266,7 +258,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                                         flightTicks = 0;
                                         syncToClient();
                                     }
-                                }
+                                }*/
                             }
                         } else if (flightTicks >= 10) {
                             playerEntity.sendMessage(new TranslationTextComponent(
@@ -275,7 +267,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                     }
 
                 } else if(leverState == EnumLeverState.DEACTIVE && this.dematTransit != null && this.dematTransit.isReadyForRemat) {
-                    tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
+                    //tardisWorld.playSound(null, tardis.centerPosition, AITSounds.TARDIS_LANDING.get(), SoundCategory.MASTER, 7, 1);
                     this.dematTransit.landTardisPart2();
                     playerEntity.sendMessage(new TranslationTextComponent(
                             "Rematerialising...").setStyle(Style.EMPTY.withColor(TextFormatting.AQUA)), UUID.randomUUID());
@@ -301,10 +293,10 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
 
     public void onPlace(BlockState blockState1, World world, BlockPos blockPos) {
         if(tardisID != null) {
-            Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exterior_position);
+            /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+            AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exteriorPosition);
             AIT.tardisManager.setTargetDimensionForTardis(tardisID, tardis.exterior_dimension);
-            AIT.tardisManager.setTardisExteriorFacing(tardisID,tardis.exterior_facing);
+            AIT.tardisManager.setTardisExteriorFacing(tardisID,tardis.exteriorFacing);*/
         }
     }
 }

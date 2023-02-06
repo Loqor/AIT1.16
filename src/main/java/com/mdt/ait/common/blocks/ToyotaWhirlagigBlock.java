@@ -68,7 +68,7 @@ public class ToyotaWhirlagigBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ToyotaWhirlagigTile toyotaWhirlagigTile = (ToyotaWhirlagigTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert toyotaWhirlagigTile != null;
             toyotaWhirlagigTile.tardisID = tardisID;

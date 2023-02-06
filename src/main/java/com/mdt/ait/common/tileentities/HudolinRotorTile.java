@@ -3,7 +3,8 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumRotorState;
-import com.mdt.ait.tardis.Tardis;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -38,12 +39,12 @@ public class HudolinRotorTile extends TileEntity implements ITickableTileEntity 
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if(!tardis.landed) {
+                    TARDIS tardis = TARDISManager.findTARDIS(tardisID);
+                    /*if(!tardis.landed) {
                         isInFlight = true;
                     } else {
                         isInFlight = false;
-                    }
+                    }*/
                 }
             }
         }

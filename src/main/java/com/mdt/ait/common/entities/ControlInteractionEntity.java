@@ -7,13 +7,9 @@ import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
 import com.mdt.ait.core.init.enums.EnumExteriorFacingState;
-import com.mdt.ait.core.init.enums.EnumLeverState;
-import com.mdt.ait.tardis.Tardis;
 import com.mdt.ait.tardis.special.DematTransit;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Monitor;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -21,7 +17,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.AmbientEntity;
 import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -35,7 +30,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -165,7 +159,7 @@ public class ControlInteractionEntity extends AmbientEntity {
             newDimension = AITDimensions.MONDAS;
         }
         if (tardisID != null) {
-            AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
+            //AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
         }
 
     }
@@ -198,7 +192,7 @@ public class ControlInteractionEntity extends AmbientEntity {
             this.newFacingDirection = Direction.WEST;
         }
         if (this.tardisID != null) {
-            AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+            //AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
         }
 
     }
@@ -208,7 +202,7 @@ public class ControlInteractionEntity extends AmbientEntity {
      */
     public void tick() {
         if(this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
-            if (this.tardisID != null) {
+            /*if (this.tardisID != null) {
                 Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                 if (tardis.landed != false) {
                     newDimension = tardis.exterior_dimension;
@@ -228,16 +222,16 @@ public class ControlInteractionEntity extends AmbientEntity {
                         currentdimensionstate = EnumDimensionControlState.MONDAS;
                     }
                 }
-            }
+            }*/
         }
         if(this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
-            if (this.tardisID != null) {
+            /*if (this.tardisID != null) {
                 Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                 if (tardis.landed != false) {
-                    newFacingDirection = tardis.exterior_facing;
+                    newFacingDirection = tardis.exteriorFacing;
                     //currentExteriorFacingSetting = exteriorFacingSetting();
                 }
-            }
+            }*/
         }
         super.tick();
         this.setDeltaMovement(Vector3d.ZERO);

@@ -84,7 +84,7 @@ public class ToyotaMonitorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ToyotaMonitorTile toyotaMonitorTile = (ToyotaMonitorTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert toyotaMonitorTile != null;
             toyotaMonitorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, toyotaMonitorTile);
@@ -95,7 +95,7 @@ public class ToyotaMonitorBlock extends Block {
     public void tick(BlockState pState, ServerWorld world, BlockPos blockPos, Random pRand) {
         super.tick(pState, world, blockPos, pRand);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION && tardisID == null) {
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
         }
     }
 
@@ -115,7 +115,7 @@ public class ToyotaMonitorBlock extends Block {
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
                 if (!player.isCrouching()) {
                     if (!worldIn.isClientSide) {
-                        this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
+                        //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(pos);
                         toyotaMonitorTile.tardisID = tardisID;
                     }
                 }

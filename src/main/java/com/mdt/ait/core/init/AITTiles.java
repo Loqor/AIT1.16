@@ -2,6 +2,8 @@ package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.*;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.TARDISInteriorDoorTile;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -11,9 +13,12 @@ public class AITTiles {
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, AIT.MOD_ID);
 
-    public static final RegistryObject<TileEntityType<TardisTileEntity>> TARDIS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+    public static final RegistryObject<TileEntityType<TARDISTileEntity>> TARDIS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis",
-            () -> TileEntityType.Builder.of(TardisTileEntity::new, AITBlocks.TARDIS_BLOCK.get()).build(null));
+            () -> TileEntityType.Builder.of(TARDISTileEntity::new, AITBlocks.TARDIS_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<PhoneBoothTile>> PHONE_BOOTH_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+            "phone_booth",
+            () -> TileEntityType.Builder.of(PhoneBoothTile::new, AITBlocks.PHONE_BOOTH_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<ConsoleTileEntity>> CONSOLE_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "console_tileentity",
             () -> TileEntityType.Builder.of(ConsoleTileEntity::new, AITBlocks.CONSOLE_BLOCK.get()).build(null));
@@ -23,6 +28,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<ArsEggTile>> ARS_EGG_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "ars_egg",
             () -> TileEntityType.Builder.of(ArsEggTile::new, AITBlocks.ARS_EGG_BLOCK.get()).build(null));
+    public static final RegistryObject<TileEntityType<ARSRemoverTile>> ARS_REMOVER_TILE = TILE_ENTITIES.register(
+            "ars_remover",
+            () -> TileEntityType.Builder.of(ARSRemoverTile::new, AITBlocks.ARS_REMOVER_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<RoundelDoorsTile>> ROUNDEL_DOORS_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "roundel_doors",
             () -> TileEntityType.Builder.of(RoundelDoorsTile::new, AITBlocks.ROUNDEL_DOORS_BLOCK.get()).build(null));
@@ -38,9 +46,9 @@ public class AITTiles {
     public static final RegistryObject<TileEntityType<RampTile>> RAMP_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "ramp",
             () -> TileEntityType.Builder.of(RampTile::new, AITBlocks.RAMP_BLOCK.get()).build(null));
-    public static final RegistryObject<TileEntityType<BasicInteriorDoorTile>> BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
+    public static final RegistryObject<TileEntityType<TARDISInteriorDoorTile>> BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "interior_door",
-            () -> TileEntityType.Builder.of(BasicInteriorDoorTile::new, AITBlocks.INTERIOR_DOOR_BLOCK.get()).build(null));
+            () -> TileEntityType.Builder.of(TARDISInteriorDoorTile::new, AITBlocks.INTERIOR_DOOR_BLOCK.get()).build(null));
     public static final RegistryObject<TileEntityType<TardisCoralTile>> TARDIS_CORAL_TILE_ENTITY_TYPE = TILE_ENTITIES.register(
             "tardis_coral",
             () -> TileEntityType.Builder.of(TardisCoralTile::new, AITBlocks.TARDIS_CORAL_BLOCK.get()).build(null));

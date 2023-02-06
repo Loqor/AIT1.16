@@ -67,7 +67,7 @@ public class HartnellRotorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             HartnellRotorTile hartnellRotorTile = (HartnellRotorTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert hartnellRotorTile != null;
             hartnellRotorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, hartnellRotorTile);

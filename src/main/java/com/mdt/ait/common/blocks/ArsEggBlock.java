@@ -2,10 +2,8 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ArsEggTile;
-import com.mdt.ait.common.tileentities.TSVTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
-import com.mdt.ait.common.tileentities.ArsEggTile;
 import com.mdt.ait.core.init.AITDimensions;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -46,7 +44,7 @@ public class ArsEggBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ArsEggTile arsEggTile = (ArsEggTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            this.tardisID = TARDISManager.findUUID(blockPos);
             assert arsEggTile != null;
             arsEggTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, arsEggTile);

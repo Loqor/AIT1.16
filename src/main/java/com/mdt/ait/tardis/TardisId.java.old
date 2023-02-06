@@ -1,0 +1,18 @@
+package com.mdt.ait.tardis;
+
+import java.util.UUID;
+
+public record TardisId(UUID id) {
+
+    public boolean needsInitialization() {
+        return this.id == null;
+    }
+
+    public boolean equals(UUID uuid) {
+        if (this.id != null) {
+            return id.equals(uuid);
+        }
+
+        return false;
+    }
+}

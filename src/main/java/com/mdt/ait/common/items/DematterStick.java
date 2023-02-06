@@ -1,7 +1,7 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,8 +27,8 @@ public class DematterStick extends Item {
 
         if (block instanceof TardisBlock && playerentity.isCrouching()) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
-            if (tileEntity instanceof TardisTileEntity) {
-                ((TardisTileEntity) tileEntity).DematTardis(context, blockpos, blockstate, block);
+            if (tileEntity instanceof TARDISTileEntity) {
+                //((TARDISTileEntity) tileEntity).demat(context, blockpos, blockstate, block);
             }
         }
         return ActionResultType.SUCCESS;

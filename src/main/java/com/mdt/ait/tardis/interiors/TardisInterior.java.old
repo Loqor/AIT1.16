@@ -19,13 +19,11 @@ public class TardisInterior {
     public Template interior_template;
     public String name;
     public ResourceLocation interiorLocation;
-    public ServerWorld tardisWorld;
     private BlockPos center_position;
     private BlockPos interior_door_position;
 
     public TardisInterior(ResourceLocation interiorLocation, ServerWorld tardisWorld, String interiorName) {
         this.interiorLocation = interiorLocation;
-        this.tardisWorld = tardisWorld;
         this.name = interiorName;
         interior_template = tardisWorld.getStructureManager().get(interiorLocation);
         calcPositions();

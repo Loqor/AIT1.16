@@ -73,7 +73,7 @@ public class BasicRotorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             BasicRotorTile basicRotorTile = (BasicRotorTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert basicRotorTile != null;
             basicRotorTile.tardisID = tardisID;

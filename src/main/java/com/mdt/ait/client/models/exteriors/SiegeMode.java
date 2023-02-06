@@ -2,11 +2,12 @@ package com.mdt.ait.client.models.exteriors;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class SiegeMode extends BasicBox {
+public class SiegeMode extends BasicBoxModel {
 	public final ModelRenderer bb_main;
 
 	public SiegeMode() {

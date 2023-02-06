@@ -110,7 +110,7 @@ public class TardisCoordinateControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             TardisCoordinateControlTile tardisCoordinateControlTile = (TardisCoordinateControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert tardisCoordinateControlTile != null;
             tardisCoordinateControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, tardisCoordinateControlTile);

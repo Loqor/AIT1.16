@@ -3,9 +3,7 @@ package com.mdt.ait.client.models.tileentities.controls;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.client.renderers.tileentities.TardisLeverRenderer;
 import com.mdt.ait.common.tileentities.TardisLeverTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;

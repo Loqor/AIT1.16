@@ -1,51 +1,31 @@
 package com.mdt.ait.client.renderers.tardis;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.exteriors.*;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
-import com.mdt.ait.core.init.enums.EnumRotorState;
-import com.mdt.ait.tardis.Tardis;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.math.vector.Vector4f;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.server.ServerWorld;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 
-public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
+public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
 
     private ResourceLocation texture;
     private ResourceLocation lm_texture;
@@ -112,18 +92,18 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     /*//Outlines
     public static final ResourceLocation TX3_OUTLINE_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tx3_outline.png");*/
 
-    public BasicBox model;
+    public BasicBoxModel model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
     public BasicBoxRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
-        this.model = new BasicBox();
+        this.model = new BasicBoxModel();
         this.rendererDispatcher = rendererDispatcherIn;
         this.texture = LOCATION;
     }
 
     @Override
-    public void render(TardisTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(TARDISTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         BlockPos belowTardis = tile.getBlockPos().below(1);
         ++spinnn;
         /*if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
@@ -160,13 +140,13 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
         int exteriortype = tile.serializeNBT().getInt("currentexterior");
         EnumMatState materialState = EnumMatState.values()[tile.serializeNBT().getInt("matState")];
         int mattype = tile.serializeNBT().getInt("matState");
-        if(materialState != EnumMatState.SOLID) {
+        /*if(materialState != EnumMatState.SOLID) {
             ++tile.spinny;
         } else if (materialState == EnumMatState.SOLID) {
             tile.spinny = 0;
-        }
+        }*/ //FIXME: dis
         if (exterior.getSerializedName().equals("basic_box") && exteriortype == 0) {
-            this.model = new BasicBox();
+            this.model = new BasicBoxModel();
             this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
             LocalDate localdate = LocalDate.now();
             int i = localdate.get(ChronoField.DAY_OF_MONTH);
@@ -209,470 +189,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
             model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
-        if (exterior.getSerializedName().equals("mint_box") && exteriortype == 1) {
-            this.model = new BasicBox();
-            this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
-            LocalDate localdate = LocalDate.now();
-            int i = localdate.get(ChronoField.DAY_OF_MONTH);
-            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
-            if (j == 12 && (i == 24 || i == 25)) {
-                this.texture = CHRISTMAS_MINT_LOCATION;
-                this.model.christmas_stuff.visible = true;
-            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.SNOW) {
-                this.texture = SNOW_MINT_LOCATION;
-                this.model.christmas_stuff.visible = false;
-            } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
-                if(tile.getLevel().dimension() != tile.getLevel().NETHER ||
-                    tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
-                    tile.getLevel().dimension() != tile.getLevel().END ||
-                    tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION ||
-                    tile.getLevel().dimension() != AITDimensions.VORTEX_DIMENSION) {
-                    this.texture = SAND_MINT_LOCATION;
-                    this.model.christmas_stuff.visible = false;
-                }
-            } else {
-                this.texture = MINT_LOCATION;
-                this.model.christmas_stuff.visible = false;
-            }
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                this.model.right_door.visible = false;
-                this.model.left_door.visible = false;
-            } else {
-                this.model.right_door.visible = true;
-                this.model.left_door.visible = true;
-            }
-            MatrixStackIn.translate(0.5f, 0f, 0.5f);
-            MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0, 1.4949, 0);
-            MatrixStackIn.scale(1.001f, 1.0001f, 1.001f);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(MINT_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }/*
-        if (exterior.getSerializedName().equals("coral_box") && exteriortype == 2) {
-            this.model = new CoralExterior();
-            this.coralText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = CORAL_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((CoralExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((CoralExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((CoralExterior)this.model).right_door.visible = false;
-                ((CoralExterior)this.model).left_door.visible = false;
-            } else {
-                ((CoralExterior)this.model).right_door.visible = true;
-                ((CoralExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CORAL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("poster_box") && exteriortype == 3) {
-            this.model = new BasicBox();
-            this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = POSTER_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                this.model.right_door.visible = false;
-                this.model.left_door.visible = false;
-            } else {
-                this.model.right_door.visible = true;
-                this.model.left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(POSTER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("baker_box") && exteriortype == 4) {
-            this.model = new BakerExterior();
-            this.texture = BAKER_LOCATION;
-            this.BakerText(MatrixStackIn, Buffer, CombinedLight);
-            ((BakerExterior)this.model).lamp.yRot = (float) Math.toRadians(tile.spinny);
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((BakerExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((BakerExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((BakerExterior)this.model).right_door.visible = false;
-                ((BakerExterior)this.model).left_door.visible = false;
-            } else {
-                ((BakerExterior)this.model).right_door.visible = true;
-                ((BakerExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BAKER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5) {
-            this.model = new Type40TTCapsuleExterior();
-            this.texture = TT40_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            if(tile.currentState() == EnumDoorState.CLOSED) {
-                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = true;
-                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = true;
-                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = true;
-                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = true;
-            }
-            if(tile.currentState() == EnumDoorState.FIRST) {
-                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = true;
-                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = true;
-                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = false;
-                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = false;
-            }
-            if(tile.currentState() == EnumDoorState.BOTH) {
-                ((Type40TTCapsuleExterior) this.model).door_slat_1.visible = false;
-                ((Type40TTCapsuleExterior) this.model).door_slat_2.visible = false;
-                ((Type40TTCapsuleExterior) this.model).door_slat_3.visible = false;
-                ((Type40TTCapsuleExterior) this.model).door_slat_4.visible = false;
-            }
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            MatrixStackIn.popPose();
-        }*/
-        if (exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6) {
-            this.model = new HellBentTTCapsuleExterior();
-            this.texture = HELLBENT_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((HellBentTTCapsuleExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((HellBentTTCapsuleExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((HellBentTTCapsuleExterior)this.model).right_door.visible = false;
-                ((HellBentTTCapsuleExterior)this.model).left_door.visible = false;
-            } else {
-                ((HellBentTTCapsuleExterior)this.model).right_door.visible = true;
-                ((HellBentTTCapsuleExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            /*MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.98f, 0.98f, 0.98f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            MatrixStackIn.popPose();*/
-        }/*
-        if (exterior.getSerializedName().equals("nuka_cola_exterior") && exteriortype == 7) {
-            this.model = new NukaColaExterior();
-            this.texture = NUKA_COLA_LOCATION;
-            ((NukaColaExterior)this.model).door.yRot = (float) Math.toRadians(tile.nukaDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0.325f, 0.5);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.scale(0.23f, 0.23f, 0.23f);
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(NUKA_COLA_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("siege_mode") && exteriortype == 8) {
-            this.model = new SiegeMode();
-            this.texture = SIEGE_MODE_LOCATION;
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(SIEGE_MODE_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("arcade_cabinet_exterior") && exteriortype == 9) {
-            this.model = new ArcadeCabinet();
-            this.texture = TRON_LOCATION;
-            MatrixStackIn.translate(0, -0.85, 0);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.655f, 0.655f, 0.655f);
-            MatrixStackIn.scale(0.875f, 0.875f, 0.875f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            if(tile.getBlockState().getValue(TardisBlock.FACING) == Direction.NORTH) {
-                MatrixStackIn.translate(0, 0, -tile.arcadeDoorDistance);
-            }
-            if(tile.getBlockState().getValue(TardisBlock.FACING) == Direction.WEST) {
-                MatrixStackIn.translate(-tile.arcadeDoorDistance, 0, 0);
-            }
-            if(tile.getBlockState().getValue(TardisBlock.FACING) == Direction.SOUTH) {
-                MatrixStackIn.translate(0, 0, tile.arcadeDoorDistance);
-            }
-            if(tile.getBlockState().getValue(TardisBlock.FACING) == Direction.EAST) {
-                MatrixStackIn.translate(tile.arcadeDoorDistance, 0, 0);
-            }
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).getOpposite().toYRot()));
-            ((ArcadeCabinet)this.model).door.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(TRON_LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.655f, 0.655f, 0.655f);
-            MatrixStackIn.scale(0.875f, 0.875f, 0.875f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).getOpposite().toYRot()));
-            ((ArcadeCabinet)this.model).base.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TRON_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("cushing_exterior") && exteriortype == 10) {
-            this.model = new CushingExterior();
-            this.cushingText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = CUSHING_BASE_LOCATION;
-            ((CushingExterior)this.model).right_door.yRot = -(float) Math.toRadians(tile.rightDoorRotation);
-            ((CushingExterior)this.model).left_door.yRot = (float) Math.toRadians(tile.leftDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.scale(0.95f, 0.95f, 0.95f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            /*if(tile.getBlockUnderTardis()) {
-                MatrixStackIn.translate(0, tile.floatTick, 0);
-            }*/
-        /*
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("classic_exterior") && exteriortype == 11) {
-            this.model = new ClassicExterior();
-            this.classicText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = CLASSIC_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((ClassicExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((ClassicExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((ClassicExterior)this.model).right_door.visible = false;
-                ((ClassicExterior)this.model).left_door.visible = false;
-            } else {
-                ((ClassicExterior)this.model).right_door.visible = true;
-                ((ClassicExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.scale(0.9f, 0.85f, 0.9f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CLASSIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("hartnell_exterior") && exteriortype == 12) {
-            this.model = new HartnellExterior();
-            this.hartnellText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = HARTNELL_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((HartnellExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((HartnellExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((HartnellExterior)this.model).right_door.visible = false;
-                ((HartnellExterior)this.model).left_door.visible = false;
-            } else {
-                ((HartnellExterior)this.model).right_door.visible = true;
-                ((HartnellExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }*/
-        if (exterior.getSerializedName().equals("hudolin_exterior") && exteriortype == 13) {
-            this.model = new HudolinExterior();
-            this.hudolinText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = HUDOLIN_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((HudolinExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((HudolinExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((HudolinExterior)this.model).right_door.visible = false;
-                ((HudolinExterior)this.model).left_door.visible = false;
-            } else {
-                ((HudolinExterior)this.model).right_door.visible = true;
-                ((HudolinExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HUDOLIN_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }/*
-        if (exterior.getSerializedName().equals("tx3_exterior") && exteriortype == 14) {
-            this.model = new TxThreeCapsule();
-            this.texture = TX3_LOCATION;
-            ((TxThreeCapsule)this.model).door.yRot = -(float) Math.toRadians(tile.nukaDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.98f, 0.98f, 0.98f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TX3_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            //MatrixStackIn.pushPose();
-            //((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(TX3_LOCATION)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            //MatrixStackIn.popPose();
-            //MatrixStackIn.pushPose();
-            //((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(RenderType.endPortal(16)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            //MatrixStackIn.popPose();
-            //MatrixStackIn.pushPose();
-            //((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(RenderType.endPortal(2)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            //MatrixStackIn.popPose();
-            MatrixStackIn.popPose();
-        }*/
-        if (exterior.getSerializedName().equals("tardim_exterior") && exteriortype == 15) {
-            this.model = new TARDIMExterior();
-            this.texture = TARDIM_LOCATION;
-            ((TARDIMExterior)this.model).door.yRot = -(float) Math.toRadians(tile.tardimDoorRotation);
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TARDIM_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }/*
-        if (exterior.getSerializedName().equals("shalka_exterior") && exteriortype == 16) {
-            this.model = new ShalkaExterior();
-            this.shalkaText(MatrixStackIn, Buffer, CombinedLight);
-            this.texture = SHALKA_LOCATION;
-            if(!door.equals(EnumDoorState.CLOSED)) {
-                //((ShalkaExterior)this.model).right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //((ShalkaExterior)this.model).left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
-                ((ShalkaExterior)this.model).right_door.visible = false;
-                ((ShalkaExterior)this.model).left_door.visible = false;
-            } else {
-                ((ShalkaExterior)this.model).right_door.visible = true;
-                ((ShalkaExterior)this.model).left_door.visible = true;
-            }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4949f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(SHALKA_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("booth_exterior") && exteriortype == 17) {
-            this.model = new BoothExterior();
-            this.texture = BOOTH_LOCATION;
-            this.boothText(MatrixStackIn, Buffer, CombinedLight);
-            ((BoothExterior)this.model).door.yRot = (float) Math.toRadians(tile.nukaDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.98f, 0.98f, 0.98f);
-            MatrixStackIn.translate(0, 1.4875f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BOOTH_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("steve_exterior") && exteriortype == 18) {
-            this.model = new SteveExterior();
-            this.texture = STEVE_LOCATION;
-            ((SteveExterior)this.model).door.yRot = (float) Math.toRadians(tile.nukaDoorRotation);
-        }*/
-        if (exterior.getSerializedName().equals("fallout_shelter_exterior") && exteriortype == 19) {
-            this.model = new FalloutShelterExterior();
-            this.texture = FALLOUT_SHELTER_LOCATION;
-            ((FalloutShelterExterior)this.model).door.yRot = (float) Math.toRadians(tile.falloutDoorRotation);
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-            MatrixStackIn.translate(0, 1.4875f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(FALLOUT_SHELTER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }/*
-        if (exterior.getSerializedName().equals("rani_exterior") && exteriortype == 20) {
-            this.model = new RaniExterior();
-            this.texture = RANI_LOCATION;
-            ((RaniExterior)this.model).door.yRot = (float) Math.toRadians(tile.nukaDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4875f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(RANI_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
-        }
-        if (exterior.getSerializedName().equals("clock_exterior") && exteriortype == 21) {
-            this.model = new ClockExterior();
-            this.texture = CLOCK_LOCATION;
-            ((ClockExterior)this.model).door.yRot = (float) Math.toRadians(tile.nukaDoorRotation);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 0, 0.5);
-            MatrixStackIn.scale(0.651f, 0.651f, 0.651f);
-            MatrixStackIn.translate(0, 1.4875f, 0);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            MatrixStackIn.popPose();
-        }
-        MatrixStackIn.translate(0.5, 0, 0.5);
-        if(exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("hellbent_tt_capsule") && exteriortype == 6) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("nuka_cola_exterior") && exteriortype == 7) {
-            MatrixStackIn.scale(0.35f, 0.35f, 0.35f);
-        }
-        if(exterior.getSerializedName().equals("siege_mode") && exteriortype == 8) {
-            MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(45.0f));
-        }
-        if(exterior.getSerializedName().equals("arcade_cabinet_exterior") && exteriortype == 9) {
-            MatrixStackIn.scale(0.875f, 0.875f, 0.875f);
-        }
-        if(exterior.getSerializedName().equals("cushing_exterior") && exteriortype == 10) {
-            MatrixStackIn.scale(0.95f, 0.95f, 0.95f);
-        }
-        if(exterior.getSerializedName().equals("classic_exterior") && exteriortype == 11) {
-            MatrixStackIn.scale(0.9f, 0.85f, 0.9f);
-        }
-        if(exterior.getSerializedName().equals("tx3_exterior") && exteriortype == 14) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("tardim_exterior") && exteriortype == 15) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("booth_exterior") && exteriortype == 17) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("steve_exterior") && exteriortype == 18) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("fallout_shelter_exterior") && exteriortype == 19) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }
-        if(exterior.getSerializedName().equals("clock_exterior") && exteriortype == 21) {
-            MatrixStackIn.scale(1.5f, 1.5f, 1.5f);
-        }*/
-        //MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
+
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
@@ -969,7 +486,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TardisTileEntity> {
     }
 
     @Override
-    public boolean shouldRenderOffScreen(TardisTileEntity pTe) {
+    public boolean shouldRenderOffScreen(TARDISTileEntity pTe) {
         return true;
     }
 }

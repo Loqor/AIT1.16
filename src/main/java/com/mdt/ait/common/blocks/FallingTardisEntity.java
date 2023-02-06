@@ -1,19 +1,12 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITBlocks;
-import com.mdt.ait.core.init.AITEntities;
 import com.mdt.ait.core.init.AITItems;
-import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
-import net.minecraft.block.AirBlock;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.FallingBlockEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -23,9 +16,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import org.lwjgl.system.CallbackI;
 
 import java.util.UUID;
 
@@ -35,7 +26,7 @@ public class FallingTardisEntity extends Entity {
     private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(FallingTardisEntity.class, DataSerializers.BYTE);
     public BlockState blockState = AITBlocks.TARDIS_BLOCK.get().defaultBlockState();
     public UUID tardisID;
-    public TardisTileEntity tardisTileEntity;
+    public TARDISTileEntity tardisTileEntity;
 
     public FallingTardisEntity(EntityType<? extends Entity> entityEntityType, World world) {
         super(entityEntityType, world);

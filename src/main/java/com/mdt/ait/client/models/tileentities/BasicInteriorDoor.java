@@ -3,9 +3,9 @@ package com.mdt.ait.client.models.tileentities;// Made with Blockbench 4.5.2
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.tardis.TARDISInteriorDoorTile;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -107,7 +107,7 @@ public class BasicInteriorDoor extends EntityModel<Entity> {
 		modelRenderer.zRot = z;
 	}
 
-	public void render(BasicInteriorDoorTile tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
+	public void render(TARDISInteriorDoorTile tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
 		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1);
 	}
 }

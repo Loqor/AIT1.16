@@ -1,21 +1,11 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.common.tileentities.TypewriterTile;
-import com.mdt.ait.common.tileentities.TSVTile;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
-import com.mdt.ait.common.tileentities.TypewriterTile;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.network.NetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -27,14 +17,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class TypewriterBlock extends Block {
 

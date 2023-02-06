@@ -62,7 +62,7 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert consoleTileEntity != null;
             consoleTileEntity.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, consoleTileEntity);

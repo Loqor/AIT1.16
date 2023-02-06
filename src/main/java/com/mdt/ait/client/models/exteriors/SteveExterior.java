@@ -3,14 +3,14 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.4.3
 // Paste this class into your mod and generate all required imports
 
 
-import com.mdt.ait.client.models.exteriors.BasicBox;
-import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class SteveExterior extends BasicBox {
+public class SteveExterior extends BasicBoxModel {
 	public final ModelRenderer box;
 	public final ModelRenderer mainbodybase;
 	public final ModelRenderer door;
@@ -60,7 +60,7 @@ public class SteveExterior extends BasicBox {
 		modelRenderer.zRot = z;
 	}
 
-	public void render(TardisTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
-		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, tile.getAlpha());
+	public void render(TARDISTileEntity tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
+		this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1); //fixme
 	}
 }
